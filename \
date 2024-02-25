@@ -5,7 +5,20 @@ local optimiseClientForAdminsOnly = true
 
 pcall(function()
 if optimiseClientForAdminsOnly then
-game:GetService("RunService"):Set3dRenderingEnabled(false)
+for i,v in pairs(workspace:GetDescendants()) do
+if v.ClassName=="Decal" or v.ClassName=="Accessory"or v.ClassName=="Texture" then
+v:Destroy()
+elseif v.ClassName=="UnionOperation" then
+v.Parent=game:GetService("Lighting")
+elseif v:IsA("BasePart") then
+v.Material=Enum.Material.Plastic
+if v.Anchored==false then
+v.CanCollide=false
+end
+elseif v.ClassName:match("Script") then
+v:Destroy()
+
+end
 end
 end)
 
