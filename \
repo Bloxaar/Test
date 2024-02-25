@@ -17,7 +17,7 @@ v.CanCollide=false
 end
 elseif v.ClassName:match("Script") then
 v:Destroy()
-
+end
 end
 end
 end)
