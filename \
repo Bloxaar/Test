@@ -1389,7 +1389,9 @@ local function notify(msg,Colorr)
 	)
 end
 
-local function GetPlayer(String)-- Credit to Timeless/xFunnieuss
+local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunnieuss
+	local LP = Sv.LPlr
+	if OverrideLocalPlayer~=_N then LP=OverrideLocalPlayer end
 	if String==_N then return nil end
 	if typeof(String)~="string"then return nil end
 	local Found={}
@@ -1400,13 +1402,13 @@ local function GetPlayer(String)-- Credit to Timeless/xFunnieuss
 		end
 	elseif strl=="others"then
 		for i,v in Sv.P(Sv.Plrs:GetPlayers())do
-			if v.Name~=Sv.LPlr.Name then
+			if v.Name~=LP.Name then
 				_A.O(Found,v)
 			end
 		end  
 	elseif strl=="me"then
 		for i,v in Sv.P(Sv.Plrs:GetPlayers())do
-			if v.Name==Sv.LPlr.Name then
+			if v.Name==LP.Name then
 				_A.O(Found,v)
 			end
 		end 
@@ -1421,6 +1423,7 @@ local function GetPlayer(String)-- Credit to Timeless/xFunnieuss
 			end
 		end  
 	end
+	LP=nil
 	return Found  
 end
 
@@ -3024,11 +3027,11 @@ local function ConnectAdminCommands(Message1,PlayerInstance)
 		local CMDFOUND=false
 		for i,v in Sv.P(LocalAdminCommands)do
 			if Split[1]==prefix..i then
-				v(GetPlayer(Split[2]) or nil,PlayerInstance)
+				v(GetPlayer(Split[2], PlayerInstance) or nil,PlayerInstance)
 				CMDFOUND=true
 				break
 			elseif Split[2]==prefix..i then
-				v(GetPlayer(Split[3]) or nil,PlayerInstance)
+				v(GetPlayer(Split[3], PlayerInstance) or nil,PlayerInstance)
 				if PlayerInstance~=_N then
 					if Split[1]:len()<=3 then
 						notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
@@ -3038,7 +3041,7 @@ local function ConnectAdminCommands(Message1,PlayerInstance)
 				break
 
 			elseif Split[3]==prefix..i then
-				v(GetPlayer(Split[4]) or nil,PlayerInstance)
+				v(GetPlayer(Split[4], PlayerInstance) or nil,PlayerInstance)
 				if PlayerInstance~=_N then
 					if Split[1]:len()<=3 or Split[2]:len()<=3 then
 						notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
@@ -3052,10 +3055,10 @@ local function ConnectAdminCommands(Message1,PlayerInstance)
 	end
 	for i,v in Sv.P(AdminCommands)do
 		if Split[1]==prefix..i then
-			v(GetPlayer(Split[2]) or nil,PlayerInstance)
+			v(GetPlayer(Split[2], PlayerInstance) or nil,PlayerInstance)
 			break
 		elseif Split[2]==prefix..i then
-			v(GetPlayer(Split[3]) or nil,PlayerInstance)
+			v(GetPlayer(Split[3], PlayerInstance) or nil,PlayerInstance)
 			if PlayerInstance~=_N then
 				if Split[1]:len()<=3 then
 					notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
@@ -3063,7 +3066,7 @@ local function ConnectAdminCommands(Message1,PlayerInstance)
 			end
 			break
 		elseif Split[3]==prefix..i then
-			v(GetPlayer(Split[4]) or nil,PlayerInstance)
+			v(GetPlayer(Split[4], PlayerInstance) or nil,PlayerInstance)
 			if PlayerInstance~=_N then
 				if Split[1]:len()<=3 or Split[2]:len()<=3 then
 					notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
@@ -3101,15 +3104,16 @@ Addwhitelist[_A.K]:Connect(function()
 					notify(v.Name..[[is already whitelisted!]],_A.R(1, 0.3, 0.3))
 				else 
 					_A.O(AddedWhitelists,v.UserId)
+					local BTN=WhitelistTemplate:Clone()
 					_A.O(ChattedConnections,{
 						[1]=v.UserId,
 						[2]=v.Chatted:Connect(function(Message)
 							if table.find(AddedWhitelists,v.UserId)==_N then return end
 							local LocalisedFunc=ConnectAdminCommands
 							LocalisedFunc(Message,v)
-						end)
+						end),
+						[3]=BTN,
 					})
-					local BTN=WhitelistTemplate:Clone()
 					BTN[_A.H]=List
 					BTN.Text=(v.Name)
 					BTN.Name="WhitelistedPlayerModel"
@@ -3137,6 +3141,24 @@ Addwhitelist[_A.K]:Connect(function()
 		end
 	end
 end)
+
+
+Sv.Plrs.PlayerRemoving:Connect(function(user)
+	for i,v in Sv.P(ChattedConnections)do
+		if v[1]==user.UserId then
+			if v[2]~=_N then
+				if typeof(v[2])=="RBXScriptConnection"then
+					v[2]:Disconnect()
+					if v[3] ~= nil then if typeof(v[3])=="Instance"then v[3]:Destroy()end end
+					table.remove(ChattedConnections,i)
+					notify(`{user.Name} has left the server and has been auto unwhitelisted.`,Color3.fromRGB(255,80,0)
+					break
+				end
+			end
+		end
+	end
+end)
+
 
 SpawnCarr[_A.K]:Connect(function()
 	local Oldpos=Sv.LPlr[_A.P].HumanoidRootPart.CFrame
