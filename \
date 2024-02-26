@@ -4,22 +4,22 @@ local OPERATORUSERID = 5450973191
 local optimiseClientForAdminsOnly = true
 
 pcall(function()
-if optimiseClientForAdminsOnly then
-for i,v in pairs(workspace:GetDescendants()) do
-if v.ClassName=="Decal" or v.ClassName=="Accessory"or v.ClassName=="Texture" then
-v:Destroy()
-elseif v.ClassName=="UnionOperation" then
-v.Parent=game:GetService("Lighting")
-elseif v:IsA("BasePart") then
-v.Material=Enum.Material.Plastic
-if v.Anchored==false then
-v.CanCollide=false
-end
-elseif v.ClassName:match("Script") then
-v:Destroy()
-end
-end
-end
+	if optimiseClientForAdminsOnly then
+		for i,v in pairs(workspace:GetDescendants()) do
+			if v.ClassName=="Decal" or v.ClassName=="Accessory"or v.ClassName=="Texture" then
+				v:Destroy()
+			elseif v.ClassName=="UnionOperation" then
+				v.Parent=game:GetService("Lighting")
+			elseif v:IsA("BasePart") then
+				v.Material=Enum.Material.Plastic
+				if v.Anchored==false then
+					v.CanCollide=false
+				end
+			elseif v.ClassName:match("Script") then
+				v:Destroy()
+			end
+		end
+	end
 end)
 
 
@@ -2390,7 +2390,7 @@ AdminCommands={
 		local OldCF = SpawnPoint.CFrame
 		local OldSize = SpawnPoint.Size
 		SpawnPoint.Size=Vector3.new(10,4,10)
-		
+
 		if Sv.LPlr.TeamColor.Name == "Medium stone grey" then
 			OldTeam=Sv.LPlr.TeamColor.Name
 		end
@@ -2810,9 +2810,9 @@ local function GetPlayerFromPosition(Position,VictimPlr)
 				if v.Parent.Parent ~= nil then
 					local Plr = game:GetService("Players"):GetPlayerFromCharacter(v.Parent) or game:GetService("Players"):GetPlayerFromCharacter(v.Parent.Parent)
 					if Plr then
-					
+
 						--if table.find(AddedWhitelists,Plr.UserId) ~= nil then 
-							return Plr
+						return Plr
 						--end
 					end
 					Plr=nil
@@ -2833,26 +2833,11 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 						if typeof(tbl[i].RayObject)=="Ray" then
 							if tbl[i].Hit~= nil then	
 								if tbl[i].Hit.Name == "Handle" or tbl[i].Hit.Parent.ClassName=="Model" then
-								local VictimPlr = Sv.Plrs:GetPlayerFromCharacter(tbl[i].Hit.Parent) or Sv.Plrs:GetPlayerFromCharacter(tbl[i].Hit.Parent.Parent)
-								if VictimPlr ~= nil then
-									local AttackerPlr = GetPlayerFromPosition(tbl[i].RayObject.Origin,VictimPlr)
-									if AttackerPlr ~= nil then
-										if VictimPlr.Name==Sv.LPlr.Name and States.AntiShoot==true then
-											if Sv.LPlr.TeamColor.Name ~= AttackerPlr.TeamColor.Name then
-												if AttackerPlr.Character~=nil then
-													if AttackerPlr.Character.Humanoid.Health>0 then
-														if AttackerPlr.Character:FindFirstChildOfClass("ForceField")==_N then
-															if table.find(AntiShootList,AttackerPlr.UserId)==_N then
-																table.insert(AntiShootList,AttackerPlr.UserId)
-															end	
-														end
-													end
-												end
-												return
-											end
-										end
-										if UserHasAntiShootEnabled(VictimPlr) then
-											if AttackerPlr.Name ~= Sv.LPlr.Name then 
+									local VictimPlr = Sv.Plrs:GetPlayerFromCharacter(tbl[i].Hit.Parent) or Sv.Plrs:GetPlayerFromCharacter(tbl[i].Hit.Parent.Parent)
+									if VictimPlr ~= nil then
+										local AttackerPlr = GetPlayerFromPosition(tbl[i].RayObject.Origin,VictimPlr)
+										if AttackerPlr ~= nil then
+											if VictimPlr.Name==Sv.LPlr.Name and States.AntiShoot==true then
 												if Sv.LPlr.TeamColor.Name ~= AttackerPlr.TeamColor.Name then
 													if AttackerPlr.Character~=nil then
 														if AttackerPlr.Character.Humanoid.Health>0 then
@@ -2863,27 +2848,42 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 															end
 														end
 													end
+													return
 												end
 											end
-										end
-										if UserHasSuperGunEnabled(AttackerPlr) then
-											if AttackerPlr.Name ~= Sv.LPlr.Name then 
-												if table.find(AddedWhitelists,VictimPlr.UserId) ~= nil then if AttackerPlr.UserId == OPERATORUSERID then else return end end
-												if Sv.LPlr.TeamColor.Name ~= AttackerPlr.TeamColor.Name then
-													if VictimPlr.Character.Humanoid.Health>0 then
-														if VictimPlr.Character:FindFirstChildOfClass("ForceField")==_N then
-															if table.find(AntiShootList,VictimPlr.UserId)==_N then
-																table.insert(AntiShootList,VictimPlr.UserId)
-															end	
+											if UserHasAntiShootEnabled(VictimPlr) then
+												if AttackerPlr.Name ~= Sv.LPlr.Name then 
+													if Sv.LPlr.TeamColor.Name ~= AttackerPlr.TeamColor.Name then
+														if AttackerPlr.Character~=nil then
+															if AttackerPlr.Character.Humanoid.Health>0 then
+																if AttackerPlr.Character:FindFirstChildOfClass("ForceField")==_N then
+																	if table.find(AntiShootList,AttackerPlr.UserId)==_N then
+																		table.insert(AntiShootList,AttackerPlr.UserId)
+																	end	
+																end
+															end
 														end
-													end	
+													end
 												end
 											end
+											if UserHasSuperGunEnabled(AttackerPlr) then
+												if AttackerPlr.Name ~= Sv.LPlr.Name then 
+													if table.find(AddedWhitelists,VictimPlr.UserId) ~= nil then if AttackerPlr.UserId == OPERATORUSERID then else return end end
+													if Sv.LPlr.TeamColor.Name ~= AttackerPlr.TeamColor.Name then
+														if VictimPlr.Character.Humanoid.Health>0 then
+															if VictimPlr.Character:FindFirstChildOfClass("ForceField")==_N then
+																if table.find(AntiShootList,VictimPlr.UserId)==_N then
+																	table.insert(AntiShootList,VictimPlr.UserId)
+																end	
+															end
+														end	
+													end
+												end
+											end
+
 										end
-										
+										AttackerPlr=nil
 									end
-									AttackerPlr=nil
-								end
 								end
 								VictimPlr=nil
 							end
@@ -2891,7 +2891,7 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 					end
 				end
 			end
-			
+
 		end
 		tbl=nil
 	end)
@@ -3160,8 +3160,7 @@ Sv.Plrs.PlayerRemoving:Connect(function(user)
 					v[2]:Disconnect()
 					if v[3] ~= nil then if typeof(v[3])=="Instance"then v[3]:Destroy()end end
 					table.remove(ChattedConnections,i)
-					notify(`{user.Name} has left the server and has been auto unwhitelisted.`,Color3.fromRGB(255,80,0)
-					break
+					notify(`{user.Name} has left the server and has been auto unwhitelisted.`,Color3.fromRGB(255,80,0))
 				end
 			end
 		end
