@@ -2043,6 +2043,7 @@ local function hurt(dat,ishurtreq)
 	A_1=_N;A_2=_N -- Frees memory
 end
 local AdminCommands={}
+local AdminCommandsDESC={}
 local LoopKillTBL={}
 local GunbanTBL={}
 
@@ -2760,6 +2761,14 @@ AdminCommands={
 			end
 		end
 		Found=_N
+	end,
+	["help"]=function(PlayerTbl,Speaker)
+		local message = [[Use commands by typing ;example victim | like ;ko somebody (which makes them die) | or ;h somebody (which damages them)]]
+		if Speaker==_N then
+			notify(message,_A.R(0,1,0))
+		else
+			svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." "..message, "All")
+		end
 	end,
 	["cmds"]=function(PlayerTbl,Speaker)
 		local CommandsTb={}
