@@ -1432,7 +1432,7 @@ end
 
 local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunnieuss
 	local LP = Sv.LPlr
-	if OverrideLocalPlayer~=_N then LP=OverrideLocalPlayer end
+	if OverrideLocalPlayer~=_N then if typeof(OverrideLocalPlayer)=="Instance"then LP=OverrideLocalPlayer end end
 	if String==_N then return nil end
 	if typeof(String)~="string"then return nil end
 	local Found={}
@@ -3197,34 +3197,34 @@ cmdboxmain.FocusLost:Connect(function()
 	local Message=string.lower(Message1)
 	local Split=string.split(Message1," ")
 
-		local CMDFOUND=false
-		for i,v in Sv.P(LocalAdminCommands)do
-			if Split[1]==prefix..i then
-				v(GetPlayer(Split[2], PlayerInstance) or nil,PlayerInstance)
-				CMDFOUND=true
-				break
-			elseif Split[2]==prefix..i then
-				v(GetPlayer(Split[3], PlayerInstance) or nil,PlayerInstance)
-				if PlayerInstance~=_N then
-					if Split[1]:len()<=3 then
-						notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
-					end
+	local CMDFOUND=false
+	for i,v in Sv.P(LocalAdminCommands)do
+		if Split[1]==prefix..i then
+			v(GetPlayer(Split[2], PlayerInstance) or nil,PlayerInstance)
+			CMDFOUND=true
+			break
+		elseif Split[2]==prefix..i then
+			v(GetPlayer(Split[3], PlayerInstance) or nil,PlayerInstance)
+			if PlayerInstance~=_N then
+				if Split[1]:len()<=3 then
+					notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
 				end
-				CMDFOUND=true
-				break
-
-			elseif Split[3]==prefix..i then
-				v(GetPlayer(Split[4], PlayerInstance) or nil,PlayerInstance)
-				if PlayerInstance~=_N then
-					if Split[1]:len()<=3 or Split[2]:len()<=3 then
-						notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
-					end
-				end
-				CMDFOUND=true
-				break
 			end
+			CMDFOUND=true
+			break
+
+		elseif Split[3]==prefix..i then
+			v(GetPlayer(Split[4], PlayerInstance) or nil,PlayerInstance)
+			if PlayerInstance~=_N then
+				if Split[1]:len()<=3 or Split[2]:len()<=3 then
+					notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
+				end
+			end
+			CMDFOUND=true
+			break
 		end
-		if CMDFOUND then CMDFOUND=nil;return;end;CMDFOUND=nil
+	end
+	if CMDFOUND then CMDFOUND=nil;return;end;CMDFOUND=nil
 	for i,v in Sv.P(AdminCommands)do
 		if Split[1]==prefix..i then
 			v(GetPlayer(Split[2], PlayerInstance) or nil,PlayerInstance)
@@ -3247,9 +3247,9 @@ cmdboxmain.FocusLost:Connect(function()
 			break
 		end
 	end
-	
-	
-	
+
+
+
 end)
 
 local function ConnectAdminCommands(Message1,PlayerInstance)
