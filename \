@@ -143,7 +143,7 @@ local BringPlayer = Instance.new("TextButton")
 local BringBox = Instance.new("TextBox")
 local cmdbar = Instance.new("Frame")
 local cmdboxmain = Instance.new("TextBox")
-local TextLabel = Instance.new("TextLabel")
+local TextLabel_3 = Instance.new("TextLabel")
 
 
 --Properties:
@@ -1252,17 +1252,17 @@ cmdboxmain.TextScaled = true
 cmdboxmain.TextSize = 14.000
 cmdboxmain.TextWrapped = true
 
-TextLabel.Parent = cmdbar
-TextLabel.BackgroundColor3 = Color3.fromRGB(255, 236, 94)
-TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
-TextLabel.BorderSizePixel = 0
-TextLabel.Size = UDim2.new(1, 0, 0.400000006, 0)
-TextLabel.Font = Enum.Font.SourceSans
-TextLabel.Text = "Cmdbar"
-TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
-TextLabel.TextScaled = true
-TextLabel.TextSize = 14.000
-TextLabel.TextWrapped = true
+TextLabel_3.Parent = cmdbar
+TextLabel_3.BackgroundColor3 = Color3.fromRGB(255, 236, 94)
+TextLabel_3.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel_3.BorderSizePixel = 0
+TextLabel_3.Size = UDim2.new(1, 0, 0.400000006, 0)
+TextLabel_3.Font = Enum.Font.SourceSans
+TextLabel_3.Text = "Cmdbar"
+TextLabel_3.TextColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel_3.TextScaled = true
+TextLabel_3.TextSize = 14.000
+TextLabel_3.TextWrapped = true
 
 Show.Visible=_F
 
