@@ -1465,7 +1465,6 @@ local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunn
 		end  
 	end
 	LP=nil
-	if #Found==0 then return String end
 	return Found  
 end
 
