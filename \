@@ -38,6 +38,8 @@ Sv.New=task.spawn
 local IsStudio = svc("RunService"):IsStudio()
 local _T,_F,_N=true,false,nil
 
+local function WAIT(t)t=t or 0 local start=tick()repeat svc("RunService").Stepped:Wait()until (tick()- start)>=t end
+
 local _A,_B={},{}
 _A.A="BackgroundTransparency"_A.B="BackgroundColor3"_A.C="TextColor3"_A.D="BorderSizePixel"
 _A.E="BorderColor3"_A.F="TextScaled"_A.G="TextWrapped"_A.H="Parent"
@@ -1424,6 +1426,7 @@ local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunn
 		end  
 	end
 	LP=nil
+	if #Found==0 then return String end
 	return Found  
 end
 
@@ -2042,6 +2045,107 @@ local function hurt(dat,ishurtreq)
 	game.ReplicatedStorage.ReloadEvent:FireServer(A_2)
 	A_1=_N;A_2=_N -- Frees memory
 end
+local function damage(dat,ishurtreq)
+	if Sv.LPlr.Team.Name=="Guards"then
+		if #dat==#Sv.Plrs:GetPlayers()then
+			dat=returnhostileplayers(dat)
+		else
+			if ishurtreq then
+			else
+				dat=returnhostileplayers(dat)
+			end
+		end
+	end
+	local A_1={}
+	if ishurtreq==_T then
+		for i,plr in Sv.P(dat)do
+			if plr.Team.Name~=Sv.LPlr.Team.Name then
+				if table.find(AddedWhitelists,plr.UserId)then else
+					for i=0,1 do
+						_A.O(A_1,{
+							["RayObject"]=Ray.new(Vector3.new(845, 101, 2269), Vector3.new(-391, 8, -83)),
+							["Distance"]=5,
+							["Cframe"]=_A.N(840, 101, 2267, 0, 0, -0.9, 0, 0.9, 0.1, 1, -0.0096, 0.062),
+							["Hit"]=plr[_A.P].Head
+						})
+					end
+				end
+			end
+		end
+	else
+		local Char=nil
+		local Humanoid=nil
+		for i,plr in Sv.P(dat)do
+			if table.find(AddedWhitelists,plr.UserId)then else
+				Char=plr[_A.P]
+				if Char~=_N then
+					Humanoid=Char:FindFirstChildOfClass("Humanoid")
+					if Humanoid~=_N then
+						if Humanoid.Health <=0 then
+						else
+							for i=0,1 do
+								_A.O(A_1,{
+									["RayObject"]=Ray.new(Vector3.new(845, 101, 2269), Vector3.new(-391, 8, -83)),
+									["Distance"]=5,
+									["Cframe"]=_A.N(840, 101, 2267, 0, 0, -0.9, 0, 0.9, 0.1, 1, -0.0096, 0.062),
+									["Hit"]=plr[_A.P].Head
+								})
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+
+	if #A_1==0 then return end
+
+	local A_2=nil
+	for i,v in Sv.P(Sv.LPlr.Backpack:GetChildren())do
+		if v[_B.C]=="Tool"then
+			if v.Name~="Taser"then
+				if v.Name~="Remington 870"then
+					if v:FindFirstChildOfClass("ModuleScript")then
+						A_2=v break
+					end
+				end
+			end
+		end
+	end
+	for i,v in Sv.P(Sv.LPlr[_A.P]:GetChildren())do
+		if v[_B.C]=="Tool"then
+			if v.Name~="Taser"then
+				if v:FindFirstChildOfClass("ModuleScript")then
+					A_2=v break
+				end
+			end
+		end
+	end
+	if A_2==_N then 
+		print("No gun found. Getting..")
+		ItemHandler:InvokeServer({
+			["Parent"]=workspace.Prison_ITEMS.giver["AK-47"],
+			["Position"]=Vector3.new("-nan",0,0)
+		})
+		A_2=Sv.LPlr.Backpack:FindFirstChild("AK-47") or Sv.LPlr[_A.P]:FindFirstChild("AK-47")
+	end
+	if A_2==_N then
+		A_2=Sv.LPlr[_A.P]:FindFirstChildOfClass("Tool")
+		if A_2~=_N then
+			if A_2:FindFirstChildWhichIsA("ModuleScript")==_N then
+				A_2=_N
+			end
+		end
+
+	end
+	if A_2 ==_N then return end
+	local Event=svc("ReplicatedStorage").ShootEvent
+
+	Event:FireServer(A_1, A_2)
+	Event:FireServer(A_1, A_2)
+	game.ReplicatedStorage.ReloadEvent:FireServer(A_2)
+	A_1=_N;A_2=_N -- Frees memory
+end
 local AdminCommands={}
 local AdminCommandsDESC={}
 local LoopKillTBL={}
@@ -2101,9 +2205,45 @@ local function UserHasAntiShootEnabled(Player)
 	return false		
 end
 
+local BEEP = nil
+
+local IsNuking=false
+function FriendlyNuke(Timer)
+	BEEP = workspace.Prison_guardspawn:FindFirstChildOfClass("SpawnLocation"):FindFirstChild("Sound")
+	if IsNuking then return end
+	IsNuking=true
+	local TimeLeft = math.min(tonumber(Timer) or 10, 120)
+	for i=0,TimeLeft do
+		if not IsNuking return end -- terminate the nuke function
+		for i=0,30 do SoundEvent:FireServer(BEEP) end -- the sound of exploding
+			
+		WAIT(1)
+	end
+	TimeLeft = nil
+	IsNuking=false
+	kill(svc("Players"):GetPlayers())
+end
+function Nuke(Timer)
+	BEEP = workspace.Prison_guardspawn:FindFirstChildOfClass("SpawnLocation"):FindFirstChild("Sound")
+	if IsNuking then return end
+	IsNuking=true
+	local TimeLeft = math.min(tonumber(Timer) or 10, 120)
+	for i=0,TimeLeft do
+		if not IsNuking return end -- terminate the nuke function
+		for i=0,30 do SoundEvent:FireServer(BEEP) end -- the sound of exploding
+			
+		WAIT(1)
+	end
+	TimeLeft = nil
+	IsNuking=false
+	dokill(svc("Players"):GetPlayers())
+end
+
+function TermNuke()IsNuking=false end
+
 AdminCommands={
 	["lk"]=function(PlayerTbl,Speaker)
-		if PlayerTbl==_N then return end
+		if typeof(PlayerTbl)=="table" then return end
 		for i,v in Sv.P(PlayerTbl)do
 			if table.find(LoopKillTBL,v.UserId)~=_N then
 				if Speaker==_N then
@@ -2120,7 +2260,7 @@ AdminCommands={
 		end
 	end,
 	["unlk"]=function(PlayerTbl,Speaker)
-		if PlayerTbl==_N then return end
+		if typeof(PlayerTbl)=="table" then return end
 		for i,v in Sv.P(PlayerTbl)do
 			if table.find(LoopKillTBL,v.UserId)~=_N then
 				if Speaker==_N then
@@ -2131,7 +2271,7 @@ AdminCommands={
 		end
 	end,
 	["gban"]=function(PlayerTbl,Speaker)
-		if PlayerTbl==_N then return end
+		if typeof(PlayerTbl)=="table" then return end
 		for i,v in Sv.P(PlayerTbl)do
 			if table.find(GunbanTBL,v.UserId)~=_N then
 				if Speaker==_N then
@@ -2148,7 +2288,7 @@ AdminCommands={
 		end
 	end,
 	["supergun"]=function(PlayerTbl,Speaker)
-		if PlayerTbl==_N then return end
+		if typeof(PlayerTbl)=="table" then return end
 		for i,Plr in Sv.P(PlayerTbl)do
 			if Plr:FindFirstChild("SuperGun")~=_N then
 				if Speaker==_N then
@@ -2165,7 +2305,7 @@ AdminCommands={
 		end
 	end,
 	["nosupergun"]=function(PlayerTbl,Speaker)
-		if PlayerTbl==_N then return end
+		if typeof(PlayerTbl)=="table" then return end
 		for i,Plr in Sv.P(PlayerTbl)do
 			if Plr:FindFirstChild("SuperGun")==_N then
 				if Speaker==_N then
@@ -2182,7 +2322,7 @@ AdminCommands={
 		end
 	end,
 	["antishoot"]=function(PlayerTbl,Speaker)
-		if PlayerTbl==_N then return end
+		if typeof(PlayerTbl)=="table" then return end
 		for i,Plr in Sv.P(PlayerTbl)do
 			if Plr:FindFirstChild("AntiShoot")~=_N then
 				if Speaker==_N then
@@ -2199,7 +2339,7 @@ AdminCommands={
 		end
 	end,
 	["noantishoot"]=function(PlayerTbl,Speaker)
-		if PlayerTbl==_N then return end
+		if typeof(PlayerTbl)=="table" then return end
 		for i,Plr in Sv.P(PlayerTbl)do
 			if Plr:FindFirstChild("AntiShoot")==_N then
 				if Speaker==_N then
@@ -2216,7 +2356,7 @@ AdminCommands={
 		end
 	end,
 	["ungban"]=function(PlayerTbl,Speaker)
-		if PlayerTbl==_N then return end
+		if typeof(PlayerTbl)=="table" then return end
 		for i,v in Sv.P(PlayerTbl)do
 			if table.find(GunbanTBL,v.UserId)~=_N then
 				if Speaker==_N then
@@ -2255,12 +2395,16 @@ AdminCommands={
 		TBL=_N
 	end,
 	["ko"]=function(PlayerTbl)
-		if PlayerTbl==_N then return end
+		if typeof(PlayerTbl)=="table" then return end
 		kill(PlayerTbl,true)
 	end,
 	["h"]=function(PlayerTbl)
-		if PlayerTbl==_N then return end
+		if typeof(PlayerTbl)=="table" then return end
 		hurt(PlayerTbl)
+	end,
+	["ow"]=function(PlayerTbl)
+		if typeof(PlayerTbl)=="table" then return end
+		damage(PlayerTbl)
 	end,
 	["hteam"]=function(PlayerTbl,Speaker)
 		if Speaker==_N then
@@ -2394,7 +2538,7 @@ AdminCommands={
 		if Sv.LPlr.TeamColor.Name == "Medium stone grey" then
 			OldTeam=Sv.LPlr.TeamColor.Name
 		end
-		if PlayerTbl==_N then return end
+		if typeof(PlayerTbl)=="table" then return end
 		if Sv.LPlr.Character.Humanoid.SeatPart ~= nil then
 			if not Sv.LPlr.Character.Humanoid.SeatPart:IsGrounded() then
 				for i,SelectedPlayer in Sv.P(PlayerTbl) do
@@ -2497,7 +2641,7 @@ AdminCommands={
 		end
 	end,
 	["antimelee"]=function(PlayerTbl,Speaker)
-		if PlayerTbl==_N then return end
+		if typeof(PlayerTbl)=="table" then return end
 		for i,SelectedPlayer in Sv.P(PlayerTbl)do
 			if SelectedPlayer~=_N then
 				if SelectedPlayer:FindFirstChild("Amelee")==_N then
@@ -2569,7 +2713,7 @@ AdminCommands={
 		end
 	end,
 	["noantimelee"]=function(PlayerTbl,Speaker)
-		if PlayerTbl==_N then return end
+		if typeof(PlayerTbl)=="table" then return end
 		local Found=nil
 		for i,SelectedPlayer in Sv.P(PlayerTbl)do
 			Found=SelectedPlayer:FindFirstChild("Amelee") 
@@ -2583,7 +2727,7 @@ AdminCommands={
 		Found=_N
 	end,
 	["supermelee"]=function(PlayerTbl,Speaker)
-		if PlayerTbl==_N then return end
+		if typeof(PlayerTbl)=="table" then return end
 		for i,SelectedPlayer in Sv.P(PlayerTbl)do
 			if SelectedPlayer~=_N then
 				if SelectedPlayer:FindFirstChild("Smelee")==_N then
@@ -2597,6 +2741,8 @@ AdminCommands={
 					Sv.New(function()
 						local Char=nil
 						local Torso=nil
+						local Head=nil
+						local punchSound=nil
 						local Humanoid=nil
 						local IsPunching=false
 						local HotPlayer,HotChar,HotTorso,HotHumanoid=_N,nil,nil,nil
@@ -2612,32 +2758,40 @@ AdminCommands={
 							if not SelectedPlayer:IsDescendantOf(Sv.Plrs)then break end
 							Char=SelectedPlayer[_A.P]
 							if Char~=_N then
+								Head=Char:FindFirstChild("Head")
 								Torso=Char:FindFirstChild("Torso")
 								Humanoid=Char:FindFirstChildOfClass("Humanoid")
-								if Torso~=_N then
-									if Humanoid~=_N then
-										for i,v in pairs(Humanoid:GetPlayingAnimationTracks()) do
-											if v.Animation ~= nil then 
-												if v.Animation.AnimationId == "rbxassetid://275012308" or v.Animation.AnimationId == "rbxassetid://484200742" or v.Animation.AnimationId == "rbxassetid://484926359" then
-													IsPunching=true break
+								if Head ~= _N then
+									punchSound=Head:FindFirstChild("punchSound")
+									if punchSound ~= _N then
+									
+										if Torso~=_N then
+											if Humanoid~=_N then
+												for i,v in pairs(Humanoid:GetPlayingAnimationTracks()) do
+													if v.Animation ~= nil then 
+														if v.Animation.AnimationId == "rbxassetid://275012308" or v.Animation.AnimationId == "rbxassetid://484200742" or v.Animation.AnimationId == "rbxassetid://484926359" then
+															IsPunching=true break
+														end
+													end
 												end
-											end
-										end
-										if IsPunching==true then
-											for i,v in pairs(workspace:GetPartBoundsInRadius(Torso.Position,8.5)) do
-												if not v:IsDescendantOf(Torso.Parent) then
-													if not v:IsDescendantOf(Sv.LPlr.Character) then 
-														HotTorso = v.Parent:FindFirstChild("Torso")
-														if HotTorso ~= nil then
-															HotPlayer = Sv.Plrs:FindFirstChild(v.Parent.Name)
-															if HotPlayer ~= nil then
-																if HotPlayer:FindFirstChild("Smelee")==_N then
-																	if HotTorso.Parent:FindFirstChildOfClass("ForceField")==_N then
-																		HotHumanoid = v.Parent:FindFirstChildOfClass("Humanoid")
-																		if HotHumanoid ~= nil then
-																			if HotHumanoid.Health >0 then
-																				Sv.New(function()local TempHotHumanoid=HotHumanoid TempHotHumanoid:SetAttribute("ADB",0)wait(3)TempHotHumanoid:SetAttribute("ADB",nil)TempHotHumanoid=_N end)
-																				_A.O(PlrsToKill,HotPlayer)
+												if IsPunching==true then
+													for i,v in pairs(workspace:GetPartBoundsInRadius(Torso.Position,8.5)) do
+														if not v:IsDescendantOf(Torso.Parent) then
+															if not v:IsDescendantOf(Sv.LPlr.Character) then 
+																HotTorso = v.Parent:FindFirstChild("Torso")
+																if HotTorso ~= nil then
+																	HotPlayer = Sv.Plrs:FindFirstChild(v.Parent.Name)
+																	if HotPlayer ~= nil then
+																		if HotPlayer:FindFirstChild("Smelee")==_N then
+																			if HotTorso.Parent:FindFirstChildOfClass("ForceField")==_N then
+																				HotHumanoid = v.Parent:FindFirstChildOfClass("Humanoid")
+																				if HotHumanoid ~= nil then
+																					if HotHumanoid.Health >0 then
+																						Sv.New(function()local TempHotHumanoid=HotHumanoid TempHotHumanoid:SetAttribute("ADB",0)wait(3)TempHotHumanoid:SetAttribute("ADB",nil)TempHotHumanoid=_N end)
+																						_A.O(PlrsToKill,HotPlayer)
+																						for i=0,15 do SoundEvent:FireServer(punchSound) end
+																					end
+																				end
 																			end
 																		end
 																	end
@@ -2666,7 +2820,7 @@ AdminCommands={
 		end
 	end,
 	["nosupermelee"]=function(PlayerTbl,Speaker)
-		if PlayerTbl==_N then return end
+		if typeof(PlayerTbl)=="table" then return end
 		local Found=nil
 		for i,SelectedPlayer in Sv.P(PlayerTbl)do
 			Found=SelectedPlayer:FindFirstChild("Smelee") 
@@ -2680,7 +2834,7 @@ AdminCommands={
 		Found=_N
 	end,
 	["kaura"]=function(PlayerTbl,Speaker)
-		if PlayerTbl==_N then return end
+		if typeof(PlayerTbl)=="table" then return end
 		for i,SelectedPlayer in Sv.P(PlayerTbl)do
 			if SelectedPlayer~=_N then
 				if SelectedPlayer:FindFirstChild("Aura")==_N then
@@ -2749,7 +2903,7 @@ AdminCommands={
 
 	end,
 	["nokaura"]=function(PlayerTbl,Speaker)
-		if PlayerTbl==_N then return end
+		if typeof(PlayerTbl)=="table" then return end
 		local Found=nil
 		for i,SelectedPlayer in Sv.P(PlayerTbl)do
 			Found=SelectedPlayer:FindFirstChild("Aura") 
@@ -2763,7 +2917,7 @@ AdminCommands={
 		Found=_N
 	end,
 	["help"]=function(PlayerTbl,Speaker)
-		local message = [[Use commands by typing ;example victim | like ;ko somebody (which makes them die) | or ;h somebody (which damages them)]]
+		local message = [[Use commands by typing ;example victim | like ;ko somebody (which makes them die) | or ;h somebody (which damages them) | commands like ;kopolice dont require a player.]]
 		if Speaker==_N then
 			notify(message,_A.R(0,1,0))
 		else
