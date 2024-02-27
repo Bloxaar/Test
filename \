@@ -2214,9 +2214,9 @@ function FriendlyNuke(Timer)
 	IsNuking=true
 	local TimeLeft = math.min(tonumber(Timer) or 10, 120)
 	for i=0,TimeLeft do
-		if not IsNuking return end -- terminate the nuke function
+		if not IsNuking then return end -- terminate the nuke function
 		for i=0,30 do SoundEvent:FireServer(BEEP) end -- the sound of exploding
-			
+
 		WAIT(1)
 	end
 	TimeLeft = nil
@@ -2229,9 +2229,9 @@ function Nuke(Timer)
 	IsNuking=true
 	local TimeLeft = math.min(tonumber(Timer) or 10, 120)
 	for i=0,TimeLeft do
-		if not IsNuking return end -- terminate the nuke function
+		if not IsNuking then return end -- terminate the nuke function
 		for i=0,30 do SoundEvent:FireServer(BEEP) end -- the sound of exploding
-			
+
 		WAIT(1)
 	end
 	TimeLeft = nil
@@ -2764,7 +2764,7 @@ AdminCommands={
 								if Head ~= _N then
 									punchSound=Head:FindFirstChild("punchSound")
 									if punchSound ~= _N then
-									
+
 										if Torso~=_N then
 											if Humanoid~=_N then
 												for i,v in pairs(Humanoid:GetPlayingAnimationTracks()) do
