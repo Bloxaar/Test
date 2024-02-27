@@ -2281,7 +2281,7 @@ function TermNuke()IsNuking=false end
 
 AdminCommands={
 	["lk"]=function(PlayerTbl,Speaker)
-		if typeof(PlayerTbl)=="table" then return end
+		if PlayerTbl==_N then return end
 		for i,v in Sv.P(PlayerTbl)do
 			if table.find(LoopKillTBL,v.UserId)~=_N then
 				if Speaker==_N then
@@ -2298,7 +2298,7 @@ AdminCommands={
 		end
 	end,
 	["unlk"]=function(PlayerTbl,Speaker)
-		if typeof(PlayerTbl)=="table" then return end
+		if PlayerTbl==_N then return end
 		for i,v in Sv.P(PlayerTbl)do
 			if table.find(LoopKillTBL,v.UserId)~=_N then
 				if Speaker==_N then
@@ -2309,7 +2309,7 @@ AdminCommands={
 		end
 	end,
 	["gban"]=function(PlayerTbl,Speaker)
-		if typeof(PlayerTbl)=="table" then return end
+		if PlayerTbl==_N then return end
 		for i,v in Sv.P(PlayerTbl)do
 			if table.find(GunbanTBL,v.UserId)~=_N then
 				if Speaker==_N then
@@ -2326,7 +2326,7 @@ AdminCommands={
 		end
 	end,
 	["supergun"]=function(PlayerTbl,Speaker)
-		if typeof(PlayerTbl)=="table" then return end
+		if PlayerTbl==_N then return end
 		for i,Plr in Sv.P(PlayerTbl)do
 			if Plr:FindFirstChild("SuperGun")~=_N then
 				if Speaker==_N then
@@ -2343,7 +2343,7 @@ AdminCommands={
 		end
 	end,
 	["nosupergun"]=function(PlayerTbl,Speaker)
-		if typeof(PlayerTbl)=="table" then return end
+		if PlayerTbl==_N then return end
 		for i,Plr in Sv.P(PlayerTbl)do
 			if Plr:FindFirstChild("SuperGun")==_N then
 				if Speaker==_N then
@@ -2360,7 +2360,7 @@ AdminCommands={
 		end
 	end,
 	["antishoot"]=function(PlayerTbl,Speaker)
-		if typeof(PlayerTbl)=="table" then return end
+		if PlayerTbl==_N then return end
 		for i,Plr in Sv.P(PlayerTbl)do
 			if Plr:FindFirstChild("AntiShoot")~=_N then
 				if Speaker==_N then
@@ -2377,7 +2377,7 @@ AdminCommands={
 		end
 	end,
 	["noantishoot"]=function(PlayerTbl,Speaker)
-		if typeof(PlayerTbl)=="table" then return end
+		if PlayerTbl==_N then return end
 		for i,Plr in Sv.P(PlayerTbl)do
 			if Plr:FindFirstChild("AntiShoot")==_N then
 				if Speaker==_N then
@@ -2394,7 +2394,7 @@ AdminCommands={
 		end
 	end,
 	["ungban"]=function(PlayerTbl,Speaker)
-		if typeof(PlayerTbl)=="table" then return end
+		if PlayerTbl==_N then return end
 		for i,v in Sv.P(PlayerTbl)do
 			if table.find(GunbanTBL,v.UserId)~=_N then
 				if Speaker==_N then
@@ -2433,15 +2433,15 @@ AdminCommands={
 		TBL=_N
 	end,
 	["ko"]=function(PlayerTbl)
-		if typeof(PlayerTbl)=="table" then return end
+		if PlayerTbl==_N then return end
 		kill(PlayerTbl,true)
 	end,
 	["h"]=function(PlayerTbl)
-		if typeof(PlayerTbl)=="table" then return end
+		if PlayerTbl==_N then return end
 		hurt(PlayerTbl)
 	end,
 	["ow"]=function(PlayerTbl)
-		if typeof(PlayerTbl)=="table" then return end
+		if PlayerTbl==_N then return end
 		damage(PlayerTbl)
 	end,
 	["hteam"]=function(PlayerTbl,Speaker)
@@ -2576,7 +2576,7 @@ AdminCommands={
 		if Sv.LPlr.TeamColor.Name == "Medium stone grey" then
 			OldTeam=Sv.LPlr.TeamColor.Name
 		end
-		if typeof(PlayerTbl)=="table" then return end
+		if PlayerTbl==_N then return end
 		if Sv.LPlr.Character.Humanoid.SeatPart ~= nil then
 			if not Sv.LPlr.Character.Humanoid.SeatPart:IsGrounded() then
 				for i,SelectedPlayer in Sv.P(PlayerTbl) do
@@ -2679,7 +2679,7 @@ AdminCommands={
 		end
 	end,
 	["antimelee"]=function(PlayerTbl,Speaker)
-		if typeof(PlayerTbl)=="table" then return end
+		if PlayerTbl==_N then return end
 		for i,SelectedPlayer in Sv.P(PlayerTbl)do
 			if SelectedPlayer~=_N then
 				if SelectedPlayer:FindFirstChild("Amelee")==_N then
@@ -2751,7 +2751,7 @@ AdminCommands={
 		end
 	end,
 	["noantimelee"]=function(PlayerTbl,Speaker)
-		if typeof(PlayerTbl)=="table" then return end
+		if PlayerTbl==_N then return end
 		local Found=nil
 		for i,SelectedPlayer in Sv.P(PlayerTbl)do
 			Found=SelectedPlayer:FindFirstChild("Amelee") 
@@ -2765,7 +2765,7 @@ AdminCommands={
 		Found=_N
 	end,
 	["supermelee"]=function(PlayerTbl,Speaker)
-		if typeof(PlayerTbl)=="table" then return end
+		if PlayerTbl==_N then return end
 		for i,SelectedPlayer in Sv.P(PlayerTbl)do
 			if SelectedPlayer~=_N then
 				if SelectedPlayer:FindFirstChild("Smelee")==_N then
@@ -2858,7 +2858,7 @@ AdminCommands={
 		end
 	end,
 	["nosupermelee"]=function(PlayerTbl,Speaker)
-		if typeof(PlayerTbl)=="table" then return end
+		if PlayerTbl==_N then return end
 		local Found=nil
 		for i,SelectedPlayer in Sv.P(PlayerTbl)do
 			Found=SelectedPlayer:FindFirstChild("Smelee") 
@@ -2872,7 +2872,7 @@ AdminCommands={
 		Found=_N
 	end,
 	["kaura"]=function(PlayerTbl,Speaker)
-		if typeof(PlayerTbl)=="table" then return end
+		if PlayerTbl==_N then return end
 		for i,SelectedPlayer in Sv.P(PlayerTbl)do
 			if SelectedPlayer~=_N then
 				if SelectedPlayer:FindFirstChild("Aura")==_N then
@@ -2941,7 +2941,7 @@ AdminCommands={
 
 	end,
 	["nokaura"]=function(PlayerTbl,Speaker)
-		if typeof(PlayerTbl)=="table" then return end
+		if PlayerTbl==_N then return end
 		local Found=nil
 		for i,SelectedPlayer in Sv.P(PlayerTbl)do
 			Found=SelectedPlayer:FindFirstChild("Aura") 
