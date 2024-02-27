@@ -141,6 +141,10 @@ local TpBox = Instance.new("TextBox")
 local TpToPlayer = Instance.new("TextButton")
 local BringPlayer = Instance.new("TextButton")
 local BringBox = Instance.new("TextBox")
+local cmdbar = Instance.new("Frame")
+local cmdboxmain = Instance.new("TextBox")
+local TextLabel = Instance.new("TextLabel")
+
 
 --Properties:
 
@@ -1224,6 +1228,41 @@ BringBox.TextScaled = true
 BringBox.TextSize = 14.000
 BringBox.TextWrapped = true
 
+cmdbar.Name = "cmdbar"
+cmdbar.Parent = PrisonG
+cmdbar.BackgroundColor3 = Color3.fromRGB(255, 158, 47)
+cmdbar.BorderColor3 = Color3.fromRGB(0, 0, 0)
+cmdbar.BorderSizePixel = 0
+cmdbar.Position = UDim2.new(0.256164372, 0, 0.659517407, 0)
+cmdbar.Size = UDim2.new(0.12328767, 0, 0.107238606, 0)
+
+cmdboxmain.Name = "cmdboxmain"
+cmdboxmain.Parent = cmdbar
+cmdboxmain.BackgroundColor3 = Color3.fromRGB(137, 255, 131)
+cmdboxmain.BorderColor3 = Color3.fromRGB(0, 0, 0)
+cmdboxmain.BorderSizePixel = 0
+cmdboxmain.Position = UDim2.new(0, 0, 0.409636676, 0)
+cmdboxmain.Size = UDim2.new(1, 0, 0.580747962, 0)
+cmdboxmain.Font = Enum.Font.SourceSans
+cmdboxmain.PlaceholderColor3 = Color3.fromRGB(0, 0, 0)
+cmdboxmain.PlaceholderText = "type ;cmds for commands"
+cmdboxmain.Text = ""
+cmdboxmain.TextColor3 = Color3.fromRGB(0, 0, 0)
+cmdboxmain.TextScaled = true
+cmdboxmain.TextSize = 14.000
+cmdboxmain.TextWrapped = true
+
+TextLabel.Parent = cmdbar
+TextLabel.BackgroundColor3 = Color3.fromRGB(255, 236, 94)
+TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.BorderSizePixel = 0
+TextLabel.Size = UDim2.new(1, 0, 0.400000006, 0)
+TextLabel.Font = Enum.Font.SourceSans
+TextLabel.Text = "Cmdbar"
+TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.TextScaled = true
+TextLabel.TextSize = 14.000
+TextLabel.TextWrapped = true
 
 Show.Visible=_F
 
@@ -3148,7 +3187,71 @@ Sv.New(function()
 	end
 end)
 
+cmdbar.Active=true
+cmdbar.Draggable=true
+
 local prefix=";"
+
+cmdboxmain.FocusLost:Connect(function()
+	local PlayerInstance = nil
+	local Message1 = cmdboxmain.Text
+	local Message=string.lower(Message1)
+	local Split=string.split(Message1," ")
+
+		local CMDFOUND=false
+		for i,v in Sv.P(LocalAdminCommands)do
+			if Split[1]==prefix..i then
+				v(GetPlayer(Split[2], PlayerInstance) or nil,PlayerInstance)
+				CMDFOUND=true
+				break
+			elseif Split[2]==prefix..i then
+				v(GetPlayer(Split[3], PlayerInstance) or nil,PlayerInstance)
+				if PlayerInstance~=_N then
+					if Split[1]:len()<=3 then
+						notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
+					end
+				end
+				CMDFOUND=true
+				break
+
+			elseif Split[3]==prefix..i then
+				v(GetPlayer(Split[4], PlayerInstance) or nil,PlayerInstance)
+				if PlayerInstance~=_N then
+					if Split[1]:len()<=3 or Split[2]:len()<=3 then
+						notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
+					end
+				end
+				CMDFOUND=true
+				break
+			end
+		end
+		if CMDFOUND then CMDFOUND=nil;return;end;CMDFOUND=nil
+	for i,v in Sv.P(AdminCommands)do
+		if Split[1]==prefix..i then
+			v(GetPlayer(Split[2], PlayerInstance) or nil,PlayerInstance)
+			break
+		elseif Split[2]==prefix..i then
+			v(GetPlayer(Split[3], PlayerInstance) or nil,PlayerInstance)
+			if PlayerInstance~=_N then
+				if Split[1]:len()<=3 then
+					notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
+				end
+			end
+			break
+		elseif Split[3]==prefix..i then
+			v(GetPlayer(Split[4], PlayerInstance) or nil,PlayerInstance)
+			if PlayerInstance~=_N then
+				if Split[1]:len()<=3 or Split[2]:len()<=3 then
+					notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
+				end
+			end
+			break
+		end
+	end
+	
+	
+	
+end)
 
 local function ConnectAdminCommands(Message1,PlayerInstance)
 	if PlayerInstance~=_N then
@@ -4094,4 +4197,3 @@ while wait()do
 
 	end)
 end
- 
