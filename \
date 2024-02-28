@@ -2827,7 +2827,9 @@ AdminCommands={
 																					if HotHumanoid.Health >0 then
 																						Sv.New(function()local TempHotHumanoid=HotHumanoid TempHotHumanoid:SetAttribute("ADB",0)wait(3)TempHotHumanoid:SetAttribute("ADB",nil)TempHotHumanoid=_N end)
 																						_A.O(PlrsToKill,HotPlayer)
-																						for i=0,15 do SoundEvent:FireServer(punchSound) end
+																						if Char:FindFirstChild("Hammer") ~= nil or Char:FindFirstChild("Crude Knife") ~= nil then
+																						else for i=0,5 do SoundEvent:FireServer(punchSound) end
+																						end
 																					end
 																				end
 																			end
