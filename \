@@ -2426,6 +2426,7 @@ AdminCommands={
 				end
 			end
 		end
+		wait(0.3)
 		if Sv.LPlr.TeamColor.Name ~= OldTeam then
 			if OldTeam=="Bright red" then
 				local PrimaryPart=Sv.LPlr[_A.P].PrimaryPart
