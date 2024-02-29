@@ -2305,7 +2305,7 @@ local function ArrestDatNoob(Target)
 						repeat wait()until not HRP:IsDescendantOf(workspace) WAIT(0.1)
 						HRP =Sv.LPlr.Character:FindFirstChild("HumanoidRootPart")
 					end
-					if HRP ~= nil then HRP.CFrame = Head.CFrame end
+					if HRP ~= nil then HRP.CFrame = HEAD.CFrame end
 
 					task.spawn(function()Remote.Arrest:InvokeServer({Parent=Char,Position=Vector3.new("nan",0,0)})end)
 					HRP=nil
