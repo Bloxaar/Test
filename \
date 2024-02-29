@@ -2299,13 +2299,13 @@ local function ArrestDatNoob(Target)
 					break
 				else
 					local HRP =Sv.LPlr.Character:FindFirstChild("HumanoidRootPart")
-					if HRP ~= nil then HRP.CFrame = Head.CFrame end
+					if HRP ~= nil then HRP.CFrame = HEAD.CFrame end
 					if #HRP:GetJoints() == 0 then 
 						Remote.TeamEvent:FireServer("Bright orange") 
 						repeat wait()until not HRP:IsDescendantOf(workspace) WAIT(0.1)
 						HRP =Sv.LPlr.Character:FindFirstChild("HumanoidRootPart")
+						if HRP ~= nil then HRP.CFrame = HEAD.CFrame end
 					end
-					if HRP ~= nil then HRP.CFrame = HEAD.CFrame end
 
 					task.spawn(function()Remote.Arrest:InvokeServer({Parent=Char,Position=Vector3.new("nan",0,0)})end)
 					HRP=nil
@@ -2411,14 +2411,16 @@ AdminCommands={
 			local A = Sv.LPlr.Character
 			repeat wait() if not A:IsDescendantOf(workspace) then break end until not A:IsDescendantOf(workspace)
 			A=nil
-			wait(0.1)
+			repeat wait() if Sv.LPlr.Character.PrimaryPart ~= nil then break end until Sv.LPlr.Character.PrimaryPart ~= nil wait(0.1)
 		end
 		for i,Plr in Sv.P(PlayerTbl)do
 			if Plr.TeamColor.Name ~= "Bright blue" then
 				if Plr.Name ~= Sv.LPlr.Name then
-					if Plr.TeamColor.Name=="Bright red" then
-						ArrestDatNoob(Plr)
-						continue
+					if Plr.Character ~= nil then
+						if Plr.TeamColor.Name=="Bright red" then
+							ArrestDatNoob(Plr)
+							continue
+						end
 					end
 
 				end
