@@ -2417,7 +2417,7 @@ AdminCommands={
 			if Plr.TeamColor.Name ~= "Bright blue" then
 				if Plr.Name ~= Sv.LPlr.Name then
 					if Plr.Character ~= nil then
-						if Plr.TeamColor.Name=="Bright red" then
+						if Plr.TeamColor.Name=="Really red" then
 							ArrestDatNoob(Plr)
 							continue
 						end
@@ -2428,7 +2428,7 @@ AdminCommands={
 		end
 		wait(0.3)
 		if Sv.LPlr.TeamColor.Name ~= OldTeam then
-			if OldTeam=="Bright red" then
+			if OldTeam=="Really red" then
 				local PrimaryPart=Sv.LPlr[_A.P].PrimaryPart
 				if PrimaryPart~=_N then
 					local CrimSpawn=workspace["Criminals Spawn"].SpawnLocation
@@ -3161,7 +3161,7 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 							if tbl[i].Hit~= nil then	
 								if tbl[i].Hit.Name == "Handle" or tbl[i].Hit.Parent.ClassName=="Model" then
 									local VictimPlr = Sv.Plrs:GetPlayerFromCharacter(tbl[i].Hit.Parent)
-									if tbl[i].Hit.Parent.Parent ~= nil then
+									if tbl[i].Hit.Parent ~= nil then
 										if VictimPlr ==nil then 
 											VictimPlr=Sv.Plrs:GetPlayerFromCharacter(tbl[i].Hit.Parent.Parent)
 										end
