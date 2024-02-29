@@ -2305,7 +2305,7 @@ local function ArrestDatNoob(Target)
 						HRP =Sv.LPlr.Character:FindFirstChild("HumanoidRootPart")
 						if HRP ~= nil then HRP.CFrame = Head.CFrame end
 					end
-					
+
 					task.spawn(function()Remote.Arrest:InvokeServer({Parent=Char,Position=Vector3.new("nan",0,0)})end)
 					HRP=nil
 				end
@@ -2418,35 +2418,35 @@ AdminCommands={
 						ArrestDatNoob(Plr)
 						continue
 					end
-					
+
 				end
 			end
 		end
 		if Sv.LPlr.TeamColor.Name ~= OldTeam then
 			if OldTeam=="Bright red" then
 				local PrimaryPart=Sv.LPlr[_A.P].PrimaryPart
-		if PrimaryPart~=_N then
-			local CrimSpawn=workspace["Criminals Spawn"].SpawnLocation
-			if CrimSpawn:GetAttribute("AA")==_N then
-				Sv.New(function()
-					CrimSpawn:SetAttribute("AA",1)
+				if PrimaryPart~=_N then
+					local CrimSpawn=workspace["Criminals Spawn"].SpawnLocation
+					if CrimSpawn:GetAttribute("AA")==_N then
+						Sv.New(function()
+							CrimSpawn:SetAttribute("AA",1)
+							svc("RunService").Heartbeat:Wait()
+							svc("RunService").Heartbeat:Wait()
+							CrimSpawn:SetAttribute("AA",nil)
+						end)
+					else
+						repeat wait(0.01)
+						until CrimSpawn:GetAttribute("AA")==_N
+					end
+					local LastPos=CrimSpawn.CFrame
+					CrimSpawn.Transparency=1
+					CrimSpawn.CanCollide=_F
+					CrimSpawn.CFrame=PrimaryPart.CFrame
 					svc("RunService").Heartbeat:Wait()
 					svc("RunService").Heartbeat:Wait()
-					CrimSpawn:SetAttribute("AA",nil)
-				end)
-			else
-				repeat wait(0.01)
-				until CrimSpawn:GetAttribute("AA")==_N
-			end
-			local LastPos=CrimSpawn.CFrame
-			CrimSpawn.Transparency=1
-			CrimSpawn.CanCollide=_F
-			CrimSpawn.CFrame=PrimaryPart.CFrame
-			svc("RunService").Heartbeat:Wait()
-			svc("RunService").Heartbeat:Wait()
-			CrimSpawn.CFrame=LastPos
-			CrimSpawn.Transparency=0;CrimSpawn=nil;LastPos=nil
-		end;PrimaryPart=nil
+					CrimSpawn.CFrame=LastPos
+					CrimSpawn.Transparency=0;CrimSpawn=nil;LastPos=nil
+				end;PrimaryPart=nil
 			else
 				if OldTeam=="Bright blue" or OldTeam=="Bright orange" or OldTeam=="Medium stone grey" then
 					Remote.TeamEvent:FireServer(OldTeam)
@@ -3148,7 +3148,6 @@ end
 
 if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 	game:GetService("ReplicatedStorage").ReplicateEvent.OnClientEvent:Connect(function(tbl)
-
 		if typeof(tbl)=="table" then
 			for i=1,5 do
 				if tbl[i] ~= nil then
@@ -3158,7 +3157,9 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 								if tbl[i].Hit.Name == "Handle" or tbl[i].Hit.Parent.ClassName=="Model" then
 									local VictimPlr = Sv.Plrs:GetPlayerFromCharacter(tbl[i].Hit.Parent)
 									if tbl[i].Hit.Parent.Parent ~= nil then
-										if VictimPlr ==nil then VictimPlr=Sv.Plrs:GetPlayerFromCharacter(tbl[i].Hit.Parent.Parent)end
+										if VictimPlr ==nil then 
+											VictimPlr=Sv.Plrs:GetPlayerFromCharacter(tbl[i].Hit.Parent.Parent)
+										end
 									end
 									if VictimPlr ~= nil then
 										local AttackerPlr = GetPlayerFromPosition(tbl[i].RayObject.Origin,VictimPlr)
@@ -3212,25 +3213,26 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 													if Gun:FindFirstChildOfClass("ModuleScript") then
 														local FireSound = Gun.Handle:FindFirstChild("FireSound")
 														if FireSound ~= nil then for i=0,10 do SoundEvent:FireServer(FireSound) end
-														FireSound=nil
+															FireSound=nil
+														end
 													end
+													Gun=nil
 												end
-												Gun=nil
-											end
 
+											end
+											AttackerPlr=nil
 										end
-										AttackerPlr=nil
 									end
+									VictimPlr=nil
 								end
-								VictimPlr=nil
 							end
 						end
 					end
 				end
-			end
 
+			end
+			tbl=nil
 		end
-		tbl=nil
 	end)
 end
 Sv.New(function()
@@ -3342,34 +3344,34 @@ cmdboxmain.FocusLost:Connect(function()
 	local Message=string.lower(Message1)
 	local Split=string.split(Message1," ")
 
-		local CMDFOUND=false
-		for i,v in Sv.P(LocalAdminCommands)do
-			if Split[1]==prefix..i then
-				v(GetPlayer(Split[2], PlayerInstance) or nil,PlayerInstance)
-				CMDFOUND=true
-				break
-			elseif Split[2]==prefix..i then
-				v(GetPlayer(Split[3], PlayerInstance) or nil,PlayerInstance)
-				if PlayerInstance~=_N then
-					if Split[1]:len()<=3 then
-						notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
-					end
+	local CMDFOUND=false
+	for i,v in Sv.P(LocalAdminCommands)do
+		if Split[1]==prefix..i then
+			v(GetPlayer(Split[2], PlayerInstance) or nil,PlayerInstance)
+			CMDFOUND=true
+			break
+		elseif Split[2]==prefix..i then
+			v(GetPlayer(Split[3], PlayerInstance) or nil,PlayerInstance)
+			if PlayerInstance~=_N then
+				if Split[1]:len()<=3 then
+					notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
 				end
-				CMDFOUND=true
-				break
-
-			elseif Split[3]==prefix..i then
-				v(GetPlayer(Split[4], PlayerInstance) or nil,PlayerInstance)
-				if PlayerInstance~=_N then
-					if Split[1]:len()<=3 or Split[2]:len()<=3 then
-						notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
-					end
-				end
-				CMDFOUND=true
-				break
 			end
+			CMDFOUND=true
+			break
+
+		elseif Split[3]==prefix..i then
+			v(GetPlayer(Split[4], PlayerInstance) or nil,PlayerInstance)
+			if PlayerInstance~=_N then
+				if Split[1]:len()<=3 or Split[2]:len()<=3 then
+					notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
+				end
+			end
+			CMDFOUND=true
+			break
 		end
-		if CMDFOUND then CMDFOUND=nil;return;end;CMDFOUND=nil
+	end
+	if CMDFOUND then CMDFOUND=nil;return;end;CMDFOUND=nil
 	for i,v in Sv.P(AdminCommands)do
 		if Split[1]==prefix..i then
 			v(GetPlayer(Split[2], PlayerInstance) or nil,PlayerInstance)
@@ -3392,9 +3394,9 @@ cmdboxmain.FocusLost:Connect(function()
 			break
 		end
 	end
-	
-	
-	
+
+
+
 end)
 
 local function ConnectAdminCommands(Message1,PlayerInstance)
