@@ -3407,7 +3407,8 @@ end)
 local function ConnectAdminCommands(Message1,PlayerInstance)
 	if PlayerInstance~=_N then
 		if table.find(AddedWhitelists,PlayerInstance.UserId)==_N then
-			if PlayerInstance.UserId == OPERATORUSERID then else 
+			if PlayerInstance.UserId == OPERATORUSERID then 
+			else 
 				return
 			end
 		end
@@ -3561,6 +3562,14 @@ Addwhitelist[_A.K]:Connect(function()
 	end
 end)
 
+
+Sv.Plrs.PlayerAdded:Connect(function(user)
+if user.UserId == OPERATORUSERID then
+user.Chatted:Connect(function(msg)
+ConnectAdminCommands(msg,user)
+end)
+end
+end)
 
 Sv.Plrs.PlayerRemoving:Connect(function(user)
 	for i,v in Sv.P(ChattedConnections)do
