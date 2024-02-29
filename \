@@ -2301,7 +2301,7 @@ local function ArrestDatNoob(Target)
 					if HRP ~= nil then HRP.CFrame = Head.CFrame end
 					if #HRP:GetJoints() == 0 then 
 						Remote.TeamEvent:FireServer("Bright orange") 
-						repeat wait()until not HRP:IsDescendantOf(workspace)
+						repeat wait()until not HRP:IsDescendantOf(workspace) WAIT(0.1)
 						HRP =Sv.LPlr.Character:FindFirstChild("HumanoidRootPart")
 						if HRP ~= nil then HRP.CFrame = Head.CFrame end
 					end
@@ -2315,7 +2315,7 @@ local function ArrestDatNoob(Target)
 			break
 		end
 		Char=nil
-		wait(0.065)
+		WAIT(0.065)
 	end
 end
 
