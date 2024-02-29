@@ -2307,7 +2307,7 @@ local function ArrestDatNoob(Target)
 						if HRP ~= nil then HRP.CFrame = HEAD.CFrame end
 					end
 
-					task.spawn(function()Remote.Arrest:InvokeServer({Parent=Char,Position=Vector3.new("nan",0,0)})end)
+					task.spawn(function()Remote.arrest:InvokeServer({Parent=Char,Position=Vector3.new("nan",0,0)})end)
 					HRP=nil
 				end
 			end
