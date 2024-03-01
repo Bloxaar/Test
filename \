@@ -2418,6 +2418,7 @@ AdminCommands={
 			for i,v in Sv.P(PlayerTbl)do
 				if (v.UserId == OPERATORUSERID and Speaker.UserId == OPERATORUSERID) then
 					PreferredAdminsPrefix[v.UserId]=NewPrefix
+					svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." Your new prefix is: "..PreferredAdminsPrefix[Speaker.UserId], "All")
 					if Speaker.UserId == Sv.LPlr.UserId then
 						notify(`Your new prefix is set to: {PreferredAdminsPrefix[v.UserId]}`,Color3.new(1,0,1))
 					end
@@ -3634,7 +3635,7 @@ local function ConnectAdminCommands(Message1,PlayerInstance)
 			break
 		elseif Split[2]==prefix..i then
 			if i=="prefix" then
-				v(GetPlayer(Split[3]),PlayerInstance,Split[3])	
+				v(GetPlayer(Split[3]),PlayerInstance,Split[4])	
 			else
 				v(GetPlayer(Split[3], PlayerInstance) or nil,PlayerInstance)
 			end
