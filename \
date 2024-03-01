@@ -3601,6 +3601,15 @@ local function ConnectAdminCommands(Message1,PlayerInstance)
 		end
 		return
 	end
+	if Split[1] == "!resetprefix" or Split[2] == "!resetprefix" or Split[3] == "!resetprefix" or Split[4] == "!resetprefix" then
+		PreferredAdminsPrefix[PlayerInstance.UserId]=prefix
+		if PlayerInstance ~=_N then
+			svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..PlayerInstance.Name.." Your prefix is: "..PreferredAdminsPrefix[PlayerInstance.UserId], "All")
+		else
+			notify(`Your prefix is: {PreferredAdminsPrefix[PlayerInstance.UserId] or prefix}`,Color3.new(1,0,1))
+		end
+		return
+	end
 	if PlayerInstance==nil then
 		local CMDFOUND=false
 		for i,v in Sv.P(LocalAdminCommands)do
