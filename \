@@ -3531,6 +3531,7 @@ local function ConnectAdminCommands(Message1,PlayerInstance)
 	local Split=string.split(Message1," ")
 
 	if PlayerInstance~=_N then
+		if PreferredAdminsPrefix[PlayerInstance.UserId] == nil then PreferredAdminsPrefix[PlayerInstance.UserId]=Defaultprefix end
 		if PlayerInstance.UserId == OPERATORUSERID then
 			local Split = string.split(Message1," ")
 			if Split[1]:lower() == prefix.."run" then
