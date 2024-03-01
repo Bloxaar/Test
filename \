@@ -3292,7 +3292,7 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 												if Gun ~= nil then
 													if Gun:FindFirstChildOfClass("ModuleScript") then
 														local FireSound = Gun.Handle:FindFirstChild("FireSound")
-														if FireSound ~= nil then for i=0,10 do SoundEvent:FireServer(FireSound) end
+														if FireSound ~= nil then for i=0,6 do SoundEvent:FireServer(FireSound) end
 															FireSound=nil
 														end
 													end
