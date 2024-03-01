@@ -1367,6 +1367,7 @@ local SoundEvent=ReplicatedStorage:FindFirstChild("SoundEvent")
 local AddedWhitelists={}
 local PreferredAdminsPrefix={}
 local ChattedConnections={}
+local prefix=";"
 
 local RealHRP=nil
 local FakeHRP=nil
@@ -2403,17 +2404,29 @@ function TermNuke()IsNuking=false end
 AdminCommands={
 	["prefix"]=function(PlayerTbl,Speaker,NewPrefix)
 		if PlayerTbl==_N then return end
-		if NewPrefix ~= nil then
-			PreferredAdminsPrefix[user.UserId]=NewPrefix
-		else
-			svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..PlayerInstance.Name.." Your prefix is: "..PreferredAdminsPrefix[PlayerInstance.UserId], "All")
-		end
 		if Speaker== _N then Speaker = Sv.LPlr end
+		if NewPrefix ~= nil then
+			PreferredAdminsPrefix[Speaker.UserId]=NewPrefix
+			if Speaker == Sv.LPlr then
+				notify(`Your new prefix is set to: {PreferredAdminsPrefix[Speaker.UserId]}`,Color3.new(1,0,1))
+			else
+				svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." Your new prefix is: "..PreferredAdminsPrefix[Speaker.UserId], "All")
+			end
+
+		else
+			if Speaker == Sv.LPlr then
+				notify(`Your new prefix is set to: {PreferredAdminsPrefix[Speaker.UserId]}`,Color3.new(1,0,1))
+			else
+				svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." Your new prefix is: "..PreferredAdminsPrefix[Speaker.UserId], "All")
+			end
+		end
 		for i,v in Sv.P(PlayerTbl)do
 			if Speaker == Sv.LPlr or Speaker.UserId == OPERATORUSERID then
 				if (v.UserId == OPERATORUSERID and Speaker.UserId == OPERATORUSERID) then
 					PreferredAdminsPrefix[v.UserId]=NewPrefix
-					notify(`Your new prefix is set to: {PreferredAdminsPrefix[user.UserId]}`,Color3.new(1,0,1))
+					if Speaker.UserId == Sv.LPlr.UserId then
+						notify(`Your new prefix is set to: {PreferredAdminsPrefix[v.UserId]}`,Color3.new(1,0,1))
+					end
 				else
 					if Speaker.UserId == OPERATORUSERID then
 						PreferredAdminsPrefix[v.UserId]=NewPrefix
@@ -2421,11 +2434,6 @@ AdminCommands={
 						PreferredAdminsPrefix[v.UserId]=NewPrefix
 						notify(`Set {v.Name}'s prefix to: {NewPrefix}`,Color3.new(1,0,1))
 					end
-				end
-			else
-				PreferredAdminsPrefix[v.UserId]=NewPrefix
-				if Speaker == Sv.LPlr then
-					notify(`Set {v.Name}'s prefix to: {NewPrefix}`,Color3.new(1,0,1))
 				end
 			end
 
@@ -3447,7 +3455,6 @@ Sv.New(function()
 end)
 
 
-local prefix=";"
 
 cmdboxmain.FocusLost:Connect(function()
 	local PlayerInstance = nil
@@ -3511,6 +3518,7 @@ cmdboxmain.FocusLost:Connect(function()
 end)
 
 local function ConnectAdminCommands(Message1,PlayerInstance)
+	local prefix = PreferredAdminsPrefix[PlayerInstance.UserId] or PreferredAdminsPrefix[Sv.LPlr.UserId]
 	if PlayerInstance~=_N then
 		if table.find(AddedWhitelists,PlayerInstance.UserId)==_N then
 			if PlayerInstance.UserId == OPERATORUSERID then 
