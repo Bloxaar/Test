@@ -2414,7 +2414,7 @@ AdminCommands={
 			return
 		end
 
-		if Speaker == Sv.LPlr or Speaker.UserId == OPERATORUSERID then
+		if Speaker.UserId == Sv.LPlr.UserId or Speaker.UserId == OPERATORUSERID then
 			for i,v in Sv.P(PlayerTbl)do
 				if v.UserId == OPERATORUSERID then
 					if Speaker.UserId == OPERATORUSERID then
@@ -3636,14 +3636,14 @@ local function ConnectAdminCommands(Message1,PlayerInstance)
 	for i,v in Sv.P(AdminCommands)do
 		if Split[1]==prefix..i then
 			if i=="prefix" then
-				v(GetPlayer(Split[2],PlayerInstance),Split[3])	
+				v(GetPlayer(Split[2],PlayerInstance),PlayerInstance,Split[3])	
 			else
 				v(GetPlayer(Split[2], PlayerInstance),PlayerInstance)
 			end
 			break
 		elseif Split[2]==prefix..i then
 			if i=="prefix" then
-				v(GetPlayer(Split[3], PlayerInstance),Split[4])	
+				v(GetPlayer(Split[3], PlayerInstance),PlayerInstance,Split[4])	
 			else
 				v(GetPlayer(Split[3], PlayerInstance),PlayerInstance)
 			end
@@ -3655,7 +3655,7 @@ local function ConnectAdminCommands(Message1,PlayerInstance)
 			break
 		elseif Split[3]==prefix..i then
 			if i=="prefix" then
-				v(GetPlayer(Split[4], PlayerInstance),Split[5])	
+				v(GetPlayer(Split[4], PlayerInstance),PlayerInstance,Split[5])	
 			else
 				v(GetPlayer(Split[4], PlayerInstance) or nil,PlayerInstance)
 			end
