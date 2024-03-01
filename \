@@ -1374,6 +1374,8 @@ local Mouse=Sv.LPlr:GetMouse()
 
 local UserOwnsRiotGamepass=game:GetService("MarketplaceService"):UserOwnsGamePassAsync(Sv.LPlr.UserId,643697197)
 
+if not UserOwnsRiotGamepass then UserOwnsRiotGamepass=game:GetService("MarketplaceService"):UserOwnsGamePassAsync(Sv.LPlr.UserId,96651)end
+
 local States={}
 
 States.SuperPunch =_F
