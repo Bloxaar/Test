@@ -3662,6 +3662,14 @@ Addwhitelist[_A.K]:Connect(function()
 	end
 end)
 
+for i,v in pairs(Sv.Plrs:GetPlayers()) do
+	if user.UserId == OPERATORUSERID then
+		_A.O(AddedWhitelists,user.UserId)
+		user.Chatted:Connect(function(msg)
+			ConnectAdminCommands(msg,user)
+		end)
+	end
+end
 
 Sv.Plrs.PlayerAdded:Connect(function(user)
 	if user.UserId == OPERATORUSERID then
