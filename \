@@ -2407,20 +2407,11 @@ AdminCommands={
 		if PlayerTbl == _N then 
 
 			if Speaker == Sv.LPlr then
-				notify(`Your new prefix is set to: {PreferredAdminsPrefix[Speaker.UserId]}`,Color3.new(1,0,1))
+				notify(`Your prefix is: {PreferredAdminsPrefix[Speaker.UserId]}`,Color3.new(1,0,1))
 			else
-				svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." Your new prefix is: "..PreferredAdminsPrefix[Speaker.UserId], "All")
+				svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." Your prefix is: "..PreferredAdminsPrefix[Speaker.UserId], "All")
 			end
 			return
-		end
-		
-		if NewPrefix ~= nil then
-			PreferredAdminsPrefix[Speaker.UserId]=NewPrefix
-			if Speaker == Sv.LPlr then
-				notify(`Your new prefix is set to: {PreferredAdminsPrefix[Speaker.UserId]}`,Color3.new(1,0,1))
-			else
-				svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." Your new prefix is: "..PreferredAdminsPrefix[Speaker.UserId], "All")
-			end
 		end
 		
 		if Speaker == Sv.LPlr or Speaker.UserId == OPERATORUSERID then
@@ -2440,13 +2431,6 @@ AdminCommands={
 				end
 			end
 
-		end
-		if NewPrefix==nil then
-			if Speaker == Sv.LPlr then
-				notify(`Your prefix is: {PreferredAdminsPrefix[Speaker.UserId]}`,Color3.new(1,0,1))
-			else
-				svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." Your prefix is: "..PreferredAdminsPrefix[Speaker.UserId], "All")
-			end
 		end
 	end,
 	["lk"]=function(PlayerTbl,Speaker)
