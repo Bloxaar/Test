@@ -2403,8 +2403,17 @@ function TermNuke()IsNuking=false end
 
 AdminCommands={
 	["prefix"]=function(PlayerTbl,Speaker,NewPrefix)
-		if PlayerTbl==_N then return end
 		if Speaker== _N then Speaker = Sv.LPlr end
+		if PlayerTbl == _N then 
+
+			if Speaker == Sv.LPlr then
+				notify(`Your new prefix is set to: {PreferredAdminsPrefix[Speaker.UserId]}`,Color3.new(1,0,1))
+			else
+				svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." Your new prefix is: "..PreferredAdminsPrefix[Speaker.UserId], "All")
+			end
+			return
+		end
+		
 		if NewPrefix ~= nil then
 			PreferredAdminsPrefix[Speaker.UserId]=NewPrefix
 			if Speaker == Sv.LPlr then
@@ -2412,16 +2421,10 @@ AdminCommands={
 			else
 				svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." Your new prefix is: "..PreferredAdminsPrefix[Speaker.UserId], "All")
 			end
-
-		else
-			if Speaker == Sv.LPlr then
-				notify(`Your new prefix is set to: {PreferredAdminsPrefix[Speaker.UserId]}`,Color3.new(1,0,1))
-			else
-				svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." Your new prefix is: "..PreferredAdminsPrefix[Speaker.UserId], "All")
-			end
 		end
-		for i,v in Sv.P(PlayerTbl)do
-			if Speaker == Sv.LPlr or Speaker.UserId == OPERATORUSERID then
+		
+		if Speaker == Sv.LPlr or Speaker.UserId == OPERATORUSERID then
+			for i,v in Sv.P(PlayerTbl)do
 				if (v.UserId == OPERATORUSERID and Speaker.UserId == OPERATORUSERID) then
 					PreferredAdminsPrefix[v.UserId]=NewPrefix
 					if Speaker.UserId == Sv.LPlr.UserId then
@@ -2437,6 +2440,13 @@ AdminCommands={
 				end
 			end
 
+		end
+		if NewPrefix==nil then
+			if Speaker == Sv.LPlr then
+				notify(`Your prefix is: {PreferredAdminsPrefix[Speaker.UserId]}`,Color3.new(1,0,1))
+			else
+				svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." Your prefix is: "..PreferredAdminsPrefix[Speaker.UserId], "All")
+			end
 		end
 	end,
 	["lk"]=function(PlayerTbl,Speaker)
