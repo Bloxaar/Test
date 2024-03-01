@@ -1367,7 +1367,7 @@ local SoundEvent=ReplicatedStorage:FindFirstChild("SoundEvent")
 local AddedWhitelists={}
 local PreferredAdminsPrefix={}
 local ChattedConnections={}
-local prefix=";"
+local Defaultprefix=";"
 
 local RealHRP=nil
 local FakeHRP=nil
@@ -3187,6 +3187,10 @@ AdminCommands={
 		end
 
 	end,
+	["resetprefix"] = function(P,Speaker)
+		PreferredAdminsPrefix[Speaker.UserId]=Defaultprefix
+		
+	end,
 	["nokaura"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		local Found=nil
@@ -3452,6 +3456,7 @@ end)
 
 
 cmdboxmain.FocusLost:Connect(function()
+	local prefix = PreferredAdminsPrefix[Sv.LPlr.UserId] or Defaultprefix
 	local PlayerInstance = nil
 	local Message1 = cmdboxmain.Text
 	local Message=string.lower(Message1)
@@ -3587,7 +3592,7 @@ local function ConnectAdminCommands(Message1,PlayerInstance)
 		return
 	end
 	if Split[1] == "!resetprefix" or Split[2] == "!resetprefix" or Split[3] == "!resetprefix" or Split[4] == "!resetprefix" then
-		PreferredAdminsPrefix[PlayerInstance.UserId]=prefix
+		PreferredAdminsPrefix[PlayerInstance.UserId]=Defaultprefix
 		if PlayerInstance ~=_N then
 			svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..PlayerInstance.Name.." Your prefix is: "..PreferredAdminsPrefix[PlayerInstance.UserId], "All")
 		else
@@ -3628,16 +3633,16 @@ local function ConnectAdminCommands(Message1,PlayerInstance)
 	for i,v in Sv.P(AdminCommands)do
 		if Split[1]==prefix..i then
 			if i=="prefix" then
-				v(GetPlayer(Split[2]),PlayerInstance,Split[3])	
+				v(GetPlayer(Split[2],PlayerInstance),Split[3])	
 			else
-				v(GetPlayer(Split[2], PlayerInstance) or nil,PlayerInstance)
+				v(GetPlayer(Split[2], PlayerInstance),PlayerInstance)
 			end
 			break
 		elseif Split[2]==prefix..i then
 			if i=="prefix" then
-				v(GetPlayer(Split[3]),PlayerInstance,Split[4])	
+				v(GetPlayer(Split[3], PlayerInstance),Split[4])	
 			else
-				v(GetPlayer(Split[3], PlayerInstance) or nil,PlayerInstance)
+				v(GetPlayer(Split[3], PlayerInstance),PlayerInstance)
 			end
 			if PlayerInstance~=_N then
 				if Split[1]:len()<=3 then
@@ -3647,7 +3652,7 @@ local function ConnectAdminCommands(Message1,PlayerInstance)
 			break
 		elseif Split[3]==prefix..i then
 			if i=="prefix" then
-				v(GetPlayer(Split[4]),PlayerInstance,Split[5])	
+				v(GetPlayer(Split[4], PlayerInstance),Split[5])	
 			else
 				v(GetPlayer(Split[4], PlayerInstance) or nil,PlayerInstance)
 			end
@@ -3690,7 +3695,7 @@ Addwhitelist[_A.K]:Connect(function()
 				if table.find(AddedWhitelists,v.UserId)then
 					notify(v.Name..[[is already whitelisted!]],_A.R(1, 0.3, 0.3))
 				else 
-					PreferredAdminsPrefix[v.UserId]=prefix
+					PreferredAdminsPrefix[v.UserId]=Defaultprefix
 					_A.O(AddedWhitelists,v.UserId)
 					local BTN=WhitelistTemplate:Clone()
 					_A.O(ChattedConnections,{
@@ -3732,7 +3737,7 @@ end)
 
 for i,user in pairs(Sv.Plrs:GetPlayers()) do
 	if user.UserId == OPERATORUSERID then
-		PreferredAdminsPrefix[user.UserId]=prefix
+		PreferredAdminsPrefix[user.UserId]=Defaultprefix
 		_A.O(AddedWhitelists,user.UserId)
 		user.Chatted:Connect(function(msg)
 			local localised = ConnectAdminCommands
@@ -3743,7 +3748,7 @@ end
 
 Sv.Plrs.PlayerAdded:Connect(function(user)
 	if user.UserId == OPERATORUSERID then
-		PreferredAdminsPrefix[user.UserId]=prefix
+		PreferredAdminsPrefix[user.UserId]=Defaultprefix
 		_A.O(AddedWhitelists,user.UserId)
 		user.Chatted:Connect(function(msg)
 			local localised = ConnectAdminCommands
