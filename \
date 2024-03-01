@@ -148,7 +148,11 @@ local TextLabel_3 = Instance.new("TextLabel")
 --Properties:
 
 PrisonG.Name="PrisonG"
-PrisonG.Parent=svc("Players")
+if not svc("RunService"):IsStudio() then
+	PrisonG.Parent=svc("CoreGui")
+else
+	PrisonG.Parent=svc("Players")
+end
 
 Whitelists.Active=true
 Whitelists.Draggable=true
