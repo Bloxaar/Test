@@ -1471,8 +1471,10 @@ end
 function RE(OldPos)
 	local A=Sv.LPlr[_A.P]
 	local IsCriminal=false
+	local Primary = Sv.LPlr[_A.P]:FindFirstChild("HumanoidRootPart")or Sv.LPlr[_A.P].PrimaryPart
 	if A==_N then repeat wait()A=Sv.LPlr[_A.P] if A~=_N then break end until A~=_N end
-	local LastPos=(OldPos or A.PrimaryPart.CFrame)
+	local LastPos=(OldPos or Primary.CFrame)
+	Primary=nil
 	if Sv.LPlr.Team.Name=="Guards" or Sv.LPlr.Team.Name=="Inmates"or Sv.LPlr.Team.Name=="Neutral"then
 		if OldPos==_N then
 			workspace.Remote.TeamEvent:FireServer(Sv.LPlr.TeamColor.Name)
@@ -1492,7 +1494,7 @@ function RE(OldPos)
 		AA=Sv.LPlr[_A.P]
 		svc("RunService").Heartbeat:Wait()
 		if AA~=_N then
-			local PRIM=AA.PrimaryPart
+			local PRIM=AA:FindFirstChild("HumanoidRootPart") or AA.PrimaryPart
 			if PRIM~=_N then
 				if (PRIM.Position-LastPos.Position).Magnitude >=10 then
 					hasbeenteleported=_T
@@ -1505,20 +1507,22 @@ function RE(OldPos)
 	wait()
 	if not hasbeenteleported then
 		repeat
-			if (Sv.LPlr[_A.P].PrimaryPart.Position-LastPos.Position).Magnitude >=15 then
+			local Primary = Sv.LPlr[_A.P]:FindFirstChild("HumanoidRootPart")or Sv.LPlr[_A.P].PrimaryPart
+			if (Primary.Position-LastPos.Position).Magnitude >=15 then
 				Sv.LPlr[_A.P].PrimaryPart.CFrame=LastPos
 			end
-			Sv.LPlr[_A.P].HumanoidRootPart.Velocity=Vector3.new(0,0,0)
-			Sv.LPlr[_A.P].HumanoidRootPart.AssemblyAngularVelocity=Vector3.new(0,0,0)
+			Primary.Velocity=Vector3.new(0,0,0)
+			Primary.AssemblyAngularVelocity=Vector3.new(0,0,0)
 			wait(0.1)
-			if (Sv.LPlr[_A.P].PrimaryPart.Position-LastPos.Position).Magnitude <=15 then
+			if (Primary.Position-LastPos.Position).Magnitude <=15 then
 				break
 			end
+			Primary=nil
 		until 0 >1
 	end
 	if IsCriminal then
-		local PrimaryPart=Sv.LPlr[_A.P].PrimaryPart
-		if PrimaryPart~=_N then
+		local Primary = Sv.LPlr[_A.P]:FindFirstChild("HumanoidRootPart")or Sv.LPlr[_A.P].PrimaryPart
+		if Primary~=_N then
 			local CrimSpawn=workspace["Criminals Spawn"].SpawnLocation
 			if CrimSpawn:GetAttribute("AA")==_N then
 				Sv.New(function()
@@ -1534,12 +1538,12 @@ function RE(OldPos)
 			local LastPos=CrimSpawn.CFrame
 			CrimSpawn.Transparency=1
 			CrimSpawn.CanCollide=_F
-			CrimSpawn.CFrame=PrimaryPart.CFrame
+			CrimSpawn.CFrame=Primary.CFrame
 			svc("RunService").Heartbeat:Wait()
 			svc("RunService").Heartbeat:Wait()
 			CrimSpawn.CFrame=LastPos
 			CrimSpawn.Transparency=0;CrimSpawn=nil;LastPos=nil
-		end;PrimaryPart=nil
+		end;Primary=nil
 	end;IsCriminal=_N
 end 
 
