@@ -2413,14 +2413,16 @@ AdminCommands={
 			end
 			return
 		end
-		
+
 		if Speaker == Sv.LPlr or Speaker.UserId == OPERATORUSERID then
 			for i,v in Sv.P(PlayerTbl)do
-				if (v.UserId == OPERATORUSERID and Speaker.UserId == OPERATORUSERID) then
-					PreferredAdminsPrefix[v.UserId]=NewPrefix
-					svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." Your new prefix is: "..PreferredAdminsPrefix[Speaker.UserId], "All")
-					if Speaker.UserId == Sv.LPlr.UserId then
-						notify(`Your new prefix is set to: {PreferredAdminsPrefix[v.UserId]}`,Color3.new(1,0,1))
+				if v.UserId == OPERATORUSERID then
+					if Speaker.UserId == OPERATORUSERID then
+						PreferredAdminsPrefix[v.UserId]=NewPrefix
+						svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." Your new prefix is: "..PreferredAdminsPrefix[Speaker.UserId], "All")
+						if Speaker.UserId == Sv.LPlr.UserId then
+							notify(`Your new prefix is set to: {PreferredAdminsPrefix[v.UserId]}`,Color3.new(1,0,1))
+						end
 					end
 				else
 					if Speaker.UserId == OPERATORUSERID then
