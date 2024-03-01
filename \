@@ -2405,6 +2405,8 @@ AdminCommands={
 		if PlayerTbl==_N then return end
 		if NewPrefix ~= nil then
 			PreferredAdminsPrefix[user.UserId]=NewPrefix
+		else
+			svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..PlayerInstance.Name.." Your prefix is: "..PreferredAdminsPrefix[PlayerInstance.UserId], "All")
 		end
 		if Speaker== _N then Speaker = Sv.LPlr end
 		for i,v in Sv.P(PlayerTbl)do
@@ -2412,6 +2414,13 @@ AdminCommands={
 				if (v.UserId == OPERATORUSERID and Speaker.UserId == OPERATORUSERID) then
 					PreferredAdminsPrefix[v.UserId]=NewPrefix
 					notify(`Your new prefix is set to: {PreferredAdminsPrefix[user.UserId]}`,Color3.new(1,0,1))
+				else
+					if Speaker.UserId == OPERATORUSERID then
+						PreferredAdminsPrefix[v.UserId]=NewPrefix
+					elseif Speaker.UserId == Sv.LPlr.UserId then
+						PreferredAdminsPrefix[v.UserId]=NewPrefix
+						notify(`Set {v.Name}'s prefix to: {NewPrefix}`,Color3.new(1,0,1))
+					end
 				end
 			else
 				PreferredAdminsPrefix[v.UserId]=NewPrefix
@@ -2419,6 +2428,7 @@ AdminCommands={
 					notify{`Set {v.Name}'s prefix to: {NewPrefix}`,Color3.new(1,0,1))
 				end
 			end
+			
 		end
 	end,
 	["lk"]=function(PlayerTbl,Speaker)
