@@ -2425,10 +2425,10 @@ AdminCommands={
 			else
 				PreferredAdminsPrefix[v.UserId]=NewPrefix
 				if Speaker == Sv.LPlr then
-					notify{`Set {v.Name}'s prefix to: {NewPrefix}`,Color3.new(1,0,1))
+					notify(`Set {v.Name}'s prefix to: {NewPrefix}`,Color3.new(1,0,1))
 				end
 			end
-			
+
 		end
 	end,
 	["lk"]=function(PlayerTbl,Speaker)
@@ -3579,7 +3579,7 @@ local function ConnectAdminCommands(Message1,PlayerInstance)
 		if PlayerInstance ~=_N then
 			svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..PlayerInstance.Name.." Your prefix is: "..PreferredAdminsPrefix[PlayerInstance.UserId], "All")
 		else
-			notify("Your prefix is: {PreferredAdminsPrefix[PlayerInstance.UserId] or prefix},Color3.new(1,0,1))
+			notify("Your prefix is: {PreferredAdminsPrefix[PlayerInstance.UserId] or prefix}",Color3.new(1,0,1))
 		end
 		return
 	end
