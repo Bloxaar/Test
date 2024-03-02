@@ -2448,7 +2448,12 @@ local function DropItems(Player)
 						end
 					end
 				end
-				if (FoundKey and FoundM9) then FoundKey,FoundM9=nil,nil break end
+				if FoundKey then 
+					if FoundM9 then
+						FoundKey,FoundM9=nil,nil 
+						break 
+					end
+				end
 				RespawnPlayerOnGuardTeam()
 				repeat wait() if not TempChar:IsDescendantOf(workspace) then break end
 				until not TempChar:IsDescendantOf(workspace)
