@@ -2383,6 +2383,7 @@ local function RespawnPlayerOnGuardTeam()
 			Guards+=1
 		end
 	end
+	local A = Sv.LPlr.Character
 	if Guards >= 8 then
 		Remote.TeamEvent:FireServer("Bright orange")
 		Remote.TeamEvent:FireServer("Bright blue")
@@ -2392,6 +2393,8 @@ local function RespawnPlayerOnGuardTeam()
 		wait(0.05)
 	end
 	Guards=nil
+	repeat wait()
+	until not A:IsDescendantOf(workspace) A=nil
 end
 
 local function DoCriminal(Player)
