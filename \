@@ -1380,6 +1380,11 @@ local UserOwnsRiotGamepass=game:GetService("MarketplaceService"):UserOwnsGamePas
 
 if not UserOwnsRiotGamepass then UserOwnsRiotGamepass=game:GetService("MarketplaceService"):UserOwnsGamePassAsync(Sv.LPlr.UserId,96651)end
 
+
+local Doors1=workspace:FindFirstChild("Doors")
+local Remote=workspace:FindFirstChild("Remote")
+local ItemHandler=Remote:FindFirstChild("ItemHandler")
+
 local States={}
 
 States.SuperPunch =_F
@@ -1444,9 +1449,6 @@ Crim[_A.K]:Connect(function()
 	end
 end)
 
-local Doors1=workspace:FindFirstChild("Doors")
-local Remote=workspace:FindFirstChild("Remote")
-local ItemHandler=Remote:FindFirstChild("ItemHandler")
 local WallsDat={}
 if game.PlaceId==155615604 then
 	WallsDat={
