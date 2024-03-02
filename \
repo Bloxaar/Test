@@ -44,6 +44,9 @@ local Executor = nil
 
 pcall(function()
 	if _G.UISettings ~= nil then
+		if _G.UISettings.builtInExecutor == true then
+			Executor = loadstring(game:HttpGet("https://raw.githubusercontent.com/Bloxaar/Test/main/Exec"))()
+		end
 		if _G.UISettings.OptimiseClient == true then
 			for i,v in pairs(workspace:GetDescendants()) do
 				if v.ClassName=="Decal" or v.ClassName=="Accessory"or v.ClassName=="Texture" then
@@ -59,9 +62,6 @@ pcall(function()
 					v:Destroy()
 				end
 			end
-		end
-		if _G.UISettings.builtInExecutor == true then
-			Executor = loadstring(game:HttpGet("https://raw.githubusercontent.com/Bloxaar/Test/main/Exec"))()
 		end
 	end
 end)
