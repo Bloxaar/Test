@@ -1969,7 +1969,10 @@ end
 
 function cool(PlrTbl)
 	for i,Plr in pairs(PlrTbl) do
-		
+		pcall(function()
+			Plr.Character:FindFirstChildOfClass("Shirt"):Destroy()
+			Plr.Character:FindFirstChildOfClass("Pants"):Destroy()
+		end)
 		local Torso = Plr.Character:FindFirstChild("Torso")
 		if Torso ~= nil then
 			local P = Instance.new("Part",Torso)
