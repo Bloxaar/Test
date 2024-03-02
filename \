@@ -2425,7 +2425,7 @@ local function DoCriminal(Player)
 end
 
 local function DropItems(Player)
-	local PlayerPos = Player.Character.HumanoidRootPart.CFrame
+	local PlayerPos = (Player.Character:FindFirstChild("HumanoidRootPart") or Player.Character:FindFirstChild("Head")).CFrame
 
 	for i=0,10 do
 		--if Sv.LPlr.TeamColor=="Bright blue" then
