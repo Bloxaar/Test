@@ -1967,47 +1967,51 @@ function dokill(dat,iskillreq)
 
 end
 
-function cool(Plr)
-	local Torso = Plr.Character:FindFirstChild("Torso")
-	if Torso ~= nil then
-		local P = Instance.new("Part",Torso)
-		P.Size=Vector3.new(1.8, 1.8, 1.8)
-		P.Massless=true P.CanCollide=false P.CanQuery=false
-		P.Material=Enum.Material.SmoothPlastic
-		P.Reflectance=.1 P.Shape="Ball"
-		P.BrickColor=Torso.BrickColor
-		local W = Instance.new("Weld",P)
-		W.Part0=P
-		W.Part1=Torso
-		W.C0=CFrame.new(0.65, 1, -0.75)
-		local P = P:Clone()
-		P.Parent=Torso
-		P.Weld.C0=CFrame.new(-0.65, 1, -0.75)
+function cool(PlrTbl)
+	for i,Plr in pairs(PlrTbl) do
+		
+		local Torso = Plr.Character:FindFirstChild("Torso")
+		if Torso ~= nil then
+			local P = Instance.new("Part",Torso)
+			P.Size=Vector3.new(1.8, 1.8, 1.8)
+			P.Massless=true P.CanCollide=false P.CanQuery=false
+			P.Material=Enum.Material.SmoothPlastic
+			P.Reflectance=.1 P.Shape="Ball"
+			P.BrickColor=Torso.BrickColor
+			local W = Instance.new("Weld",P)
+			W.Part0=P
+			W.Part1=Torso
+			W.C0=CFrame.new(0.65, 1, -0.75)
+			local P = P:Clone()
+			P.Parent=Torso
+			P.Weld.C0=CFrame.new(-0.65, 1, -0.75)
 
-		local P1=P:Clone()
-		local P2=P:Clone()
+			local P1=P:Clone()
+			local P2=P:Clone()
 
-		P1.Parent=Torso
-		P2.Parent=Torso
-		P1.Weld.Part0=P1
-		P1.Weld.C0=CFrame.new(-0.65, 0, 0.75)
-		P2.Weld.Part0=P2
-		P2.Weld.C0=CFrame.new(0.65, 0, 0.75)
+			P1.Parent=Torso
+			P2.Parent=Torso
+			P1.Weld.Part0=P1
+			P1.Weld.C0=CFrame.new(-0.65, 0, 0.75)
+			P2.Weld.Part0=P2
+			P2.Weld.C0=CFrame.new(0.65, 0, 0.75)
 
-		local P3=P:Clone()
-		P3.Parent=Torso
-		P3.Weld.Part0=P3
-		P3.Size=Vector3.new(0.2, 0.2, 0.2)
-		P3.Weld.C0=CFrame.new(1, 0.1, 1.6)
-		P3.Color=Color3.new(P3.Color.R/2,P3.Color.G/2,P3.Color.B/2 )
-		local P4=P3:Clone()
-		P4.Parent=Torso
-		P4.Weld.Part0=P4
-		P4.Weld.C0=CFrame.new(-1, 0.1, 1.6)
+			local P3=P:Clone()
+			P3.Parent=Torso
+			P3.Weld.Part0=P3
+			P3.Size=Vector3.new(0.2, 0.2, 0.2)
+			P3.Weld.C0=CFrame.new(1, 0.1, 1.6)
+			P3.Color=Color3.new(P3.Color.R/2,P3.Color.G/2,P3.Color.B/2 )
+			local P4=P3:Clone()
+			P4.Parent=Torso
+			P4.Weld.Part0=P4
+			P4.Weld.C0=CFrame.new(-1, 0.1, 1.6)
 
-		W,P=nil,nil
+			W,P=nil,nil
+		end
+		Torso=nil
 	end
-	Torso=nil
+	
 end
 
 LocalisedFunctions.kill = function(dat,iskillreq)
