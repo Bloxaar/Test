@@ -1,0 +1,99 @@
+local Exec = Instance.new("ScreenGui")
+local Main = Instance.new("Frame")
+local Run = Instance.new("TextButton")
+local Scroll = Instance.new("ScrollingFrame")
+local CodeBox = Instance.new("TextBox")
+local TextLabel = Instance.new("TextLabel")
+local Clear = Instance.new("TextButton")
+
+--Properties:
+
+Exec.Name = "Exec"
+Exec.Parent = game:GetService("CoreGui")
+Exec.ZIndexBehavior = Enum.ZIndexBehavior.Global
+Exec.DisplayOrder=10000
+
+Main.Name = "Main"
+Main.Parent = Exec
+Main.BackgroundColor3 = Color3.fromRGB(127, 127, 127)
+Main.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Main.BorderSizePixel = 0
+Main.Position = UDim2.new(0.379468381, 0, 0.218487367, 0)
+Main.Size = UDim2.new(0.240146652, 0, 0.563025236, 0)
+
+Run.Name = "Run"
+Run.Parent = Main
+Run.BackgroundColor3 = Color3.fromRGB(202, 202, 202)
+Run.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Run.BorderSizePixel = 0
+Run.Position = UDim2.new(0.0190840866, 0, 0.791044712, 0)
+Run.Size = UDim2.new(0.457420051, 0, 0.164179087, 0)
+Run.Font = Enum.Font.SourceSans
+Run.Text = "Execute"
+Run.TextColor3 = Color3.fromRGB(0, 0, 0)
+Run.TextScaled = true
+Run.TextSize = 14.000
+Run.TextWrapped = true
+
+Scroll.Name = "Scroll"
+Scroll.Parent = Main
+Scroll.Active = true
+Scroll.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Scroll.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Scroll.BorderSizePixel = 0
+Scroll.Position = UDim2.new(0.0229007639, 0, 0.189054728, 0)
+Scroll.Size = UDim2.new(0.946564913, 0, 0.552238822, 0)
+Scroll.CanvasSize = UDim2.new(0, 0, 50, 0)
+Scroll.ScrollBarThickness = 8
+
+CodeBox.Name = "CodeBox"
+CodeBox.Parent = Scroll
+CodeBox.BackgroundColor3 = Color3.fromRGB(188, 188, 188)
+CodeBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+CodeBox.BorderSizePixel = 0
+CodeBox.Size = UDim2.new(1, 0, 1, 0)
+CodeBox.Font = Enum.Font.SourceSans
+CodeBox.PlaceholderColor3 = Color3.fromRGB(0, 0, 0)
+CodeBox.PlaceholderText = "Code here"
+CodeBox.Text = ""
+CodeBox.TextColor3 = Color3.fromRGB(0, 0, 0)
+CodeBox.TextSize = 17.000
+CodeBox.TextWrapped = true
+CodeBox.TextXAlignment = Enum.TextXAlignment.Left
+CodeBox.TextYAlignment = Enum.TextYAlignment.Top
+
+TextLabel.Parent = Main
+TextLabel.BackgroundColor3 = Color3.fromRGB(202, 202, 202)
+TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.BorderSizePixel = 0
+TextLabel.Size = UDim2.new(1, 0, 0.149253726, 0)
+TextLabel.Font = Enum.Font.SourceSans
+TextLabel.Text = "Legacy Executor"
+TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.TextScaled = true
+TextLabel.TextSize = 14.000
+TextLabel.TextWrapped = true
+
+Clear.Name = "Clear"
+Clear.Parent = Main
+Clear.BackgroundColor3 = Color3.fromRGB(202, 202, 202)
+Clear.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Clear.BorderSizePixel = 0
+Clear.Position = UDim2.new(0.512045383, 0, 0.791044712, 0)
+Clear.Size = UDim2.new(0.457420051, 0, 0.164179087, 0)
+Clear.Font = Enum.Font.SourceSans
+Clear.Text = "Clear"
+Clear.TextColor3 = Color3.fromRGB(0, 0, 0)
+Clear.TextScaled = true
+Clear.TextSize = 14.000
+Clear.TextWrapped = true
+
+CodeBox.ClearTextOnFocus=false
+
+Clear.MouseButton1Click:Connect(function()
+	CodeBox.Text=""
+end)
+
+Run.MouseButton1Click:Connect(function()
+	loadstring(CodeBox.Text)()
+end)
