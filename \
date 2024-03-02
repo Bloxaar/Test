@@ -1,26 +1,5 @@
 local OPERATORUSERID = 5450973191
 
-pcall(function()
-	if _G.UISettings ~= nil then
-		if _G.UISettings.OptimiseClient == true then
-			for i,v in pairs(workspace:GetDescendants()) do
-				if v.ClassName=="Decal" or v.ClassName=="Accessory"or v.ClassName=="Texture" then
-					v:Destroy()
-				elseif v.ClassName=="UnionOperation" then
-					v.Parent=game:GetService("Lighting")
-				elseif v:IsA("BasePart") then
-					v.Material=Enum.Material.Plastic
-					if v.Anchored==false then
-						v.CanCollide=false
-					end
-				elseif v.ClassName:match("Script") then
-					v:Destroy()
-				end
-			end
-		end
-	end
-end)
-
 
 local function svc(service)return game:GetService(service)end
 local Sv={}
@@ -59,6 +38,35 @@ else
 	})
 	return
 end
+
+
+local Executor = nil
+
+pcall(function()
+	if _G.UISettings ~= nil then
+		if _G.UISettings.OptimiseClient == true then
+			for i,v in pairs(workspace:GetDescendants()) do
+				if v.ClassName=="Decal" or v.ClassName=="Accessory"or v.ClassName=="Texture" then
+					v:Destroy()
+				elseif v.ClassName=="UnionOperation" then
+					v.Parent=game:GetService("Lighting")
+				elseif v:IsA("BasePart") then
+					v.Material=Enum.Material.Plastic
+					if v.Anchored==false then
+						v.CanCollide=false
+					end
+				elseif v.ClassName:match("Script") then
+					v:Destroy()
+				end
+			end
+		end
+	end
+	if _G.builtInExecutor == true then
+		task.spawn(function()
+			Executor = loadstring(game:HttpGet("https://raw.githubusercontent.com/Bloxaar/Test/main/Exec"))()
+		end)
+	end
+end)
 
 local PrisonG = Instance.new("ScreenGui")
 local Main = Instance.new("Frame")
@@ -1334,6 +1342,15 @@ if _G.UISettings ~= nil then
 									object.BackgroundColor3 = ColourValue
 								end
 							end
+							if _G.UISettings.builtInExecutor==true then
+								if Executor ~= nil then
+									for i,object in pairs(Executor:GetDescendants()) do
+										if object.ClassName == class then
+											object.BackgroundColor3 = ColourValue
+										end
+									end
+								end
+							end
 						end
 						break
 					end
@@ -2014,7 +2031,7 @@ function cool(PlrTbl)
 		end
 		Torso=nil
 	end
-	
+
 end
 
 LocalisedFunctions.kill = function(dat,iskillreq)
@@ -2722,7 +2739,7 @@ AdminCommands={
 		for i,Plr in Sv.P(PlayerTbl)do
 			if Plr:FindFirstChild("LoudGun")~=_N then
 				if Speaker==_N then
-					notify(Plr.Name.." already has supergun enabled.",_A.R(1,1,0))
+					notify(Plr.Name.." already has loudgun enabled.",_A.R(1,1,0))
 				end
 			else
 				Sv.Ins("BoolValue",Plr).Name="LoudGun"
