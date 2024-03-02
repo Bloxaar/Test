@@ -2330,6 +2330,18 @@ local function UserHasAntiShootEnabled(Player)
 	return false		
 end
 
+local function UserHasAnyPowerups(Player)
+	local value=false
+	value=UserHasAnyPowerups(Player)
+	if value==true then return true end
+	value=UserHasLoudGunEnabled(Player)
+	if value==true then return true end
+	value=UserHasSuperGunEnabled(Player)
+	if value==true then return true end
+
+	return false
+end
+
 local BEEP = nil
 
 local IsNuking=false
@@ -2362,6 +2374,80 @@ function Nuke(Timer)
 	TimeLeft = nil
 	IsNuking=false
 	dokill(svc("Players"):GetPlayers())
+end
+
+local function RespawnPlayerOnGuardTeam()
+	local Guards=0
+	for i,v in pairs(Sv.Plrs:GetPlayers()) do
+		if v.TeamColor.Name=="Bright blue" then
+			Guards+=1
+		end
+	end
+	if Guards >= 8 then
+		Remote.TeamEvent:FireServer("Bright orange")
+		Remote.TeamEvent:FireServer("Bright blue")
+		wait(0.1)
+	else
+		Remote.TeamEvent:FireServer("Bright blue")
+	end
+	Guards=nil
+end
+
+local function DoCriminal(Player)
+	if Player.Character == nil then return end
+	local Primary = Player.Character:FindFirstChild("HumanoidRootPart")or Player.Character.PrimaryPart
+	if Primary~=_N then
+		local CrimSpawn=workspace["Criminals Spawn"].SpawnLocation
+		if CrimSpawn:GetAttribute("AA")==_N then
+			Sv.New(function()
+				CrimSpawn:SetAttribute("AA",1)
+				svc("RunService").Heartbeat:Wait()
+				svc("RunService").Heartbeat:Wait()
+				CrimSpawn:SetAttribute("AA",nil)
+			end)
+		else
+			repeat wait(0.01)
+			until CrimSpawn:GetAttribute("AA")==_N
+		end
+		local LastPos=CrimSpawn.CFrame
+		CrimSpawn.Transparency=1
+		CrimSpawn.CanCollide=_F
+		CrimSpawn.CFrame=Primary.CFrame
+		svc("RunService").Heartbeat:Wait()
+		svc("RunService").Heartbeat:Wait()
+		CrimSpawn.CFrame=LastPos
+		CrimSpawn.Transparency=0;CrimSpawn=nil;LastPos=nil
+	end;Primary=nil
+end
+
+local function DropItems(Player)
+	local PlayerPos = Player.Character.HumanoidRootPart.CFrame
+	
+	for i=0,10 do
+		if Sv.LPlr.TeamColor=="Bright blue" then
+			local TempChar = Sv.LPlr.Character
+			if TempChar ~= nil then
+				local HRP = TempChar:FindFirstChild("HumanoidRootPart")
+				if HRP ~= nil then
+					HRP.CFrame = PlayerPos
+					wait(0.125)
+					TempChar:BreakJoints() -- Kill the player
+					
+					RespawnPlayerOnGuardTeam()
+					repeat wait() if not TempChar:IsDescendantOf(workspace) then break end
+					until not TempChar:IsDescendantOf(workspace)
+					wait(0.03)
+
+					
+				end
+				
+				
+				TempChar=nil				
+			end
+		end
+	end
+	PlayerPos=nil
+	
 end
 
 local function ArrestDatNoob(Target)
@@ -2542,29 +2628,7 @@ AdminCommands={
 		wait(0.3)
 		if Sv.LPlr.TeamColor.Name ~= OldTeam then
 			if OldTeam=="Really red" then
-				local PrimaryPart=Sv.LPlr[_A.P].PrimaryPart
-				if PrimaryPart~=_N then
-					local CrimSpawn=workspace["Criminals Spawn"].SpawnLocation
-					if CrimSpawn:GetAttribute("AA")==_N then
-						Sv.New(function()
-							CrimSpawn:SetAttribute("AA",1)
-							svc("RunService").Heartbeat:Wait()
-							svc("RunService").Heartbeat:Wait()
-							CrimSpawn:SetAttribute("AA",nil)
-						end)
-					else
-						repeat wait(0.01)
-						until CrimSpawn:GetAttribute("AA")==_N
-					end
-					local LastPos=CrimSpawn.CFrame
-					CrimSpawn.Transparency=1
-					CrimSpawn.CanCollide=_F
-					CrimSpawn.CFrame=PrimaryPart.CFrame
-					svc("RunService").Heartbeat:Wait()
-					svc("RunService").Heartbeat:Wait()
-					CrimSpawn.CFrame=LastPos
-					CrimSpawn.Transparency=0;CrimSpawn=nil;LastPos=nil
-				end;PrimaryPart=nil
+				DoCriminal(Sv.LPlr)
 			else
 				if OldTeam=="Bright blue" or OldTeam=="Bright orange" or OldTeam=="Medium stone grey" then
 					Remote.TeamEvent:FireServer(OldTeam)
@@ -2679,6 +2743,44 @@ AdminCommands={
 		kill(TBL)
 		TBL=_N
 	end,
+	["items"]=function(PlayerTbl,Speaker)
+		local OldTeam=Sv.LPlr.TeamColor.Name
+		
+		
+		if OldTeam~="Bright blue" then
+			RespawnPlayerOnGuardTeam()
+			if Sv.LPlr.TeamColor.Name == "Bright blue" then
+			else
+				if OldTeam == "Bright orange" or OldTeam == "Bright blue" or OldTeam == "Medium stone grey" then
+					Remote.TeamEvent:FireServer(OldTeam)
+				end
+				return
+			end
+			
+		end
+		
+		if PlayerTbl==_N then
+			if Speaker ~= _N then
+				DropItems(Speaker)
+			end
+			
+			
+			return
+		end
+		
+		for i,SelectedPlr in pairs(PlayerTbl) do
+			DropItems(SelectedPlr)
+		end
+		if Sv.LPlr.TeamColor.Name ~= OldTeam then
+			if OldTeam == "Really red" then
+				DoCriminal(Sv.LPlr)
+			else
+				if OldTeam == "Bright orange" or OldTeam == "Bright blue" or OldTeam == "Medium stone grey" then
+					Remote.TeamEvent:FireServer(OldTeam)
+				end
+			end
+		end
+	end,
 	["ko"]=function(PlayerTbl)
 		if PlayerTbl==_N then return end
 		kill(PlayerTbl,true)
@@ -2780,6 +2882,16 @@ AdminCommands={
 	["opendoors"]=function(TBL,Speaker)
 		if not DoorsCooldown then DoorsCooldown=_T else return end
 		spawn(function()wait(0.2)DoorsCooldown=_F end)
+		local Oldteam = Sv.LPlr.TeamColor.Name
+		if Oldteam == "Medium stone grey" then
+			local A = Sv.LPlr.Character.Head
+			Remote.TeamEvent:FireServer("Bright blue")
+			local i =0
+			repeat wait(0.1)i=i+1 if i>40 then break end if not A:IsDescendantOf(workspace) then break end until not A:IsDescendantOf(workspace)
+			i,A=nil,nil
+			if Sv.LPlr.TeamColor.Name == Oldteam then return end
+			wait(0.15)
+		end
 		local OldHitboxCF={}
 		local HotDoorBlock=nil
 		local HotHitbox=nil 
@@ -2811,6 +2923,11 @@ AdminCommands={
 		OldHitboxCF=_N
 		HotDoorBlock=nil
 		HotHitbox=nil 
+		
+		if Oldteam == "Medium stone grey" then
+			Remote.TeamEvent:FireServer(Oldteam)
+		end
+		
 	end,
 	["crim"]=function(PlayerTbl,Speaker,OldTeam)
 		if 1==1 then return end
@@ -2837,8 +2954,8 @@ AdminCommands={
 								continue -- Dont do anything
 							end
 						end
-						if not SelectedPlayer.Character.Head:IsGrounded() then
-							if SelectedPlayer.Character ~= nil then
+						if SelectedPlayer.Character ~= nil then
+							if not SelectedPlayer.Character.Head:IsGrounded() then
 								if SelectedPlayer.Character.Humanoid:GetState() ~= Enum.HumanoidStateType.Dead then
 									if SelectedPlayer.Character.Humanoid.SeatPart == nil and SelectedPlayer.Character.Humanoid.Sit==false then
 										while SelectedPlayer.TeamColor.Name ~= "Really red" do 
@@ -2870,10 +2987,12 @@ AdminCommands={
 		else
 			if OldTeam ~= nil then
 				local Char = Sv.LPlr.Character
-				Remote.TeamEvent:FireServer("Bright blue")
-				repeat wait()
-				until not Char:IsDescendantOf(workspace)
-				Char=nil
+				if Sv.LPlr.TeamColor.Name == "Medium stone grey" then
+					Remote.TeamEvent:FireServer("Bright orange")
+					repeat wait()
+					until not Char:IsDescendantOf(workspace) wait(0.1)
+					Char=nil
+				end
 			end
 			local Oldpos=Sv.LPlr[_A.P].HumanoidRootPart.CFrame
 			local Car=nil
@@ -3191,7 +3310,7 @@ AdminCommands={
 	end,
 	["resetprefix"] = function(P,Speaker)
 		PreferredAdminsPrefix[Speaker.UserId]=Defaultprefix
-		
+
 	end,
 	["nokaura"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
@@ -3239,6 +3358,7 @@ AdminCommands={
 		else
 			for i=1,#CommandsTb do
 				svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." "..`Commands[{tostring(i)}]: `..CommandsTb[i], "All")
+				wait(0.05)
 			end
 		end
 		FullStr=nil
@@ -3249,16 +3369,13 @@ AdminCommands={
 local AntiShootList = {}	
 
 local function GetPlayerFromPosition(Position,VictimPlr)
-	for i,v in pairs(workspace:GetPartBoundsInRadius(Position,4.2)) do
+	for i,v in pairs(workspace:GetPartBoundsInRadius(Position,4.5)) do
 		if not v.Anchored then
 			if not v:IsDescendantOf(VictimPlr.Character) then
 				if v.Parent.Parent ~= nil then
 					local Plr = game:GetService("Players"):GetPlayerFromCharacter(v.Parent) or game:GetService("Players"):GetPlayerFromCharacter(v.Parent.Parent)
 					if Plr then
-
-						--if table.find(AddedWhitelists,Plr.UserId) ~= nil then 
 						return Plr
-						--end
 					end
 					Plr=nil
 				end
@@ -3285,7 +3402,7 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 									end
 									if VictimPlr ~= nil then
 										local AttackerPlr = GetPlayerFromPosition(tbl[i].RayObject.Origin,VictimPlr)
-										if AttackerPlr ~= nil then
+										if AttackerPlr > 0 then
 											if VictimPlr.Name==Sv.LPlr.Name and States.AntiShoot==true then
 												if Sv.LPlr.TeamColor.Name ~= AttackerPlr.TeamColor.Name then
 													if AttackerPlr.Character~=nil then
