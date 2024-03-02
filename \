@@ -3408,7 +3408,7 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 									end
 									if VictimPlr ~= nil then
 										local AttackerPlr = GetPlayerFromPosition(tbl[i].RayObject.Origin,VictimPlr)
-										if AttackerPlr > 0 then
+										if AttackerPlr ~= nil then
 											if VictimPlr.Name==Sv.LPlr.Name and States.AntiShoot==true then
 												if Sv.LPlr.TeamColor.Name ~= AttackerPlr.TeamColor.Name then
 													if AttackerPlr.Character~=nil then
