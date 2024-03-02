@@ -2386,9 +2386,10 @@ local function RespawnPlayerOnGuardTeam()
 	if Guards >= 8 then
 		Remote.TeamEvent:FireServer("Bright orange")
 		Remote.TeamEvent:FireServer("Bright blue")
-		wait(0.1)
+		wait(0.05)
 	else
 		Remote.TeamEvent:FireServer("Bright blue")
+		wait(0.05)
 	end
 	Guards=nil
 end
@@ -2425,6 +2426,7 @@ local function DropItems(Player)
 	
 	for i=0,10 do
 		if Sv.LPlr.TeamColor=="Bright blue" then
+			wait()
 			local TempChar = Sv.LPlr.Character
 			if TempChar ~= nil then
 				local HRP = TempChar:FindFirstChild("HumanoidRootPart")
