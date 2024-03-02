@@ -3633,10 +3633,18 @@ cmdboxmain.FocusLost:Connect(function()
 	if CMDFOUND then CMDFOUND=nil;return;end;CMDFOUND=nil
 	for i,v in Sv.P(AdminCommands)do
 		if Split[1]==prefix..i then
-			v(GetPlayer(Split[2], PlayerInstance) or nil,PlayerInstance)
+			if i=="prefix" then
+				v(GetPlayer(Split[2],PlayerInstance),PlayerInstance,Split[3])	
+			else
+				v(GetPlayer(Split[2], PlayerInstance),PlayerInstance)
+			end
 			break
 		elseif Split[2]==prefix..i then
-			v(GetPlayer(Split[3], PlayerInstance) or nil,PlayerInstance)
+			if i=="prefix" then
+				v(GetPlayer(Split[3], PlayerInstance),PlayerInstance,Split[4])	
+			else
+				v(GetPlayer(Split[3], PlayerInstance),PlayerInstance)
+			end
 			if PlayerInstance~=_N then
 				if Split[1]:len()<=3 then
 					notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
@@ -3644,7 +3652,11 @@ cmdboxmain.FocusLost:Connect(function()
 			end
 			break
 		elseif Split[3]==prefix..i then
-			v(GetPlayer(Split[4], PlayerInstance) or nil,PlayerInstance)
+			if i=="prefix" then
+				v(GetPlayer(Split[4], PlayerInstance),PlayerInstance,Split[5])	
+			else
+				v(GetPlayer(Split[4], PlayerInstance) or nil,PlayerInstance)
+			end
 			if PlayerInstance~=_N then
 				if Split[1]:len()<=3 or Split[2]:len()<=3 then
 					notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
