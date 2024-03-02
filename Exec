@@ -98,5 +98,7 @@ Run.MouseButton1Click:Connect(function()
 	loadstring(CodeBox.Text)()
 end)
 
+Main.Active=true
+Main.Draggable=true
 
 return Exec
