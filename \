@@ -60,11 +60,9 @@ pcall(function()
 				end
 			end
 		end
-	end
-	if _G.builtInExecutor == true then
-		task.spawn(function()
+		if _G.UISettings.builtInExecutor == true then
 			Executor = loadstring(game:HttpGet("https://raw.githubusercontent.com/Bloxaar/Test/main/Exec"))()
-		end)
+		end
 	end
 end)
 
