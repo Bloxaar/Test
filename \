@@ -3259,7 +3259,7 @@ AdminCommands={
 		end
 		Found=_N
 	end,
-	["kaura"]=function(PlayerTbl,Speaker)
+	["infect"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		for i,SelectedPlayer in Sv.P(PlayerTbl)do
 			if SelectedPlayer~=_N then
@@ -3332,7 +3332,7 @@ AdminCommands={
 		PreferredAdminsPrefix[Speaker.UserId]=Defaultprefix
 
 	end,
-	["nokaura"]=function(PlayerTbl,Speaker)
+	["uninfect"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		local Found=nil
 		for i,SelectedPlayer in Sv.P(PlayerTbl)do
