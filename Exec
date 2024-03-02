@@ -97,3 +97,6 @@ end)
 Run.MouseButton1Click:Connect(function()
 	loadstring(CodeBox.Text)()
 end)
+
+
+return Exec
