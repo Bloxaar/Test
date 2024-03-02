@@ -2426,33 +2426,44 @@ end
 
 local function DropItems(Player)
 	local PlayerPos = Player.Character.HumanoidRootPart.CFrame
-	
-	for i=0,10 do
-		if Sv.LPlr.TeamColor=="Bright blue" then
-			wait()
-			local TempChar = Sv.LPlr.Character
-			if TempChar ~= nil then
-				local HRP = TempChar:FindFirstChild("HumanoidRootPart")
-				if HRP ~= nil then
-					HRP.CFrame = PlayerPos
-					wait(0.125)
-					TempChar:BreakJoints() -- Kill the player
-					
-					RespawnPlayerOnGuardTeam()
-					repeat wait() if not TempChar:IsDescendantOf(workspace) then break end
-					until not TempChar:IsDescendantOf(workspace)
-					wait(0.03)
 
-					
+	for i=0,10 do
+		--if Sv.LPlr.TeamColor=="Bright blue" then
+		wait()
+		local TempChar = Sv.LPlr.Character
+		if TempChar ~= nil then
+			local HRP = TempChar:FindFirstChild("HumanoidRootPart")
+			if HRP ~= nil then
+				HRP.CFrame = PlayerPos
+				wait(0.16)
+				TempChar:BreakJoints() -- Kill the player
+
+				local FoundM9,FoundKey=false,false
+				for i,v in pairs(workspace:GetPartBoundsInRadius(PlayerPos,5)) do
+					if not v:IsGrounded() then
+						if v.Parent.Name == "M9" then
+							FoundM9=true
+						elseif v.Parent.Name=="Key card" then
+							FoundKey=true
+						end
+					end
 				end
-				
-				
-				TempChar=nil				
+				if (FoundKey and FoundM9) then FoundKey,FoundM9=nil,nil break end
+				RespawnPlayerOnGuardTeam()
+				repeat wait() if not TempChar:IsDescendantOf(workspace) then break end
+				until not TempChar:IsDescendantOf(workspace)
+				wait()
+
+
 			end
+
+
+			TempChar=nil				
 		end
+		--end
 	end
 	PlayerPos=nil
-	
+
 end
 
 local function ArrestDatNoob(Target)
