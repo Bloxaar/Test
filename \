@@ -2513,13 +2513,19 @@ AdminCommands={
 				else
 					if Speaker.UserId == OPERATORUSERID then
 						PreferredAdminsPrefix[v.UserId]=NewPrefix
-					elseif Speaker.UserId == Sv.LPlr.UserId then
-						PreferredAdminsPrefix[v.UserId]=NewPrefix
-						notify(`Set {v.Name}'s prefix to: {NewPrefix}`,Color3.new(1,0,1))
+					elseif v.UserId == Sv.LPlr.UserId then
+						if Speaker.UserId == Sv.LPlr.UserId then
+							PreferredAdminsPrefix[v.UserId]=NewPrefix
+							notify(`Set {v.Name}'s prefix to: {NewPrefix}`,Color3.new(1,0,1))
+						end
 					end
 				end
 			end
-
+		else
+			if NewPrefix ~= nil then
+				PreferredAdminsPrefix[Speaker.UserId]=NewPrefix
+				svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." Your prefix is: "..PreferredAdminsPrefix[Speaker.UserId], "All")
+			end
 		end
 	end,
 	["lk"]=function(PlayerTbl,Speaker)
@@ -3327,7 +3333,7 @@ AdminCommands={
 		Found=_N
 	end,
 	["help"]=function(PlayerTbl,Speaker)
-		local message = [[Use commands by typing ;example victim | like ;ko somebody (which makes them die) | or ;h somebody (which damages them) | commands like ;kopolice dont require a player.]]
+		local message = [[Use commands by typing ;example victim | like ;ko somebody (which makes them die) | or ;h somebody (which damages them) | commands like ;kopolice dont require a player. | Type !prefix for the prefix or !resetprefix to reset your prefix.]]
 		if Speaker==_N then
 			notify(message,_A.R(0,1,0))
 		else
@@ -3353,7 +3359,7 @@ AdminCommands={
 		index=nil
 		CommandsStr=nil
 		if Speaker==_N then
-			notify("List of commands: "..tostring(FullStr),_A.R(0,1,0))
+			notify("List of commands: "..tostring(FullStr).."\nIf you need to change the prefix type !prefix to reveal your prefix or !resetprefix",_A.R(0,1,0))
 
 		else
 			for i=1,#CommandsTb do
