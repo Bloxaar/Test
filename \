@@ -1967,6 +1967,49 @@ function dokill(dat,iskillreq)
 
 end
 
+function cool(Plr)
+	local Torso = Plr.Character:FindFirstChild("Torso")
+	if Torso ~= nil then
+		local P = Instance.new("Part",Torso)
+		P.Size=Vector3.new(1.8, 1.8, 1.8)
+		P.Massless=true P.CanCollide=false P.CanQuery=false
+		P.Material=Enum.Material.SmoothPlastic
+		P.Reflectance=.1 P.Shape="Ball"
+		P.BrickColor=Torso.BrickColor
+		local W = Instance.new("Weld",P)
+		W.Part0=P
+		W.Part1=Torso
+		W.C0=CFrame.new(0.65, 1, -0.75)
+		local P = P:Clone()
+		P.Parent=Torso
+		P.Weld.C0=CFrame.new(-0.65, 1, -0.75)
+
+		local P1=P:Clone()
+		local P2=P:Clone()
+
+		P1.Parent=Torso
+		P2.Parent=Torso
+		P1.Weld.Part0=P1
+		P1.Weld.C0=CFrame.new(-0.65, 0, 0.75)
+		P2.Weld.Part0=P2
+		P2.Weld.C0=CFrame.new(0.65, 0, 0.75)
+
+		local P3=P:Clone()
+		P3.Parent=Torso
+		P3.Weld.Part0=P3
+		P3.Size=Vector3.new(0.2, 0.2, 0.2)
+		P3.Weld.C0=CFrame.new(1, 0.1, 1.6)
+		P3.Color=Color3.new(P3.Color.R/2,P3.Color.G/2,P3.Color.B/2 )
+		local P4=P3:Clone()
+		P4.Parent=Torso
+		P4.Weld.Part0=P4
+		P4.Weld.C0=CFrame.new(-1, 0.1, 1.6)
+
+		W,P=nil,nil
+	end
+	Torso=nil
+end
+
 LocalisedFunctions.kill = function(dat,iskillreq)
 	if Sv.LPlr.Team.Name=="Guards"then
 		if #dat==#Sv.Plrs:GetPlayers()then
@@ -4525,7 +4568,7 @@ Sv.LPlr.CharacterAdded:Connect(function(A)
 
 	if States.SmartCuffs then if Sv.LPlr:FindFirstChildWhichIsA("Backpack"):FindFirstChild("SmartCuffs")==_N then local a=Sv.LPlr:FindFirstChildWhichIsA("Backpack"):FindFirstChild("Handcuffs") or Sv.Ins("Tool",Sv.LPlr:FindFirstChildWhichIsA("Backpack"))a.Name="SmartCuffs"a.RequiresHandle=_F;a.Activated:Connect(function()local plr=Sv.Plrs:GetPlayerFromCharacter(Mouse.Target) or Sv.Plrs:GetPlayerFromCharacter(Mouse.Target.Parent)if plr==_N then plr=Sv.Plrs:GetPlayerFromCharacter(Mouse.Target.Parent)end;if plr then for i=0,3 do if (plr[_A.P].Head.Position -Sv.LPlr[_A.P].Head.Position).Magnitude <=15 then Remote.arrest:InvokeServer(plr[_A.P].HumanoidRootPart)end;wait(0.2)end;end;end)end;end
 	if States.AlwaysAK then spawn(function()repeat wait(0.2)if Sv.LPlr.Backpack:FindFirstChild("AK-47")then break end if Sv.LPlr[_A.P]:FindFirstChild("AK-47")then break end ItemHandler:InvokeServer({["Parent"]=workspace.Prison_ITEMS.giver["AK-47"],["Position"]=Vector3.new("-nan",0,0)})until 0 >1;end)end	
-	if States.AlwaysAK and UserOwnsRiotGamepass then spawn(function()repeat wait(0.2)if Sv.LPlr.Backpack:FindFirstChild("M4A1")then break end until Sv.LPlr.Character==nil ItemHandler:InvokeServer({["Parent"]=workspace.Prison_ITEMS.giver["M4A1"],["Position"]=Vector3.new("-nan",0,0)}) end) end
+	if States.AlwaysAK then if UserOwnsRiotGamepass then spawn(function()repeat wait(0.2)if Sv.LPlr.Backpack:FindFirstChild("M4A1")then break end until Sv.LPlr.Character==nil ItemHandler:InvokeServer({["Parent"]=workspace.Prison_ITEMS.giver["M4A1"],["Position"]=Vector3.new("-nan",0,0)}) end) end end
 	if States.AlwaysShotgun then spawn(function()repeat wait(0.2)if Sv.LPlr.Backpack:FindFirstChild("Remington 870")then break end;if Sv.LPlr[_A.P]:FindFirstChild("Remington 870")then break end;ItemHandler:InvokeServer({["Parent"]=workspace.Prison_ITEMS.giver["Remington 870"],["Position"]=Vector3.new("-nan",0,0)})until 0 >1;end)end
 	if States.AlwaysM9 then spawn(function()repeat wait(0.2)if Sv.LPlr.Backpack:FindFirstChild("M9")then break end;if Sv.LPlr[_A.P]:FindFirstChild("M9")then break end;ItemHandler:InvokeServer({["Parent"]=workspace.Prison_ITEMS.giver["M9"],["Position"]=Vector3.new("-nan",0,0)})until 0 >1;end)end
 	if States.AlwaysKeycard then if Sv.LPlr.Team.Name=="Guards"then return end;if Sv.LPlr.Backpack:FindFirstChild("Key Card")==_N then if workspace.Prison_ITEMS.single:FindFirstChild("Key card")then spawn(function()ItemHandler:InvokeServer({["Parent"]=workspace.Prison_ITEMS.single["Key card"],["Position"]=Vector3.new("-nan",0,0)})end)end;end;end
