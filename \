@@ -2754,9 +2754,8 @@ AdminCommands={
 		
 		
 		if OldTeam~="Bright blue" then
-			RespawnPlayerOnGuardTeam()
-			if Sv.LPlr.TeamColor.Name == "Bright blue" then
-			else
+			RespawnPlayerOnGuardTeam()wait()
+			if Sv.LPlr.TeamColor.Name == "Bright blue" then else
 				if OldTeam == "Bright orange" or OldTeam == "Bright blue" or OldTeam == "Medium stone grey" then
 					Remote.TeamEvent:FireServer(OldTeam)
 				end
@@ -2765,17 +2764,11 @@ AdminCommands={
 			
 		end
 		
-		if PlayerTbl==_N then
-			if Speaker ~= _N then
-				DropItems(Speaker)
-			end
-			
-			
-			return
-		end
+		if PlayerTbl==_N then if Speaker ~= _N then DropItems(Speaker)end if OldTeam == "Really red" then DoCriminal(Sv.LPlr) else if OldTeam == "Bright orange" or OldTeam == "Bright blue" or OldTeam == "Medium stone grey" then Remote.TeamEvent:FireServer(OldTeam)end end return end
 		
 		for i,SelectedPlr in pairs(PlayerTbl) do
 			DropItems(SelectedPlr)
+			wait()
 		end
 		if Sv.LPlr.TeamColor.Name ~= OldTeam then
 			if OldTeam == "Really red" then
