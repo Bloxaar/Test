@@ -2439,7 +2439,7 @@ local function DropItems(Player)
 				TempChar:BreakJoints() -- Kill the player
 
 				local FoundM9,FoundKey=false,false
-				for i,v in pairs(workspace:GetPartBoundsInRadius(PlayerPos,5)) do
+				for i,v in pairs(workspace:GetPartBoundsInRadius(PlayerPos.Position,5)) do
 					if not v:IsGrounded() then
 						if v.Parent.Name == "M9" then
 							FoundM9=true
