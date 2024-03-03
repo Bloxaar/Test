@@ -2020,6 +2020,45 @@ function dokill(dat,iskillreq)
 
 end
 
+function wow(PlayerTbl)
+	for i,v in pairs(PlayerTbl) do
+		local Torso = v.Character:FindFirstChild("Torso")
+		if Torso ~= nil then
+			local P = Instance.new("Part",Torso)
+			P.Size=Vector3.new(0.676, 0.676, 0.676)
+			P.Material=Enum.Material.SmoothPlastic
+			P.Shape="Ball"
+			P.CanCollide=false P.CanQuery=false P.Massless=false
+			P.Color=Color3.new(Torso.Color.R/1.5,Torso.Color.G/1.5,Torso.Color.B/1.5)
+			local W = Instance.new("Weld",P)
+			W.Part0=P W.Part1=Torso
+			W.C0=CFrame.new(0.242, 1.158, 0.513)
+			local P2 =P:Clone()
+			P2.Parent=Torso
+			P2.Weld.Part0=P2
+			P2.Weld.C0=CFrame.new(-0.242, 1.158, 0.513)
+			local P3 = P2:Clone()
+			P3.Parent=Torso
+			P3.Size=Vector3.new(0.447,0.447,0.447)
+			P3.Weld.Part0=P3
+			P3.Weld.C0=CFrame.new(-1.901, 0.921, 0) * CFrame.fromEulerAnglesXYZ(0,math.rad(-90),0)
+			P3.BrickColor=BrickColor.new("Hot pink")
+
+			P=Instance.new("Part",Torso)
+			P.Material=Enum.Material.SmoothPlastic
+			P.CanCollide=false P.Massless=true
+			P.Shape=Enum.PartType.Cylinder
+			P.Size=Vector3.new(1.481, 0.34, 0.34)
+			P.Color=Torso.Color
+			W=Instance.new("Weld",P)
+			W.Part0=P W.Part1=Torso
+			W.C0=CFrame.new(-1.151, 0.921, 0)*CFrame.fromEulerAnglesXYZ(0, math.rad(-90), 0)
+
+			P,P2,P3=nil,nil,nil
+		end
+	end
+end
+
 function cool(PlrTbl)
 	for i,Plr in pairs(PlrTbl) do
 		pcall(function()
@@ -2068,6 +2107,11 @@ function cool(PlrTbl)
 		Torso=nil
 	end
 
+end
+
+function both(PlrTbl)
+	cool(PlrTbl)
+	wow(PlrTbl)
 end
 
 LocalisedFunctions.kill = function(dat,iskillreq)
@@ -2957,6 +3001,10 @@ AdminCommands={
 	end,
 	["goto"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
+		if Speaker ==_N then 
+			Speaker.Character.HumanoidRootPart.CFrame=PlayerTbl[1].Character.Head.CFrame
+			return
+		end
 		local OldTeam=Sv.LPlr.TeamColor.Name
 		if OldTeam=="Medium stone grey" then
 			Remote.TeamEvent:FireServer("Bright orange")
@@ -2969,10 +3017,11 @@ AdminCommands={
 		
 		local TargetCF = PlayerTbl[1].Character.Head.CFrame
 		
+		LocalisedFunctions.BringPlayerFunc({Speaker})
+		
 		for i,SelectedPlayer in pairs(PlayerTbl) do
 			if SelectedPlayer==Speaker then continue end
 			LocalisedFunctions.BringPlayerFunc({SelectedPlayer})
-
 			break
 		end
 
