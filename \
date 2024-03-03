@@ -2918,7 +2918,7 @@ AdminCommands={
 		end
 		if PlayerTbl==_N then 
 			if Speaker~=_N then	LocalisedFunctions.BringPlayerFunc({Speaker})end
-			
+
 			if Sv.LPlr.TeamColor.Name ~= OldTeam then
 				if OldTeam=="Medium stone grey" then
 					Remote.TeamEvent:FireServer("Medium stone grey")
@@ -2927,31 +2927,74 @@ AdminCommands={
 
 				end
 			end
-			
+
 			return 
 		end
-		
+
 		local OldPos = Speaker.Character.Head.CFrame
-		
+
 		for i,SelectedPlayer in pairs(PlayerTbl) do
 			if SelectedPlayer==Sv.LPlr then continue end
 			if i>4 then break end
 			LocalisedFunctions.BringPlayerFunc({SelectedPlayer})
-			
+
 			wait(0.05)
 		end
-		
+
 		for i=0,3 do wait()
 			LocalisedFunctions.TeleportPlayer(OldPos)
 		end
 		OldPos=nil
-		
+
 		if Sv.LPlr.TeamColor.Name ~= OldTeam then
 			if OldTeam=="Medium stone grey" then
 				Remote.TeamEvent:FireServer("Medium stone grey")
 			elseif OldTeam=="Really red" then
 				LocalisedFunctions.DoCriminal()
+
+			end
+		end
+	end,
+	["goto"]=function(PlayerTbl,Speaker)
+		if PlayerTbl==_N then return end
+		local OldTeam=Sv.LPlr.TeamColor.Name
+		if OldTeam=="Medium stone grey" then
+			Remote.TeamEvent:FireServer("Bright orange")
+			local A = Sv.LPlr.Character:FindFirstChild("Head")
+			repeat wait() if not A:IsDescendantOf(workspace) then break end
+			until not A:IsDescendantOf(workspace)A=nil wait(0.1)
+		end
 		
+		local OldPos = Sv.LPlr.Character.Head.CFrame
+		
+		local TargetCF = PlayerTbl[1].Character.Head.CFrame
+		
+		for i,SelectedPlayer in pairs(PlayerTbl) do
+			if SelectedPlayer==Speaker then continue end
+			LocalisedFunctions.BringPlayerFunc({SelectedPlayer})
+
+			break
+		end
+
+		for i=0,3 do wait()
+			LocalisedFunctions.TeleportPlayer(TargetCF)
+		end
+		wait(0.35)
+		local H = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
+		if H ~= nil then
+			H:ChangeState("Jumping")
+		end
+		H=nil
+		LocalisedFunctions.TeleportPlayer(OldPos)
+		TargetCF=nil
+		OldPos=nil
+
+		if Sv.LPlr.TeamColor.Name ~= OldTeam then
+			if OldTeam=="Medium stone grey" then
+				Remote.TeamEvent:FireServer("Medium stone grey")
+			elseif OldTeam=="Really red" then
+				LocalisedFunctions.DoCriminal()
+
 			end
 		end
 	end,
