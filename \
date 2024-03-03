@@ -1827,6 +1827,8 @@ LocalisedFunctions.TeleportPlayer = function(Cframe)
 							if v:IsA("BasePart") then
 								if v.ClassName=="Model" then
 								else
+									v.Velocity=Vector3.new(0,0,0)
+									v.AssemblyAngularVelocity=Vector3.new(0,0,0)
 									v.CFrame=Cframe
 								end
 							end
@@ -2733,7 +2735,7 @@ AdminCommands={
 			end
 		end
 	end,
-	["arrest"]=function(PlayerTbl,Speaker)
+	["cuff"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		local OldTeam=Sv.LPlr.TeamColor.Name
 		local OldCF = Sv.LPlr.Character.PrimaryPart.CFrame
@@ -2916,6 +2918,16 @@ AdminCommands={
 		end
 		if PlayerTbl==_N then 
 			if Speaker~=_N then	LocalisedFunctions.BringPlayerFunc({Speaker})end
+			
+			if Sv.LPlr.TeamColor.Name ~= OldTeam then
+				if OldTeam=="Medium stone grey" then
+					Remote.TeamEvent:FireServer("Medium stone grey")
+				elseif OldTeam=="Really red" then
+					LocalisedFunctions.DoCriminal()
+
+				end
+			end
+			
 			return 
 		end
 		
