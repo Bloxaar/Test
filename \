@@ -1821,19 +1821,12 @@ LocalisedFunctions.TeleportPlayer = function(Cframe)
 					if Car[_B.C]=="VehicleSeat"then
 						Car.CFrame=Cframe
 						HRP.CFrame=Cframe
-						for i,v in pairs(Car.Parent:GetChildren()) do
+						Car.Velocity=Vector3.new(0,0,0)
+						Car.AssemblyAngularVelocity=Vector3.new(0,0,0)
+						for i,v in pairs(Car.Parent.Parent:GetDescendants()) do
 							if v:IsA("BasePart") then
 								if v.ClassName=="Model" then
 								else
-									v.CFrame=Cframe
-								end
-							end
-						end
-						Car.Velocity=Vector3.new(0,0,0)
-						Car.AssemblyAngularVelocity=Vector3.new(0,0,0)
-						if Car.Parent.Parent:FindFirstChild("Wheels")~=_N then
-							for i,v in Sv.P(Car.Parent.Parent.Wheels:GetChildren())do
-								if v[_B.C]=="Part"then
 									v.CFrame=Cframe
 								end
 							end
