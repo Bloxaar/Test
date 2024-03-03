@@ -161,7 +161,7 @@ Sv.LPlr.Idled:Connect(function()
 			WAIT(math.random(1,5))
 		end
 	end)
-	
+
 end)
 
 PrisonG.Name="PrisonG"
@@ -2883,6 +2883,43 @@ AdminCommands={
 			end
 		end
 	end,
+	["bring"]=function(PlayerTbl,Speaker)
+		local OldTeam=Sv.LPlr.TeamColor.Name
+		if OldTeam=="Medium stone grey" then
+			Remote.TeamEvent:FireServer("Bright orange")
+			local A = Sv.LPlr.Character:FindFirstChild("Head")
+			repeat wait() if not A:IsDescendantOf(workspace) then break end
+			until not A:IsDescendantOf(workspace)A=nil wait(0.1)
+		end
+		if PlayerTbl==_N then 
+			if Speaker~=_N then	LocalisedFunctions.BringPlayerFunc({Speaker})end
+			return 
+		end
+		
+		local OldPos = Speaker.Character.Head.CFrame
+		
+		for i,SelectedPlayer in pairs(PlayerTbl) do
+			if SelectedPlayer==Sv.LPlr then continue end
+			if i>4 then break end
+			LocalisedFunctions.BringPlayerFunc({SelectedPlayer})
+			
+			wait(0.05)
+		end
+		
+		for i=0,3 do wait()
+			LocalisedFunctions.TeleportPlayer(OldPos)
+		end
+		OldPos=nil
+		
+		if Sv.LPlr.TeamColor.Name ~= OldTeam then
+			if OldTeam=="Medium stone grey" then
+				Remote.TeamEvent:FireServer("Medium stone grey")
+			elseif OldTeam=="Really red" then
+				LocalisedFunctions.DoCriminal()
+		
+			end
+		end
+	end,
 	["ko"]=function(PlayerTbl)
 		if PlayerTbl==_N then return end
 		LocalisedFunctions.kill(PlayerTbl,true)
@@ -4031,9 +4068,11 @@ SpawnCarr[_A.K]:Connect(function()
 			HS:Sit(Sv.LPlr[_A.P].Humanoid)
 		until HS.Occupant~=_N
 		HS.CFrame=Oldpos
-		if HWheels~=_N then
-			for i,v in Sv.P(HWheels:GetChildren())do
-				v.CFrame=HS.CFrame
+		for i,v in pairs(Car:GetDescendants()) do
+			if v:IsA("BasePart") then
+				if v.ClassName=="Model" then else
+					v.CFrame=Oldpos
+				end
 			end
 		end
 	end
@@ -4080,9 +4119,11 @@ BringCarLongest[_A.K]:Connect(function()
 			HS:Sit(Sv.LPlr[_A.P].Humanoid)
 		until HS.Occupant~=_N
 		HS.CFrame=Oldpos
-		if HWheels~=_N then
-			for i,v in Sv.P(HWheels:GetChildren())do
-				v.CFrame=HS.CFrame
+		for i,v in pairs(Car:GetDescendants()) do
+			if v:IsA("BasePart") then
+				if v.ClassName=="Model" then else
+					v.CFrame=Oldpos
+				end
 			end
 		end
 	end
@@ -4128,9 +4169,11 @@ BringCarShortest[_A.K]:Connect(function()
 			HS:Sit(Sv.LPlr[_A.P].Humanoid)
 		until HS.Occupant~=_N
 		HS.CFrame=Oldpos
-		if HWheels~=_N then
-			for i,v in Sv.P(HWheels:GetChildren())do
-				v.CFrame=HS.CFrame
+		for i,v in pairs(Car:GetDescendants()) do
+			if v:IsA("BasePart") then
+				if v.ClassName=="Model" then else
+					v.CFrame=Oldpos
+				end
 			end
 		end
 	end
