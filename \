@@ -1779,7 +1779,7 @@ LocalisedFunctions.SpawnCar = function()
 			break
 		end 
 	end
-	wait(0.25)
+	wait(0.5)
 	local Dist=math.huge
 	for i,v in Sv.P(workspace.CarContainer:GetChildren())do
 		HB=v:FindFirstChild("Body")
@@ -1848,7 +1848,30 @@ LocalisedFunctions.BringPlayerFunc = function(PlayerTBL)
 	local LHumanoid=Sv.LPlr[_A.P]:FindFirstChildOfClass("Humanoid")
 	if LHumanoid==_N then return end
 	local Car=nil
-	if LHumanoid.SeatPart==_N then repeat wait() Car=LocalisedFunctions.SpawnCar()if Car~=_N then break end until Car~=_N end
+	if LHumanoid.SeatPart==_N then repeat wait() Car=LocalisedFunctions.SpawnCar()if Car~=_N then break end until Car~=_N 
+		
+		local HB=nil
+		local HS=nil
+		local HWheels=nil
+		HB=Car:FindFirstChild("Body")
+		HWheels=Car:FindFirstChild("Wheels")
+		HS=HB:FindFirstChildWhichIsA("VehicleSeat")
+		if HS.Occupant==_N then
+			repeat wait()
+				if not HS:IsDescendantOf(workspace)then return end
+				HS:Sit(Sv.LPlr[_A.P].Humanoid)
+			until HS.Occupant~=_N
+		end
+		Car=nil
+		HB=nil
+		HS=nil
+		HWheels=nil
+		
+	end
+	
+	
+	
+	
 	Car=_N
 	local HC=nil
 	local HHRP=nil
