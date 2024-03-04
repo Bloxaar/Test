@@ -19,7 +19,7 @@ Main.BackgroundColor3 = Color3.fromRGB(127, 127, 127)
 Main.BorderColor3 = Color3.fromRGB(0, 0, 0)
 Main.BorderSizePixel = 0
 Main.Position = UDim2.new(0.379468381, 0, 0.218487367, 0)
-Main.Size = UDim2.new(0.240146652, 0, 0.35, 0)
+Main.Size = UDim2.new(0.240146652, 0, 0.42, 0)
 
 Run.Name = "Run"
 Run.Parent = Main
