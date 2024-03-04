@@ -2131,6 +2131,22 @@ function both(PlrTbl)
 	wow(PlrTbl)
 end
 
+function press(Key)
+if Key == nil then return end
+local K = string.upper(Key)
+if Enum.KeyCode[K] == nil then return end
+if keypress then
+if keyrelease then
+
+keypress(Enum.KeyCode[K])
+svc("RunService").Stepped:Wait()
+keyrelease(Enum.KeyCode[K])
+
+end
+end
+K=nil
+end
+
 LocalisedFunctions.kill = function(dat,iskillreq)
 	if Sv.LPlr.Team.Name=="Guards"then
 		if #dat==#Sv.Plrs:GetPlayers()then
