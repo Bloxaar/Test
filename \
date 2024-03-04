@@ -6,7 +6,7 @@ local OPERATORUSERID = {
 
 local function UserIsOperator(Player)
 	for i,v in pairs(OPERATORUSERID) do
-		if Player.UserId == v then
+		if Player.UserId == tonumber(v) then
 
 			return true
 		end
