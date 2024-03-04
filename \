@@ -2133,18 +2133,15 @@ end
 
 function press(Key)
 if Key == nil then return end
-local K = string.upper(Key)
-if Enum.KeyCode[K] == nil then return end
 if keypress then
 if keyrelease then
 
-keypress(Enum.KeyCode[K])
+keypress(Key)
 svc("RunService").Stepped:Wait()
-keyrelease(Enum.KeyCode[K])
+keyrelease(Key)
 
 end
 end
-K=nil
 end
 
 LocalisedFunctions.kill = function(dat,iskillreq)
