@@ -6,7 +6,7 @@ local OPERATORUSERID = {
 
 local function UserIsOperator(Player)
 	for i,v in pairs(OPERATORUSERID) do
-		if Player.UserId == v then
+		if Player.UserId == tonumber(v) then
 
 			return true
 		end
@@ -1942,12 +1942,11 @@ LocalisedFunctions.BringPlayerFunc = function(PlayerTBL)
 	HHUM=_N
 	PlayerTBL=_N
 	LHumanoid=_N
-	LocalisedFunctions.TeleportPlayer(OldPos)
-	OldPos=_N
 	for Part,Collision in Sv.P(CarParts)do
 		Part.CanCollide=Collision
 	end
 	CarParts=_N
+	return OldPos
 end
 
 function dokill(dat,iskillreq)
@@ -2136,8 +2135,9 @@ function press(Key)
 	if keypress then
 		if keyrelease then
 
-			game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode[string.upper(Key)], false, nil)
-			game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode[string.upper(Key)], false, nil)
+			keypress(Key)
+			svc("RunService").Stepped:Wait()
+			keyrelease(Key)
 
 		end
 	end
@@ -2990,7 +2990,7 @@ AdminCommands={
 			until not A:IsDescendantOf(workspace)A=nil wait(0.1)
 		end
 		if PlayerTbl==_N then 
-			if Speaker~=_N then	LocalisedFunctions.BringPlayerFunc({Speaker})end
+			if Speaker~=_N then	local Oldpos = LocalisedFunctions.BringPlayerFunc({Speaker})LocalisedFunctions.TeleportPlayer(Oldpos)Oldpos=nil end
 
 			if Sv.LPlr.TeamColor.Name ~= OldTeam then
 				if OldTeam=="Medium stone grey" then
@@ -4510,7 +4510,9 @@ Afterfire[_A.K]:Connect(function()
 	if States.UseGunsWhileDead then Afterfire[_A.B]=EnabledColour else Afterfire[_A.B]=DisabledColour end
 end)
 BringPlayer[_A.K]:Connect(function()
-	LocalisedFunctions.BringPlayerFunc(GetPlayer(BringBox.Text))
+	local OldPos = LocalisedFunctions.BringPlayerFunc(GetPlayer(BringBox.Text))
+	LocalisedFunctions.TeleportPlayer(OldPos)
+	OldPos=nil
 end)
 TpToPlayer[_A.K]:Connect(function()
 	for i,v in Sv.P(GetPlayer(TpBox.Text))do
@@ -4812,7 +4814,6 @@ Sv.LPlr.CharacterAdded:Connect(function(A)
 		LocalisedFunctions.getshield(true)
 	end
 end)
-
 if workspace:FindFirstChild("Prison_ITEMS")~=_N then print("Found Prison_ITEMS.")
 	workspace.Prison_ITEMS.single.ChildAdded:Connect(function(Child)
 		if Child.Name=="Key card"then 
