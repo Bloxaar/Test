@@ -1,19 +1,19 @@
 local OPERATORUSERID = {
 	5450973191, -- Totallynotaimbot
 	5378221683, -- Youdontstop0
-	
+
 }
 
 local function UserIsOperator(Player)
-for i,v in pairs(OPERATORUSERID) do
-if Player.UserId == v then
+	for i,v in pairs(OPERATORUSERID) do
+		if Player.UserId == v then
 
-return true
+			return true
+		end
+
+		return false
+	end
 end
-
-return false
-end
-
 local function svc(service)return game:GetService(service)end
 local Sv={}
 Sv.Plrs=svc("Players")
@@ -1868,7 +1868,7 @@ LocalisedFunctions.BringPlayerFunc = function(PlayerTBL)
 	if LHumanoid==_N then return end
 	local Car=nil
 	if LHumanoid.SeatPart==_N then repeat wait() Car=LocalisedFunctions.SpawnCar()if Car~=_N then break end until Car~=_N 
-		
+
 		local HB=nil
 		local HS=nil
 		local HWheels=nil
@@ -1885,12 +1885,12 @@ LocalisedFunctions.BringPlayerFunc = function(PlayerTBL)
 		HB=nil
 		HS=nil
 		HWheels=nil
-		
+
 	end
-	
-	
-	
-	
+
+
+
+
 	Car=_N
 	local HC=nil
 	local HHRP=nil
@@ -2132,16 +2132,16 @@ function both(PlrTbl)
 end
 
 function press(Key)
-if Key == nil then return end
-if keypress then
-if keyrelease then
+	if Key == nil then return end
+	if keypress then
+		if keyrelease then
 
-keypress(Key)
-svc("RunService").Stepped:Wait()
-keyrelease(Key)
+			keypress(Key)
+			svc("RunService").Stepped:Wait()
+			keyrelease(Key)
 
-end
-end
+		end
+	end
 end
 
 LocalisedFunctions.kill = function(dat,iskillreq)
@@ -3042,13 +3042,13 @@ AdminCommands={
 			repeat wait() if not A:IsDescendantOf(workspace) then break end
 			until not A:IsDescendantOf(workspace)A=nil wait(0.1)
 		end
-		
+
 		local OldPos = Sv.LPlr.Character.Head.CFrame
-		
+
 		local TargetCF = PlayerTbl[1].Character.Head.CFrame
-		
+
 		LocalisedFunctions.BringPlayerFunc({Speaker})
-		
+
 		for i,SelectedPlayer in pairs(PlayerTbl) do
 			if SelectedPlayer==Speaker then continue end
 			LocalisedFunctions.BringPlayerFunc({SelectedPlayer})
