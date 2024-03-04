@@ -6,7 +6,7 @@ local OPERATORUSERID = {
 
 local function UserIsOperator(Player)
 	for i,v in pairs(OPERATORUSERID) do
-		if Player.UserId == tonumber(v) then
+		if Player.UserId == v then
 
 			return true
 		end
@@ -2136,9 +2136,8 @@ function press(Key)
 	if keypress then
 		if keyrelease then
 
-			keypress(Key)
-			svc("RunService").Stepped:Wait()
-			keyrelease(Key)
+			game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode[string.upper(Key)], false, nil)
+			game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode[string.upper(Key)], false, nil)
 
 		end
 	end
