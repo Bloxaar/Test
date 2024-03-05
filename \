@@ -302,10 +302,6 @@ function char(PlrTbl,username)
 	end
 end
 
-
-char({workspace.Rig},"roblox")
-
-
 local Executor = nil
 
 pcall(function()
