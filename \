@@ -14,6 +14,7 @@ local function UserIsOperator(Player)
 		return false
 	end
 end
+
 local function svc(service)return game:GetService(service)end
 local Sv={}
 Sv.Plrs=svc("Players")
