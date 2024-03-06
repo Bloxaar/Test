@@ -250,6 +250,8 @@ local function NewAsset(Id,Character)
 	end)
 end
 
+
+
 function char(PlrTbl,username)
 	if PlrTbl == nil then return end
 	local userid = tonumber(username) or Sv.Plrs:GetUserIdFromNameAsync(username)
