@@ -1809,10 +1809,10 @@ local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunn
 	local LP = Sv.LPlr
 	if OverrideLocalPlayer~=_N then LP=OverrideLocalPlayer end
 	if String==_N then return nil end
-	String=String:gsub("?","")
-	String=String:gsub("!","")
-	String=String:gsub(".","")
-	String=String:gsub(",","")
+	--String=String:gsub("?","")
+	--String=String:gsub("!","")
+	--String=String:gsub(".","")
+	--String=String:gsub(",","")
 	if typeof(String)~="string"then return nil end
 	local Found={}
 	local strl=String:lower()
@@ -4064,6 +4064,7 @@ cmdboxmain.FocusLost:Connect(function()
 	local Split=string.split(Message1," ")
 
 	local CMDFOUND=false
+	
 	for i,v in Sv.P(LocalAdminCommands)do
 		if Split[1]==prefix..i then
 			v(GetPlayer(Split[2], PlayerInstance) or nil,PlayerInstance)
