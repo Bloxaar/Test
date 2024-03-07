@@ -2271,11 +2271,17 @@ function dokill(dat,iskillreq)
 			if plr.Team.Name~=Sv.LPlr.Team.Name then
 				for i=0,6 do
 					_A.O(A_1,{
+						["RayObject"]="",--Ray.new(Vector3.new(0,0,0),Vector3.new(0,0,0)),
+						["Hit"]=plr[_A.P].Head,
+						["Cframe"]="",
+					})
+					--[[
+					_A.O(A_1,{
 						["RayObject"]=Ray.new(Vector3.new(845, 101, 2269), Vector3.new(-391, 8, -83)),
 						["Distance"]=5,
 						["Cframe"]=_A.N(840, 101, 2267, 0, 0, -0.9, 0, 0.9, 0.1, 1, -0.0096, 0.062),
 						["Hit"]=plr[_A.P].Head
-					})
+					})]]
 				end
 			end
 		end
@@ -2291,11 +2297,17 @@ function dokill(dat,iskillreq)
 					else
 						for i=0,6 do
 							_A.O(A_1,{
+								["RayObject"]="",--Ray.new(Vector3.new(0,0,0),Vector3.new(0,0,0)),
+								["Hit"]=plr[_A.P].Head,
+								["Cframe"]="",
+							})
+							--[[
+							_A.O(A_1,{
 								["RayObject"]=Ray.new(Vector3.new(845, 101, 2269), Vector3.new(-391, 8, -83)),
 								["Distance"]=5,
 								["Cframe"]=_A.N(840, 101, 2267, 0, 0, -0.9, 0, 0.9, 0.1, 1, -0.0096, 0.062),
 								["Hit"]=plr[_A.P].Head
-							})
+							})]]
 						end
 					end
 				end
@@ -2368,11 +2380,17 @@ LocalisedFunctions.kill = function(dat,iskillreq)
 				if table.find(AddedWhitelists,plr.UserId)then else
 					for i=0,6 do
 						_A.O(A_1,{
+							["RayObject"]="",--Ray.new(Vector3.new(0,0,0),Vector3.new(0,0,0)),
+							["Hit"]=plr[_A.P].Head,
+							["Cframe"]="",
+						})
+						--[[
+						_A.O(A_1,{
 							["RayObject"]=Ray.new(Vector3.new(845, 101, 2269), Vector3.new(-391, 8, -83)),
 							["Distance"]=5,
 							["Cframe"]=_A.N(840, 101, 2267, 0, 0, -0.9, 0, 0.9, 0.1, 1, -0.0096, 0.062),
 							["Hit"]=plr[_A.P].Head
-						})
+						})]]
 					end
 				end
 			end
@@ -2390,11 +2408,17 @@ LocalisedFunctions.kill = function(dat,iskillreq)
 						else
 							for i=0,6 do
 								_A.O(A_1,{
+									["RayObject"]="",--Ray.new(Vector3.new(0,0,0),Vector3.new(0,0,0)),
+									["Hit"]=plr[_A.P].Head,
+									["Cframe"]="",
+								})
+								--[[
+								_A.O(A_1,{
 									["RayObject"]=Ray.new(Vector3.new(845, 101, 2269), Vector3.new(-391, 8, -83)),
 									["Distance"]=5,
 									["Cframe"]=_A.N(840, 101, 2267, 0, 0, -0.9, 0, 0.9, 0.1, 1, -0.0096, 0.062),
 									["Hit"]=plr[_A.P].Head
-								})
+								})]]
 							end
 						end
 					end
@@ -2466,11 +2490,17 @@ LocalisedFunctions.hurt = function(dat,ishurtreq)
 				if table.find(AddedWhitelists,plr.UserId)then else
 					for i=0,2 do
 						_A.O(A_1,{
+							["RayObject"]="",--Ray.new(Vector3.new(0,0,0),Vector3.new(0,0,0)),
+							["Hit"]=plr[_A.P].Head,
+							["Cframe"]="",
+						})
+						--[[
+						_A.O(A_1,{
 							["RayObject"]=Ray.new(Vector3.new(845, 101, 2269), Vector3.new(-391, 8, -83)),
 							["Distance"]=5,
 							["Cframe"]=_A.N(840, 101, 2267, 0, 0, -0.9, 0, 0.9, 0.1, 1, -0.0096, 0.062),
 							["Hit"]=plr[_A.P].Head
-						})
+						})]]
 					end
 				end
 			end
@@ -2488,11 +2518,17 @@ LocalisedFunctions.hurt = function(dat,ishurtreq)
 						else
 							for i=0,2 do
 								_A.O(A_1,{
+									["RayObject"]="",--Ray.new(Vector3.new(0,0,0),Vector3.new(0,0,0)),
+									["Hit"]=plr[_A.P].Head,
+									["Cframe"]="",
+								})
+								--[[
+								_A.O(A_1,{
 									["RayObject"]=Ray.new(Vector3.new(845, 101, 2269), Vector3.new(-391, 8, -83)),
 									["Distance"]=5,
 									["Cframe"]=_A.N(840, 101, 2267, 0, 0, -0.9, 0, 0.9, 0.1, 1, -0.0096, 0.062),
 									["Hit"]=plr[_A.P].Head
-								})
+								})]]
 							end
 						end
 					end
@@ -2567,11 +2603,17 @@ LocalisedFunctions.damage = function(dat,ishurtreq)
 				if table.find(AddedWhitelists,plr.UserId)then else
 					for i=0,1 do
 						_A.O(A_1,{
+							["RayObject"]="",--Ray.new(Vector3.new(0,0,0),Vector3.new(0,0,0)),
+							["Hit"]=plr[_A.P].Head,
+							["Cframe"]="",
+						})
+						--[[
+						_A.O(A_1,{
 							["RayObject"]=Ray.new(Vector3.new(845, 101, 2269), Vector3.new(-391, 8, -83)),
 							["Distance"]=5,
 							["Cframe"]=_A.N(840, 101, 2267, 0, 0, -0.9, 0, 0.9, 0.1, 1, -0.0096, 0.062),
 							["Hit"]=plr[_A.P].Head
-						})
+						})]]
 					end
 				end
 			end
@@ -2589,11 +2631,17 @@ LocalisedFunctions.damage = function(dat,ishurtreq)
 						else
 							for i=0,1 do
 								_A.O(A_1,{
+									["RayObject"]="",--Ray.new(Vector3.new(0,0,0),Vector3.new(0,0,0)),
+									["Hit"]=plr[_A.P].Head,
+									["Cframe"]="",
+								})
+								--[[
+								_A.O(A_1,{
 									["RayObject"]=Ray.new(Vector3.new(845, 101, 2269), Vector3.new(-391, 8, -83)),
 									["Distance"]=5,
 									["Cframe"]=_A.N(840, 101, 2267, 0, 0, -0.9, 0, 0.9, 0.1, 1, -0.0096, 0.062),
 									["Hit"]=plr[_A.P].Head
-								})
+								})]]
 							end
 						end
 					end
