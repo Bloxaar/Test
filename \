@@ -138,6 +138,14 @@ function cool(PlrTbl)
 
 end
 
+function spam(msg)
+	if msg == nil then return end if msg == "" then return end
+	for i=0,5 do
+		svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msg, "All")
+
+	end
+end
+
 function say(msg)
 	if msg == nil then return end if msg == "" then return end
 	svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msg, "All")
