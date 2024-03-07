@@ -5205,11 +5205,46 @@ for i,v in Sv.P(Main:GetChildren())do if v[_B.C]==_B.A then v.MouseEnter:Connect
 if Sv.LPlr[_A.P]~=_N then if Sv.LPlr.Team.Name=="Guards" or Sv.LPlr.Team.Name=="Inmates"or Sv.LPlr.Team.Name=="Neutral"then if Sv.LPlr[_A.P]~=_N then Sv.LPlr[_A.P]:BreakJoints()end;Remote.TeamEvent:FireServer(Sv.LPlr.TeamColor.Name)end;end
 
 notify("Whitelisting people will give them access to admin commands! The prefix is ;",_A.R(0,1,1))notify("Try typing ;cmds to see the list of commands!",_A.R(0.75,0.7,0))
-if not UserOwnsRiotGamepass then notify("Warning! You do not own the riotshield gamepass. Getting M4 will not work.",_A.R(1,1,0))end
+if not UserOwnsRiotGamepass then notify("Warning! You do not own the riotshield gamepass. Getting M4A1 will not work.",_A.R(1,1,0))end
+
+notify("Chat antiban has been loaded. Anything you say will not be logged however if you want to say something so it can be logged. Type /e [message] or /c [message]",_A.R(0,1,1))
 
 LocalisedFunctions.DoKillAura = function(IsTeam)for i,v in Sv.P(Sv.Plrs:GetPlayers())do if IsTeam ==_T then if v.TeamColor.Name==Sv.LPlr.TeamColor.Name then continue end end if table.find(AddedWhitelists,v.UserId)then else pcall(function()Humanoid=v[_A.P]:FindFirstChildOfClass("Humanoid")Distance=(v[_A.P]:FindFirstChildOfClass("Part").Position - Sv.LPlr[_A.P]:FindFirstChildOfClass("Part").Position).magnitude if v~=Sv.LPlr then if Distance <=13 then if Humanoid~=_N then if Humanoid.Health >0 then for i=1,13 do MeleeEvent:FireServer(v)end end end end end end)end end end
 
 local LocalHumanoid,HotLocalChar,HotLocalBackpack,HotLocalCurrentEquippedTool,HotChatBox=nil,nil,nil,nil,nil
+local LocalPlayerChattedEvent = Instance.new("BindableEvent", workspace)
+LocalPlayerChattedEvent.Name = 'LocalPlayerChattedEvent'
+
+local connections = {
+	["ChatWindow"] = {
+		["MessagePosted"] = LocalPlayerChattedEvent
+	}}
+
+
+spawn(function()
+	repeat
+		wait(1)
+		local pass =pcall(function()
+			game:GetService("StarterGui"):SetCore("CoreGuiChatConnections", connections)
+		end)
+		if pass then warn("PASS") break end
+		warn("FAIL")
+	until 0>1
+
+end)
+
+
+local function LocalPlayerChatted(Msg)
+	local pass =pcall(function()
+		game:GetService("StarterGui"):SetCore("CoreGuiChatConnections", connections)
+	end)
+	pass=nil
+	if Msg:sub(0,3)=="/e "then
+		LocalPlayerChattedEvent:Fire(Msg)
+	elseif Msg:sub(0,3)=="/c " then
+		LocalPlayerChattedEvent:Fire(string.sub(Msg,4,#Msg))
+	end
+end
 
 while wait()do
 	task.spawn(function()
