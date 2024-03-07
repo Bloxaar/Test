@@ -2643,11 +2643,15 @@ local GunbanTBL={}
 
 local DoorsCooldown=_F
 
+local LocalPlayerChattedEvent = Instance.new("BindableEvent", workspace)
+LocalPlayerChattedEvent.Name = 'LocalPlayerChattedEvent'
+
+
 local LocalAdminCommands={}
 
 States.IsNokeycardDrops=false
 States.IsNoM9Drops=false
-
+States.AntiChatBan=false
 
 LocalAdminCommands={
 	["nokeys"]=function()
@@ -2677,6 +2681,10 @@ LocalAdminCommands={
 			end
 		end
 		_M9=nil
+	end,
+	["antiban"]=function()
+		States.AntiChatBan=not States.AntiChatBan
+		notify("Antiban set to: "..tostring(States.AntiChatBan),Color3.new(1,1,0))
 	end,
 	--[[["die"]=function()
 		local M9 = Sv.LPlr.Character:FindFirstChild("M9") or Sv.LPlr.Backpack:FindFirstChild("M9")
@@ -5212,14 +5220,13 @@ notify("Chat antiban has been loaded. Anything you say will not be logged howeve
 LocalisedFunctions.DoKillAura = function(IsTeam)for i,v in Sv.P(Sv.Plrs:GetPlayers())do if IsTeam ==_T then if v.TeamColor.Name==Sv.LPlr.TeamColor.Name then continue end end if table.find(AddedWhitelists,v.UserId)then else pcall(function()Humanoid=v[_A.P]:FindFirstChildOfClass("Humanoid")Distance=(v[_A.P]:FindFirstChildOfClass("Part").Position - Sv.LPlr[_A.P]:FindFirstChildOfClass("Part").Position).magnitude if v~=Sv.LPlr then if Distance <=13 then if Humanoid~=_N then if Humanoid.Health >0 then for i=1,13 do MeleeEvent:FireServer(v)end end end end end end)end end end
 
 local LocalHumanoid,HotLocalChar,HotLocalBackpack,HotLocalCurrentEquippedTool,HotChatBox=nil,nil,nil,nil,nil
-local LocalPlayerChattedEvent = Instance.new("BindableEvent", workspace)
-LocalPlayerChattedEvent.Name = 'LocalPlayerChattedEvent'
 
-local connections = {
+--[[local connections = {
 	["ChatWindow"] = {
-		["MessagePosted"] = LocalPlayerChattedEvent
+		["MessagePosted"] = LocalPlayerChattedEvent,
+		["VisibilityStateChanged"] = Instance.new("BindableEvent",workspace)
 	}}
-
+game:GetService("StarterGui"):SetCore("CoreGuiChatConnections", connections)
 
 spawn(function()
 	repeat
@@ -5235,16 +5242,18 @@ end)
 
 
 local function LocalPlayerChatted(Msg)
-	local pass =pcall(function()
-		game:GetService("StarterGui"):SetCore("CoreGuiChatConnections", connections)
-	end)
-	pass=nil
-	if Msg:sub(0,3)=="/e "then
-		LocalPlayerChattedEvent:Fire(Msg)
-	elseif Msg:sub(0,3)=="/c " then
-		LocalPlayerChattedEvent:Fire(string.sub(Msg,4,#Msg))
+	if States.AntiChatBan then
+		local pass =pcall(function()
+			game:GetService("StarterGui"):SetCore("CoreGuiChatConnections", connections)
+		end)
+		pass=nil
+		if Msg:sub(0,3)=="/e "then
+			LocalPlayerChattedEvent:Fire(Msg)
+		elseif Msg:sub(0,3)=="/c " then
+			LocalPlayerChattedEvent:Fire(string.sub(Msg,4,#Msg))
+		end
 	end
-end
+end]]
 
 while wait()do
 	task.spawn(function()
