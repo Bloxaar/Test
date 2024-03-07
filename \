@@ -14,7 +14,6 @@ local function UserIsOperator(Player)
 		return false
 	end
 end
-
 local function svc(service)return game:GetService(service)end
 local Sv={}
 Sv.Plrs=svc("Players")
@@ -160,10 +159,10 @@ else
 		Text="Script cannot run in this place.",
 		Duration=5,
 	})
-	
+
 	svc("Players").PlayerAdded:Connect(function(user)
 		if UserIsOperator(user) then
-			
+
 			user.Chatted:Connect(function(msg)
 				msg=msg:lower()
 				local split = string.split(msg," ")
@@ -190,126 +189,18 @@ else
 					split=nil
 
 				end
-				
+
 				msg=nil
-				
+
 			end)
-			
-			
+
+
 		end
 	end)
-	
-	
-	
+
+
+
 	return
-end
-
-function wow(PlayerTbl)
-	for i,v in pairs(PlayerTbl) do
-		local Torso = v.Character:FindFirstChild("Torso") or Plr.Character:FindFirstChild("UpperTorso")
-		if Torso ~= nil then
-			local P = Instance.new("Part",Torso)
-			P.Size=Vector3.new(0.676, 0.676, 0.676)
-			P.Material=Enum.Material.SmoothPlastic
-			P.Shape="Ball"
-			P.CanCollide=false P.CanQuery=false P.Massless=false
-			P.Color=Color3.new(Torso.Color.R/1.5,Torso.Color.G/1.5,Torso.Color.B/1.5)
-			local W = Instance.new("Weld",P)
-			W.Part0=P W.Part1=Torso
-			W.C0=CFrame.new(0.242, 1.158, 0.513)
-			local P2 =P:Clone()
-			P2.Parent=Torso
-			P2.Weld.Part0=P2
-			P2.Weld.C0=CFrame.new(-0.242, 1.158, 0.513)
-			local P3 = P2:Clone()
-			P3.Parent=Torso
-			P3.Size=Vector3.new(0.447,0.447,0.447)
-			P3.Weld.Part0=P3
-			P3.Weld.C0=CFrame.new(-1.901, 0.921, 0) * CFrame.fromEulerAnglesXYZ(0,math.rad(-90),0)
-			P3.BrickColor=BrickColor.new("Hot pink")
-
-			P=Instance.new("Part",Torso)
-			P.Material=Enum.Material.SmoothPlastic
-			P.CanCollide=false P.Massless=true
-			P.Shape=Enum.PartType.Cylinder
-			P.Size=Vector3.new(1.481, 0.34, 0.34)
-			P.Color=Torso.Color
-			W=Instance.new("Weld",P)
-			W.Part0=P W.Part1=Torso
-			W.C0=CFrame.new(-1.151, 0.921, 0)*CFrame.fromEulerAnglesXYZ(0, math.rad(-90), 0)
-
-			P,P2,P3=nil,nil,nil
-		end
-	end
-end
-
-function cool(PlrTbl)
-	for i,Plr in pairs(PlrTbl) do
-		pcall(function()
-			Plr.Character:FindFirstChildOfClass("Shirt"):Destroy()
-			Plr.Character:FindFirstChildOfClass("Pants"):Destroy()
-		end)
-		local Torso = Plr.Character:FindFirstChild("Torso") or Plr.Character:FindFirstChild("UpperTorso")
-		if Torso ~= nil then
-			local P = Instance.new("Part",Torso)
-			P.Size=Vector3.new(1.8, 1.8, 1.8)
-			P.Massless=true P.CanCollide=false P.CanQuery=false
-			P.Material=Enum.Material.SmoothPlastic
-			P.Reflectance=.1 P.Shape="Ball"
-			P.BrickColor=Torso.BrickColor
-			local W = Instance.new("Weld",P)
-			W.Part0=P
-			W.Part1=Torso
-			W.C0=CFrame.new(0.65, 1, -0.75)
-			local P = P:Clone()
-			P.Parent=Torso
-			P.Weld.C0=CFrame.new(-0.65, 1, -0.75)
-
-			local P1=P:Clone()
-			local P2=P:Clone()
-
-			P1.Parent=Torso
-			P2.Parent=Torso
-			P1.Weld.Part0=P1
-			P1.Weld.C0=CFrame.new(-0.65, 0, 0.75)
-			P2.Weld.Part0=P2
-			P2.Weld.C0=CFrame.new(0.65, 0, 0.75)
-
-			local P3=P:Clone()
-			P3.Parent=Torso
-			P3.Weld.Part0=P3
-			P3.Size=Vector3.new(0.2, 0.2, 0.2)
-			P3.Weld.C0=CFrame.new(1, 0.1, 1.6)
-			P3.Color=Color3.new(P3.Color.R/2,P3.Color.G/2,P3.Color.B/2 )
-			local P4=P3:Clone()
-			P4.Parent=Torso
-			P4.Weld.Part0=P4
-			P4.Weld.C0=CFrame.new(-1, 0.1, 1.6)
-
-			W,P=nil,nil
-		end
-		Torso=nil
-	end
-
-end
-
-function say(msg)
-	if msg == nil then return end if msg == "" then return end
-	svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msg, "All")
-
-end
-
-function both(PlrTbl)
-	cool(PlrTbl)
-	wow(PlrTbl)
-end
-
-function press(Key)
-	if Key == nil then return end
-	if Key == "" then return end
-	game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode[string.upper(Key)], false, nil)
-
-	game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode[string.upper(Key)], false, nil)
 end
 
 --[[
@@ -357,8 +248,6 @@ local function NewAsset(Id,Character)
 		obj=nil
 	end)
 end
-
-
 
 function char(PlrTbl,username)
 	if PlrTbl == nil then return end
@@ -1720,39 +1609,39 @@ local ColourData = {
 }
 
 pcall(function()
-if _G.UISettings ~= nil then
-	if typeof(_G.UISettings) == "table" then
-		for i,value in pairs(_G.UISettings) do
-			if i == "Colour" then
-				for i,v in pairs(ColourData) do
-					if string.lower(value) == i then
-						for class,ColourValue in pairs(v) do
-							for i,object in pairs(PrisonG:GetDescendants()) do
-								if object.ClassName == class then
-									object.BackgroundColor3 = ColourValue
+	if _G.UISettings ~= nil then
+		if typeof(_G.UISettings) == "table" then
+			for i,value in pairs(_G.UISettings) do
+				if i == "Colour" then
+					for i,v in pairs(ColourData) do
+						if string.lower(value) == i then
+							for class,ColourValue in pairs(v) do
+								for i,object in pairs(PrisonG:GetDescendants()) do
+									if object.ClassName == class then
+										object.BackgroundColor3 = ColourValue
+									end
 								end
-							end
-							if _G.UISettings.builtInExecutor==true then
-								if Executor ~= nil then
-									for i,object in pairs(Executor:GetDescendants()) do
-										if object.ClassName == class then
-											object.BackgroundColor3 = ColourValue
+								if _G.UISettings.builtInExecutor==true then
+									if Executor ~= nil then
+										for i,object in pairs(Executor:GetDescendants()) do
+											if object.ClassName == class then
+												object.BackgroundColor3 = ColourValue
+											end
 										end
 									end
 								end
 							end
+							break
 						end
-						break
 					end
+				elseif i == "ClickSound" then
+					ClickSound.SoundId = value
+				elseif i == "HoverSound" then
+					HoverSound.SoundId = value
 				end
-			elseif i == "ClickSound" then
-				ClickSound.SoundId = value
-			elseif i == "HoverSound" then
-				HoverSound.SoundId = value
 			end
 		end
 	end
-end
 end)
 
 for i,v in Sv.P(PrisonG:GetDescendants())do
@@ -1920,6 +1809,10 @@ local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunn
 	local LP = Sv.LPlr
 	if OverrideLocalPlayer~=_N then LP=OverrideLocalPlayer end
 	if String==_N then return nil end
+	String=String:gsub("?","")
+	String=String:gsub("!","")
+	String=String:gsub(".","")
+	String=String:gsub(",","")
 	if typeof(String)~="string"then return nil end
 	local Found={}
 	local strl=String:lower()
@@ -2742,6 +2635,34 @@ LocalAdminCommands={
 		end
 		_M9=nil
 	end,
+	--[[["die"]=function()
+		local M9 = Sv.LPlr.Character:FindFirstChild("M9") or Sv.LPlr.Backpack:FindFirstChild("M9")
+		local S = M9.Handle:FindFirstChild("FireSound")
+		local connection=nil
+		local DieFunc =nil 
+		DieFunc= function()
+			Sv.LPlr.Character:BreakJoints()
+			for i=0,20 do 
+				SoundEvent:FireServer(S)
+			end
+			
+			connection:Disconnect()
+			DieFunc=nil
+			S=nil
+		end
+		if M9 ~= nil then
+			connection =M9.Activated:Connect(DieFunc)
+			M9.Grip = CFrame.new() * CFrame.fromEulerAnglesXYZ(math.rad(90))
+		else
+			repeat wait()
+				M9 = Sv.LPlr.Character:FindFirstChild("M9") or Sv.LPlr.Backpack:FindFirstChild("M9")
+				ItemHandler:InvokeServer({["Parent"]=workspace.Prison_ITEMS.giver["M9"],["Position"]=Vector3.new("-nan",0,0)})
+				if M9 ~= nil then break end
+			until M9 ~= nil
+			S=M9.Handle:FindFirstChild("FireSound")
+			connection =M9.Activated:Connect(DieFunc)
+		end
+	end,]]
 }
 
 LocalisedFunctions.UserHasSuperGunEnabled = function(Player)
@@ -3905,13 +3826,22 @@ AdminCommands={
 		index=nil
 		CommandsStr=nil
 		if Speaker==_N then
-			notify("List of commands: "..tostring(FullStr).."\nIf you need to change the prefix type !prefix to reveal your prefix or !resetprefix",_A.R(0,1,0))
+			notify("List of commands: "..tostring(FullStr),_A.R(0,1,0))
 
 		else
 			for i=1,#CommandsTb do
 				svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." "..`Commands[{tostring(i)}]: `..CommandsTb[i], "All")
-				wait(0.05)
+				wait(0.07)
 			end
+		end
+		if Speaker == nil then
+			FullStr = ""
+			for i,v in Sv.P(LocalAdminCommands)do
+				FullStr=FullStr..tostring(i).." | "
+			end
+
+			notify("Only you can do these commands listed: "..tostring(FullStr).."\nIf you need to change the prefix type !prefix to reveal your prefix or !resetprefix",_A.R(1,0,1))
+
 		end
 		FullStr=nil
 		CommandsTb=_N
