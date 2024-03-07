@@ -3974,8 +3974,10 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 														if VictimPlr.Character.Humanoid.Health>0 then
 															if VictimPlr.Character:FindFirstChildOfClass("ForceField")==_N then
 																if table.find(AntiShootList,VictimPlr.UserId)==_N then
-																	table.insert(AntiShootList,VictimPlr.UserId)
-																end	
+																	if not LocalisedFunctions.UserHasSuperGunEnabled(VictimPlr) then
+																		table.insert(AntiShootList,VictimPlr.UserId)
+																	end	
+																end
 															end
 														end	
 													end
