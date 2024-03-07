@@ -1855,22 +1855,14 @@ local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunn
 	local LP = Sv.LPlr
 	if OverrideLocalPlayer~=_N then LP=OverrideLocalPlayer end
 	if String==_N then return nil end
-
-	String=String:gsub("?","")
-	String=String:gsub("!","")
-	String=String:gsub(",","")
-	String=String:gsub("-","")
-	String=String:gsub("^","")
-	String=String:gsub("*","")
-	String=String:gsub("+","")
-	String=String:gsub("=","")
-	String=String:gsub("^","")
-	String=String:gsub("/","")
-	String=String:gsub([[\]],"")
-	String=String:gsub([[#]],"")
-	String=String:gsub([[@]],"")
-	String=String:gsub([[']],"")
 	if typeof(String)~="string"then return nil end
+	
+	String=String:lower()
+	String=String:gsub("_","A")
+	String=String:gsub("%p","") -- Removes all punctuation characters.
+	String=String:gsub("£","")
+	String=String:gsub("A","_")
+	
 	local Found={}
 	local strl=String:lower()
 	if strl=="all"or strl=="everyone"or strl=="everybody"then
@@ -1901,6 +1893,7 @@ local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunn
 		end  
 	end
 	LP=nil
+	strl=nil
 	return Found  
 end
 
