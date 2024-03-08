@@ -1893,13 +1893,13 @@ local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunn
 	if OverrideLocalPlayer~=_N then LP=OverrideLocalPlayer end
 	if String==_N then return nil end
 	if typeof(String)~="string"then return nil end
-	
+
 	String=String:lower()
 	String=String:gsub("_","A")
 	String=String:gsub("%p","") -- Removes all punctuation characters.
 	String=String:gsub("£","")
 	String=String:gsub("A","_")
-	
+
 	local Found={}
 	local strl=String:lower()
 	if strl=="all"or strl=="everyone"or strl=="everybody"then
@@ -2968,11 +2968,78 @@ LocalisedFunctions.DropItems = function(Player)
 
 end
 
+
+local PermittedRegions = ReplicatedStorage.PermittedRegions:GetChildren()
+local Regions = ReplicatedStorage.Regions:GetChildren()
+
+local GoodInmates={}
+local BadInmates={}
+
+local function GetPartsInRegion(part)
+	local min = Vector3.new(part.Position.X - part.Size.X/2, part.Position.Y - part.Size.Y/2, part.Position.Z - part.Size.Z/2)
+	local max= Vector3.new(part.Position.X + part.Size.X/2, part.Position.Y + part.Size.Y/1.5, part.Position.Z + part.Size.Z/2)
+	local region = Region3.new(min, max)
+
+	for i,v in pairs(workspace:FindPartsInRegion3(region,part,1000)) do --loops through the table
+		if not v.Anchored then
+			local Humanoid = v.Parent:FindFirstChildOfClass("Humanoid") or v.Parent.Parent:FindFirstChildOfClass("Humanoid")
+			if Humanoid ~= nil then
+				if Humanoid.Health>0 then
+					local Player = Sv.Plrs:GetPlayerFromCharacter(Humanoid.Parent)
+					if Player ~= nil then
+						print(Player:GetFullName())
+						if Player.TeamColor.Name=="Bright orange" then
+							if table.find(BadInmates,Player) ~= nil then
+								table.remove(BadInmates,table.find(BadInmates,Player))
+							end
+							if table.find(GoodInmates,Player) == nil then
+								table.insert(GoodInmates,Player)
+							end
+						end
+						Player=nil
+					end
+				end
+				Humanoid=nil
+			end
+		end
+	end
+	min,max,region=nil,nil,nil
+end
+
+LocalisedFunctions.ValidateInmateRegions = function()
+	GoodInmates,BadInmates={},{}
+	for i,Region in pairs(PermittedRegions) do
+		for i,v in pairs(Regions) do
+			if v.Name==Region.Value then -- Correct region to check
+				GetPartsInRegion(v)
+			end
+		end
+	end
+
+	for i,v in pairs(Sv.Plrs:GetPlayers()) do
+		if v.TeamColor.Name=="Bright orange" then
+			if table.find(GoodInmates,v)==nil then
+				if table.find(BadInmates,v)==nil then
+					table.insert(BadInmates,v)
+				end
+			end
+		end
+	end
+	return GoodInmates,BadInmates
+end
+
+
 LocalisedFunctions.ArrestDatNoob = function(Target)
 
 	for i=0,50 do
+		if Target.TeamColor == "Bright orange" then
+			local Good,Bad = LocalisedFunctions.ValidateInmateRegions()
+			if table.find(Bad,Target)==nil then Good,Bad=nil,nil break end
+			Good,Bad=nil,nil
+		end
+		
 		if not Target:IsDescendantOf(Sv.Plrs) then break end
-		if Target.TeamColor.Name == "Bright blue" then break end
+		if Target.TeamColor.Name == "Bright blue" or Target.TeamColor.Name == "Medium stone grey" then break end
 		local Char = Target.Character
 		if Char ~= nil then
 			local HEAD = Char:FindFirstChild("Head")
@@ -3140,7 +3207,7 @@ AdminCommands={
 			if Plr.TeamColor.Name ~= "Bright blue" then
 				if Plr.Name ~= Sv.LPlr.Name then
 					if Plr.Character ~= nil then
-						if Plr.TeamColor.Name=="Really red" then
+						if Plr.TeamColor.Name=="Really red"or Plr.TeamColor.Name=="Bright orange" then
 							LocalisedFunctions.ArrestDatNoob(Plr)
 							continue
 						end
@@ -4205,7 +4272,7 @@ cmdboxmain.FocusLost:Connect(function()
 	local Split=string.split(Message1," ")
 
 	local CMDFOUND=false
-	
+
 	for i,v in Sv.P(LocalAdminCommands)do
 		if Split[1]==prefix..i then
 			v(GetPlayer(Split[2], PlayerInstance) or nil,PlayerInstance)
