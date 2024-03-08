@@ -3035,7 +3035,7 @@ LocalisedFunctions.ArrestDatNoob = function(Target)
 		if Target.TeamColor.Name == "Bright orange" then
 			local Good,Bad = LocalisedFunctions.ValidateInmateRegions()
 			if table.find(Bad,Target)==nil then Good,Bad=nil,nil break end
-			if table.find(Good,Target)==nil then Good,Bad=nil,nil break end
+			if table.find(Good,Target)~=nil then Good,Bad=nil,nil break end
 			Good,Bad=nil,nil
 		end
 		
