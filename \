@@ -1928,6 +1928,17 @@ local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunn
 			end
 		end
 
+	elseif strl=="hostiles"then
+		local Format = {}
+		for i,v in pairs(Sv.Plrs:GetChildren()) do
+			if v.TeamColor.Name ~= "Bright blue" then
+				_A.O(Format,v)
+			end
+		end
+		for i,v in pairs(LocalisedFunctions.returnhostileplayers(Format)) do
+			_A.O(Found,v)
+		end
+		Format=_N
 	elseif strl=="team"or strl=="teammates"then
 		for i,v in Sv.P(Sv.Plrs:GetChildren())do
 			if v.TeamColor.Name==LP.TeamColor.Name then
@@ -3450,31 +3461,33 @@ AdminCommands={
 			until not A:IsDescendantOf(workspace)A=nil wait(0.1)
 		end
 
-		local OldPos = Sv.LPlr.Character.Head.CFrame
+		
+		local TargetChar = PlayerTbl[1].Character
+		if TargetChar ~= nil then
+			local OldPos = Sv.LPlr.Character.Head.CFrame
+			local TargetCF = TargetChar.Head.CFrame
 
-		local TargetCF = PlayerTbl[1].Character.Head.CFrame
+			LocalisedFunctions.BringPlayerFunc({Speaker})
 
-		LocalisedFunctions.BringPlayerFunc({Speaker})
+			for i,SelectedPlayer in pairs(PlayerTbl) do
+				if SelectedPlayer==Speaker then continue end
+				LocalisedFunctions.BringPlayerFunc({SelectedPlayer})
+				break
+			end
 
-		for i,SelectedPlayer in pairs(PlayerTbl) do
-			if SelectedPlayer==Speaker then continue end
-			LocalisedFunctions.BringPlayerFunc({SelectedPlayer})
-			break
+			for i=0,3 do wait()
+				LocalisedFunctions.TeleportPlayer(TargetCF)
+			end
+			wait(0.35)
+			local H = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
+			if H ~= nil then
+				H:ChangeState("Jumping")
+			end
+			H=nil
+			LocalisedFunctions.TeleportPlayer(OldPos)
+			TargetCF=nil
+			OldPos=nil
 		end
-
-		for i=0,3 do wait()
-			LocalisedFunctions.TeleportPlayer(TargetCF)
-		end
-		wait(0.35)
-		local H = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
-		if H ~= nil then
-			H:ChangeState("Jumping")
-		end
-		H=nil
-		LocalisedFunctions.TeleportPlayer(OldPos)
-		TargetCF=nil
-		OldPos=nil
-
 		if Sv.LPlr.TeamColor.Name ~= OldTeam then
 			if OldTeam=="Medium stone grey" then
 				Remote.TeamEvent:FireServer("Medium stone grey")
@@ -3944,7 +3957,7 @@ AdminCommands={
 		Found=_N
 	end,
 	["help"]=function(PlayerTbl,Speaker)
-		local message = [[Use commands by typing ;ko target/guards/crims/inmates/swats/team/admins/nonadmins (which kills them) | Type !prefix for prefix or !resetprefix]]
+		local message = [[Use commands by typing ;ko target/guards/crims/inmates/swats/team/admins/nonadmins/hostiles (which kills them) | Type !prefix for prefix or !resetprefix]]
 		if Speaker==_N then
 			notify(message,_A.R(0,1,0))
 		else
