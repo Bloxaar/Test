@@ -1918,6 +1918,52 @@ local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunn
 				_A.O(Found,v)
 			end
 		end 
+
+	elseif strl=="riots"or strl=="swats"then
+		for i,v in Sv.P(Sv.Plrs:GetChildren())do
+			if v.Character ~= nil then
+				if v.Character:FindFirstChild("vest") ~= nil then
+					_A.O(Found,v)
+				end
+			end
+		end
+
+	elseif strl=="team"or strl=="teammates"then
+		for i,v in Sv.P(Sv.Plrs:GetChildren())do
+			if v.TeamColor.Name==LP.TeamColor.Name then
+				_A.O(Found,v)
+			end
+		end 
+	elseif strl=="guards"or strl=="police"then
+		for i,v in Sv.P(Sv.Plrs:GetChildren())do
+			if v.TeamColor.Name=="Bright blue" then
+				_A.O(Found,v)
+			end
+		end 
+	elseif strl=="inmates"or strl=="prisoners"then
+		for i,v in Sv.P(Sv.Plrs:GetChildren())do
+			if v.TeamColor.Name=="Bright orange" then
+				_A.O(Found,v)
+			end
+		end 
+	elseif strl=="criminals"or strl=="crims"then
+		for i,v in Sv.P(Sv.Plrs:GetChildren())do
+			if v.TeamColor.Name=="Really red" then
+				_A.O(Found,v)
+			end
+		end 
+	elseif strl=="admins"or strl=="whitelisted"then
+		for i,v in Sv.P(Sv.Plrs:GetChildren())do
+			if table.find(AddedWhitelists,v.UserId)~= nil then
+				_A.O(Found,v)
+			end
+		end 
+	elseif strl=="nonadmins"or strl=="nonwhitelisted"then
+		for i,v in Sv.P(Sv.Plrs:GetChildren())do
+			if table.find(AddedWhitelists,v.UserId)== nil then
+				_A.O(Found,v)
+			end
+		end 
 	else
 		for i,v in Sv.P(Sv.Plrs:GetChildren())do
 			if v.Name:lower():sub(1, #String)==String:lower()then
@@ -3048,6 +3094,12 @@ LocalisedFunctions.ArrestDatNoob = function(Target)
 				if HEAD:FindFirstChild("handcuffedGui") ~= nil then
 					break
 				else
+					local HUM = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
+					if HUM ~= nil then
+						if HUM.Sit then
+							HUM.Sit=false
+						end
+					end
 					local HRP =Sv.LPlr.Character:FindFirstChild("HumanoidRootPart")
 					if HRP ~= nil then HRP.CFrame = HEAD.CFrame end
 					if #HRP:GetJoints() == 0 then 
@@ -3058,7 +3110,7 @@ LocalisedFunctions.ArrestDatNoob = function(Target)
 					end
 
 					task.spawn(function()Remote.arrest:InvokeServer({Parent=Char,Position=Vector3.new("nan",0,0)})end)
-					HRP=nil
+					HRP=nil HUM=nil
 				end
 			end
 			HEAD=_N
@@ -3306,34 +3358,6 @@ AdminCommands={
 			end
 		end
 	end,
-	["hswats"]=function()
-		local TBL={}
-		for i,v in Sv.P(Sv.Plrs:GetPlayers())do
-			if v.Name ~= Sv.LPlr.Name then
-				if v.Character ~= nil then
-					if v.Character:FindFirstChild("vest") ~= nil then
-						_A.O(TBL,v)
-					end
-				end
-			end
-		end
-		LocalisedFunctions.hurt(TBL)
-		TBL=_N
-	end,
-	["koswats"]=function()
-		local TBL={}
-		for i,v in Sv.P(Sv.Plrs:GetPlayers())do
-			if v.Name ~= Sv.LPlr.Name then
-				if v.Character ~= nil then
-					if v.Character:FindFirstChild("vest") ~= nil then
-						_A.O(TBL,v)
-					end
-				end
-			end
-		end
-		LocalisedFunctions.kill(TBL)
-		TBL=_N
-	end,
 	["items"]=function(PlayerTbl,Speaker)
 		local OldTeam=Sv.LPlr.TeamColor.Name
 
@@ -3471,92 +3495,6 @@ AdminCommands={
 	["ow"]=function(PlayerTbl)
 		if PlayerTbl==_N then return end
 		LocalisedFunctions.damage(PlayerTbl)
-	end,
-	["hteam"]=function(PlayerTbl,Speaker)
-		if Speaker==_N then
-			Speaker = Sv.LPlr
-		end
-		local TBL={}
-		for i,v in Sv.P(Sv.Plrs:GetPlayers())do
-			if v.Team.Name==Speaker.Team.Name then
-				_A.O(TBL,v)
-			end
-		end
-		LocalisedFunctions.hurt(TBL)
-		TBL=_N
-	end,
-	["koteam"]=function(PlayerTbl,Speaker)
-		if Speaker==_N then
-			Speaker = Sv.LPlr
-		end
-		local TBL={}
-		for i,v in Sv.P(Sv.Plrs:GetPlayers())do
-			if v.Team.Name==Speaker.Team.Name then
-				_A.O(TBL,v)
-			end
-		end
-		LocalisedFunctions.kill(TBL)
-		TBL=_N
-	end,
-	["kopolice"]=function()
-		local TBL={}
-		for i,v in Sv.P(Sv.Plrs:GetPlayers())do
-			if v.Team.Name=="Guards"then
-				_A.O(TBL,v)
-			end
-		end
-		LocalisedFunctions.kill(TBL)
-		TBL=_N
-	end,
-	["koinmates"]=function()
-		local TBL={}
-		for i,v in Sv.P(Sv.Plrs:GetPlayers())do
-			if v.Team.Name=="Inmates"then
-				_A.O(TBL,v)
-			end
-		end
-		LocalisedFunctions.kill(TBL)
-		TBL=_N
-	end,
-	["kocrims"]=function()
-		local TBL={}
-		for i,v in Sv.P(Sv.Plrs:GetPlayers())do
-			if v.Team.Name=="Criminals"then
-				_A.O(TBL,v)
-			end
-		end
-		LocalisedFunctions.kill(TBL)
-		TBL=_N
-	end,
-	["hpolice"]=function()
-		local TBL={}
-		for i,v in Sv.P(Sv.Plrs:GetPlayers())do
-			if v.Team.Name=="Guards"then
-				_A.O(TBL,v)
-			end
-		end
-		LocalisedFunctions.hurt(TBL)
-		TBL=_N
-	end,
-	["hinmates"]=function()
-		local TBL={}
-		for i,v in Sv.P(Sv.Plrs:GetPlayers())do
-			if v.Team.Name=="Inmates"then
-				_A.O(TBL,v)
-			end
-		end
-		LocalisedFunctions.hurt(TBL)
-		TBL=_N
-	end,
-	["hcrims"]=function()
-		local TBL={}
-		for i,v in Sv.P(Sv.Plrs:GetPlayers())do
-			if v.Team.Name=="Criminals"then
-				_A.O(TBL,v)
-			end
-		end
-		LocalisedFunctions.hurt(TBL)
-		TBL=_N
 	end,
 	["opendoors"]=function(TBL,Speaker)
 		if not DoorsCooldown then DoorsCooldown=_T else return end
@@ -4006,7 +3944,7 @@ AdminCommands={
 		Found=_N
 	end,
 	["help"]=function(PlayerTbl,Speaker)
-		local message = [[Use commands by typing ;example victim | like ;ko somebody (which makes them die) | or ;h somebody (which damages them) | commands like ;kopolice dont require a player. | Type !prefix for the prefix or !resetprefix to reset your prefix.]]
+		local message = [[Use commands by typing ;ko target/guards/crims/inmates/swats/team/admins/nonadmins (which kills them) | Type !prefix for prefix or !resetprefix]]
 		if Speaker==_N then
 			notify(message,_A.R(0,1,0))
 		else
