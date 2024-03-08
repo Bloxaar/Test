@@ -2987,7 +2987,7 @@ local function GetPartsInRegion(part)
 				if Humanoid.Health>0 then
 					local Player = Sv.Plrs:GetPlayerFromCharacter(Humanoid.Parent)
 					if Player ~= nil then
-						print(Player:GetFullName())
+						--print(Player:GetFullName())
 						if Player.TeamColor.Name=="Bright orange" then
 							if table.find(BadInmates,Player) ~= nil then
 								table.remove(BadInmates,table.find(BadInmates,Player))
@@ -3035,7 +3035,6 @@ LocalisedFunctions.ArrestDatNoob = function(Target)
 		if Target.TeamColor.Name == "Bright orange" then
 			local Good,Bad = LocalisedFunctions.ValidateInmateRegions()
 			if table.find(Bad,Target)==nil then Good,Bad=nil,nil break end
-			if table.find(Good,Target)~=nil then Good,Bad=nil,nil break end
 			Good,Bad=nil,nil
 		end
 		
