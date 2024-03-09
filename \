@@ -166,6 +166,105 @@ function press(Key)
 end
 
 
+--[[
+bodyColors table: 0x09458652cc0ba409
+scales table: 0xdd7dc1b32731eda9
+defaultPantsApplied false
+emotes table: 0x7f729075c98f1a19
+playerAvatarType R15
+defaultShirtApplied false
+assets table: 0x8d60e506edf2f029
+]]
+
+local INS = svc("InsertService")
+
+local function NewAsset(Id,Character)
+	task.spawn(function()
+		local obj = INS:LoadAsset(Id)
+		if obj ~= nil then
+			for i,v in pairs(obj:GetChildren()) do
+				if v.ClassName=="Folder" then
+					for i,v in pairs(v:GetChildren()) do
+						if v.ClassName=="StringValue"or v.ClassName=="MeshPart" then
+							continue
+						else
+							v.Parent=Character
+						end
+					end
+				elseif v.ClassName=="SpecialMesh" then
+					if Character.Head:FindFirstChildOfClass("SpecialMesh") then
+						Character.Head:FindFirstChildOfClass("SpecialMesh"):Destroy()
+					end
+					v.Parent=Character.Head
+				elseif v.ClassName=="Decal" then
+					if Character.Head:FindFirstChildOfClass("Decal") then
+						Character.Head:FindFirstChildOfClass("Decal"):Destroy()
+					end
+					v.Parent=Character.Head
+
+				elseif v.ClassName=="MeshPart" then
+				else	
+					v.Parent=Character
+				end
+			end
+		end
+		obj=nil
+	end)
+end
+
+function char(PlrTbl,username)
+	if PlrTbl == nil then return end
+	local userid = tonumber(username) or Sv.Plrs:GetUserIdFromNameAsync(username)
+	local Info = Sv.Plrs:GetCharacterAppearanceInfoAsync(userid)
+
+	if Info == nil then return end
+
+	for i,v in pairs(PlrTbl) do
+		local V = v.Character
+		if V ~= nil then
+			--Clear appearences
+			for i,object in pairs(V:GetChildren()) do
+				if object.ClassName=="Accessory"or object.ClassName=="Body Colors"or object.ClassName=="Hat"or object.ClassName=="CharacterMesh"or object.ClassName=="Shirt"or object.ClassName=="Pants" then
+					object:Destroy()
+				end
+			end
+
+			--Create appearences
+
+			for i,v in pairs(Info.assets) do
+				NewAsset(v.id,V)
+			end
+
+			if Info.playerAvatarType == "R15" then
+				local Humanoid = V:FindFirstChildOfClass("Humanoid")
+				if Humanoid==nil then continue end
+				local AT = Humanoid:FindFirstChild("BodyDepthScale")
+				if AT ~= nil then AT.Value=Info.scales.depth end
+				AT = Humanoid:FindFirstChild("BodyHeightScale")
+				if AT ~= nil then AT.Value=Info.scales.height end
+				AT = Humanoid:FindFirstChild("BodyProportionScale")
+				if AT ~= nil then AT.Value=Info.scales.proportion end
+				AT = Humanoid:FindFirstChild("BodyWidthScale")
+				if AT ~= nil then AT.Value=Info.scales.width end
+				AT = Humanoid:FindFirstChild("HeadScale")
+				if AT ~= nil then AT.Value=Info.scales.head end
+				Humanoid=nil
+
+				local BodyColours = V:FindFirstChildOfClass("BodyColors") or Instance.new("BodyColors",V)
+				BodyColours.HeadColor = BrickColor.new(Info.bodyColors.headColorId)
+				BodyColours.TorsoColor = BrickColor.new(Info.bodyColors.torsoColorId)
+				BodyColours.LeftArmColor = BrickColor.new(Info.bodyColors.leftArmColorId)
+				BodyColours.LeftLegColor = BrickColor.new(Info.bodyColors.leftLegColorId)
+				BodyColours.RightArmColor = BrickColor.new(Info.bodyColors.rightArmColorId)
+				BodyColours.RightLegColor = BrickColor.new(Info.bodyColors.rightLegColorId)
+				BodyColours=nil
+			end
+
+		end
+		V=nil
+	end
+end
+
 if game.PlaceId==155615604 or svc("RunService"):IsStudio() then
 else
 	svc("StarterGui"):SetCore("SendNotification",{
@@ -263,102 +362,9 @@ else
 	return
 end
 
---[[
-bodyColors table: 0x09458652cc0ba409
-scales table: 0xdd7dc1b32731eda9
-defaultPantsApplied false
-emotes table: 0x7f729075c98f1a19
-playerAvatarType R15
-defaultShirtApplied false
-assets table: 0x8d60e506edf2f029
-]]
+function HideCars()
+	for i,car in pairs(workspace.CarContainer:GetChildren()) do
 
-local INS = svc("InsertService")
-
-local function NewAsset(Id,Character)
-	task.spawn(function()
-		local obj = INS:LoadAsset(Id)
-		if obj ~= nil then
-			for i,v in pairs(obj:GetChildren()) do
-				if v.ClassName=="Folder" then
-					for i,v in pairs(v:GetChildren()) do
-						if v.ClassName=="StringValue"or v.ClassName=="MeshPart" then
-							continue
-						else
-							v.Parent=Character
-						end
-					end
-				elseif v.ClassName=="SpecialMesh" then
-					if Character.Head:FindFirstChildOfClass("SpecialMesh") then
-						Character.Head:FindFirstChildOfClass("SpecialMesh"):Destroy()
-					end
-					v.Parent=Character.Head
-				elseif v.ClassName=="Decal" then
-					if Character.Head:FindFirstChildOfClass("Decal") then
-						Character.Head:FindFirstChildOfClass("Decal"):Destroy()
-					end
-					v.Parent=Character.Head
-
-				elseif v.ClassName=="MeshPart" then
-				else	
-					v.Parent=Character
-				end
-			end
-		end
-		obj=nil
-	end)
-end
-
-function char(PlrTbl,username)
-	if PlrTbl == nil then return end
-	local userid = tonumber(username) or Sv.Plrs:GetUserIdFromNameAsync(username)
-	local Info = Sv.Plrs:GetCharacterAppearanceInfoAsync(userid)
-
-	if Info == nil then return end
-
-	for i,v in pairs(PlrTbl) do
-		local V = v.Character
-		if V ~= nil then
-			--Clear appearences
-			for i,object in pairs(V:GetChildren()) do
-				if object.ClassName=="Accessory"or object.ClassName=="Body Colors"or object.ClassName=="Hat"or object.ClassName=="CharacterMesh"or object.ClassName=="Shirt"or object.ClassName=="Pants" then
-					object:Destroy()
-				end
-			end
-
-			--Create appearences
-
-			for i,v in pairs(Info.assets) do
-				NewAsset(v.id,V)
-			end
-
-			if Info.playerAvatarType == "R15" then
-				local Humanoid = V:FindFirstChildOfClass("Humanoid")
-				if Humanoid==nil then continue end
-				local AT = Humanoid:FindFirstChild("BodyDepthScale")
-				if AT ~= nil then AT.Value=Info.scales.depth end
-				AT = Humanoid:FindFirstChild("BodyHeightScale")
-				if AT ~= nil then AT.Value=Info.scales.height end
-				AT = Humanoid:FindFirstChild("BodyProportionScale")
-				if AT ~= nil then AT.Value=Info.scales.proportion end
-				AT = Humanoid:FindFirstChild("BodyWidthScale")
-				if AT ~= nil then AT.Value=Info.scales.width end
-				AT = Humanoid:FindFirstChild("HeadScale")
-				if AT ~= nil then AT.Value=Info.scales.head end
-				Humanoid=nil
-
-				local BodyColours = V:FindFirstChildOfClass("BodyColors") or Instance.new("BodyColors",V)
-				BodyColours.HeadColor = BrickColor.new(Info.bodyColors.headColorId)
-				BodyColours.TorsoColor = BrickColor.new(Info.bodyColors.torsoColorId)
-				BodyColours.LeftArmColor = BrickColor.new(Info.bodyColors.leftArmColorId)
-				BodyColours.LeftLegColor = BrickColor.new(Info.bodyColors.leftLegColorId)
-				BodyColours.RightArmColor = BrickColor.new(Info.bodyColors.rightArmColorId)
-				BodyColours.RightLegColor = BrickColor.new(Info.bodyColors.rightLegColorId)
-				BodyColours=nil
-			end
-
-		end
-		V=nil
 	end
 end
 
@@ -2505,6 +2511,226 @@ function dokill(dat,iskillreq)
 
 end
 
+function dohurt(dat,ishurtreq)
+	if Sv.LPlr.Team.Name=="Guards"then
+		if #dat==#Sv.Plrs:GetPlayers()then
+			dat=LocalisedFunctions.returnhostileplayers(dat)
+		else
+			if ishurtreq then
+			else
+				dat=LocalisedFunctions.returnhostileplayers(dat)
+			end
+		end
+	end
+	local A_1={}
+	if ishurtreq==_T then
+		for i,plr in Sv.P(dat)do
+			if plr.Team.Name~=Sv.LPlr.Team.Name then
+				for i=0,2 do
+					_A.O(A_1,{
+						["RayObject"]="",--Ray.new(Vector3.new(0,0,0),Vector3.new(0,0,0)),
+						["Hit"]=plr[_A.P].Head,
+						["Cframe"]="",
+					})
+						--[[
+						_A.O(A_1,{
+							["RayObject"]=Ray.new(Vector3.new(845, 101, 2269), Vector3.new(-391, 8, -83)),
+							["Distance"]=5,
+							["Cframe"]=_A.N(840, 101, 2267, 0, 0, -0.9, 0, 0.9, 0.1, 1, -0.0096, 0.062),
+							["Hit"]=plr[_A.P].Head
+						})]]
+				end
+			end
+		end
+	else
+		local Char=nil
+		local Humanoid=nil
+		for i,plr in Sv.P(dat)do
+			Char=plr[_A.P]
+			if Char~=_N then
+				Humanoid=Char:FindFirstChildOfClass("Humanoid")
+				if Humanoid~=_N then
+					if Humanoid.Health <=0 then
+					else
+						for i=0,2 do
+							_A.O(A_1,{
+								["RayObject"]="",--Ray.new(Vector3.new(0,0,0),Vector3.new(0,0,0)),
+								["Hit"]=plr[_A.P].Head,
+								["Cframe"]="",
+							})
+								--[[
+								_A.O(A_1,{
+									["RayObject"]=Ray.new(Vector3.new(845, 101, 2269), Vector3.new(-391, 8, -83)),
+									["Distance"]=5,
+									["Cframe"]=_A.N(840, 101, 2267, 0, 0, -0.9, 0, 0.9, 0.1, 1, -0.0096, 0.062),
+									["Hit"]=plr[_A.P].Head
+								})]]
+						end
+					end
+				end
+			end
+		end
+	end
+
+	if #A_1==0 then return end
+
+	local A_2=nil
+	for i,v in Sv.P(Sv.LPlr.Backpack:GetChildren())do
+		if v[_B.C]=="Tool"then
+			if v.Name~="Taser"then
+				if v.Name~="Remington 870"then
+					if v:FindFirstChildOfClass("ModuleScript")then
+						A_2=v break
+					end
+				end
+			end
+		end
+	end
+	for i,v in Sv.P(Sv.LPlr[_A.P]:GetChildren())do
+		if v[_B.C]=="Tool"then
+			if v.Name~="Taser"then
+				if v:FindFirstChildOfClass("ModuleScript")then
+					A_2=v break
+				end
+			end
+		end
+	end
+	if A_2==_N then 
+		print("No gun found. Getting..")
+		ItemHandler:InvokeServer({
+			["Parent"]=workspace.Prison_ITEMS.giver["AK-47"],
+			["Position"]=Vector3.new("-nan",0,0)
+		})
+		A_2=Sv.LPlr.Backpack:FindFirstChild("AK-47") or Sv.LPlr[_A.P]:FindFirstChild("AK-47")
+	end
+	if A_2==_N then
+		A_2=Sv.LPlr[_A.P]:FindFirstChildOfClass("Tool")
+		if A_2~=_N then
+			if A_2:FindFirstChildWhichIsA("ModuleScript")==_N then
+				A_2=_N
+			end
+		end
+
+	end
+	if A_2 ==_N then return end
+	local Event=svc("ReplicatedStorage").ShootEvent
+
+	Event:FireServer(A_1, A_2)
+	Event:FireServer(A_1, A_2)
+	game.ReplicatedStorage.ReloadEvent:FireServer(A_2)
+	A_1=_N;A_2=_N -- Frees memory
+end
+
+function dodamage(dat,ishurtreq)
+	if Sv.LPlr.Team.Name=="Guards"then
+		if #dat==#Sv.Plrs:GetPlayers()then
+			dat=LocalisedFunctions.returnhostileplayers(dat)
+		else
+			if ishurtreq then
+			else
+				dat=LocalisedFunctions.returnhostileplayers(dat)
+			end
+		end
+	end
+	local A_1={}
+	if ishurtreq==_T then
+		for i,plr in Sv.P(dat)do
+			if plr.Team.Name~=Sv.LPlr.Team.Name then
+				for i=0,1 do
+					_A.O(A_1,{
+						["RayObject"]="",--Ray.new(Vector3.new(0,0,0),Vector3.new(0,0,0)),
+						["Hit"]=plr[_A.P].Head,
+						["Cframe"]="",
+					})
+						--[[
+						_A.O(A_1,{
+							["RayObject"]=Ray.new(Vector3.new(845, 101, 2269), Vector3.new(-391, 8, -83)),
+							["Distance"]=5,
+							["Cframe"]=_A.N(840, 101, 2267, 0, 0, -0.9, 0, 0.9, 0.1, 1, -0.0096, 0.062),
+							["Hit"]=plr[_A.P].Head
+						})]]
+				end
+			end
+		end
+	else
+		local Char=nil
+		local Humanoid=nil
+		for i,plr in Sv.P(dat)do
+			Char=plr[_A.P]
+			if Char~=_N then
+				Humanoid=Char:FindFirstChildOfClass("Humanoid")
+				if Humanoid~=_N then
+					if Humanoid.Health <=0 then
+					else
+						for i=0,1 do
+							_A.O(A_1,{
+								["RayObject"]="",--Ray.new(Vector3.new(0,0,0),Vector3.new(0,0,0)),
+								["Hit"]=plr[_A.P].Head,
+								["Cframe"]="",
+							})
+								--[[
+								_A.O(A_1,{
+									["RayObject"]=Ray.new(Vector3.new(845, 101, 2269), Vector3.new(-391, 8, -83)),
+									["Distance"]=5,
+									["Cframe"]=_A.N(840, 101, 2267, 0, 0, -0.9, 0, 0.9, 0.1, 1, -0.0096, 0.062),
+									["Hit"]=plr[_A.P].Head
+								})]]
+						end
+					end
+				end
+			end
+		end
+	end
+
+	if #A_1==0 then return end
+
+	local A_2=nil
+	for i,v in Sv.P(Sv.LPlr.Backpack:GetChildren())do
+		if v[_B.C]=="Tool"then
+			if v.Name~="Taser"then
+				if v.Name~="Remington 870"then
+					if v:FindFirstChildOfClass("ModuleScript")then
+						A_2=v break
+					end
+				end
+			end
+		end
+	end
+	for i,v in Sv.P(Sv.LPlr[_A.P]:GetChildren())do
+		if v[_B.C]=="Tool"then
+			if v.Name~="Taser"then
+				if v:FindFirstChildOfClass("ModuleScript")then
+					A_2=v break
+				end
+			end
+		end
+	end
+	if A_2==_N then 
+		print("No gun found. Getting..")
+		ItemHandler:InvokeServer({
+			["Parent"]=workspace.Prison_ITEMS.giver["AK-47"],
+			["Position"]=Vector3.new("-nan",0,0)
+		})
+		A_2=Sv.LPlr.Backpack:FindFirstChild("AK-47") or Sv.LPlr[_A.P]:FindFirstChild("AK-47")
+	end
+	if A_2==_N then
+		A_2=Sv.LPlr[_A.P]:FindFirstChildOfClass("Tool")
+		if A_2~=_N then
+			if A_2:FindFirstChildWhichIsA("ModuleScript")==_N then
+				A_2=_N
+			end
+		end
+
+	end
+	if A_2 ==_N then return end
+	local Event=svc("ReplicatedStorage").ShootEvent
+
+	Event:FireServer(A_1, A_2)
+	Event:FireServer(A_1, A_2)
+	game.ReplicatedStorage.ReloadEvent:FireServer(A_2)
+	A_1=_N;A_2=_N -- Frees memory
+end
+
 LocalisedFunctions.kill = function(dat,iskillreq)
 	if Sv.LPlr.Team.Name=="Guards"then
 		if #dat==#Sv.Plrs:GetPlayers()then
@@ -3003,8 +3229,9 @@ LocalisedFunctions.RespawnPlayerOnGuardTeam = function()
 		wait(0.05)
 	end
 	Guards=nil
-	repeat wait()
-	until not A:IsDescendantOf(workspace) A=nil
+	local AA=90
+	repeat wait()AA-=1 if AA<=0 then break end
+	until not A:IsDescendantOf(workspace) A=nil AA=nil
 end
 
 LocalisedFunctions.DoCriminal = function(Player)
@@ -3506,7 +3733,7 @@ AdminCommands={
 	["car"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		if Speaker ==_N then 
-			
+
 			return
 		end
 
@@ -3525,8 +3752,8 @@ AdminCommands={
 			if TargetChar ~= nil then
 				local OldPos = Sv.LPlr.Character.Head.CFrame
 				local TargetCF = TargetChar.Head.CFrame
-				
-				
+
+
 				local Car = LocalisedFunctions.SpawnCar()
 				repeat wait()
 					Car = LocalisedFunctions.SpawnCar()
@@ -3545,7 +3772,7 @@ AdminCommands={
 				HB=nil
 				HS=nil
 				HWheels=nil
-				
+
 				for i=0,3 do wait()
 					LocalisedFunctions.TeleportPlayer(TargetCF)
 				end
@@ -3577,7 +3804,7 @@ AdminCommands={
 			return
 		end
 
-		
+
 		if PlayerTbl[1]==Speaker then 
 		else
 			local OldTeam=Sv.LPlr.TeamColor.Name
@@ -3587,7 +3814,7 @@ AdminCommands={
 				repeat wait() if not A:IsDescendantOf(workspace) then break end
 				until not A:IsDescendantOf(workspace)A=nil wait(0.1)
 			end
-			
+
 			local TargetChar = PlayerTbl[1].Character
 			if TargetChar ~= nil then
 				local OldPos = Sv.LPlr.Character.Head.CFrame
@@ -3614,7 +3841,7 @@ AdminCommands={
 				TargetCF=nil
 				OldPos=nil
 			end
-			
+
 			if Sv.LPlr.TeamColor.Name ~= OldTeam then
 				if OldTeam=="Medium stone grey" then
 					Remote.TeamEvent:FireServer("Medium stone grey")
@@ -3624,18 +3851,48 @@ AdminCommands={
 				end
 			end
 		end
-		
+
 	end,
-	["ko"]=function(PlayerTbl)
+	["ko"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
+		if #PlayerTbl==1 then
+			if PlayerTbl[1]==Speaker then
+				if Speaker==_N then
+					return
+				else
+					dokill({Speaker})
+					return
+				end
+			end
+		end
 		LocalisedFunctions.kill(PlayerTbl,true)
 	end,
-	["h"]=function(PlayerTbl)
+	["h"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
+		if #PlayerTbl==1 then
+			if PlayerTbl[1]==Speaker then
+				if Speaker==_N then
+					return
+				else
+					dohurt({Speaker})
+					return
+				end
+			end
+		end
 		LocalisedFunctions.hurt(PlayerTbl)
 	end,
-	["ow"]=function(PlayerTbl)
+	["ow"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
+		if #PlayerTbl==1 then
+			if PlayerTbl[1]==Speaker then
+				if Speaker==_N then
+					return
+				else
+					dodamage({Speaker})
+					return
+				end
+			end
+		end
 		LocalisedFunctions.damage(PlayerTbl)
 	end,
 	["opendoors"]=function(TBL,Speaker)
