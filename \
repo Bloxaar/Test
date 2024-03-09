@@ -1873,6 +1873,53 @@ if game.PlaceId==155615604 then
 	}
 end
 
+local uis = svc("UserInputService")
+
+LocalisedFunctions.DragifyFrame = function(Frame)
+	local dragging
+	local dragInput
+	local dragStart
+	local startPos
+
+	local function update(input)
+		local delta = input.Position - dragStart
+		Frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+		delta=nil
+	end
+
+	Frame.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+			dragging = true
+			dragStart = input.Position
+			startPos = Frame.Position
+
+			input.Changed:Connect(function()
+				if input.UserInputState == Enum.UserInputState.End then
+					dragging = false
+				end
+			end)
+		end
+	end)
+
+	Frame.InputChanged:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+			dragInput = input
+		end
+	end)
+
+	uis.InputChanged:Connect(function(input)
+		if input == dragInput and dragging then
+			update(input)
+		end
+	end)
+end
+
+for i,v in pairs(PrisonG:GetDescendants()) do
+	if v.ClassName=="Frame"then
+		LocalisedFunctions.DragifyFrame(v)
+	end
+end
+
 local function notify(msg,Colorr)
 	if textchatservice.ChatVersion==Enum.ChatVersion.TextChatService then
 		if textchatservice:FindFirstChild("TextChannels")==_N then repeat wait()until textchatservice:FindFirstChild("TextChannels")~=_N end
@@ -3094,7 +3141,7 @@ LocalisedFunctions.ArrestDatNoob = function(Target)
 			if table.find(Bad,Target)==nil then Good,Bad=nil,nil break end
 			Good,Bad=nil,nil
 		end
-		
+
 		if not Target:IsDescendantOf(Sv.Plrs) then break end
 		if Target.TeamColor.Name == "Bright blue" or Target.TeamColor.Name == "Medium stone grey" then break end
 		local Char = Target.Character
@@ -3461,7 +3508,7 @@ AdminCommands={
 			until not A:IsDescendantOf(workspace)A=nil wait(0.1)
 		end
 
-		
+
 		local TargetChar = PlayerTbl[1].Character
 		if TargetChar ~= nil then
 			local OldPos = Sv.LPlr.Character.Head.CFrame
