@@ -3738,62 +3738,59 @@ AdminCommands={
 		end
 
 
-		if PlayerTbl[1]==Speaker then 
-		else
-			local OldTeam=Sv.LPlr.TeamColor.Name
-			if OldTeam=="Medium stone grey" then
-				Remote.TeamEvent:FireServer("Bright orange")
-				local A = Sv.LPlr.Character:FindFirstChild("Head")
-				repeat wait() if not A:IsDescendantOf(workspace) then break end
-				until not A:IsDescendantOf(workspace)A=nil wait(0.1)
-			end
+		local OldTeam=Sv.LPlr.TeamColor.Name
+		if OldTeam=="Medium stone grey" then
+			Remote.TeamEvent:FireServer("Bright orange")
+			local A = Sv.LPlr.Character:FindFirstChild("Head")
+			repeat wait() if not A:IsDescendantOf(workspace) then break end
+			until not A:IsDescendantOf(workspace)A=nil wait(0.1)
+		end
 
-			local TargetChar = PlayerTbl[1].Character
-			if TargetChar ~= nil then
-				local OldPos = Sv.LPlr.Character.Head.CFrame
-				local TargetCF = TargetChar.Head.CFrame
+		local TargetChar = PlayerTbl[1].Character
+		if TargetChar ~= nil then
+			local OldPos = Sv.LPlr.Character.Head.CFrame
+			local TargetCF = TargetChar.Head.CFrame
 
 
-				local Car = LocalisedFunctions.SpawnCar()
+			local Car = LocalisedFunctions.SpawnCar()
+			repeat wait()
+				Car = LocalisedFunctions.SpawnCar()
+				if Car ~= nil then break end
+			until Car ~= nil
+			local HB=Car:FindFirstChild("Body")
+			local HWheels=Car:FindFirstChild("Wheels")
+			local HS=HB:FindFirstChildWhichIsA("VehicleSeat")
+			if HS.Occupant==_N then
 				repeat wait()
-					Car = LocalisedFunctions.SpawnCar()
-					if Car ~= nil then break end
-				until Car ~= nil
-				local HB=Car:FindFirstChild("Body")
-				local HWheels=Car:FindFirstChild("Wheels")
-				local HS=HB:FindFirstChildWhichIsA("VehicleSeat")
-				if HS.Occupant==_N then
-					repeat wait()
-						if not HS:IsDescendantOf(workspace)then return end
-						HS:Sit(Sv.LPlr[_A.P].Humanoid)
-					until HS.Occupant~=_N
-				end
-				Car=nil
-				HB=nil
-				HS=nil
-				HWheels=nil
-
-				for i=0,3 do wait()
-					LocalisedFunctions.TeleportPlayer(TargetCF)
-				end
-				wait(0.35)
-				local H = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
-				if H ~= nil then
-					H:ChangeState("Jumping")
-				end
-				H=nil
-				LocalisedFunctions.TeleportPlayer(OldPos)
-				TargetCF=nil
-				OldPos=nil
+					if not HS:IsDescendantOf(workspace)then return end
+					HS:Sit(Sv.LPlr[_A.P].Humanoid)
+				until HS.Occupant~=_N
 			end
+			Car=nil
+			HB=nil
+			HS=nil
+			HWheels=nil
 
-			if Sv.LPlr.TeamColor.Name ~= OldTeam then
-				if OldTeam=="Medium stone grey" then
-					Remote.TeamEvent:FireServer("Medium stone grey")
-				elseif OldTeam=="Really red" then
-					LocalisedFunctions.DoCriminal()
+			for i=0,3 do wait()
+				LocalisedFunctions.TeleportPlayer(TargetCF)
+			end
+			wait(0.35)
+			local H = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
+			if H ~= nil then
+				H:ChangeState("Jumping")
+			end
+			H=nil
+			LocalisedFunctions.TeleportPlayer(OldPos)
+			TargetCF=nil
+			OldPos=nil
+		end
 
-				end
+		if Sv.LPlr.TeamColor.Name ~= OldTeam then
+			if OldTeam=="Medium stone grey" then
+				Remote.TeamEvent:FireServer("Medium stone grey")
+			elseif OldTeam=="Really red" then
+				LocalisedFunctions.DoCriminal()
+
 			end
 		end
 	end,
