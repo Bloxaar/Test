@@ -164,6 +164,12 @@ function press(Key)
 
 	game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode[string.upper(Key)], false, nil)
 end
+function rejoin()
+	for i=0,10 do
+		game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId,game.JobId)
+		wait()
+	end
+end
 
 
 --[[
