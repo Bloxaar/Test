@@ -3809,8 +3809,6 @@ AdminCommands={
 		end
 
 
-		if PlayerTbl[1]==Speaker then 
-		else
 			local OldTeam=Sv.LPlr.TeamColor.Name
 			if OldTeam=="Medium stone grey" then
 				Remote.TeamEvent:FireServer("Bright orange")
@@ -3854,7 +3852,6 @@ AdminCommands={
 
 				end
 			end
-		end
 
 	end,
 	["yard"]=function(PlayerTbl,Speaker)
@@ -3866,8 +3863,6 @@ AdminCommands={
 		end
 
 
-		if PlayerTbl[1]==Speaker then 
-		else
 			local OldTeam=Sv.LPlr.TeamColor.Name
 			if OldTeam=="Medium stone grey" then
 				Remote.TeamEvent:FireServer("Bright orange")
@@ -3911,7 +3906,6 @@ AdminCommands={
 
 				end
 			end
-		end
 
 	end,
 	["tower"]=function(PlayerTbl,Speaker)
@@ -3923,8 +3917,6 @@ AdminCommands={
 		end
 
 
-		if PlayerTbl[1]==Speaker then 
-		else
 			local OldTeam=Sv.LPlr.TeamColor.Name
 			if OldTeam=="Medium stone grey" then
 				Remote.TeamEvent:FireServer("Bright orange")
@@ -3968,7 +3960,6 @@ AdminCommands={
 
 				end
 			end
-		end
 
 	end,
 	
@@ -3981,8 +3972,6 @@ AdminCommands={
 		end
 
 
-		if PlayerTbl[1]==Speaker then 
-		else
 			local OldTeam=Sv.LPlr.TeamColor.Name
 			if OldTeam=="Medium stone grey" then
 				Remote.TeamEvent:FireServer("Bright orange")
@@ -4026,7 +4015,6 @@ AdminCommands={
 
 				end
 			end
-		end
 
 	end,
 	["roof"]=function(PlayerTbl,Speaker)
@@ -4038,8 +4026,6 @@ AdminCommands={
 		end
 
 
-		if PlayerTbl[1]==Speaker then 
-		else
 			local OldTeam=Sv.LPlr.TeamColor.Name
 			if OldTeam=="Medium stone grey" then
 				Remote.TeamEvent:FireServer("Bright orange")
@@ -4083,7 +4069,6 @@ AdminCommands={
 
 				end
 			end
-		end
 
 	end,
 	["cafe"]=function(PlayerTbl,Speaker)
@@ -4095,8 +4080,6 @@ AdminCommands={
 		end
 
 
-		if PlayerTbl[1]==Speaker then 
-		else
 			local OldTeam=Sv.LPlr.TeamColor.Name
 			if OldTeam=="Medium stone grey" then
 				Remote.TeamEvent:FireServer("Bright orange")
@@ -4140,7 +4123,6 @@ AdminCommands={
 
 				end
 			end
-		end
 
 	end,
 	["crimbase"]=function(PlayerTbl,Speaker)
@@ -4152,8 +4134,6 @@ AdminCommands={
 		end
 
 
-		if PlayerTbl[1]==Speaker then 
-		else
 			local OldTeam=Sv.LPlr.TeamColor.Name
 			if OldTeam=="Medium stone grey" then
 				Remote.TeamEvent:FireServer("Bright orange")
@@ -4197,7 +4177,6 @@ AdminCommands={
 
 				end
 			end
-		end
 
 	end,
 	["goto"]=function(PlayerTbl,Speaker)
