@@ -3794,6 +3794,406 @@ AdminCommands={
 			end
 		end
 	end,
+	["prison"]=function(PlayerTbl,Speaker)
+		local DesiredTargetCF = CFrame.new(942, 100, 2376)
+		if PlayerTbl==_N then return end
+		if Speaker ==_N then 
+			Speaker.Character.HumanoidRootPart.CFrame=DesiredTargetCF
+			return
+		end
+
+
+		if PlayerTbl[1]==Speaker then 
+		else
+			local OldTeam=Sv.LPlr.TeamColor.Name
+			if OldTeam=="Medium stone grey" then
+				Remote.TeamEvent:FireServer("Bright orange")
+				local A = Sv.LPlr.Character:FindFirstChild("Head")
+				repeat wait() if not A:IsDescendantOf(workspace) then break end
+				until not A:IsDescendantOf(workspace)A=nil wait(0.1)
+			end
+
+			local TargetChar = PlayerTbl[1].Character
+			if TargetChar ~= nil then
+				local OldPos = Sv.LPlr.Character.Head.CFrame
+				local TargetCF = TargetChar.Head.CFrame
+
+				LocalisedFunctions.BringPlayerFunc({Speaker})
+
+				for i,SelectedPlayer in pairs(PlayerTbl) do
+					if SelectedPlayer==Speaker then continue end
+					LocalisedFunctions.BringPlayerFunc({SelectedPlayer})
+					break
+				end
+
+				for i=0,3 do wait()
+					LocalisedFunctions.TeleportPlayer(DesiredTargetCF)
+				end
+				wait(0.35)
+				local H = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
+				if H ~= nil then
+					H:ChangeState("Jumping")
+				end
+				H=nil
+				LocalisedFunctions.TeleportPlayer(OldPos)
+				TargetCF=nil
+				OldPos=nil
+			end
+			DesiredTargetCF=nil
+			if Sv.LPlr.TeamColor.Name ~= OldTeam then
+				if OldTeam=="Medium stone grey" then
+					Remote.TeamEvent:FireServer("Medium stone grey")
+				elseif OldTeam=="Really red" then
+					LocalisedFunctions.DoCriminal()
+
+				end
+			end
+		end
+
+	end,
+	["yard"]=function(PlayerTbl,Speaker)
+		local DesiredTargetCF = CFrame.new(785, 98, 2471)
+		if PlayerTbl==_N then return end
+		if Speaker ==_N then 
+			Speaker.Character.HumanoidRootPart.CFrame=DesiredTargetCF
+			return
+		end
+
+
+		if PlayerTbl[1]==Speaker then 
+		else
+			local OldTeam=Sv.LPlr.TeamColor.Name
+			if OldTeam=="Medium stone grey" then
+				Remote.TeamEvent:FireServer("Bright orange")
+				local A = Sv.LPlr.Character:FindFirstChild("Head")
+				repeat wait() if not A:IsDescendantOf(workspace) then break end
+				until not A:IsDescendantOf(workspace)A=nil wait(0.1)
+			end
+
+			local TargetChar = PlayerTbl[1].Character
+			if TargetChar ~= nil then
+				local OldPos = Sv.LPlr.Character.Head.CFrame
+				local TargetCF = TargetChar.Head.CFrame
+
+				LocalisedFunctions.BringPlayerFunc({Speaker})
+
+				for i,SelectedPlayer in pairs(PlayerTbl) do
+					if SelectedPlayer==Speaker then continue end
+					LocalisedFunctions.BringPlayerFunc({SelectedPlayer})
+					break
+				end
+
+				for i=0,3 do wait()
+					LocalisedFunctions.TeleportPlayer(DesiredTargetCF)
+				end
+				wait(0.35)
+				local H = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
+				if H ~= nil then
+					H:ChangeState("Jumping")
+				end
+				H=nil
+				LocalisedFunctions.TeleportPlayer(OldPos)
+				TargetCF=nil
+				OldPos=nil
+			end
+			DesiredTargetCF=nil
+			if Sv.LPlr.TeamColor.Name ~= OldTeam then
+				if OldTeam=="Medium stone grey" then
+					Remote.TeamEvent:FireServer("Medium stone grey")
+				elseif OldTeam=="Really red" then
+					LocalisedFunctions.DoCriminal()
+
+				end
+			end
+		end
+
+	end,
+	["tower"]=function(PlayerTbl,Speaker)
+		local DesiredTargetCF = CFrame.new(823, 143, 2588)
+		if PlayerTbl==_N then return end
+		if Speaker ==_N then 
+			Speaker.Character.HumanoidRootPart.CFrame=DesiredTargetCF
+			return
+		end
+
+
+		if PlayerTbl[1]==Speaker then 
+		else
+			local OldTeam=Sv.LPlr.TeamColor.Name
+			if OldTeam=="Medium stone grey" then
+				Remote.TeamEvent:FireServer("Bright orange")
+				local A = Sv.LPlr.Character:FindFirstChild("Head")
+				repeat wait() if not A:IsDescendantOf(workspace) then break end
+				until not A:IsDescendantOf(workspace)A=nil wait(0.1)
+			end
+
+			local TargetChar = PlayerTbl[1].Character
+			if TargetChar ~= nil then
+				local OldPos = Sv.LPlr.Character.Head.CFrame
+				local TargetCF = TargetChar.Head.CFrame
+
+				LocalisedFunctions.BringPlayerFunc({Speaker})
+
+				for i,SelectedPlayer in pairs(PlayerTbl) do
+					if SelectedPlayer==Speaker then continue end
+					LocalisedFunctions.BringPlayerFunc({SelectedPlayer})
+					break
+				end
+
+				for i=0,3 do wait()
+					LocalisedFunctions.TeleportPlayer(DesiredTargetCF)
+				end
+				wait(0.35)
+				local H = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
+				if H ~= nil then
+					H:ChangeState("Jumping")
+				end
+				H=nil
+				LocalisedFunctions.TeleportPlayer(OldPos)
+				TargetCF=nil
+				OldPos=nil
+			end
+			DesiredTargetCF=nil
+			if Sv.LPlr.TeamColor.Name ~= OldTeam then
+				if OldTeam=="Medium stone grey" then
+					Remote.TeamEvent:FireServer("Medium stone grey")
+				elseif OldTeam=="Really red" then
+					LocalisedFunctions.DoCriminal()
+
+				end
+			end
+		end
+
+	end,
+	
+	["secretroom"]=function(PlayerTbl,Speaker)
+		local DesiredTargetCF = CFrame.new(701, 100, 2366)
+		if PlayerTbl==_N then return end
+		if Speaker ==_N then 
+			Speaker.Character.HumanoidRootPart.CFrame=DesiredTargetCF
+			return
+		end
+
+
+		if PlayerTbl[1]==Speaker then 
+		else
+			local OldTeam=Sv.LPlr.TeamColor.Name
+			if OldTeam=="Medium stone grey" then
+				Remote.TeamEvent:FireServer("Bright orange")
+				local A = Sv.LPlr.Character:FindFirstChild("Head")
+				repeat wait() if not A:IsDescendantOf(workspace) then break end
+				until not A:IsDescendantOf(workspace)A=nil wait(0.1)
+			end
+
+			local TargetChar = PlayerTbl[1].Character
+			if TargetChar ~= nil then
+				local OldPos = Sv.LPlr.Character.Head.CFrame
+				local TargetCF = TargetChar.Head.CFrame
+
+				LocalisedFunctions.BringPlayerFunc({Speaker})
+
+				for i,SelectedPlayer in pairs(PlayerTbl) do
+					if SelectedPlayer==Speaker then continue end
+					LocalisedFunctions.BringPlayerFunc({SelectedPlayer})
+					break
+				end
+
+				for i=0,3 do wait()
+					LocalisedFunctions.TeleportPlayer(DesiredTargetCF)
+				end
+				wait(0.35)
+				local H = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
+				if H ~= nil then
+					H:ChangeState("Jumping")
+				end
+				H=nil
+				LocalisedFunctions.TeleportPlayer(OldPos)
+				TargetCF=nil
+				OldPos=nil
+			end
+			DesiredTargetCF=nil
+			if Sv.LPlr.TeamColor.Name ~= OldTeam then
+				if OldTeam=="Medium stone grey" then
+					Remote.TeamEvent:FireServer("Medium stone grey")
+				elseif OldTeam=="Really red" then
+					LocalisedFunctions.DoCriminal()
+
+				end
+			end
+		end
+
+	end,
+	["roof"]=function(PlayerTbl,Speaker)
+		local DesiredTargetCF = CFrame.new(729, 124, 2292)
+		if PlayerTbl==_N then return end
+		if Speaker ==_N then 
+			Speaker.Character.HumanoidRootPart.CFrame=DesiredTargetCF
+			return
+		end
+
+
+		if PlayerTbl[1]==Speaker then 
+		else
+			local OldTeam=Sv.LPlr.TeamColor.Name
+			if OldTeam=="Medium stone grey" then
+				Remote.TeamEvent:FireServer("Bright orange")
+				local A = Sv.LPlr.Character:FindFirstChild("Head")
+				repeat wait() if not A:IsDescendantOf(workspace) then break end
+				until not A:IsDescendantOf(workspace)A=nil wait(0.1)
+			end
+
+			local TargetChar = PlayerTbl[1].Character
+			if TargetChar ~= nil then
+				local OldPos = Sv.LPlr.Character.Head.CFrame
+				local TargetCF = TargetChar.Head.CFrame
+
+				LocalisedFunctions.BringPlayerFunc({Speaker})
+
+				for i,SelectedPlayer in pairs(PlayerTbl) do
+					if SelectedPlayer==Speaker then continue end
+					LocalisedFunctions.BringPlayerFunc({SelectedPlayer})
+					break
+				end
+
+				for i=0,3 do wait()
+					LocalisedFunctions.TeleportPlayer(DesiredTargetCF)
+				end
+				wait(0.35)
+				local H = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
+				if H ~= nil then
+					H:ChangeState("Jumping")
+				end
+				H=nil
+				LocalisedFunctions.TeleportPlayer(OldPos)
+				TargetCF=nil
+				OldPos=nil
+			end
+			DesiredTargetCF=nil
+			if Sv.LPlr.TeamColor.Name ~= OldTeam then
+				if OldTeam=="Medium stone grey" then
+					Remote.TeamEvent:FireServer("Medium stone grey")
+				elseif OldTeam=="Really red" then
+					LocalisedFunctions.DoCriminal()
+
+				end
+			end
+		end
+
+	end,
+	["cafe"]=function(PlayerTbl,Speaker)
+		local DesiredTargetCF = CFrame.new(887, 100, 2274)
+		if PlayerTbl==_N then return end
+		if Speaker ==_N then 
+			Speaker.Character.HumanoidRootPart.CFrame=DesiredTargetCF
+			return
+		end
+
+
+		if PlayerTbl[1]==Speaker then 
+		else
+			local OldTeam=Sv.LPlr.TeamColor.Name
+			if OldTeam=="Medium stone grey" then
+				Remote.TeamEvent:FireServer("Bright orange")
+				local A = Sv.LPlr.Character:FindFirstChild("Head")
+				repeat wait() if not A:IsDescendantOf(workspace) then break end
+				until not A:IsDescendantOf(workspace)A=nil wait(0.1)
+			end
+
+			local TargetChar = PlayerTbl[1].Character
+			if TargetChar ~= nil then
+				local OldPos = Sv.LPlr.Character.Head.CFrame
+				local TargetCF = TargetChar.Head.CFrame
+
+				LocalisedFunctions.BringPlayerFunc({Speaker})
+
+				for i,SelectedPlayer in pairs(PlayerTbl) do
+					if SelectedPlayer==Speaker then continue end
+					LocalisedFunctions.BringPlayerFunc({SelectedPlayer})
+					break
+				end
+
+				for i=0,3 do wait()
+					LocalisedFunctions.TeleportPlayer(DesiredTargetCF)
+				end
+				wait(0.35)
+				local H = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
+				if H ~= nil then
+					H:ChangeState("Jumping")
+				end
+				H=nil
+				LocalisedFunctions.TeleportPlayer(OldPos)
+				TargetCF=nil
+				OldPos=nil
+			end
+			DesiredTargetCF=nil
+			if Sv.LPlr.TeamColor.Name ~= OldTeam then
+				if OldTeam=="Medium stone grey" then
+					Remote.TeamEvent:FireServer("Medium stone grey")
+				elseif OldTeam=="Really red" then
+					LocalisedFunctions.DoCriminal()
+
+				end
+			end
+		end
+
+	end,
+	["crimbase"]=function(PlayerTbl,Speaker)
+		local DesiredTargetCF = CFrame.new(-896, 94, 2135)
+		if PlayerTbl==_N then return end
+		if Speaker ==_N then 
+			Speaker.Character.HumanoidRootPart.CFrame=DesiredTargetCF
+			return
+		end
+
+
+		if PlayerTbl[1]==Speaker then 
+		else
+			local OldTeam=Sv.LPlr.TeamColor.Name
+			if OldTeam=="Medium stone grey" then
+				Remote.TeamEvent:FireServer("Bright orange")
+				local A = Sv.LPlr.Character:FindFirstChild("Head")
+				repeat wait() if not A:IsDescendantOf(workspace) then break end
+				until not A:IsDescendantOf(workspace)A=nil wait(0.1)
+			end
+
+			local TargetChar = PlayerTbl[1].Character
+			if TargetChar ~= nil then
+				local OldPos = Sv.LPlr.Character.Head.CFrame
+				local TargetCF = TargetChar.Head.CFrame
+
+				LocalisedFunctions.BringPlayerFunc({Speaker})
+
+				for i,SelectedPlayer in pairs(PlayerTbl) do
+					if SelectedPlayer==Speaker then continue end
+					LocalisedFunctions.BringPlayerFunc({SelectedPlayer})
+					break
+				end
+
+				for i=0,3 do wait()
+					LocalisedFunctions.TeleportPlayer(DesiredTargetCF)
+				end
+				wait(0.35)
+				local H = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
+				if H ~= nil then
+					H:ChangeState("Jumping")
+				end
+				H=nil
+				LocalisedFunctions.TeleportPlayer(OldPos)
+				TargetCF=nil
+				OldPos=nil
+			end
+			DesiredTargetCF=nil
+			if Sv.LPlr.TeamColor.Name ~= OldTeam then
+				if OldTeam=="Medium stone grey" then
+					Remote.TeamEvent:FireServer("Medium stone grey")
+				elseif OldTeam=="Really red" then
+					LocalisedFunctions.DoCriminal()
+
+				end
+			end
+		end
+
+	end,
 	["goto"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		if Speaker ==_N then 
