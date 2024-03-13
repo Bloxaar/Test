@@ -1,6 +1,7 @@
 local OPERATORUSERID = {
 	5450973191, -- Totallynotaimbot
 	5378221683, -- Youdontstop0
+	523322320, -- Palamode (A friend of mines)
 
 }
 
@@ -1995,7 +1996,16 @@ local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunn
 				end
 			end
 		end
-
+	elseif strl=="bacons"or strl=="baconhairs"then
+		for i,v in Sv.P(Sv.Plrs:GetChildren())do
+			if v.Character ~= nil then
+				local Verify = v.Character:FindFirstChild("Kate Hair") or v.Character:FindFirstChild("Pal Hair")
+				if Verify ~= nil then
+					_A.O(Found,v)
+				end
+				Verify=_N
+			end
+		end
 	elseif strl=="hostiles"then
 		local Format = {}
 		for i,v in pairs(Sv.Plrs:GetChildren()) do
@@ -2005,6 +2015,20 @@ local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunn
 		end
 		for i,v in pairs(LocalisedFunctions.returnhostileplayers(Format)) do
 			_A.O(Found,v)
+		end
+		Format=_N
+	elseif strl=="nonhostiles"then
+		local Format = {}
+		for i,v in pairs(Sv.Plrs:GetPlayers()) do
+			if v.TeamColor.Name ~= "Bright blue" then
+				_A.O(Format,v)
+			end
+		end
+		Format = LocalisedFunctions.returnhostileplayers(Format)
+		for i,v in pairs(Sv.Plrs:GetPlayers()) do
+			if table.find(Format,v) == nil then
+				_A.O(Found,v)
+			end
 		end
 		Format=_N
 	elseif strl=="team"or strl=="teammates"then
@@ -4706,6 +4730,50 @@ AdminCommands={
 		end
 
 	end,
+	["inv"] = function(PlayerTbl,Speaker)
+		if PlayerTbl==_N then return end
+		local ItemsToDisplay = ""
+		local Player = PlayerTbl[1]
+		if Player ~= nil then
+			local Backpack,Char = Player:FindFirstChildWhichIsA("Backpack"),Player.Character
+			if Backpack ~= nil then
+				local Items = Backpack:GetChildren()
+				for i,tool in pairs(Items) do
+					if tool.ClassName=="Tool" then
+						if i >= #Items then
+							ItemsToDisplay=ItemsToDisplay..tool.Name
+						else
+							ItemsToDisplay=ItemsToDisplay..tool.Name.."| "
+						end
+					end
+				end
+				Items=_N
+				
+			end
+			if Char ~= nil then
+				local Items = Char:GetChildren()
+				for i,tool in pairs(Items) do
+					if tool.ClassName=="Tool" then
+						if i >= #Items then
+							ItemsToDisplay=ItemsToDisplay..tool.Name
+						else
+							ItemsToDisplay=ItemsToDisplay..tool.Name.."| "
+						end
+					end
+				end
+				Items=_N
+				
+			end
+			if #ItemsToDisplay >0 then
+				if Speaker==_N then
+					notify(Player.Name.."'s inventory: "..ItemsToDisplay,Color3.new(1,1,0))
+				else 
+					svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name..` {Player.Name}'s inventory: `..ItemsToDisplay, "All")
+				end
+			end
+			ItemsToDisplay=_N
+		end
+	end,
 	["resetprefix"] = function(P,Speaker)
 		PreferredAdminsPrefix[Speaker.UserId]=Defaultprefix
 
@@ -4725,7 +4793,7 @@ AdminCommands={
 		Found=_N
 	end,
 	["help"]=function(PlayerTbl,Speaker)
-		local message = [[Use commands by typing ;ko target/guards/crims/inmates/swats/team/admins/nonadmins/hostiles (which kills them) | Type !prefix for prefix or !resetprefix]]
+		local message = [[Use commands by typing ;ko target/guards/crims/inmates/swats/team/admins/nonadmins/hostiles/nonhostiles/bacons (which kills them) | Type !prefix for prefix or !resetprefix]]
 		if Speaker==_N then
 			notify(message,_A.R(0,1,0))
 		else
@@ -6114,4 +6182,3 @@ while wait()do
 
 	end)
 end
- 
