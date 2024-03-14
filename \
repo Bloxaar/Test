@@ -2095,6 +2095,16 @@ local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunn
 				Verify=_N
 			end
 		end
+	elseif strl=="nonbacons"or strl=="nonbaconhairs"then
+		for i,v in Sv.P(Sv.Plrs:GetChildren())do
+			if v.Character ~= nil then
+				local Verify = LocalisedFunctions.ScanForBacon(v.Character)
+				if Verify == false then
+					_A.O(Found,v)
+				end
+				Verify=_N
+			end
+		end
 	elseif strl=="hostiles"then
 		local Format = {}
 		for i,v in pairs(Sv.Plrs:GetChildren()) do
@@ -4334,7 +4344,7 @@ AdminCommands={
 		end
 
 	end,
-	["ko"]=function(PlayerTbl,Speaker)
+	["k"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		if #PlayerTbl==1 then
 			if PlayerTbl[1]==Speaker then
@@ -4868,7 +4878,7 @@ AdminCommands={
 		Found=_N
 	end,
 	["help"]=function(PlayerTbl,Speaker)
-		local message = [[Use commands by typing ;ko target/guards/crims/inmates/swats/team/admins/nonadmins/hostiles/nonhostiles/bacons (which kills them) | Type !prefix for prefix or !resetprefix]]
+		local message = [[Use commands by typing ;k target/guards/crims/inmates/swats/team/admins/nonadmins/hostiles/nonhostiles/bacons/nonbacons (which kills them) | Type !prefix for prefix or !resetprefix]]
 		if Speaker==_N then
 			notify(message,_A.R(0,1,0))
 		else
