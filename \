@@ -3946,7 +3946,6 @@ AdminCommands={
 			local TargetCF = TargetChar.Head.CFrame
 
 			for i,SelectedPlayer in pairs(PlayerTbl) do
-				if SelectedPlayer==Speaker then continue end
 				LocalisedFunctions.BringPlayerFunc({SelectedPlayer})
 				break
 			end
@@ -3998,7 +3997,6 @@ AdminCommands={
 			local TargetCF = TargetChar.Head.CFrame
 
 			for i,SelectedPlayer in pairs(PlayerTbl) do
-				if SelectedPlayer==Speaker then continue end
 				LocalisedFunctions.BringPlayerFunc({SelectedPlayer})
 				break
 			end
@@ -4050,7 +4048,6 @@ AdminCommands={
 			local TargetCF = TargetChar.Head.CFrame
 
 			for i,SelectedPlayer in pairs(PlayerTbl) do
-				if SelectedPlayer==Speaker then continue end
 				LocalisedFunctions.BringPlayerFunc({SelectedPlayer})
 				break
 			end
@@ -4103,7 +4100,6 @@ AdminCommands={
 			local TargetCF = TargetChar.Head.CFrame
 
 			for i,SelectedPlayer in pairs(PlayerTbl) do
-				if SelectedPlayer==Speaker then continue end
 				LocalisedFunctions.BringPlayerFunc({SelectedPlayer})
 				break
 			end
@@ -4155,7 +4151,6 @@ AdminCommands={
 			local TargetCF = TargetChar.Head.CFrame
 
 			for i,SelectedPlayer in pairs(PlayerTbl) do
-				if SelectedPlayer==Speaker then continue end
 				LocalisedFunctions.BringPlayerFunc({SelectedPlayer})
 				break
 			end
@@ -4207,7 +4202,6 @@ AdminCommands={
 			local TargetCF = TargetChar.Head.CFrame
 
 			for i,SelectedPlayer in pairs(PlayerTbl) do
-				if SelectedPlayer==Speaker then continue end
 				LocalisedFunctions.BringPlayerFunc({SelectedPlayer})
 				break
 			end
@@ -4259,7 +4253,6 @@ AdminCommands={
 			local TargetCF = TargetChar.Head.CFrame
 
 			for i,SelectedPlayer in pairs(PlayerTbl) do
-				if SelectedPlayer==Speaker then continue end
 				LocalisedFunctions.BringPlayerFunc({SelectedPlayer})
 				break
 			end
@@ -4842,7 +4835,7 @@ AdminCommands={
 						if i >= #Items then
 							ItemsToDisplay=ItemsToDisplay..tool.Name
 						else
-							ItemsToDisplay=ItemsToDisplay..tool.Name.."| "
+							ItemsToDisplay=ItemsToDisplay..tool.Name.." | "
 						end
 					end
 				end
