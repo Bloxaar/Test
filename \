@@ -2381,15 +2381,19 @@ LocalisedFunctions.SpawnCar = function()
 		if v.Name=="Car Spawner"then
 			Sv.LPlr[_A.P].HumanoidRootPart.CFrame=v["Car Spawner"].CFrame
 			Oldpos=v["Car Spawner"].CFrame
-			local Response=""
-			repeat wait()
-				Response =Remote.ItemHandler:InvokeServer(v["Car Spawner"])
-				if tostring(Response):match("You have spawned a car")then break end
-			until tostring(Response):match("You have spawned a car")
+			local spawned=false
+			repeat wait(0.2)
+				task.spawn(function()
+					local Response=""
+					Response =Remote.ItemHandler:InvokeServer(v["Car Spawner"])
+					if tostring(Response):match("You have spawned a car")then spawned=true end Response=nil
+				end)
+			until spawned==true
+			spawned=nil
 			break
 		end 
 	end
-	wait(0.5)
+	wait(0.15)
 	local Dist=math.huge
 	for i,v in Sv.P(workspace.CarContainer:GetChildren())do
 		HB=v:FindFirstChild("Body")
@@ -2398,7 +2402,7 @@ LocalisedFunctions.SpawnCar = function()
 				HB=v:FindFirstChild("Body")
 				if HB~=_N then break end
 			until HB~=_N
-			wait(0.2)
+			wait(0.15)
 		end
 		HWheels=v:FindFirstChild("Wheels")
 		if HB~=_N then
