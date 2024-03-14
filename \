@@ -159,6 +159,7 @@ end
 
 function say(msg)
 	if msg == nil then return end if msg == "" then return end
+	if typeof(msg) ~= "string" then msg=tostring(msg) end
 	svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msg, "All")
 
 end
