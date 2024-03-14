@@ -10,10 +10,11 @@ local SecurityLevel=1
 
 function RunSecurityLevel(Level)
 	Level=tonumber(Level)
-	if Level == nil then return end
+	if Level == nil then return Level end
 	if Level==Level then
 		SecurityLevel=Level
 	end
+	return Level
 end
 local function UserIsOperator(Player)
 	for i,data in pairs(OPERATORUSERID) do
