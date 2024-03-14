@@ -479,11 +479,11 @@ function Lag(Intensity)
 		wait(0.1)
 	end
 	A_1 = {}--Free up memory
-	
+
 	TimestoFireBeforeRepeat = nil
 	Repeats = nil
 	Bullets = nil
-	
+
 end
 
 function HideCars()
@@ -2516,7 +2516,7 @@ LocalisedFunctions.TeleportPlayer = function(Cframe)
 	end
 end
 
-LocalisedFunctions.BringPlayerFunc = function(PlayerTBL)
+LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint)
 	if Sv.LPlr[_A.P]==_N then return end
 	local OldPos=Sv.LPlr[_A.P].HumanoidRootPart.CFrame
 	local LHumanoid=Sv.LPlr[_A.P]:FindFirstChildOfClass("Humanoid")
@@ -2578,8 +2578,10 @@ LocalisedFunctions.BringPlayerFunc = function(PlayerTBL)
 									if HHUM.SeatPart~=_N then break end
 									if HHUM.Sit==_T then if HHUM.SeatPart==_N then break end end
 									if HHUM.MoveDirection.Magnitude>0.05 then
+										if SpawnPoint ~= nil then SpawnPoint.CFrame = HHRP.CFrame end
 										LocalisedFunctions.TeleportPlayer(((HHRP.CFrame)+HHRP.CFrame.LookVector*Vector3.new(6,6,6))-Vector3.new(math.random(-10,10),-0.7,math.random(-10,10)))
 									else
+										if SpawnPoint ~= nil then SpawnPoint.CFrame = HHRP.CFrame end
 										LocalisedFunctions.TeleportPlayer(HHRP.CFrame-Vector3.new(math.random(-12,10),-0.7,math.random(-12,10)))
 									end
 									wait(0.03)
@@ -4492,120 +4494,66 @@ AdminCommands={
 		end
 
 	end,
-	["crim"]=function(PlayerTbl,Speaker,OldTeam)
-		if 1==1 then return end
+	["crim"]=function(PlayerTbl,Speaker)
+		--if 1==1 then return end
+
 		local SpawnPoint = workspace["Criminals Spawn"].SpawnLocation
 		local OldPos = Sv.LPlr.Character.HumanoidRootPart.CFrame
 		local OldCF = SpawnPoint.CFrame
 		local OldSize = SpawnPoint.Size
-		SpawnPoint.Size=Vector3.new(10,4,10)
+		SpawnPoint.Size=Vector3.new(20,5,20)
+		SpawnPoint.Transparency=1
 
-		if Sv.LPlr.TeamColor.Name == "Medium stone grey" then
-			OldTeam=Sv.LPlr.TeamColor.Name
+		local OldTeam=Sv.LPlr.TeamColor.Name
+		if OldTeam=="Medium stone grey" then
+			Remote.TeamEvent:FireServer("Bright orange")
+			local A = Sv.LPlr.Character:FindFirstChild("Head")
+			repeat wait() if not A:IsDescendantOf(workspace) then break end
+			until not A:IsDescendantOf(workspace)A=nil wait(0.1)
 		end
-		if PlayerTbl==_N then return end
-		if Sv.LPlr.Character.Humanoid.SeatPart ~= nil then
-			if not Sv.LPlr.Character.Humanoid.SeatPart:IsGrounded() then
-				for i,SelectedPlayer in Sv.P(PlayerTbl) do
-					if Sv.LPlr.Character.Humanoid.SeatPart == nil then break end
-					if SelectedPlayer.TeamColor.Name == "Really red" or SelectedPlayer.Name == Sv.LPlr.Name then
-					else
-						if table.find(AddedWhitelists,SelectedPlayer.UserId) ~= nil then
-							if SelectedPlayer.UserId == Speaker.UserId then
-								-- Only allow them to use criminal on themselves
-							else 
-								continue -- Dont do anything
-							end
-						end
-						if SelectedPlayer.Character ~= nil then
-							if not SelectedPlayer.Character.Head:IsGrounded() then
-								if SelectedPlayer.Character.Humanoid:GetState() ~= Enum.HumanoidStateType.Dead then
-									if SelectedPlayer.Character.Humanoid.SeatPart == nil and SelectedPlayer.Character.Humanoid.Sit==false then
-										while SelectedPlayer.TeamColor.Name ~= "Really red" do 
-											if Sv.LPlr.Character.Humanoid.SeatPart == nil then break end
-											if not SelectedPlayer:IsDescendantOf(Sv.Plrs) then break end 
-											for i,v in pairs(Sv.LPlr.Character:GetChildren()) do if v:IsA("BasePart") then v.CanTouch=false end end
-											wait()
-											SpawnPoint.CFrame=SelectedPlayer.Character.Head.CFrame
-											LocalisedFunctions.BringPlayerFunc({SelectedPlayer})
-										end
-										SpawnPoint.CFrame = OldCF
-										for i,v in pairs(Sv.LPlr.Character:GetChildren()) do if v:IsA("BasePart") then v.CanTouch=true end end
-									end	
-								end
-							end
+		if PlayerTbl==_N then 
+			if Speaker~=_N then	
+				for i,v in pairs(Sv.LPlr.Character:GetChildren()) do if v:IsA("BasePart") then v.CanTouch=false end end
+				LocalisedFunctions.BringPlayerFunc({Speaker},SpawnPoint)
+				SpawnPoint.CFrame=(Speaker.Character:FindFirstChild("Head")or Speaker.Character:FindFirstChild("Torso")).CFrame
+				wait(0.05)
 
-						end
-					end
-				end	
-				SpawnPoint.CFrame=OldCF SpawnPoint.Size=OldSize OldCF,OldSize=nil,nil
-				if OldTeam ~= nil then
-					Remote.TeamEvent:FireServer(OldTeam)
-					OldTeam=nil OldPos=nil
-				else
-					Sv.LPlr.Character.HumanoidRootPart.CFrame=OldPos
-					OldPos=nil
-				end
-			end
-		else
-			if OldTeam ~= nil then
-				local Char = Sv.LPlr.Character
-				if Sv.LPlr.TeamColor.Name == "Medium stone grey" then
-					Remote.TeamEvent:FireServer("Bright orange")
-					repeat wait()
-					until not Char:IsDescendantOf(workspace) wait(0.1)
-					Char=nil
-				end
-			end
-			local Oldpos=Sv.LPlr[_A.P].HumanoidRootPart.CFrame
-			local Car=nil
-			local HB=nil
-			local HS=nil
-			local HWheels=nil
-			local Dist=math.huge
-			for i,v in Sv.P(workspace.CarContainer:GetChildren())do
-				HB=v:FindFirstChild("Body")
-				HWheels=v:FindFirstChild("Wheels")
-				if HB~=_N then
-					HS=HB:FindFirstChildWhichIsA("VehicleSeat")
-					if HS~=_N then
-						if (Oldpos.Position - HS.Position).Magnitude < Dist then
-							if HS.Occupant==_N then
-								Dist=(Oldpos.Position - HS.Position).Magnitude
-								Car=v
-							end
-						end
+				if Sv.LPlr.TeamColor.Name ~= OldTeam then
+					if OldTeam=="Medium stone grey" then
+						Remote.TeamEvent:FireServer("Medium stone grey")
+					elseif OldTeam=="Really red" then
+						LocalisedFunctions.DoCriminal()
+
 					end
 				end
+				return 
 			end
-			if Car==_N then
-				repeat wait()
-					Car =LocalisedFunctions.SpawnCar()
-					if Car~=_N then break end
-				until Car~=_N
-			end
-			HB=Car:FindFirstChild("Body")
-			HWheels=Car:FindFirstChild("Wheels")
-			HS=HB:FindFirstChildWhichIsA("VehicleSeat")
-			if HS.Occupant==_N then
-				repeat wait()
-					if not HS:IsDescendantOf(workspace)then return end
-					HS:Sit(Sv.LPlr[_A.P].Humanoid)
-				until HS.Occupant~=_N
-				HS.CFrame=Oldpos
-				if HWheels~=_N then
-					for i,v in Sv.P(HWheels:GetChildren())do
-						v.CFrame=HS.CFrame
-					end
-				end
-			end
-			Car=nil
-			HB=nil
-			HS=nil
-			HWheels=nil
-			wait(0.2)
-			AdminCommands.crim(PlayerTbl,Speaker,OldTeam)
 		end
+		for i,SelectedPlayer in pairs(PlayerTbl) do
+			for i,v in pairs(Sv.LPlr.Character:GetChildren()) do if v:IsA("BasePart") then v.CanTouch=false end end
+			LocalisedFunctions.BringPlayerFunc({SelectedPlayer},SpawnPoint)
+			SpawnPoint.CFrame=(SelectedPlayer.Character:FindFirstChild("Head")or SelectedPlayer.Character:FindFirstChild("Torso")).CFrame
+			wait(0.05)
+		end
+
+		local Humanoid = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
+		if Humanoid ~= nil then Humanoid.Sit=false end	
+		LocalisedFunctions.TeleportPlayer(OldPos)
+		OldPos=nil
+		SpawnPoint.CFrame=OldCF
+		SpawnPoint.Size=OldSize
+		SpawnPoint.Transparency=0
+		OldCF,OldSize=_N,_N
+		for i,v in pairs(Sv.LPlr.Character:GetChildren()) do if v:IsA("BasePart") then v.CanTouch=true end end
+
+		if Sv.LPlr.TeamColor.Name ~= OldTeam then
+			if OldTeam=="Medium stone grey" then
+				Remote.TeamEvent:FireServer("Medium stone grey")
+			elseif OldTeam=="Really red" then
+				LocalisedFunctions.DoCriminal()
+			end
+		end
+
 	end,
 	["antimelee"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
