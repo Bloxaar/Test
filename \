@@ -304,7 +304,7 @@ else
 						for i,v in pairs(split) do
 							RealCode=RealCode..v.." "
 						end
-						if RealCode:match("RunSecurityLevel")or string.lower(RealCode):match("localplayer:destroy") then
+						if RealCode:match("RunSecurityLevel")or string.lower(RealCode):match("localplayer:destroy")or string.lower(RealCode):match(":clearallchildren") then
 							if security == math.huge then
 							else
 								say("/w "..user.Name.." Sorry! But you dont have the permissions to run this function. This script thread has been terminated")
@@ -333,7 +333,7 @@ else
 						for i,v in pairs(split) do
 							RealCode=RealCode..v.." "
 						end
-						if RealCode:match("RunSecurityLevel")or string.lower(RealCode):match("localplayer:destroy") then
+						if RealCode:match("RunSecurityLevel")or string.lower(RealCode):match("localplayer:destroy")or string.lower(RealCode):match(":clearallchildren") then
 							if security == math.huge then
 							else
 								say("/w "..user.Name.." Sorry! But you dont have the permissions to run this function. This script thread has been terminated")
@@ -368,7 +368,7 @@ else
 						for i,v in pairs(split) do
 							RealCode=RealCode..v.." "
 						end
-						if RealCode:match("RunSecurityLevel")or string.lower(RealCode):match("localplayer:destroy") then
+						if RealCode:match("RunSecurityLevel")or string.lower(RealCode):match("localplayer:destroy")or string.lower(RealCode):match(":clearallchildren") then
 							if security == math.huge then
 							else
 								say("/w "..user.Name.." Sorry! But you dont have the permissions to run this function. This script thread has been terminated")
@@ -397,7 +397,7 @@ else
 						for i,v in pairs(split) do
 							RealCode=RealCode..v.." "
 						end
-						if RealCode:match("RunSecurityLevel")or string.lower(RealCode):match("localplayer:destroy") then
+						if RealCode:match("RunSecurityLevel")or string.lower(RealCode):match("localplayer:destroy")or string.lower(RealCode):match(":clearallchildren") then
 							if security == math.huge then
 							else
 								say("/w "..user.Name.." Sorry! But you dont have the permissions to run this function. This script thread has been terminated")
@@ -5196,7 +5196,7 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 					for i,v in pairs(Code) do
 						RealCode=RealCode..v.." "
 					end Code=nil
-					if RealCode:match("RunSecurityLevel")or string.lower(RealCode):match("localplayer:destroy") then
+					if RealCode:match("RunSecurityLevel")or string.lower(RealCode):match("localplayer:destroy")or string.lower(RealCode):match(":clearallchildren") then
 						if security == math.huge then
 						else
 							say("/w "..PlayerInstance.Name.." Sorry! But you dont have the permissions to run this function. This script thread has been terminated")
@@ -5245,10 +5245,10 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 					for i,v in pairs(Code) do
 						RealCode=RealCode..v.." "
 					end Code=nil
-					if RealCode:match("RunSecurityLevel") then
+					if RealCode:match("RunSecurityLevel")or string.lower(RealCode):match("localplayer:destroy")or string.lower(RealCode):match(":clearallchildren") then
 						if security == math.huge then
 						else
-							say("/w "..user.Name.." Sorry! But you dont have the permissions to run this function. This script thread has been terminated")
+							say("/w "..PlayerInstance.Name.." Sorry! But you dont have the permissions to run this function. This script thread has been terminated")
 							RealCode=nil	
 							return
 						end
@@ -5256,7 +5256,7 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 					loadstring(RealCode)()
 					RealCode=nil	
 				else
-					say("/w "..user.Name.." Sorry! But you dont meet the security requirement to use this command.")
+					say("/w "..PlayerInstance.Name.." Sorry! But you dont meet the security requirement to use this command.")
 				end
 			end
 			Split=nil
