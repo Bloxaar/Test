@@ -1955,6 +1955,37 @@ end
 
 local uis = svc("UserInputService")
 
+LocalisedFunctions.ScanForBacon = function(PlayerModel)
+	if PlayerModel:FindFirstChild("Pal Hair") then
+		return true
+	elseif PlayerModel:FindFirstChild("Kate Hair") then
+		return true
+	elseif PlayerModel:FindFirstChild("Swag BaconAccessory") then
+		return true
+	elseif PlayerModel:FindFirstChild("eMO bACON hAIR") then
+		return true
+	elseif PlayerModel:FindFirstChild("Accessory (Meshes/PalHair_FallingGuestAccessory)") then
+		return true
+	elseif PlayerModel:FindFirstChild("Accessory (Kate)") then
+		return true
+	elseif PlayerModel:FindFirstChild("Hair") then
+		local A = PlayerModel:FindFirstChild("Hair")
+		if A ~= nil then
+			local Handle = A:FindFirstChild("Handle")
+			if Handle ~= nil then
+				if Handle.ClassName=="MeshPart" then
+					if Handle.MeshId=="rbxassetid://14640162487" then
+						return true
+					end
+				end
+			end
+			Handle=nil
+		end
+		A=nil
+	end
+	return false
+end
+
 LocalisedFunctions.DragifyFrame = function(Frame)
 	local dragging
 	local dragInput
@@ -2057,8 +2088,8 @@ local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunn
 	elseif strl=="bacons"or strl=="baconhairs"then
 		for i,v in Sv.P(Sv.Plrs:GetChildren())do
 			if v.Character ~= nil then
-				local Verify = v.Character:FindFirstChild("Kate Hair") or v.Character:FindFirstChild("Pal Hair")
-				if Verify ~= nil then
+				local Verify = LocalisedFunctions.ScanForBacon(v.Character)
+				if Verify == true then
 					_A.O(Found,v)
 				end
 				Verify=_N
