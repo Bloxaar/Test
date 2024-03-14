@@ -4494,6 +4494,70 @@ AdminCommands={
 		end
 
 	end,
+	["rguard"]=function(PlayerTbl,Speaker)
+		local SpawnPoint = workspace["Criminals Spawn"].SpawnLocation
+		local OldPos = Sv.LPlr.Character.HumanoidRootPart.CFrame
+		local OldCF = SpawnPoint.CFrame
+		local OldSize = SpawnPoint.Size
+		SpawnPoint.Size=Vector3.new(20,5,20)
+		SpawnPoint.Transparency=1
+
+		local OldTeam=Sv.LPlr.TeamColor.Name
+		if OldTeam=="Medium stone grey" then
+			Remote.TeamEvent:FireServer("Bright orange")
+			local A = Sv.LPlr.Character:FindFirstChild("Head")
+			repeat wait() if not A:IsDescendantOf(workspace) then break end
+			until not A:IsDescendantOf(workspace)A=nil wait(0.1)
+		end
+		if PlayerTbl==_N then 
+			if Speaker~=_N then	
+				if Speaker.TeamColor.Name=="Bright blue"then 
+					for i,v in pairs(Sv.LPlr.Character:GetChildren()) do if v:IsA("BasePart") then v.CanTouch=false end end
+					LocalisedFunctions.BringPlayerFunc({Speaker},SpawnPoint)
+					SpawnPoint.CFrame=(Speaker.Character:FindFirstChild("Head")or Speaker.Character:FindFirstChild("Torso")).CFrame
+					wait(0.05)
+				end
+
+				if Sv.LPlr.TeamColor.Name ~= OldTeam then
+					if OldTeam=="Medium stone grey" then
+						Remote.TeamEvent:FireServer("Medium stone grey")
+					elseif OldTeam=="Really red" then
+						LocalisedFunctions.DoCriminal()
+
+					end
+				end
+				return 
+			end
+		end
+		for i,SelectedPlayer in pairs(PlayerTbl) do
+			if SelectedPlayer.TeamColor.Name=="Bright blue"then 
+				for i,v in pairs(Sv.LPlr.Character:GetChildren()) do if v:IsA("BasePart") then v.CanTouch=false end end
+				LocalisedFunctions.BringPlayerFunc({SelectedPlayer},SpawnPoint)
+				SpawnPoint.CFrame=(SelectedPlayer.Character:FindFirstChild("Head")or SelectedPlayer.Character:FindFirstChild("Torso")).CFrame
+				wait(0.05)
+			end
+		end
+
+		local Humanoid = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
+		LocalisedFunctions.TeleportPlayer(CFrame.new(-896, 94, 2135))
+		wait(0.25)
+		if Humanoid ~= nil then Humanoid.Sit=false end	
+		LocalisedFunctions.TeleportPlayer(OldPos)
+		OldPos=nil
+		SpawnPoint.CFrame=OldCF
+		SpawnPoint.Size=OldSize
+		SpawnPoint.Transparency=0
+		OldCF,OldSize=_N,_N
+		for i,v in pairs(Sv.LPlr.Character:GetChildren()) do if v:IsA("BasePart") then v.CanTouch=true end end
+
+		if Sv.LPlr.TeamColor.Name ~= OldTeam then
+			if OldTeam=="Medium stone grey" then
+				Remote.TeamEvent:FireServer("Medium stone grey")
+			elseif OldTeam=="Really red" then
+				LocalisedFunctions.DoCriminal()
+			end
+		end
+	end,
 	["crim"]=function(PlayerTbl,Speaker)
 		--if 1==1 then return end
 
