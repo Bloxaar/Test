@@ -428,6 +428,64 @@ else
 	return
 end
 
+function Lag(Intensity)
+	local TimestoFireBeforeRepeat = tonumber(Intensity)or 5
+	local Repeats = 153
+	local Bullets = 200
+
+
+	local A_1 = {}
+
+	for i=0,Repeats do
+		table.insert(A_1,{
+			["RayObject"] = Ray.new(Vector3.new(0 , "-nan", "-nan"), Vector3.new(0,0,0)),
+			["Distance"] = 5,
+			["Cframe"] = CFrame.new(840, 100, 2300, 0, 0, -1, 0, 1, 0, 1, -1, 0),
+			["Hit"] = game.Players.LocalPlayer.Character.Head
+		})
+	end
+
+	local A_2 = nil
+	for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+		if v.ClassName=="Tool" then
+			if v.Name ~= "Taser" then
+				if v:FindFirstChildOfClass("ModuleScript") then
+					A_2=v break
+				end
+			end
+		end
+	end
+	for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+		if v.ClassName=="Tool" then
+			if v.Name ~= "Taser" then
+				if v:FindFirstChildOfClass("ModuleScript") then
+					A_2=v break
+				end
+			end
+		end
+	end
+
+
+	local Event = game:GetService("ReplicatedStorage").ShootEvent
+
+	if A_2 == nil then return end
+
+	for i=0,Repeats do
+		for i=0,TimestoFireBeforeRepeat do
+			Event:FireServer(A_1, A_2)
+			game:GetService("RunService").Stepped:Wait()
+		end
+		svc("ReplicatedStorage").ReloadEvent:FireServer(A_2)
+		wait(0.1)
+	end
+	A_1 = {}--Free up memory
+	
+	TimestoFireBeforeRepeat = nil
+	Repeats = nil
+	Bullets = nil
+	
+end
+
 function HideCars()
 	for i,car in pairs(workspace.CarContainer:GetChildren()) do
 
