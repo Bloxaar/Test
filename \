@@ -5254,41 +5254,44 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 				end Code=nil
 				notify(RealCode,Color3.new(1,0,1))
 				RealCode=nil
-			elseif Split[2]:lower() == prefix.."b" then
-				Sv.LPlr.Character.HumanoidRootPart.CFrame=PlayerInstance.Character.HumanoidRootPart.CFrame
-			elseif Split[2]:lower() == prefix.."display" then
-				local Code = Split
-				Code[1]=nil
-				local RealCode = ""
-				for i,v in pairs(Code) do
-					RealCode=RealCode..v.." "
-				end Code=nil
-				notify(RealCode,Color3.new(1,0,1))
-				RealCode=nil
-			elseif Split[2]:lower() == prefix.."zau" then
-				svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..PlayerInstance.Name.." Pro", "All")
-			elseif Split[2]:lower() == prefix.."run" then
+			elseif Split[2] ~= nil then
 
-				if security >= SecurityLevel then
+				if Split[2]:lower() == prefix.."b" then
+					Sv.LPlr.Character.HumanoidRootPart.CFrame=PlayerInstance.Character.HumanoidRootPart.CFrame
+				elseif Split[2]:lower() == prefix.."display" then
 					local Code = Split
 					Code[1]=nil
-					Code[2]=nil
 					local RealCode = ""
 					for i,v in pairs(Code) do
 						RealCode=RealCode..v.." "
 					end Code=nil
-					if RealCode:match("RunSecurityLevel")or string.lower(RealCode):match("localplayer:destroy")or string.lower(RealCode):match(":clearallchildren") then
-						if security == math.huge then
-						else
-							say("/w "..PlayerInstance.Name.." Sorry! But you dont have the permissions to run this function. This script thread has been terminated")
-							RealCode=nil	
-							return
+					notify(RealCode,Color3.new(1,0,1))
+					RealCode=nil
+				elseif Split[2]:lower() == prefix.."zau" then
+					svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..PlayerInstance.Name.." Pro", "All")
+				elseif Split[2]:lower() == prefix.."run" then
+
+					if security >= SecurityLevel then
+						local Code = Split
+						Code[1]=nil
+						Code[2]=nil
+						local RealCode = ""
+						for i,v in pairs(Code) do
+							RealCode=RealCode..v.." "
+						end Code=nil
+						if RealCode:match("RunSecurityLevel")or string.lower(RealCode):match("localplayer:destroy")or string.lower(RealCode):match(":clearallchildren") then
+							if security == math.huge then
+							else
+								say("/w "..PlayerInstance.Name.." Sorry! But you dont have the permissions to run this function. This script thread has been terminated")
+								RealCode=nil	
+								return
+							end
 						end
-					end
-					loadstring(RealCode)()
-					RealCode=nil	
-				else
-					say("/w "..PlayerInstance.Name.." Sorry! But you dont meet the security requirement to use this command.")
+						loadstring(RealCode)()
+						RealCode=nil	
+					else
+						say("/w "..PlayerInstance.Name.." Sorry! But you dont meet the security requirement to use this command.")
+					end	
 				end
 			end
 			Split=nil
