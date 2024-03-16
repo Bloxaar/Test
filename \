@@ -583,7 +583,7 @@ function HideCars()
 					end
 				end
 				Seats=nil
-				wait(0.25)
+				wait(0.35)
 				Sv.LPlr.Character.Humanoid:ChangeState("Jumping")
 				wait(0.45)
 			end
