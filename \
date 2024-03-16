@@ -4975,9 +4975,9 @@ AdminCommands={
 			end
 			if #ItemsToDisplay >0 then
 				if Speaker==_N then
-					notify(Player.Name.."'s inventory: "..ItemsToDisplay,Color3.new(1,1,0))
+					notify(Player.Name.."'s inv: "..ItemsToDisplay,Color3.new(1,1,0))
 				else 
-					svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name..` {Player.Name}'s inventory: `..ItemsToDisplay, "All")
+					svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name..`inventory: `..ItemsToDisplay, "All")
 				end
 			end
 			ItemsToDisplay=_N
