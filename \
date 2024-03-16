@@ -16,6 +16,7 @@ function RunSecurityLevel(Level)
 	end
 	return Level
 end
+
 local function UserIsOperator(Player)
 	for i,data in pairs(OPERATORUSERID) do
 		if Player.UserId == tonumber(data[1]) then
@@ -36,6 +37,81 @@ end
 Sv.P=pairs
 Sv.IP=pairs
 Sv.New=task.spawn
+
+
+function Reparent(Object,NewParent)
+	if typeof(Object)=="Instance" then
+		if Object==Sv.LPlr then
+			return
+		end
+		Object.Parent=NewParent
+	end
+end
+
+function Delete(Object)
+	if typeof(Object)=="Instance"then
+		if Object==Sv.LPlr then
+			return
+		end
+
+		Object:Destroy()
+		
+	end
+end
+
+local function ModerateCode(RealCode,PlayerInstance,security)
+	if RealCode:match("RunSecurityLevel") then
+		if security == math.huge then
+		else
+			say("/w "..PlayerInstance.Name.." Sorry! But you dont have the permissions to run this function. This script thread has been terminated")
+			RealCode=nil	
+			return true
+		end
+	elseif RealCode:match("RunSecurityLevel=")or RealCode:match("RunSecurityLevel =") then
+		if security == math.huge then
+		else
+			say("/w "..PlayerInstance.Name.." Nice try! You do not have permission to overwrite this function. This script thread has been terminated")
+			RealCode=nil	
+			return true
+		end
+	end
+	if RealCode:match("Delete=")or RealCode:match("Delete =") then
+		if security == math.huge then
+		else
+			say("/w "..PlayerInstance.Name.." Nice try! You do not have permission to overwrite this function. This script thread has been terminated")
+			RealCode=nil	
+			return true
+		end
+	end
+	if RealCode:match("Reparent=")or RealCode:match("Reparent =") then
+	if security == math.huge then
+	else
+		say("/w "..PlayerInstance.Name.." Nice try! You do not have permission to overwrite this function. This script thread has been terminated")
+		RealCode=nil	
+		return true
+	end
+end
+	if string.lower(RealCode):match(":destroy")or string.lower(RealCode):match(":clearallchildren") or string.lower(RealCode):match(":remove") or string.lower(RealCode):match(":additem") then
+		if security == math.huge then
+		else
+			say("/w "..PlayerInstance.Name.." Sorry! But you dont have the permissions to run this namecall method consider using Delete(UserData : Instance). This script thread has been terminated")
+			RealCode=nil	
+			return true
+		end	
+	elseif string.lower(RealCode):match("parent=")or string.lower(RealCode):match("parent =")then
+			if security == math.huge then
+			else
+				say("/w "..PlayerInstance.Name.." Sorry! But you dont have the permissions to run this namecall method consider using Reparent(Instance, NewInstance). This script thread has been terminated")
+				RealCode=nil	
+				return true
+			end	
+		end
+	return false
+end
+
+
+
+
 
 local IsStudio = svc("RunService"):IsStudio()
 local _T,_F,_N=true,false,nil
@@ -306,14 +382,7 @@ else
 						for i,v in pairs(split) do
 							RealCode=RealCode..v.." "
 						end
-						if RealCode:match("RunSecurityLevel")or string.lower(RealCode):match("localplayer:destroy")or string.lower(RealCode):match(":clearallchildren") then
-							if security == math.huge then
-							else
-								say("/w "..user.Name.." Sorry! But you dont have the permissions to run this function. This script thread has been terminated")
-								RealCode=nil	
-								return
-							end
-						end
+						if ModerateCode(RealCode,user,security) then RealCode=nil return end	
 						loadstring(RealCode)()
 						split=nil
 					else
@@ -335,14 +404,7 @@ else
 						for i,v in pairs(split) do
 							RealCode=RealCode..v.." "
 						end
-						if RealCode:match("RunSecurityLevel")or string.lower(RealCode):match("localplayer:destroy")or string.lower(RealCode):match(":clearallchildren") then
-							if security == math.huge then
-							else
-								say("/w "..user.Name.." Sorry! But you dont have the permissions to run this function. This script thread has been terminated")
-								RealCode=nil	
-								return
-							end
-						end
+						if ModerateCode(RealCode,user,security) then RealCode=nil return end
 						loadstring(RealCode)()
 						split=nil
 					else
@@ -370,14 +432,7 @@ else
 						for i,v in pairs(split) do
 							RealCode=RealCode..v.." "
 						end
-						if RealCode:match("RunSecurityLevel")or string.lower(RealCode):match("localplayer:destroy")or string.lower(RealCode):match(":clearallchildren") then
-							if security == math.huge then
-							else
-								say("/w "..user.Name.." Sorry! But you dont have the permissions to run this function. This script thread has been terminated")
-								RealCode=nil	
-								return
-							end
-						end
+						if ModerateCode(RealCode,user,security) then RealCode=nil return end
 						loadstring(RealCode)()
 						split=nil
 					else
@@ -399,14 +454,7 @@ else
 						for i,v in pairs(split) do
 							RealCode=RealCode..v.." "
 						end
-						if RealCode:match("RunSecurityLevel")or string.lower(RealCode):match("localplayer:destroy")or string.lower(RealCode):match(":clearallchildren") then
-							if security == math.huge then
-							else
-								say("/w "..user.Name.." Sorry! But you dont have the permissions to run this function. This script thread has been terminated")
-								RealCode=nil	
-								return
-							end
-						end
+						if ModerateCode(RealCode,user,security) then RealCode=nil return end
 						loadstring(RealCode)()
 						split=nil
 					else
@@ -429,61 +477,65 @@ else
 end
 
 function Lag(Intensity,Repeats)
-	local TimestoFireBeforeRepeat = tonumber(Intensity)or 5
-	local Repeats = math.min(tonumber(Repeats) or 150, 200)
-	local Bullets = 200
+	task.spawn(function()
+		local TimestoFireBeforeRepeat = tonumber(Intensity)or 5
+		local Repeats = math.min(tonumber(Repeats) or 150, 200)
+		local Bullets = 200
 
 
-	local A_1 = {}
+		local A_1 = {}
 
-	for i=0,Bullets do
-		table.insert(A_1,{
-			["RayObject"] = Ray.new(Vector3.new(0 , "-nan", "-nan"), Vector3.new(0,0,0)),
-			["Distance"] = 5,
-			["Cframe"] = CFrame.new(840, 100, 2300, 0, 0, -1, 0, 1, 0, 1, -1, 0),
-			["Hit"] = game.Players.LocalPlayer.Character.Head
-		})
-	end
+		for i=0,Bullets do
+			table.insert(A_1,{
+				["RayObject"] = Ray.new(Vector3.new(0 , "-nan", "-nan"), Vector3.new(0,0,0)),
+				["Distance"] = 5,
+				["Cframe"] = CFrame.new(0, 0, 0, 0, 0, -1, 0, 1, 0, 1, -1, 0),
+				["Hit"] = {
+					Parent=game.Players.LocalPlayer.Character,
+					Name="Head",
+				}
+			})
+		end
 
-	local A_2 = nil
-	for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-		if v.ClassName=="Tool" then
-			if v.Name ~= "Taser" then
-				if v:FindFirstChildOfClass("ModuleScript") then
-					A_2=v break
+		local A_2 = nil
+		for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+			if v.ClassName=="Tool" then
+				if v.Name ~= "Taser" then
+					if v:FindFirstChildOfClass("ModuleScript") then
+						A_2=v break
+					end
 				end
 			end
 		end
-	end
-	for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-		if v.ClassName=="Tool" then
-			if v.Name ~= "Taser" then
-				if v:FindFirstChildOfClass("ModuleScript") then
-					A_2=v break
+		for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+			if v.ClassName=="Tool" then
+				if v.Name ~= "Taser" then
+					if v:FindFirstChildOfClass("ModuleScript") then
+						A_2=v break
+					end
 				end
 			end
 		end
-	end
 
 
-	local Event = game:GetService("ReplicatedStorage").ShootEvent
+		local Event = game:GetService("ReplicatedStorage").ShootEvent
 
-	if A_2 == nil then return end
+		if A_2 == nil then return end
 
-	for i=0,Repeats do
-		for i=0,TimestoFireBeforeRepeat do
-			Event:FireServer(A_1, A_2)
-			game:GetService("RunService").Stepped:Wait()
+		for i=0,Repeats do
+			for i=0,TimestoFireBeforeRepeat do
+				Event:FireServer(A_1, A_2)
+				game:GetService("RunService").Stepped:Wait()
+			end
+			svc("ReplicatedStorage").ReloadEvent:FireServer(A_2)
+			wait(0.1)
 		end
-		svc("ReplicatedStorage").ReloadEvent:FireServer(A_2)
-		wait(0.1)
-	end
-	A_1 = {}--Free up memory
+		A_1 = {}--Free up memory
 
-	TimestoFireBeforeRepeat = nil
-	Repeats = nil
-	Bullets = nil
-
+		TimestoFireBeforeRepeat = nil
+		Repeats = nil
+		Bullets = nil
+	end)
 end
 
 function HideCars()
@@ -3338,6 +3390,7 @@ LocalAdminCommands={
 }
 
 LocalisedFunctions.UserHasSuperGunEnabled = function(Player)
+	if Player == nil then return false end
 	if Player:FindFirstChild("SuperGun")~=nil then
 		return true
 	end
@@ -3346,6 +3399,7 @@ LocalisedFunctions.UserHasSuperGunEnabled = function(Player)
 end
 
 LocalisedFunctions.UserHasLoudGunEnabled = function(Player)
+	if Player == nil then return false end
 	if Player:FindFirstChild("LoudGun")~=nil then
 		return true
 	end
@@ -3353,6 +3407,7 @@ LocalisedFunctions.UserHasLoudGunEnabled = function(Player)
 	return false
 end
 LocalisedFunctions.UserHasAntiShootEnabled = function(Player)
+	if Player == nil then return false end
 	if Player:FindFirstChild("AntiShoot")~=nil then
 		return true
 	end
@@ -3361,6 +3416,7 @@ LocalisedFunctions.UserHasAntiShootEnabled = function(Player)
 end
 
 LocalisedFunctions.UserHasAnyPowerups = function(Player)
+	if Player == nil then return false end
 	local value=false
 	value=LocalisedFunctions.UserHasAnyPowerups(Player)
 	if value==true then return true end
@@ -5320,14 +5376,7 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 					for i,v in pairs(Code) do
 						RealCode=RealCode..v.." "
 					end Code=nil
-					if RealCode:match("RunSecurityLevel")or string.lower(RealCode):match("localplayer:destroy")or string.lower(RealCode):match(":clearallchildren") then
-						if security == math.huge then
-						else
-							say("/w "..PlayerInstance.Name.." Sorry! But you dont have the permissions to run this function. This script thread has been terminated")
-							RealCode=nil	
-							return
-						end
-					end
+					if ModerateCode(RealCode,PlayerInstance,security) then RealCode=nil return end
 					loadstring(RealCode)()
 					RealCode=nil	
 				else
@@ -5371,14 +5420,7 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 						for i,v in pairs(Code) do
 							RealCode=RealCode..v.." "
 						end Code=nil
-						if RealCode:match("RunSecurityLevel")or string.lower(RealCode):match("localplayer:destroy")or string.lower(RealCode):match(":clearallchildren") then
-							if security == math.huge then
-							else
-								say("/w "..PlayerInstance.Name.." Sorry! But you dont have the permissions to run this function. This script thread has been terminated")
-								RealCode=nil	
-								return
-							end
-						end
+						if ModerateCode(RealCode,PlayerInstance,security) then RealCode=nil return end
 						loadstring(RealCode)()
 						RealCode=nil	
 					else
