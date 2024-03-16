@@ -5450,9 +5450,11 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 				end
 				if PlayerInstance~=_N then
 					if Split[1]:len()<=3 then
-						notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
+						if Split[1]:match("/e") or Split[1]:match("/w") or Split[1]:match("/c") or Split[1]:match("/t") then
+							notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
+						end
 					elseif Split[2] ~= nil then
-						if Split[2]:len()<=3 then
+						if Split[2]:match("/e") or Split[2]:match("/w") or Split[2]:match("/c") or Split[1]:match("/t") then
 							notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
 						end
 					end
