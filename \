@@ -379,8 +379,12 @@ else
 					if split[index]==";run" then
 						if security >= SecurityLevel then
 							local RealCode = ""
-							for i=0,index do
-								table.remove(split,1)
+							for i,v in pairs(split) do
+								if split[i]==";run" then
+									split[i]=nil
+									break
+								end
+								split[i]=nil
 							end
 							for i,v in pairs(split) do
 								RealCode=RealCode..v.." "
@@ -419,8 +423,12 @@ else
 					if split[index]==";run" then
 						if security >= SecurityLevel then
 							local RealCode = ""
-							for i=0,index do
-								table.remove(split,1)
+							for i,v in pairs(split) do
+								if split[i]==";run" then
+									split[i]=nil
+									break
+								end
+								split[i]=nil
 							end
 							for i,v in pairs(split) do
 								RealCode=RealCode..v.." "
@@ -5353,8 +5361,12 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 				if CmdsSplit[index] == prefix.."run" then
 					if security >= SecurityLevel then
 						local Code = Split
-						for i=0,index do
-							table.remove(Code,1)
+						for i,v in pairs(Code) do
+							if Code[i]==prefix.."run" then
+								Code[i]=nil
+								break
+							end
+							Code[i]=nil
 						end
 						local RealCode = ""
 						for i,v in pairs(Code) do
@@ -5379,8 +5391,12 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 					return	
 				elseif CmdsSplit[index] == prefix.."display" then
 					local Code = Split
-					for i=0,index do
-						table.remove(Code,1)
+					for i,v in pairs(Code) do
+						if Code[i]==prefix.."run" then
+							Code[i]=nil
+							break
+						end
+						Code[i]=nil
 					end
 					local RealCode = ""
 					for i,v in pairs(Code) do
@@ -6374,4 +6390,3 @@ while wait()do
 
 	end)
 end
- 
