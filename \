@@ -578,7 +578,13 @@ function HideCars()
 				end
 				for i,v in pairs(Seats) do
 					if v.Occupant == nil then
-						v:Sit(Sv.LPlr.Character.Humanoid)
+						local A=60
+						repeat wait(0.1)A-=1
+							if A<=0 then break end
+							v:Sit(Sv.LPlr.Character.Humanoid)
+							if Sv.LPlr.Character.Humanoid.SeatPart ~= nil then break end
+						until 1==1
+						A=nil
 						break
 					end
 				end
