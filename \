@@ -583,9 +583,9 @@ function HideCars()
 					end
 				end
 				Seats=nil
-				wait(0.1)
-				Sv.LPlr.Character.Humanoid.Sit=false
-				wait(0.05)
+				wait(0.15)
+				Sv.LPlr.Character.Humanoid:ChangeState("Jumping")
+				wait(0.15)
 			end
 			Body=nil
 		end
