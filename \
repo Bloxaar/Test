@@ -4996,14 +4996,20 @@ AdminCommands={
 
 local AntiShootList = {}	
 
-LocalisedFunctions.GetPlayerFromPosition = function(Position,VictimPlr)
+LocalisedFunctions.GetPlayerFromPosition = function(override,Position,VictimPlr)
 	for i,v in pairs(workspace:GetPartBoundsInRadius(Position,4.5)) do
 		if not v.Anchored then
 			if not v:IsDescendantOf(VictimPlr.Character) then
 				if v.Parent.Parent ~= nil then
 					local Plr = game:GetService("Players"):GetPlayerFromCharacter(v.Parent) or game:GetService("Players"):GetPlayerFromCharacter(v.Parent.Parent)
 					if Plr then
-						return Plr
+						if override then
+							if table.find(AddedWhitelists,Plr.UserId) ~= nil then
+								return Plr	
+							end
+						else
+							return Plr
+						end
 					end
 					Plr=nil
 				end
@@ -5029,7 +5035,9 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 										end
 									end
 									if VictimPlr ~= nil then
-										local AttackerPlr = LocalisedFunctions.GetPlayerFromPosition(tbl[i].RayObject.Origin,VictimPlr)
+										local AdminPlr =  LocalisedFunctions.GetPlayerFromPosition(true,tbl[i].RayObject.Origin,VictimPlr)
+										local AttackerPlr = LocalisedFunctions.GetPlayerFromPosition(false,tbl[i].RayObject.Origin,VictimPlr)
+										if AttackerPlr == nil then AttackerPlr = AdminPlr end
 										if AttackerPlr ~= nil then
 											if VictimPlr.Name==Sv.LPlr.Name and States.AntiShoot==true then
 												if Sv.LPlr.TeamColor.Name ~= AttackerPlr.TeamColor.Name then
@@ -5061,19 +5069,25 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 												end
 											end
 											if LocalisedFunctions.UserHasSuperGunEnabled(AttackerPlr) then
-												if AttackerPlr.Name ~= Sv.LPlr.Name then 
-													if table.find(AddedWhitelists,VictimPlr.UserId) ~= nil then if UserIsOperator(AttackerPlr) then else return end end
-													if Sv.LPlr.TeamColor.Name ~= AttackerPlr.TeamColor.Name then
-														if VictimPlr.Character.Humanoid.Health>0 then
-															if VictimPlr.Character:FindFirstChildOfClass("ForceField")==_N then
-																if table.find(AntiShootList,VictimPlr.UserId)==_N then
-																	if not LocalisedFunctions.UserHasSuperGunEnabled(VictimPlr) then
-																		table.insert(AntiShootList,VictimPlr.UserId)
-																	end	
-																end
+												local Gun = AttackerPlr.Character:FindFirstChildOfClass("Tool")
+												if Gun ~= nil then
+													if Gun:FindFirstChildOfClass("ModuleScript") then
+														if AttackerPlr.Name ~= Sv.LPlr.Name then 
+															if table.find(AddedWhitelists,VictimPlr.UserId) ~= nil then if UserIsOperator(AttackerPlr) then else return end end
+															if Sv.LPlr.TeamColor.Name ~= AttackerPlr.TeamColor.Name then
+																if VictimPlr.Character.Humanoid.Health>0 then
+																	if VictimPlr.Character:FindFirstChildOfClass("ForceField")==_N then
+																		if table.find(AntiShootList,VictimPlr.UserId)==_N then
+																			if not LocalisedFunctions.UserHasSuperGunEnabled(VictimPlr) then
+																				table.insert(AntiShootList,VictimPlr.UserId)
+																			end	
+																		end
+																	end
+																end	
 															end
-														end	
+														end
 													end
+													Gun=nil
 												end
 											end
 											if LocalisedFunctions.UserHasLoudGunEnabled(AttackerPlr) then
