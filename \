@@ -5446,7 +5446,7 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 				if cmdname=="prefix" then
 					cmdfunc(GetPlayer((Split[index+1] or "me"),PlayerInstance),PlayerInstance,(Split[index+2] or ";"))	
 				else
-					cmdfunc(GetPlayer(Split[index+1] or "me"),PlayerInstance)
+					cmdfunc(GetPlayer((Split[index+1] or "me"),PlayerInstance),PlayerInstance)
 				end
 				if PlayerInstance~=_N then
 					if Split[1]:len()<=3 then
