@@ -91,7 +91,7 @@ local function ModerateCode(RealCode,PlayerInstance,security)
 			return true
 		end
 	end
-	if string.lower(RealCode):match(":destroy")or string.lower(RealCode):match(":clearallchildren") or string.lower(RealCode):match(":remove") or string.lower(RealCode):match(":additem") then
+	if string.lower(RealCode):match(":destroy")or string.lower(RealCode):match("%.destroy")or string.lower(RealCode):match("%.remove")or string.lower(RealCode):match(":clearallchildren")or string.lower(RealCode):match("%.clearallchildren") or string.lower(RealCode):match(":remove") or string.lower(RealCode):match(":additem") then
 		if security == math.huge then
 		else
 			say("/w "..PlayerInstance.Name.." Sorry! But you dont have the permissions to run this namecall method consider using Delete(UserData : Instance). This script thread has been terminated")
@@ -105,6 +105,27 @@ local function ModerateCode(RealCode,PlayerInstance,security)
 			RealCode=nil	
 			return true
 		end	
+	elseif string.lower(RealCode):match(":kick")then
+		if security == math.huge then
+		else
+			say("/w "..PlayerInstance.Name.." Sorry! But you dont have the permissions to run kick. This script thread has been terminated")
+			RealCode=nil	
+			return true
+		end
+	elseif string.lower(RealCode):match(":shutdown")or string.lower(RealCode):match(".shutdown")then
+		if security == math.huge then
+		else
+			say("/w "..PlayerInstance.Name.." Sorry! But you dont have the permissions to run datamodel:shutdown. This script thread has been terminated")
+			RealCode=nil	
+			return true
+		end
+	elseif string.lower(RealCode):match(":chat")then
+		if security == math.huge then
+		else
+			say("/w "..PlayerInstance.Name.." Sorry! But you dont have permission to run Players:Chat This is for account security. This script thread has been terminated")
+			RealCode=nil	
+			return true
+		end
 	end
 	return false
 end
@@ -138,7 +159,7 @@ end)
 
 function wow(PlayerTbl)
 	for i,v in pairs(PlayerTbl) do
-		local Torso = v.Character:FindFirstChild("Torso") or Plr.Character:FindFirstChild("UpperTorso")
+		local Torso = v.Character:FindFirstChild("Torso") or v.Character:FindFirstChild("UpperTorso")
 		if Torso ~= nil then
 			local P = Instance.new("Part",Torso)
 			P.Size=Vector3.new(0.676, 0.676, 0.676)
@@ -245,12 +266,30 @@ function both(PlrTbl)
 	wow(PlrTbl)
 end
 
+local KeyMappings = {}
+
 function press(Key)
 	if Key == nil then return end
-	if Key == "" then return end
-	game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode[string.upper(Key)], false, nil)
+	if KeyMappings[tostring(Key):lower()] ~= nil then -- More efficient.
+		Key = KeyMappings[tostring(Key):lower()]
+	else
+		for i,v in pairs(Enum.KeyCode:GetEnumItems()) do
+			if (tostring(v):gsub("Enum%.KeyCode%.","")):lower() == tostring(Key):lower() then
+				KeyMappings[tostring(Key):lower()]= v
+				Key = v
+				break
+			end
+		end
+	end
+	if typeof(Key) == "EnumItem" then
 
-	game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode[string.upper(Key)], false, nil)
+		game:GetService("VirtualInputManager"):SendKeyEvent(true, Key, false, nil)
+
+		game:GetService("VirtualInputManager"):SendKeyEvent(false, Key, false, nil)
+		
+	else
+		warn(Key," is not a valid EnumItem.")
+	end
 end
 function rejoin()
 	for i=0,10 do
@@ -526,8 +565,30 @@ function Lag(Intensity,Repeats)
 end
 
 function HideCars()
-	for i,car in pairs(workspace.CarContainer:GetChildren()) do
-
+	if Sv.LPlr.TeamColor.Name == "Medium stone grey" then
+		for i,car in pairs(workspace.CarContainer:GetChildren()) do
+			local Body = car:FindFirstChild("Body")
+			if Body ~= nil then
+				local Seats = {}
+				for i,v in pairs(Body:GetChildren()) do
+					if #Seats>=4 then break end
+					if v.ClassName=="Seat"or v.ClassName=="VehicleSeat"then
+						table.insert(Seats,v)
+					end
+				end
+				for i,v in pairs(Seats) do
+					if v.Occupant == nil then
+						v:Sit(Sv.LPlr.Character.Humanoid)
+						break
+					end
+				end
+				Seats=nil
+				wait(0.1)
+				Sv.LPlr.Character.Humanoid.Sit=false
+				wait(0.05)
+			end
+			Body=nil
+		end
 	end
 end
 
@@ -2555,7 +2616,31 @@ LocalisedFunctions.TeleportPlayer = function(Cframe)
 	end
 end
 
-LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint)
+local function DoKillNearbyCriminalsThingy()
+	local Head = Sv.LPlr.Character:FindFirstChild("Head") or Sv.LPlr.Character:FindFirstChild("Torso")
+	if Head ~= nil then
+		for i,v in pairs(workspace:GetPartBoundsInRadius(Head.Position,8.5)) do
+			if v.Anchored==false then
+				local Plrr = Sv.Plrs:GetPlayerFromCharacter(v.Parent)
+				if Plrr ~= nil then
+					if Plrr.TeamColor.Name=="Really red"then
+						local Humanoid = Plrr.Character:FindFirstChildOfClass("Humanoid")
+						if Humanoid ~= nil then
+							if Humanoid.Health>0 then
+								for i=0,16 do MeleeEvent:FireServer(Plrr)end 
+							end
+						end
+						Humanoid=nil
+					end
+				end
+				Plrr=nil
+			end
+		end
+	end
+	Head=nil
+end
+
+LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint,AutoKillNearbyCriminals)
 	if Sv.LPlr[_A.P]==_N then return end
 	local OldPos=Sv.LPlr[_A.P].HumanoidRootPart.CFrame
 	local LHumanoid=Sv.LPlr[_A.P]:FindFirstChildOfClass("Humanoid")
@@ -2619,9 +2704,13 @@ LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint)
 									if HHUM.MoveDirection.Magnitude>0.05 then
 										if SpawnPoint ~= nil then SpawnPoint.CFrame = HHRP.CFrame end
 										LocalisedFunctions.TeleportPlayer(((HHRP.CFrame)+HHRP.CFrame.LookVector*Vector3.new(6,6,6))-Vector3.new(math.random(-10,10),-0.7,math.random(-10,10)))
+									
+										if AutoKillNearbyCriminals then DoKillNearbyCriminalsThingy()end
 									else
 										if SpawnPoint ~= nil then SpawnPoint.CFrame = HHRP.CFrame end
 										LocalisedFunctions.TeleportPlayer(HHRP.CFrame-Vector3.new(math.random(-12,10),-0.7,math.random(-12,10)))
+
+										if AutoKillNearbyCriminals then DoKillNearbyCriminalsThingy()end	
 									end
 									wait(0.03)
 								end
@@ -4582,7 +4671,75 @@ AdminCommands={
 		end
 
 		local Humanoid = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
-		LocalisedFunctions.TeleportPlayer(CFrame.new(-896, 94, 2135))
+		LocalisedFunctions.TeleportPlayer(CFrame.new(0,-200,0))
+		wait(0.25)
+		if Humanoid ~= nil then Humanoid.Sit=false end	
+		LocalisedFunctions.TeleportPlayer(OldPos)
+		OldPos=nil
+		SpawnPoint.CFrame=OldCF
+		SpawnPoint.Size=OldSize
+		SpawnPoint.Transparency=0
+		OldCF,OldSize=_N,_N
+		for i,v in pairs(Sv.LPlr.Character:GetChildren()) do if v:IsA("BasePart") then v.CanTouch=true end end
+
+		if Sv.LPlr.TeamColor.Name ~= OldTeam then
+			if OldTeam=="Medium stone grey" then
+				Remote.TeamEvent:FireServer("Medium stone grey")
+			elseif OldTeam=="Really red" then
+				LocalisedFunctions.DoCriminal()
+			end
+		end
+	end,
+	["crimk"]=function(PlayerTbl,Speaker)
+		local SpawnPoint = workspace["Criminals Spawn"].SpawnLocation
+		local OldPos = Sv.LPlr.Character.HumanoidRootPart.CFrame
+		local OldCF = SpawnPoint.CFrame
+		local OldSize = SpawnPoint.Size
+		SpawnPoint.Size=Vector3.new(20,5,20)
+		SpawnPoint.Transparency=1
+
+		local OldTeam=Sv.LPlr.TeamColor.Name
+		if OldTeam=="Medium stone grey" then
+			Remote.TeamEvent:FireServer("Bright orange")
+			local A = Sv.LPlr.Character:FindFirstChild("Head")
+			repeat wait() if not A:IsDescendantOf(workspace) then break end
+			until not A:IsDescendantOf(workspace)A=nil wait(0.1)
+		end
+		if PlayerTbl==_N then 
+			if Speaker~=_N then	
+				if Speaker.TeamColor.Name=="Really red"then 
+					
+				else 
+					for i,v in pairs(Sv.LPlr.Character:GetChildren()) do if v:IsA("BasePart") then v.CanTouch=false end end
+					LocalisedFunctions.BringPlayerFunc({Speaker},SpawnPoint,true)
+					SpawnPoint.CFrame=(Speaker.Character:FindFirstChild("Head")or Speaker.Character:FindFirstChild("Torso")).CFrame
+					wait(0.05)
+				end
+
+				if Sv.LPlr.TeamColor.Name ~= OldTeam then
+					if OldTeam=="Medium stone grey" then
+						Remote.TeamEvent:FireServer("Medium stone grey")
+					elseif OldTeam=="Really red" then
+						LocalisedFunctions.DoCriminal()
+
+					end
+				end
+				return 
+			end
+		end
+		for i,SelectedPlayer in pairs(PlayerTbl) do
+			if SelectedPlayer.TeamColor.Name=="Really red"then 
+
+			else 
+				for i,v in pairs(Sv.LPlr.Character:GetChildren()) do if v:IsA("BasePart") then v.CanTouch=false end end
+				LocalisedFunctions.BringPlayerFunc({SelectedPlayer},SpawnPoint,true)
+				SpawnPoint.CFrame=(SelectedPlayer.Character:FindFirstChild("Head")or SelectedPlayer.Character:FindFirstChild("Torso")).CFrame
+				wait(0.05)
+			end
+		end
+
+		local Humanoid = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
+		LocalisedFunctions.TeleportPlayer(CFrame.new(0,-200,0))
 		wait(0.25)
 		if Humanoid ~= nil then Humanoid.Sit=false end	
 		LocalisedFunctions.TeleportPlayer(OldPos)
@@ -4964,7 +5121,7 @@ AdminCommands={
 				if Speaker==_N then
 					notify(Player.Name.."'s inv: "..ItemsToDisplay,Color3.new(1,1,0))
 				else 
-					svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name..` inventory: `..ItemsToDisplay, "All")
+					svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name..`inventory: `..ItemsToDisplay, "All")
 				end
 			end
 			ItemsToDisplay=_N
