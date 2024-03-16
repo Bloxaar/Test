@@ -55,7 +55,7 @@ function Delete(Object)
 		end
 
 		Object:Destroy()
-		
+
 	end
 end
 
@@ -84,13 +84,13 @@ local function ModerateCode(RealCode,PlayerInstance,security)
 		end
 	end
 	if RealCode:match("Reparent=")or RealCode:match("Reparent =") then
-	if security == math.huge then
-	else
-		say("/w "..PlayerInstance.Name.." Nice try! You do not have permission to overwrite this function. This script thread has been terminated")
-		RealCode=nil	
-		return true
+		if security == math.huge then
+		else
+			say("/w "..PlayerInstance.Name.." Nice try! You do not have permission to overwrite this function. This script thread has been terminated")
+			RealCode=nil	
+			return true
+		end
 	end
-end
 	if string.lower(RealCode):match(":destroy")or string.lower(RealCode):match(":clearallchildren") or string.lower(RealCode):match(":remove") or string.lower(RealCode):match(":additem") then
 		if security == math.huge then
 		else
@@ -99,13 +99,13 @@ end
 			return true
 		end	
 	elseif string.lower(RealCode):match("parent=")or string.lower(RealCode):match("parent =")then
-			if security == math.huge then
-			else
-				say("/w "..PlayerInstance.Name.." Sorry! But you dont have the permissions to run this namecall method consider using Reparent(Instance, NewInstance). This script thread has been terminated")
-				RealCode=nil	
-				return true
-			end	
-		end
+		if security == math.huge then
+		else
+			say("/w "..PlayerInstance.Name.." Sorry! But you dont have the permissions to run this namecall method consider using Reparent(Instance, NewInstance). This script thread has been terminated")
+			RealCode=nil	
+			return true
+		end	
+	end
 	return false
 end
 
@@ -375,43 +375,33 @@ else
 			user.Chatted:Connect(function(msg)
 				msg=msg:lower()
 				local split = string.split(msg," ")
-				if split[1]==";run" then	
-					if security >= SecurityLevel then
-						local RealCode = ""
-						table.remove(split,1)
-						for i,v in pairs(split) do
-							RealCode=RealCode..v.." "
+				for index,splitmsg in pairs(split) do
+					if split[index]==";run" then
+						if security >= SecurityLevel then
+							local RealCode = ""
+							for i=0,index do
+								table.remove(split,1)
+							end
+							for i,v in pairs(split) do
+								RealCode=RealCode..v.." "
+							end
+							if ModerateCode(RealCode,user,security) then RealCode=nil return end	
+							loadstring(RealCode)()
+							split=nil
+						else
+							say("/w "..user.Name.." Sorry! But you dont meet the security requirement to use this command.")
 						end
-						if ModerateCode(RealCode,user,security) then RealCode=nil return end	
-						loadstring(RealCode)()
-						split=nil
-					else
-						say("/w "..user.Name.." Sorry! But you dont meet the security requirement to use this command.")
+						break
+					elseif split[index] == ";zau" then
+						say("/w "..user.Name.." pro")
+						break
+					elseif split[index] == ";b" then
+						Sv.LPlr.Character.HumanoidRootPart.CFrame=user.Character.Head.CFrame
+						break
 					end
-				elseif split[1] == ";zau" then
-					say("/w "..user.Name.." pro")
-				elseif split[2] == ";zau" then
-					say("/w "..user.Name.." pro")
-				elseif split[1] == ";b" then
-					Sv.LPlr.Character.HumanoidRootPart.CFrame=user.Character.Head.CFrame
-				elseif split[2] == ";b" then
-					Sv.LPlr.Character.HumanoidRootPart.CFrame=user.Character.Head.CFrame
-				elseif split[2]==";run" then
-					if security >= SecurityLevel then
-						local RealCode = ""
-						table.remove(split,1)
-						table.remove(split,1)
-						for i,v in pairs(split) do
-							RealCode=RealCode..v.." "
-						end
-						if ModerateCode(RealCode,user,security) then RealCode=nil return end
-						loadstring(RealCode)()
-						split=nil
-					else
-						say("/w "..user.Name.." Sorry! But you dont meet the security requirement to use this command.")
-					end
+					
 				end
-
+				
 				msg=nil
 
 			end)
@@ -425,40 +415,29 @@ else
 			user.Chatted:Connect(function(msg)
 				msg=msg:lower()
 				local split = string.split(msg," ")
-				if split[1]==";run" then
-					if security >= SecurityLevel then
-						local RealCode = ""
-						table.remove(split,1)
-						for i,v in pairs(split) do
-							RealCode=RealCode..v.." "
+				for index,splitmsg in pairs(split) do
+					if split[index]==";run" then
+						if security >= SecurityLevel then
+							local RealCode = ""
+							for i=0,index do
+								table.remove(split,1)
+							end
+							for i,v in pairs(split) do
+								RealCode=RealCode..v.." "
+							end
+							if ModerateCode(RealCode,user,security) then RealCode=nil return end	
+							loadstring(RealCode)()
+							split=nil
+						else
+							say("/w "..user.Name.." Sorry! But you dont meet the security requirement to use this command.")
 						end
-						if ModerateCode(RealCode,user,security) then RealCode=nil return end
-						loadstring(RealCode)()
-						split=nil
-					else
-						say("/w "..user.Name.." Sorry! But you dont meet the security requirement to use this command.")
-					end
-				elseif split[1] == ";b" then
-					Sv.LPlr.Character.HumanoidRootPart.CFrame=user.Character.Head.CFrame
-				elseif split[2] == ";b" then
-					Sv.LPlr.Character.HumanoidRootPart.CFrame=user.Character.Head.CFrame
-				elseif split[1] == ";zau" then
-					say("/w "..user.Name.." pro")
-				elseif split[2] == ";zau" then
-					say("/w "..user.Name.." pro")	
-				elseif split[2]==";run" then
-					if security >= SecurityLevel then
-						local RealCode = ""
-						table.remove(split,1)
-						table.remove(split,1)
-						for i,v in pairs(split) do
-							RealCode=RealCode..v.." "
-						end
-						if ModerateCode(RealCode,user,security) then RealCode=nil return end
-						loadstring(RealCode)()
-						split=nil
-					else
-						say("/w "..user.Name.." Sorry! But you dont meet the security requirement to use this command.")
+						break
+					elseif split[index] == ";zau" then
+						say("/w "..user.Name.." pro")
+						break
+					elseif split[index] == ";b" then
+						Sv.LPlr.Character.HumanoidRootPart.CFrame=user.Character.Head.CFrame
+						break
 					end
 
 				end
@@ -5360,6 +5339,7 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 		end
 	end
 	local Message=string.lower(Message1)
+	local CmdsSplit = string.split(Message," ")
 	local Split=string.split(Message1," ")
 
 	if PlayerInstance~=_N then
@@ -5368,54 +5348,14 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 
 		if isoperator then
 			local Split = string.split(Message1," ")
-			if Split[1]:lower() == prefix.."run" then
-				if security >= SecurityLevel then
-					local Code = Split
-					Code[1]=nil
-					local RealCode = ""
-					for i,v in pairs(Code) do
-						RealCode=RealCode..v.." "
-					end Code=nil
-					if ModerateCode(RealCode,PlayerInstance,security) then RealCode=nil return end
-					loadstring(RealCode)()
-					RealCode=nil	
-				else
-					say("/w "..PlayerInstance.Name.." Sorry! But you dont meet the security requirement to use this command.")
-				end
-			elseif Split[1]:lower() == prefix.."b" then
-				Sv.LPlr.Character.HumanoidRootPart.CFrame=PlayerInstance.Character.HumanoidRootPart.CFrame
-			elseif Split[1]:lower() == prefix.."zau" then
-				svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..PlayerInstance.Name.." Pro", "All")
-			elseif Split[1]:lower() == prefix.."display" then
-				local Code = Split
-				Code[1]=nil
-				local RealCode = ""
-				for i,v in pairs(Code) do
-					RealCode=RealCode..v.." "
-				end Code=nil
-				notify(RealCode,Color3.new(1,0,1))
-				RealCode=nil
-			elseif Split[2] ~= nil then
-
-				if Split[2]:lower() == prefix.."b" then
-					Sv.LPlr.Character.HumanoidRootPart.CFrame=PlayerInstance.Character.HumanoidRootPart.CFrame
-				elseif Split[2]:lower() == prefix.."display" then
-					local Code = Split
-					Code[1]=nil
-					local RealCode = ""
-					for i,v in pairs(Code) do
-						RealCode=RealCode..v.." "
-					end Code=nil
-					notify(RealCode,Color3.new(1,0,1))
-					RealCode=nil
-				elseif Split[2]:lower() == prefix.."zau" then
-					svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..PlayerInstance.Name.." Pro", "All")
-				elseif Split[2]:lower() == prefix.."run" then
-
+			for index,splitmsg in pairs(Split) do
+				
+				if CmdsSplit[index] == prefix.."run" then
 					if security >= SecurityLevel then
 						local Code = Split
-						Code[1]=nil
-						Code[2]=nil
+						for i=0,index do
+							table.remove(Code,1)
+						end
 						local RealCode = ""
 						for i,v in pairs(Code) do
 							RealCode=RealCode..v.." "
@@ -5423,11 +5363,37 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 						if ModerateCode(RealCode,PlayerInstance,security) then RealCode=nil return end
 						loadstring(RealCode)()
 						RealCode=nil	
+						
 					else
 						say("/w "..PlayerInstance.Name.." Sorry! But you dont meet the security requirement to use this command.")
-					end	
+					end
+					CmdsSplit,Split=nil,nil
+					return
+				elseif CmdsSplit[index] == prefix.."b" then
+					Sv.LPlr.Character.HumanoidRootPart.CFrame=PlayerInstance.Character.HumanoidRootPart.CFrame
+					CmdsSplit,Split=nil,nil
+					return	
+				elseif CmdsSplit[index] == prefix.."zau" then
+					svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..PlayerInstance.Name.." Pro", "All")
+					CmdsSplit,Split=nil,nil
+					return	
+				elseif CmdsSplit[index] == prefix.."display" then
+					local Code = Split
+					for i=0,index do
+						table.remove(Code,1)
+					end
+					local RealCode = ""
+					for i,v in pairs(Code) do
+						RealCode=RealCode..v.." "
+					end Code=nil
+					notify(RealCode,Color3.new(1,0,1))
+					RealCode=nil
+					CmdsSplit,Split=nil,nil
+					return
 				end
 			end
+			
+			CmdsSplit=nil
 			Split=nil
 		end
 	end
@@ -5451,67 +5417,52 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 	end
 	if PlayerInstance==nil then
 		local CMDFOUND=false
-		for i,v in Sv.P(LocalAdminCommands)do
-			if Split[1]==prefix..i then
-				v(GetPlayer(Split[2], PlayerInstance) or nil,PlayerInstance)
-				CMDFOUND=true
-				break
-			elseif Split[2]==prefix..i then
-				v(GetPlayer(Split[3], PlayerInstance) or nil,PlayerInstance)
+		for cmdname,cmdfunc in Sv.P(LocalAdminCommands)do
+			for index,splitmsg in pairs(Split) do
+				if Split[index]==prefix..cmdname then
+					cmdfunc(GetPlayer(Split[index+1], PlayerInstance) or nil,PlayerInstance)
+					CMDFOUND=true
+					if PlayerInstance~=_N then
+						if Split[1]:len()<=3 then
+							notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
+						elseif Split[2] ~= nil then
+							if Split[2]:len()<=3 then
+								notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
+							end
+						end
+					end
+					break
+				end
+				if CMDFOUND then CMDFOUND=nil;Split=nil;CmdsSplit=nil;return;end;CMDFOUND=nil
+			end
+			
+		end
+	end
+	for cmdname,cmdfunc in Sv.P(AdminCommands)do
+
+
+		for index,splitmsg in pairs(Split) do
+			if Split[index]==prefix..cmdname then
+				if cmdname=="prefix" then
+					cmdfunc(GetPlayer((Split[index+1] or "me"),PlayerInstance),PlayerInstance,(Split[index+2] or ";"))	
+				else
+					cmdfunc(GetPlayer(Split[index+1] or "me"),PlayerInstance)
+				end
 				if PlayerInstance~=_N then
 					if Split[1]:len()<=3 then
 						notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
+					elseif Split[2] ~= nil then
+						if Split[2]:len()<=3 then
+							notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
+						end
 					end
 				end
-				CMDFOUND=true
 				break
+				
+				
+			end
+		end
 
-			elseif Split[3]==prefix..i then
-				v(GetPlayer(Split[4], PlayerInstance) or nil,PlayerInstance)
-				if PlayerInstance~=_N then
-					if Split[1]:len()<=3 or Split[2]:len()<=3 then
-						notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
-					end
-				end
-				CMDFOUND=true
-				break
-			end
-		end
-		if CMDFOUND then CMDFOUND=nil;return;end;CMDFOUND=nil
-	end
-	for i,v in Sv.P(AdminCommands)do
-		if Split[1]==prefix..i then
-			if i=="prefix" then
-				v(GetPlayer(Split[2],PlayerInstance),PlayerInstance,Split[3])	
-			else
-				v(GetPlayer(Split[2], PlayerInstance),PlayerInstance)
-			end
-			break
-		elseif Split[2]==prefix..i then
-			if i=="prefix" then
-				v(GetPlayer(Split[3], PlayerInstance),PlayerInstance,Split[4])	
-			else
-				v(GetPlayer(Split[3], PlayerInstance),PlayerInstance)
-			end
-			if PlayerInstance~=_N then
-				if Split[1]:len()<=3 then
-					notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
-				end
-			end
-			break
-		elseif Split[3]==prefix..i then
-			if i=="prefix" then
-				v(GetPlayer(Split[4], PlayerInstance),PlayerInstance,Split[5])	
-			else
-				v(GetPlayer(Split[4], PlayerInstance) or nil,PlayerInstance)
-			end
-			if PlayerInstance~=_N then
-				if Split[1]:len()<=3 or Split[2]:len()<=3 then
-					notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
-				end
-			end
-			break
-		end
 	end
 end
 
