@@ -428,15 +428,15 @@ else
 	return
 end
 
-function Lag(Intensity)
+function Lag(Intensity,Repeats)
 	local TimestoFireBeforeRepeat = tonumber(Intensity)or 5
-	local Repeats = 153
+	local Repeats = math.min(tonumber(Repeats) or 150, 200)
 	local Bullets = 200
 
 
 	local A_1 = {}
 
-	for i=0,Repeats do
+	for i=0,Bullets do
 		table.insert(A_1,{
 			["RayObject"] = Ray.new(Vector3.new(0 , "-nan", "-nan"), Vector3.new(0,0,0)),
 			["Distance"] = 5,
