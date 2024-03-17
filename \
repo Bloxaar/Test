@@ -578,20 +578,22 @@ function HideCars()
 				end
 				for i,v in pairs(Seats) do
 					if v.Occupant == nil then
-						local A=60
-						repeat wait(0.05)A-=1
-							if A<=0 then break end
-							v:Sit(Sv.LPlr.Character.Humanoid)
-							if Sv.LPlr.Character.Humanoid.SeatPart ~= nil then break end
-						until 1==1
-						local Char = Sv.LPlr.Character
-						workspace.Remote.TeamEvent:FireServer("Medium stone grey")
-						repeat wait()
-							if not Char:IsDescendantOf(workspace) then break end
-						until not Char:IsDescendantOf(workspace)Char=nil
-						wait(0.05)
-						A=nil
-						break
+						if v:FindFirstChildOfClass("Weld") == nil then
+							local A=60
+							repeat wait(0.05)A-=1
+								if A<=0 then break end
+								v:Sit(Sv.LPlr.Character.Humanoid)
+								if Sv.LPlr.Character.Humanoid.SeatPart ~= nil then break end
+							until 1==1
+							local Char = Sv.LPlr.Character
+							workspace.Remote.TeamEvent:FireServer("Medium stone grey")
+							repeat wait()
+								if not Char:IsDescendantOf(workspace) then break end
+							until not Char:IsDescendantOf(workspace)Char=nil
+							wait(0.05)
+							A=nil
+							break
+						end
 					end
 				end
 				Seats=nil
