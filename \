@@ -603,6 +603,7 @@ function HideCars()
 			end
 			Body=nil
 		end
+		workspace.Remote.TeamEvent:FireServer("Medium stone grey")
 	end
 end
 
