@@ -582,6 +582,7 @@ function HideCars()
 							local A=40
 							repeat wait(0.05)A-=1
 								if A<=0 then break end
+								if not v:IsDescendantOf(workspace) then break end
 								v:Sit(Sv.LPlr.Character.Humanoid)
 								if Sv.LPlr.Character.Humanoid.SeatPart ~= nil then break end
 							until 1==1
