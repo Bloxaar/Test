@@ -579,19 +579,22 @@ function HideCars()
 				for i,v in pairs(Seats) do
 					if v.Occupant == nil then
 						local A=60
-						repeat wait(0.1)A-=1
+						repeat wait(0.05)A-=1
 							if A<=0 then break end
 							v:Sit(Sv.LPlr.Character.Humanoid)
 							if Sv.LPlr.Character.Humanoid.SeatPart ~= nil then break end
 						until 1==1
+						local Char = Sv.LPlr.Character
+						workspace.Remote.TeamEvent:FireServer("Medium stone grey")
+						repeat wait()
+							if not Char:IsDescendantOf(workspace) then break end
+						until not Char:IsDescendantOf(workspace)Char=nil
+						wait(0.05)
 						A=nil
 						break
 					end
 				end
 				Seats=nil
-				wait(0.45)
-				Sv.LPlr.Character.Humanoid:ChangeState("Jumping")
-				wait(1)
 			end
 			Body=nil
 		end
@@ -3819,19 +3822,19 @@ AdminCommands={
 			end
 		end
 	end,
-	["gban"]=function(PlayerTbl,Speaker)
+	["hban"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		for i,v in Sv.P(PlayerTbl)do
 			if table.find(GunbanTBL,v.UserId)~=_N then
 				if Speaker==_N then
-					notify(v.Name.." is already gunbanned.",_A.R(1,1,0))
+					notify(v.Name.." is already hostilebanned.",_A.R(1,1,0))
 				end
 			else
 				_A.O(GunbanTBL,v.UserId)
 				if Speaker==_N then
-					notify(v.Name.." is already gunbanned.",_A.R(1,1,0))
+					notify(v.Name.." is already hostilebanned.",_A.R(1,1,0))
 				else
-					notify(Speaker.Name.." is gunbanning "..tostring(v.Name),_A.R(1,1,0))
+					notify(Speaker.Name.." is hostilebanning "..tostring(v.Name),_A.R(1,1,0))
 				end
 			end
 		end
@@ -3973,12 +3976,12 @@ AdminCommands={
 			end
 		end
 	end,
-	["ungban"]=function(PlayerTbl,Speaker)
+	["unhban"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		for i,v in Sv.P(PlayerTbl)do
 			if table.find(GunbanTBL,v.UserId)~=_N then
 				if Speaker==_N then
-					notify(v.Name.." is nolonger gunbanned.",_A.R(1,0,0))
+					notify(v.Name.." is nolonger hostilebanned.",_A.R(1,0,0))
 				end
 				table.remove(GunbanTBL,table.find(GunbanTBL,v.UserId))
 			end
