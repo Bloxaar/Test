@@ -3522,6 +3522,7 @@ function FriendlyNuke(Timer)
 	IsNuking=true
 	local TimeLeft = math.min(tonumber(Timer) or 10, 120)
 	for i=0,TimeLeft do
+		if i == TimeLeft then break end
 		if not IsNuking then return end -- terminate the nuke function
 		for i=0,30 do SoundEvent:FireServer(BEEP) end -- the sound of exploding
 
@@ -3537,6 +3538,7 @@ function Nuke(Timer)
 	IsNuking=true
 	local TimeLeft = math.min(tonumber(Timer) or 10, 120)
 	for i=0,TimeLeft do
+		if i == TimeLeft then break end
 		if not IsNuking then return end -- terminate the nuke function
 		for i=0,30 do SoundEvent:FireServer(BEEP) end -- the sound of exploding
 
