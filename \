@@ -286,7 +286,7 @@ function press(Key)
 		game:GetService("VirtualInputManager"):SendKeyEvent(true, Key, false, nil)
 
 		game:GetService("VirtualInputManager"):SendKeyEvent(false, Key, false, nil)
-		
+
 	else
 		warn(Key," is not a valid EnumItem.")
 	end
@@ -442,9 +442,9 @@ else
 						Sv.LPlr.Character.HumanoidRootPart.CFrame=user.Character.Head.CFrame
 						break
 					end
-					
+
 				end
-				
+
 				msg=nil
 
 			end)
@@ -586,13 +586,13 @@ function HideCars()
 								if Sv.LPlr.Character.Humanoid.SeatPart ~= nil then break end
 							until 1==1
 							if Sv.LPlr.Character.Humanoid.SeatPart ~= nil then 
-							local Char = Sv.LPlr.Character
-							workspace.Remote.TeamEvent:FireServer("Medium stone grey")
-							repeat wait()
-								if not Char:IsDescendantOf(workspace) then break end
-							until not Char:IsDescendantOf(workspace)Char=nil
-							wait(0.05)
-							break 
+								local Char = Sv.LPlr.Character
+								workspace.Remote.TeamEvent:FireServer("Medium stone grey")
+								repeat wait()
+									if not Char:IsDescendantOf(workspace) then break end
+								until not Char:IsDescendantOf(workspace)Char=nil
+								wait(0.05)
+								break 
 							end
 							A=nil
 						end
@@ -2242,7 +2242,7 @@ local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunn
 				_A.O(Found,v)
 			end
 		end  
-	elseif strl=="me"then
+	elseif strl=="me"or strl=="myself"or strl=="self"then
 		for i,v in Sv.P(Sv.Plrs:GetChildren())do
 			if v.Name==LP.Name then
 				_A.O(Found,v)
@@ -2717,7 +2717,7 @@ LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint,AutoKillNearb
 									if HHUM.MoveDirection.Magnitude>0.05 then
 										if SpawnPoint ~= nil then SpawnPoint.CFrame = HHRP.CFrame end
 										LocalisedFunctions.TeleportPlayer(((HHRP.CFrame)+HHRP.CFrame.LookVector*Vector3.new(6,6,6))-Vector3.new(math.random(-10,10),-0.7,math.random(-10,10)))
-									
+
 										if AutoKillNearbyCriminals then DoKillNearbyCriminalsThingy()end
 									else
 										if SpawnPoint ~= nil then SpawnPoint.CFrame = HHRP.CFrame end
@@ -3487,6 +3487,15 @@ LocalisedFunctions.UserHasSuperGunEnabled = function(Player)
 	return false
 end
 
+LocalisedFunctions.UserHasDamageGunEnabled = function(Player)
+	if Player == nil then return false end
+	if Player:FindFirstChild("DamageGun")~=nil then
+		return true
+	end
+	Player=nil
+	return false
+end
+
 LocalisedFunctions.UserHasLoudGunEnabled = function(Player)
 	if Player == nil then return false end
 	if Player:FindFirstChild("LoudGun")~=nil then
@@ -3887,6 +3896,40 @@ AdminCommands={
 			end
 		end
 	end,
+	["damagegun"]=function(PlayerTbl,Speaker)
+		if PlayerTbl==_N then return end
+		for i,Plr in Sv.P(PlayerTbl)do
+			if Plr:FindFirstChild("DamageGun")~=_N then
+				if Speaker==_N then
+					notify(Plr.Name.." already has damagegun enabled.",_A.R(1,1,0))
+				end
+			else
+				Sv.Ins("BoolValue",Plr).Name="SuperGun"
+				if Speaker==_N then
+					notify(Plr.Name.." now has damagegun enabled.",_A.R(1,1,0))
+				else
+					notify(Speaker.Name.." enabled damagegun to "..tostring(Plr.Name),_A.R(1,1,0))
+				end
+			end
+		end
+	end,
+	["nodamagegun"]=function(PlayerTbl,Speaker)
+		if PlayerTbl==_N then return end
+		for i,Plr in Sv.P(PlayerTbl)do
+			if Plr:FindFirstChild("DamageGun")==_N then
+				if Speaker==_N then
+					notify(Plr.Name.." doesnt have damagegun.",_A.R(1,1,0))
+				end
+			else
+				Plr.SuperGun:Destroy()
+				if Speaker==_N then
+					notify(Plr.Name.." nolonger has damagegun enabled.",_A.R(1,1,0))
+				else
+					notify(Speaker.Name.." removed damagegun from "..tostring(Plr.Name),_A.R(1,1,0))
+				end
+			end
+		end
+	end,
 	["cuff"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		local OldTeam=Sv.LPlr.TeamColor.Name
@@ -4096,7 +4139,7 @@ AdminCommands={
 			repeat wait() if not A:IsDescendantOf(workspace) then break end
 			until not A:IsDescendantOf(workspace)A=nil wait(0.1)
 		end
-	
+
 		local TargetChar = PlayerTbl[1].Character
 		if TargetChar ~= nil then
 			local OldPos = Sv.LPlr.Character.Head.CFrame
@@ -4648,6 +4691,7 @@ AdminCommands={
 		end
 
 		svc("RunService").Heartbeat:Wait()
+		svc("RunService").Heartbeat:Wait()
 
 		for HitBoxPart,CF in Sv.P(OldHitboxCF)do HitBoxPart.CFrame=CF[1]HitBoxPart.CanCollide=CF[2]end
 		OldHitboxCF=_N
@@ -4741,7 +4785,7 @@ AdminCommands={
 		if PlayerTbl==_N then 
 			if Speaker~=_N then	
 				if Speaker.TeamColor.Name=="Really red"then 
-					
+
 				else 
 					for i,v in pairs(Sv.LPlr.Character:GetChildren()) do if v:IsA("BasePart") then v.CanTouch=false end end
 					LocalisedFunctions.BringPlayerFunc({Speaker},SpawnPoint,true)
@@ -4766,7 +4810,7 @@ AdminCommands={
 			else 
 				for i,v in pairs(Sv.LPlr.Character:GetChildren()) do if v:IsA("BasePart") then v.CanTouch=false end end
 				LocalisedFunctions.BringPlayerFunc({SelectedPlayer},SpawnPoint,true)
-				SpawnPoint.CFrame=(SelectedPlayer.Character:FindFirstChild("Head")or SelectedPlayer.Character:FindFirstChild("Torso")).CFrame
+				SpawnPoint.CFrame=(Sv.LPlr.Character:FindFirstChild("Head")or Sv.LPlr.Character:FindFirstChild("Torso")).CFrame
 				wait(0.05)
 			end
 		end
@@ -5227,6 +5271,7 @@ AdminCommands={
 	end,
 }
 
+local DamageList = {}
 local AntiShootList = {}	
 
 LocalisedFunctions.GetPlayerFromPosition = function(override,Position,VictimPlr)
@@ -5322,7 +5367,30 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 													end
 													Gun=nil
 												end
+											elseif LocalisedFunctions.UserHasDamageGunEnabled(AttackerPlr) then
+												local Gun = AttackerPlr.Character:FindFirstChildOfClass("Tool")
+												if Gun ~= nil then
+													if Gun:FindFirstChildOfClass("ModuleScript") then
+														if AttackerPlr.Name ~= Sv.LPlr.Name then 
+															if table.find(AddedWhitelists,VictimPlr.UserId) ~= nil then if UserIsOperator(AttackerPlr) then else return end end
+															if Sv.LPlr.TeamColor.Name ~= AttackerPlr.TeamColor.Name then
+																if VictimPlr.Character.Humanoid.Health>0 then
+																	if VictimPlr.Character:FindFirstChildOfClass("ForceField")==_N then
+																		if table.find(DamageList,VictimPlr.UserId)==_N then
+																			if not LocalisedFunctions.UserHasDamageGunEnabled(VictimPlr) then
+																				table.insert(DamageList,VictimPlr.UserId)
+																			end	
+																		end
+																	end
+																end	
+															end
+														end
+													end
+													Gun=nil
+												end
 											end
+											
+											
 											if LocalisedFunctions.UserHasLoudGunEnabled(AttackerPlr) then
 												local Gun = AttackerPlr.Character:FindFirstChildOfClass("Tool")
 												if Gun ~= nil then
@@ -5356,9 +5424,40 @@ Sv.New(function()
 	local HotHeadVar=nil
 	local HotHumanoidVar=nil
 	local KillTBL={}
+	local DamageTBL={}
 	local plr=nil
 	while wait(0.1)do
-		KillTBL={}
+		KillTBL={}DamageTBL={}
+		if #DamageList >0 then
+			for i,userid in Sv.P(DamageList)do
+				plr=Sv.Plrs:GetPlayerByUserId(userid)
+				if plr~=_N then
+					if plr:IsDescendantOf(Sv.Plrs)then
+						if table.find(DamageTBL,plr)~=_N then continue end
+						if plr.Team.Name~=Sv.LPlr.Team.Name then
+							HotCharVar=plr[_A.P]
+							if HotCharVar~=_N then
+								if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
+									HotHeadVar=HotCharVar:FindFirstChild("Head")
+									if HotHeadVar~=_N then
+										HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
+										if HotHumanoidVar~=_N then
+											if HotHumanoidVar.Health >0 then
+												if HotHumanoidVar:GetAttribute("LKD")==_N then
+													_A.O(DamageTBL,plr)
+													Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+												end
+											end
+										end
+									end
+								end
+							end
+						end
+					end
+				end
+				AntiShootList[i]=nil
+			end
+		end
 		if #AntiShootList >0 then
 			for i,userid in Sv.P(AntiShootList)do
 				plr=Sv.Plrs:GetPlayerByUserId(userid)
@@ -5442,6 +5541,9 @@ Sv.New(function()
 					end
 				end
 			end
+		end
+		if #DamageTBL >0 then
+			LocalisedFunctions.damage(DamageTBL)
 		end
 		if #KillTBL >0 then
 			LocalisedFunctions.kill(KillTBL)
@@ -5547,7 +5649,7 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 		if isoperator then
 			local Split = string.split(Message1," ")
 			for index,splitmsg in pairs(Split) do
-				
+
 				if CmdsSplit[index] == prefix.."run" then
 					if security >= SecurityLevel then
 						local Code = Split
@@ -5565,7 +5667,7 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 						if ModerateCode(RealCode,PlayerInstance,security) then RealCode=nil return end
 						loadstring(RealCode)()
 						RealCode=nil	
-						
+
 					else
 						say("/w "..PlayerInstance.Name.." Sorry! But you dont meet the security requirement to use this command.")
 					end
@@ -5598,7 +5700,7 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 					return
 				end
 			end
-			
+
 			CmdsSplit=nil
 			Split=nil
 		end
@@ -5641,7 +5743,7 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 				end
 				if CMDFOUND then CMDFOUND=nil;Split=nil;CmdsSplit=nil;return;end;CMDFOUND=nil
 			end
-			
+
 		end
 	end
 	for cmdname,cmdfunc in Sv.P(AdminCommands)do
@@ -5666,8 +5768,8 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 					end
 				end
 				break
-				
-				
+
+
 			end
 		end
 
