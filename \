@@ -5455,7 +5455,7 @@ Sv.New(function()
 						end
 					end
 				end
-				AntiShootList[i]=nil
+				DamageList[i]=nil
 			end
 		end
 		if #AntiShootList >0 then
