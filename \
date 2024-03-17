@@ -585,13 +585,15 @@ function HideCars()
 								v:Sit(Sv.LPlr.Character.Humanoid)
 								if Sv.LPlr.Character.Humanoid.SeatPart ~= nil then break end
 							until 1==1
-							if Sv.LPlr.Character.Humanoid.SeatPart ~= nil then break end
+							if Sv.LPlr.Character.Humanoid.SeatPart ~= nil then 
 							local Char = Sv.LPlr.Character
 							workspace.Remote.TeamEvent:FireServer("Medium stone grey")
 							repeat wait()
 								if not Char:IsDescendantOf(workspace) then break end
 							until not Char:IsDescendantOf(workspace)Char=nil
 							wait(0.05)
+							break 
+							end
 							A=nil
 						end
 					end
