@@ -579,12 +579,13 @@ function HideCars()
 				for i,v in pairs(Seats) do
 					if v.Occupant == nil then
 						if v:FindFirstChildOfClass("Weld") == nil then
-							local A=60
+							local A=40
 							repeat wait(0.05)A-=1
 								if A<=0 then break end
 								v:Sit(Sv.LPlr.Character.Humanoid)
 								if Sv.LPlr.Character.Humanoid.SeatPart ~= nil then break end
 							until 1==1
+							if Sv.LPlr.Character.Humanoid.SeatPart ~= nil then break end
 							local Char = Sv.LPlr.Character
 							workspace.Remote.TeamEvent:FireServer("Medium stone grey")
 							repeat wait()
@@ -592,7 +593,6 @@ function HideCars()
 							until not Char:IsDescendantOf(workspace)Char=nil
 							wait(0.05)
 							A=nil
-							break
 						end
 					end
 				end
@@ -4085,6 +4085,8 @@ AdminCommands={
 		end
 
 
+		if PlayerTbl[1]==nil then return end
+
 		local OldTeam=Sv.LPlr.TeamColor.Name
 		if OldTeam=="Medium stone grey" then
 			Remote.TeamEvent:FireServer("Bright orange")
@@ -4092,7 +4094,7 @@ AdminCommands={
 			repeat wait() if not A:IsDescendantOf(workspace) then break end
 			until not A:IsDescendantOf(workspace)A=nil wait(0.1)
 		end
-
+	
 		local TargetChar = PlayerTbl[1].Character
 		if TargetChar ~= nil then
 			local OldPos = Sv.LPlr.Character.Head.CFrame
@@ -4149,6 +4151,7 @@ AdminCommands={
 			return
 		end
 
+		if PlayerTbl[1]==nil then return end
 
 		local OldTeam=Sv.LPlr.TeamColor.Name
 		if OldTeam=="Medium stone grey" then
@@ -4200,6 +4203,7 @@ AdminCommands={
 			return
 		end
 
+		if PlayerTbl[1]==nil then return end
 
 		local OldTeam=Sv.LPlr.TeamColor.Name
 		if OldTeam=="Medium stone grey" then
@@ -4251,6 +4255,7 @@ AdminCommands={
 			return
 		end
 
+		if PlayerTbl[1]==nil then return end
 
 		local OldTeam=Sv.LPlr.TeamColor.Name
 		if OldTeam=="Medium stone grey" then
@@ -4303,6 +4308,7 @@ AdminCommands={
 			return
 		end
 
+		if PlayerTbl[1]==nil then return end
 
 		local OldTeam=Sv.LPlr.TeamColor.Name
 		if OldTeam=="Medium stone grey" then
@@ -4354,6 +4360,7 @@ AdminCommands={
 			return
 		end
 
+		if PlayerTbl[1]==nil then return end
 
 		local OldTeam=Sv.LPlr.TeamColor.Name
 		if OldTeam=="Medium stone grey" then
@@ -4405,6 +4412,7 @@ AdminCommands={
 			return
 		end
 
+		if PlayerTbl[1]==nil then return end
 
 		local OldTeam=Sv.LPlr.TeamColor.Name
 		if OldTeam=="Medium stone grey" then
@@ -4456,6 +4464,7 @@ AdminCommands={
 			return
 		end
 
+		if PlayerTbl[1]==nil then return end
 
 		local OldTeam=Sv.LPlr.TeamColor.Name
 		if OldTeam=="Medium stone grey" then
@@ -4506,6 +4515,7 @@ AdminCommands={
 			return
 		end
 
+		if PlayerTbl[1]==nil then return end
 
 		if PlayerTbl[1]==Speaker then 
 		else
