@@ -3761,9 +3761,17 @@ AdminCommands={
 		if PlayerTbl == _N then 
 
 			if Speaker == Sv.LPlr then
-				notify(`Your prefix is: {PreferredAdminsPrefix[Speaker.UserId]}`,Color3.new(1,0,1))
+				if PreferredAdminsPrefix[Speaker.UserId] == "" then
+					notify(`Your prefix is: NONE [No prefix]`,Color3.new(1,0,1))		
+				else
+					notify(`Your prefix is: PreferredAdminsPrefix[Speaker.UserId]`,Color3.new(1,0,1))		
+				end
 			else
-				svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." Your prefix is: "..PreferredAdminsPrefix[Speaker.UserId], "All")
+				if PreferredAdminsPrefix[Speaker.UserId] == "" then
+					svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." Your prefix is: NONE [No prefix]", "All")
+				else
+					svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." Your prefix is: "..PreferredAdminsPrefix[Speaker.UserId], "All")
+				end
 			end
 			return
 		end
