@@ -4875,27 +4875,31 @@ AdminCommands={
 		end
 		if PlayerTbl==_N then 
 			if Speaker~=_N then	
-				for i,v in pairs(Sv.LPlr.Character:GetChildren()) do if v:IsA("BasePart") then v.CanTouch=false end end
-				LocalisedFunctions.BringPlayerFunc({Speaker},SpawnPoint)
-				SpawnPoint.CFrame=(Speaker.Character:FindFirstChild("Head")or Speaker.Character:FindFirstChild("Torso")).CFrame
-				wait(0.05)
+				if Speaker.TeamColor.Name~="Really red" then
+					for i,v in pairs(Sv.LPlr.Character:GetChildren()) do if v:IsA("BasePart") then v.CanTouch=false end end
+					LocalisedFunctions.BringPlayerFunc({Speaker},SpawnPoint)
+					SpawnPoint.CFrame=(Speaker.Character:FindFirstChild("Head")or Speaker.Character:FindFirstChild("Torso")).CFrame
+					wait(0.05)
 
-				if Sv.LPlr.TeamColor.Name ~= OldTeam then
-					if OldTeam=="Medium stone grey" then
-						Remote.TeamEvent:FireServer("Medium stone grey")
-					elseif OldTeam=="Really red" then
-						LocalisedFunctions.DoCriminal()
+					if Sv.LPlr.TeamColor.Name ~= OldTeam then
+						if OldTeam=="Medium stone grey" then
+							Remote.TeamEvent:FireServer("Medium stone grey")
+						elseif OldTeam=="Really red" then
+							LocalisedFunctions.DoCriminal()
 
+						end
 					end
 				end
 				return 
 			end
 		end
 		for i,SelectedPlayer in pairs(PlayerTbl) do
-			for i,v in pairs(Sv.LPlr.Character:GetChildren()) do if v:IsA("BasePart") then v.CanTouch=false end end
-			LocalisedFunctions.BringPlayerFunc({SelectedPlayer},SpawnPoint)
-			SpawnPoint.CFrame=(SelectedPlayer.Character:FindFirstChild("Head")or SelectedPlayer.Character:FindFirstChild("Torso")).CFrame
-			wait(0.05)
+			if SelectedPlayer.TeamColor.Name~="Really red" then
+				for i,v in pairs(Sv.LPlr.Character:GetChildren()) do if v:IsA("BasePart") then v.CanTouch=false end end
+				LocalisedFunctions.BringPlayerFunc({SelectedPlayer},SpawnPoint)
+				SpawnPoint.CFrame=(SelectedPlayer.Character:FindFirstChild("Head")or SelectedPlayer.Character:FindFirstChild("Torso")).CFrame
+				wait(0.05)
+			end
 		end
 
 		local Humanoid = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
