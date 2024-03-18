@@ -2570,14 +2570,22 @@ LocalisedFunctions.SpawnCar = function()
 	local HWheels=nil
 	for i,v in Sv.P(workspace.Prison_ITEMS.buttons:GetChildren())do
 		if v.Name=="Car Spawner"then
-			Sv.LPlr[_A.P].HumanoidRootPart.CFrame=v["Car Spawner"].CFrame
+			local ROOT = Sv.LPlr[_A.P].HumanoidRootPart
+			ROOT.CFrame=v["Car Spawner"].CFrame
 			Oldpos=v["Car Spawner"].CFrame
 			local spawned=false
-			repeat wait(0.2)
+			repeat wait(0.25)
 				task.spawn(function()
+					for i,v in pairs(workspace:GetPartBoundsInRadius(ROOT.Position,15)) do
+						if v.ClassName=="Seat" or v.ClassName=="VehicleSeat" then
+							spawned=true
+							break
+						end
+					end
 					local Response=""
 					Response =Remote.ItemHandler:InvokeServer(v["Car Spawner"])
 					if tostring(Response):match("You have spawned a car")then spawned=true end Response=nil
+					
 				end)
 			until spawned==true
 			spawned=nil
