@@ -2666,16 +2666,17 @@ local function DoAutokillSeatedPlayers()
 			if v.Anchored==false then
 				local Plrr = Sv.Plrs:GetPlayerFromCharacter(v.Parent)
 				if Plrr ~= nil then
-					local Humanoid =Plrr.Character.Humanoid
-					if Humanoid ~= nil then
-						if Humanoid.SeatPart ~= nil then
-							if Humanoid.Health>0 then
-								for i=0,16 do MeleeEvent:FireServer(Plrr)end 
+					if Plrr ~= Sv.LPlr then
+						local Humanoid =Plrr.Character.Humanoid
+						if Humanoid ~= nil then
+							if Humanoid.SeatPart ~= nil then
+								if Humanoid.Health>0 then
+									for i=0,16 do MeleeEvent:FireServer(Plrr)end 
+								end
 							end
 						end
+						Humanoid=nil
 					end
-					Humanoid=nil
-
 				end
 				Plrr=nil
 			end
