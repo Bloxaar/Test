@@ -2576,10 +2576,12 @@ LocalisedFunctions.SpawnCar = function()
 			local spawned=false
 			repeat wait(0.25)
 				task.spawn(function()
-					for i,v in pairs(workspace:GetPartBoundsInRadius(ROOT.Position,15)) do
-						if v.ClassName=="Seat" or v.ClassName=="VehicleSeat" then
-							spawned=true
-							break
+					for i,v in pairs(workspace:GetPartBoundsInRadius(ROOT.Position,22)) do
+						if v.ClassName=="VehicleSeat" then
+							if v.Occupant == nil then
+								spawned=true
+								break
+							end
 						end
 					end
 					local Response=""
@@ -6715,4 +6717,3 @@ while wait()do
 
 	end)
 end
- 
