@@ -2584,6 +2584,7 @@ LocalisedFunctions.SpawnCar = function()
 							end
 						end
 					end
+					if spawned then return end
 					local Response=""
 					Response =Remote.ItemHandler:InvokeServer(v["Car Spawner"])
 					if tostring(Response):match("You have spawned a car")then spawned=true end Response=nil
