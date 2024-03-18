@@ -2588,7 +2588,7 @@ LocalisedFunctions.SpawnCar = function()
 					local Response=""
 					Response =Remote.ItemHandler:InvokeServer(v["Car Spawner"])
 					if tostring(Response):match("You have spawned a car")then spawned=true end Response=nil
-					
+
 				end)
 			until spawned==true
 			spawned=nil
@@ -2667,16 +2667,20 @@ local function DoAutokillSeatedPlayers()
 			if v.Anchored==false then
 				local Plrr = Sv.Plrs:GetPlayerFromCharacter(v.Parent)
 				if Plrr ~= nil then
-					if Plrr ~= Sv.LPlr then
-						local Humanoid =Plrr.Character.Humanoid
-						if Humanoid ~= nil then
-							if Humanoid.SeatPart ~= nil then
-								if Humanoid.Health>0 then
-									for i=0,16 do MeleeEvent:FireServer(Plrr)end 
+					if Plrr == Sv.LPlr then else
+						local Char =Plrr.Character
+						if Char ~= nil then
+							local Humanoid =Char.Humanoid
+							if Humanoid ~= nil then
+								if Humanoid.SeatPart ~= nil then
+									if Humanoid.Health>0 then
+										for i=0,16 do MeleeEvent:FireServer(Plrr)end 
+									end
 								end
 							end
+							Humanoid=nil
 						end
-						Humanoid=nil
+						Char=nil
 					end
 				end
 				Plrr=nil
