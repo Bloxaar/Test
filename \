@@ -2721,48 +2721,53 @@ LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint,AutokillSeate
 
 
 	Car=_N
-	local HC=nil
-	local HHRP=nil
-	local HHUM=nil
-	local Attempts=60
+	
+	
+	if LHumanoid.SeatPart ~= nil then
+		
+		local HC=nil
+		local HHRP=nil
+		local HHUM=nil
+		local Attempts=60
 
-	local CarParts={}
-
-	if LHumanoid.SeatPart.Parent.Parent:IsDescendantOf(workspace.CarContainer)then
-		for i,v in Sv.P(LHumanoid.SeatPart.Parent.Parent:GetDescendants())do
-			if v:IsA("BasePart")then
-				CarParts[v]=v.CanCollide
-				v.CanCollide=_F
+		local CarParts={}
+		
+		if LHumanoid.SeatPart.Parent.Parent:IsDescendantOf(workspace.CarContainer)then
+			for i,v in Sv.P(LHumanoid.SeatPart.Parent.Parent:GetDescendants())do
+				if v:IsA("BasePart")then
+					CarParts[v]=v.CanCollide
+					v.CanCollide=_F
+				end
 			end
 		end
-	end
 
-	for i,v in Sv.P(PlayerTBL)do
-		if v~=_N then
-			if i >4 then print("More than 4 players selected car only has 4 seats") break end
-			HC=v[_A.P]
-			if HC~=_N then
-				HHRP=HC:FindFirstChild("HumanoidRootPart")
-				if HHRP~=_N then
-					HHUM=HC:FindFirstChildOfClass("Humanoid")
-					if HHUM~=_N then
-						if HHUM.Health >0 then
-							if HHUM.SeatPart==_N then
-								for i=0,Attempts do
-									if HHUM.SeatPart~=_N then break end
-									if HHUM.Sit==_T then if HHUM.SeatPart==_N then break end end
-									if HHUM.MoveDirection.Magnitude>0.05 then
-										if SpawnPoint ~= nil then SpawnPoint.CFrame = HHRP.CFrame end
-										LocalisedFunctions.TeleportPlayer(((HHRP.CFrame)+HHRP.CFrame.LookVector*Vector3.new(6,6,6))-Vector3.new(math.random(-10,10),-0.7,math.random(-10,10)))
+		for i,v in Sv.P(PlayerTBL)do
+			if v~=_N then
+				if i >4 then print("More than 4 players selected car only has 4 seats") break end
+				HC=v[_A.P]
+				if HC~=_N then
+					HHRP=HC:FindFirstChild("HumanoidRootPart")
+					if HHRP~=_N then
+						HHUM=HC:FindFirstChildOfClass("Humanoid")
+						if HHUM~=_N then
+							if HHUM.Health >0 then
+								if HHUM.SeatPart==_N then
+									for i=0,Attempts do
+										if HHUM.SeatPart~=_N then break end
+										if HHUM.Sit==_T then if HHUM.SeatPart==_N then break end end
+										if HHUM.MoveDirection.Magnitude>0.05 then
+											if SpawnPoint ~= nil then SpawnPoint.CFrame = HHRP.CFrame end
+											LocalisedFunctions.TeleportPlayer(((HHRP.CFrame)+HHRP.CFrame.LookVector*Vector3.new(6,6,6))-Vector3.new(math.random(-10,10),-0.7,math.random(-10,10)))
 
-										if AutokillSeatedPlayers then DoAutokillSeatedPlayers()end
-									else
-										if SpawnPoint ~= nil then SpawnPoint.CFrame = HHRP.CFrame end
-										LocalisedFunctions.TeleportPlayer(HHRP.CFrame-Vector3.new(math.random(-12,10),-0.7,math.random(-12,10)))
+											if AutokillSeatedPlayers then DoAutokillSeatedPlayers()end
+										else
+											if SpawnPoint ~= nil then SpawnPoint.CFrame = HHRP.CFrame end
+											LocalisedFunctions.TeleportPlayer(HHRP.CFrame-Vector3.new(math.random(-12,10),-0.7,math.random(-12,10)))
 
-										if AutokillSeatedPlayers then DoAutokillSeatedPlayers()end	
+											if AutokillSeatedPlayers then DoAutokillSeatedPlayers()end	
+										end
+										wait(0.03)
 									end
-									wait(0.03)
 								end
 							end
 						end
@@ -2770,18 +2775,21 @@ LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint,AutokillSeate
 				end
 			end
 		end
+		Attempts=_N
+		HC=_N
+		HHRP=_N
+		HHUM=_N
+		PlayerTBL=_N
+		LHumanoid=_N
+		for Part,Collision in Sv.P(CarParts)do
+			Part.CanCollide=Collision
+		end
+		CarParts=_N
+		return OldPos
+		
+		
 	end
-	Attempts=_N
-	HC=_N
-	HHRP=_N
-	HHUM=_N
-	PlayerTBL=_N
-	LHumanoid=_N
-	for Part,Collision in Sv.P(CarParts)do
-		Part.CanCollide=Collision
-	end
-	CarParts=_N
-	return OldPos
+	
 end
 
 function dokill(dat,iskillreq)
