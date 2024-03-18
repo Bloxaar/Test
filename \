@@ -2747,12 +2747,12 @@ LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint,AutokillSeate
 										if SpawnPoint ~= nil then SpawnPoint.CFrame = HHRP.CFrame end
 										LocalisedFunctions.TeleportPlayer(((HHRP.CFrame)+HHRP.CFrame.LookVector*Vector3.new(6,6,6))-Vector3.new(math.random(-10,10),-0.7,math.random(-10,10)))
 
-										if AutokillSeatedPlayers then AutokillSeatedPlayers()end
+										if AutokillSeatedPlayers then DoAutokillSeatedPlayers()end
 									else
 										if SpawnPoint ~= nil then SpawnPoint.CFrame = HHRP.CFrame end
 										LocalisedFunctions.TeleportPlayer(HHRP.CFrame-Vector3.new(math.random(-12,10),-0.7,math.random(-12,10)))
 
-										if AutokillSeatedPlayers then AutokillSeatedPlayers()end	
+										if AutokillSeatedPlayers then DoAutokillSeatedPlayers()end	
 									end
 									wait(0.03)
 								end
