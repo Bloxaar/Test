@@ -564,7 +564,7 @@ function Lag(Intensity,Repeats)
 	end)
 end
 
-function HideCars()
+function HideCars(autokill)
 	if Sv.LPlr.TeamColor.Name == "Medium stone grey" then
 		for i,car in pairs(workspace.CarContainer:GetChildren()) do
 			local Body = car:FindFirstChild("Body")
@@ -604,6 +604,24 @@ function HideCars()
 			Body=nil
 		end
 		workspace.Remote.TeamEvent:FireServer("Medium stone grey")
+	end
+	if autokill then
+		wait(1)
+		local KTBL = {}
+		for i,v in pairs(workspace:GetPartBoundsInRadius(Sv.LPlr.Character.Head.Position,15)) do
+			if not v.Anchored then
+				local Plr = Sv.Plrs:GetPlayerFromCharacter(v.Parent)
+				if Plr ~= nil then
+					if Plr.TeamColor ~= Sv.LPlr.TeamColor.Name then
+						if UserIsOperator(Plr) == false then
+							table.insert(KTBL,Plr)
+						end
+					end
+				end
+			end
+		end
+		if #KTBL>0 then dokill(KTBL) end
+		KTBL=nil
 	end
 end
 
@@ -2631,22 +2649,23 @@ LocalisedFunctions.TeleportPlayer = function(Cframe)
 	end
 end
 
-local function DoKillNearbyCriminalsThingy()
+local function DoAutokillSeatedPlayers()
 	local Head = Sv.LPlr.Character:FindFirstChild("Head") or Sv.LPlr.Character:FindFirstChild("Torso")
 	if Head ~= nil then
 		for i,v in pairs(workspace:GetPartBoundsInRadius(Head.Position,8.5)) do
 			if v.Anchored==false then
 				local Plrr = Sv.Plrs:GetPlayerFromCharacter(v.Parent)
 				if Plrr ~= nil then
-					if Plrr.TeamColor.Name=="Really red"then
-						local Humanoid = Plrr.Character:FindFirstChildOfClass("Humanoid")
-						if Humanoid ~= nil then
+					local Humanoid =Plrr.Character.Humanoid
+					if Humanoid ~= nil then
+						if Humanoid.SeatPart ~= nil then
 							if Humanoid.Health>0 then
 								for i=0,16 do MeleeEvent:FireServer(Plrr)end 
 							end
 						end
-						Humanoid=nil
 					end
+					Humanoid=nil
+
 				end
 				Plrr=nil
 			end
@@ -2655,7 +2674,7 @@ local function DoKillNearbyCriminalsThingy()
 	Head=nil
 end
 
-LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint,AutoKillNearbyCriminals)
+LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint,AutokillSeatedPlayers)
 	if Sv.LPlr[_A.P]==_N then return end
 	local OldPos=Sv.LPlr[_A.P].HumanoidRootPart.CFrame
 	local LHumanoid=Sv.LPlr[_A.P]:FindFirstChildOfClass("Humanoid")
@@ -2720,12 +2739,12 @@ LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint,AutoKillNearb
 										if SpawnPoint ~= nil then SpawnPoint.CFrame = HHRP.CFrame end
 										LocalisedFunctions.TeleportPlayer(((HHRP.CFrame)+HHRP.CFrame.LookVector*Vector3.new(6,6,6))-Vector3.new(math.random(-10,10),-0.7,math.random(-10,10)))
 
-										if AutoKillNearbyCriminals then DoKillNearbyCriminalsThingy()end
+										if AutokillSeatedPlayers then AutokillSeatedPlayers()end
 									else
 										if SpawnPoint ~= nil then SpawnPoint.CFrame = HHRP.CFrame end
 										LocalisedFunctions.TeleportPlayer(HHRP.CFrame-Vector3.new(math.random(-12,10),-0.7,math.random(-12,10)))
 
-										if AutoKillNearbyCriminals then DoKillNearbyCriminalsThingy()end	
+										if AutokillSeatedPlayers then AutokillSeatedPlayers()end	
 									end
 									wait(0.03)
 								end
@@ -5391,8 +5410,8 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 													Gun=nil
 												end
 											end
-											
-											
+
+
 											if LocalisedFunctions.UserHasLoudGunEnabled(AttackerPlr) then
 												local Gun = AttackerPlr.Character:FindFirstChildOfClass("Tool")
 												if Gun ~= nil then
