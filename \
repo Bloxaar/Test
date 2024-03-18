@@ -2563,14 +2563,14 @@ end
 
 LocalisedFunctions.SpawnCar = function()
 	if IsStudio then return end
-	local Oldpos=Sv.LPlr[_A.P].HumanoidRootPart.CFrame
+	local ROOT = Sv.LPlr[_A.P].HumanoidRootPart
+	local Oldpos=ROOT.CFrame
 	local Carr=nil
 	local HB=nil
 	local HS=nil
 	local HWheels=nil
 	for i,v in Sv.P(workspace.Prison_ITEMS.buttons:GetChildren())do
 		if v.Name=="Car Spawner"then
-			local ROOT = Sv.LPlr[_A.P].HumanoidRootPart
 			ROOT.CFrame=v["Car Spawner"].CFrame
 			Oldpos=v["Car Spawner"].CFrame
 			local spawned=false
@@ -2600,20 +2600,25 @@ LocalisedFunctions.SpawnCar = function()
 	for i,v in Sv.P(workspace.CarContainer:GetChildren())do
 		HB=v:FindFirstChild("Body")
 		if HB==_N then
-			repeat wait()
+			local Attempts = 20
+			repeat wait(0.05)Attempts-=1
 				HB=v:FindFirstChild("Body")
 				if HB~=_N then break end
+				if Attempts<=0 then break end
 			until HB~=_N
-			wait(0.15)
+			Attempts=nil
+			wait(0.07)
 		end
-		HWheels=v:FindFirstChild("Wheels")
-		if HB~=_N then
-			HS=HB:FindFirstChildWhichIsA("VehicleSeat")
-			if HS~=_N then
-				if (Oldpos.Position - HS.Position).Magnitude < Dist then
-					if HS.Occupant==_N then
-						Dist=(Oldpos.Position - HS.Position).Magnitude
-						Carr=v
+		if HB~= nil then
+			HWheels=v:FindFirstChild("Wheels")
+			if HB~=_N then
+				HS=HB:FindFirstChildWhichIsA("VehicleSeat")
+				if HS~=_N then
+					if (Oldpos.Position - HS.Position).Magnitude < Dist then
+						if HS.Occupant==_N then
+							Dist=(Oldpos.Position - HS.Position).Magnitude
+							Carr=v
+						end
 					end
 				end
 			end
@@ -2623,6 +2628,7 @@ LocalisedFunctions.SpawnCar = function()
 	HS=nil
 	HWheels=nil
 	Dist=_N
+	ROOT=nil
 	return Carr
 end
 
@@ -2707,7 +2713,8 @@ LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint,AutokillSeate
 		if HS.Occupant==_N then
 			repeat wait()
 				if not HS:IsDescendantOf(workspace)then return end
-				HS:Sit(Sv.LPlr[_A.P].Humanoid)
+				HS:Sit(LHumanoid)
+				if not LHumanoid:IsDescendantOf(workspace)then return end
 			until HS.Occupant~=_N
 		end
 		Car=nil
@@ -2722,9 +2729,10 @@ LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint,AutokillSeate
 
 	Car=_N
 	
+	local SEAT=LHumanoid.SeatPart
 	
-	if LHumanoid.SeatPart ~= nil then
-		
+	if SEAT ~= nil then
+		if not SEAT:IsDescendantOf(workspace) then return end
 		local HC=nil
 		local HHRP=nil
 		local HHUM=nil
@@ -2732,8 +2740,8 @@ LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint,AutokillSeate
 
 		local CarParts={}
 		
-		if LHumanoid.SeatPart.Parent.Parent:IsDescendantOf(workspace.CarContainer)then
-			for i,v in Sv.P(LHumanoid.SeatPart.Parent.Parent:GetDescendants())do
+		if SEAT.Parent.Parent:IsDescendantOf(workspace.CarContainer)then
+			for i,v in Sv.P(SEAT.Parent.Parent:GetDescendants())do
 				if v:IsA("BasePart")then
 					CarParts[v]=v.CanCollide
 					v.CanCollide=_F
@@ -2785,6 +2793,7 @@ LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint,AutokillSeate
 			Part.CanCollide=Collision
 		end
 		CarParts=_N
+		SEAT=_N
 		return OldPos
 		
 		
