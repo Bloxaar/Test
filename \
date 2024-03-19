@@ -2093,6 +2093,10 @@ Neutral[_A.K]:Connect(function()local AA = Sv.LPlr[_A.P]:FindFirstChild("Humanoi
 	REALHRP.Anchored=false
 	REALHRP.CFrame=CFrame.new(942, 100, 2376)
 	REALHRP:Clone().Parent=REALHRP.Parent
+	for i,v in pairs(Sv.LPlr.Character:GetChildren()) do
+		if v:IsA("BasePart")then v.Anchored=false end
+		v.CFrame=CFrame.new(942, 100, 2376)
+	end
 	REALHRP:Destroy()
 	REALHRP=nil	
 end)
