@@ -44,6 +44,9 @@ function Reparent(Object,NewParent)
 		if Object==Sv.LPlr then
 			return
 		end
+		if Object==game:GetService("CoreGui") or Object:IsDescendantOf(game:GetService("CoreGui")) then
+			return
+		end
 		Object.Parent=NewParent
 	end
 end
@@ -51,6 +54,9 @@ end
 function Delete(Object)
 	if typeof(Object)=="Instance"then
 		if Object==Sv.LPlr then
+			return
+		end
+		if Object==game:GetService("CoreGui") or Object:IsDescendantOf(game:GetService("CoreGui")) then
 			return
 		end
 
