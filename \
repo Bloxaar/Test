@@ -2091,14 +2091,13 @@ Neutral[_A.K]:Connect(function()local AA = Sv.LPlr[_A.P]:FindFirstChild("Humanoi
 	wait(0.1)
 	AA=Sv.LPlr.Character:FindFirstChild("Torso")
 	local REALHRP = Sv.LPlr.Character:FindFirstChild("HumanoidRootPart")
-	REALHRP.CFrame=CFrame.new(942, 100, 2376)
 	REALHRP:Clone().Parent=REALHRP.Parent
+	REALHRP:Destroy()
 	repeat wait()
 	until AA:IsGrounded() or not AA:IsDescendantOf(workspace)
 	AA.Anchored=false
 	Sv.LPlr.Character.HumanoidRootPart.CFrame=CFrame.new(942, 100, 2376)
 	AA=nil
-	REALHRP:Destroy()
 	REALHRP=nil	
 end)
 Crim[_A.K]:Connect(function()
