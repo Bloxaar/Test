@@ -2290,6 +2290,12 @@ local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunn
 				_A.O(Found,v)
 			end
 		end 
+	elseif strl=="us"or strl=="myself"or strl=="team"then
+		for i,v in Sv.P(Sv.Plrs:GetChildren())do
+			if v.TeamColor.Name==LP.TeamColor.Name then
+				_A.O(Found,v)
+			end
+		end 
 
 	elseif strl=="riots"or strl=="swats"then
 		for i,v in Sv.P(Sv.Plrs:GetChildren())do
