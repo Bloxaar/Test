@@ -2083,7 +2083,7 @@ Teleports[_A.K]:Connect(function()TeleportsFrame.Visible=not TeleportsFrame.Visi
 
 Guard[_A.K]:Connect(function()local CF=Sv.LPlr[_A.P].PrimaryPart.CFrame Remote.TeamEvent:FireServer("Bright blue")if States.AutoRE==_T then RE(CF)end CF=_N end)
 Inmate[_A.K]:Connect(function()local CF=Sv.LPlr[_A.P].PrimaryPart.CFrame Remote.TeamEvent:FireServer("Bright orange")if States.AutoRE==_T then RE(CF)end CF=_N end)
-Neutral[_A.K]:Connect(function()local AA = Sv.LPlr[_A.P]:FindFirstChild("HumanoidRootPart") local CF=Sv.LPlr[_A.P].PrimaryPart.CFrame Remote.TeamEvent:FireServer("Medium stone grey")if States.AutoRE==_T then RE(CF)end CF=_N for i=0,5 do wait(0.2)Sv.LPlr.PlayerGui.Home.intro.Visible=_F;Sv.LPlr.PlayerGui.Home.hud.Visible=_T;
+Neutral[_A.K]:Connect(function()local AA = Sv.LPlr[_A.P]:FindFirstChild("HumanoidRootPart") local CF=Sv.LPlr[_A.P].PrimaryPart.CFrame Remote.TeamEvent:FireServer("Medium stone grey")if States.AutoRE==_T then RE(CF)end CF=_N for i=0,5 do wait(0.05)Sv.LPlr.PlayerGui.Home.intro.Visible=_F;Sv.LPlr.PlayerGui.Home.hud.Visible=_T;
 		workspace.CurrentCamera.CameraType=Enum.CameraType.Custom
 		workspace.CurrentCamera.CameraSubject=Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
 	end 
@@ -2096,7 +2096,7 @@ Neutral[_A.K]:Connect(function()local AA = Sv.LPlr[_A.P]:FindFirstChild("Humanoi
 	repeat wait()
 	until AA:IsGrounded() or not AA:IsDescendantOf(workspace)
 	AA.Anchored=false
-	REALHRP.CFrame=CFrame.new(942, 100, 2376)
+	Sv.LPlr.Character.HumanoidRootPart.CFrame=CFrame.new(942, 100, 2376)
 	AA=nil
 	REALHRP:Destroy()
 	REALHRP=nil	
