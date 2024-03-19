@@ -2077,7 +2077,19 @@ Teleports[_A.K]:Connect(function()TeleportsFrame.Visible=not TeleportsFrame.Visi
 
 Guard[_A.K]:Connect(function()local CF=Sv.LPlr[_A.P].PrimaryPart.CFrame Remote.TeamEvent:FireServer("Bright blue")if States.AutoRE==_T then RE(CF)end CF=_N end)
 Inmate[_A.K]:Connect(function()local CF=Sv.LPlr[_A.P].PrimaryPart.CFrame Remote.TeamEvent:FireServer("Bright orange")if States.AutoRE==_T then RE(CF)end CF=_N end)
-Neutral[_A.K]:Connect(function()local CF=Sv.LPlr[_A.P].PrimaryPart.CFrame Remote.TeamEvent:FireServer("Medium stone grey")if States.AutoRE==_T then RE(CF)end CF=_N for i=0,5 do wait(0.2)Sv.LPlr.PlayerGui.Home.intro.Visible=_F;Sv.LPlr.PlayerGui.Home.hud.Visible=_T;end end)
+Neutral[_A.K]:Connect(function()local CF=Sv.LPlr[_A.P].PrimaryPart.CFrame Remote.TeamEvent:FireServer("Medium stone grey")if States.AutoRE==_T then RE(CF)end CF=_N for i=0,5 do wait(0.2)Sv.LPlr.PlayerGui.Home.intro.Visible=_F;Sv.LPlr.PlayerGui.Home.hud.Visible=_T;
+		
+		workspace.CurrentCamera.CameraType=Enum.CameraType.Custom
+		workspace.CurrentCamera.CameraSubject=Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
+		local REALHRP = Sv.LPlr.Character:FindFirstChild("HumanoidRootPart")
+		REALHRP.Anchored=false
+		REALHRP.CFrame=CFrame.new(942, 100, 2376)
+		REALHRP:Clone().Parent=REALHRP.Parent
+		REALHRP:Destroy()
+		REALHRP=nil
+		
+	end 
+end)
 Crim[_A.K]:Connect(function()
 	local PrimaryPart=Sv.LPlr[_A.P].PrimaryPart
 	if PrimaryPart~=_N then
@@ -2728,9 +2740,9 @@ LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint,AutokillSeate
 
 
 	Car=_N
-	
+
 	local SEAT=LHumanoid.SeatPart
-	
+
 	if SEAT ~= nil then
 		if not SEAT:IsDescendantOf(workspace) then return end
 		local HC=nil
@@ -2739,7 +2751,7 @@ LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint,AutokillSeate
 		local Attempts=60
 
 		local CarParts={}
-		
+
 		if SEAT.Parent.Parent:IsDescendantOf(workspace.CarContainer)then
 			for i,v in Sv.P(SEAT.Parent.Parent:GetDescendants())do
 				if v:IsA("BasePart")then
@@ -2795,10 +2807,10 @@ LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint,AutokillSeate
 		CarParts=_N
 		SEAT=_N
 		return OldPos
-		
-		
+
+
 	end
-	
+
 end
 
 function dokill(dat,iskillreq)
