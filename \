@@ -267,6 +267,82 @@ function say(msg)
 
 end
 
+local words = {
+	['gay'] = 'Bullying',
+	['lesbian'] = 'Bullying',
+	['retard'] = 'Bullying',
+	['noob'] = 'Bullying',
+	['clown'] = 'Bullying',
+	['get a life'] = 'Bullying',
+	['getalife'] = 'Bullying',
+	['no life'] = 'Bullying',
+	['nolife'] = 'Bullying',
+	['wizard'] = 'Bullying',
+	['report'] = 'Bullying',
+	['father'] = 'Bullying',
+	['mother'] = 'Bullying',
+	['dumb'] = 'Bullying',
+	['cry'] = 'Bullying',
+	['stupid'] = 'Bullying',
+	['idiot'] = 'Bullying',
+	['cringe'] = 'Bullying',
+	['skill issue'] = 'Bullying',
+	['parent'] = 'Bullying',
+	['kid'] = 'Bullying',
+	['ugly'] = 'Bullying',
+	['child'] = 'Bullying',
+	['trash'] = 'Bullying',
+	['bozo'] = 'Bullying',
+	['kys'] = 'Bullying',
+	['die'] = 'Bullying',
+	['killyou'] = 'Bullying',
+	['loser'] = 'Bullying',
+	['black'] = 'Bullying',
+	[' white '] = 'Bullying',
+	['ez l'] = 'Bullying',
+	['l ez'] = 'Bullying',
+	['negro'] = 'Bullying',
+	['nivver'] = 'Bullying',
+	['negar'] = 'Bullying',
+	['bad'] = 'Bullying',
+	['worst'] = 'Bullying',
+	['fat'] = 'Bullying',
+	['hack'] = 'Scamming',
+	['exploit'] = 'Scamming',
+	['cheat'] = 'Scamming',
+	['download'] = 'Offsite Links',
+	['youtube'] = 'Offsite Links',
+	['dizzy'] = 'Offsite Links',
+	['trans'] = 'Bullying',
+	['lgbt'] = 'Bullying'
+}
+
+function report(Player,Amount,Reason)
+	if Player==nil then return end
+	if Amount==nil then return end
+	if Reason==nil then return end
+	Reason=tostring(Reason)
+	local ActualReason=""
+	for i,v in pairs(words) do
+		if string.lower(Reason):match(i) then ActualReason=v break end
+	end
+	if ActualReason=="" then ActualReason="Bullying"end
+	for i=0,Amount do
+		
+		if i/2 == math.round(Amount/2) then
+			say(`File progress is {i}/Amount!.!.!`)
+		end
+		
+		Sv.Plrs:ReportAbuse(Player, ActualReason, Reason)
+		
+		wait(math.random(1,3)/2)
+	end
+	say(`Filing is done! Successfully reported {Player.Name} {tostring(Amount)}(s) for {ActualReason}`)
+	ActualReason=nil Reason=nil
+	Player=nil
+	Amount=nil
+end
+
 function both(PlrTbl)
 	cool(PlrTbl)
 	wow(PlrTbl)
