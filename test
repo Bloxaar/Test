@@ -1,9 +1,19 @@
+_G.Target=game.Players.NAMe
+
 local Player = _G.Target
 
 local DEB=false
 local function ToggleCells(arg)if arg == nil then if DEB then return end end task.spawn(function()DEB=true wait(10)DEB=false end);for i,v in pairs(workspace.Prison_Cellblock.doors:GetChildren()) do task.spawn(function()workspace.Remote.ItemHandler:InvokeServer({Parent = workspace.Prison_ITEMS.buttons["Prison Gate"],Position = Vector3.new("nan",0,0),isActive=v.isOpen})end)end end
 
 local function ToggleValue(Bool)task.spawn(function()workspace.Remote.ItemHandler:InvokeServer({Parent = workspace.Prison_ITEMS.buttons["Prison Gate"],Position = Vector3.new("nan",0,0),isActive=Bool})end)end
+
+local function LoopToggleValue(Bool)if Bool:FindFirstChild("Loop") ~= nil then return end local a =Instance.new("BoolValue",Bool) a.Name="Loop" while wait(1) do if not a:IsDescendantOf(Bool) then break end task.spawn(function()workspace.Remote.ItemHandler:InvokeServer({Parent = workspace.Prison_ITEMS.buttons["Prison Gate"],Position = Vector3.new("nan",0,0),isActive=Bool})end) end end
+
+local function StopLoopToggleValue(Bool)
+	if Bool:FindFirstChild("Loop") ~= nil then
+		Bool:FindFirstChild("Loop"):Destroy()
+	end
+end
 
 local IsCellsLooped,GuardTeamEnabled=true,true
 
@@ -12,164 +22,204 @@ Sv.P=pairs
 Sv.Plrs=game.Players
 
 local function GetPlayer(String, OverrideLocalPlayer)
-local LP = Sv.LPlr
-if OverrideLocalPlayer~=nil then LP=OverrideLocalPlayer end
-if String==nil then return nil end
-if typeof(String)~="string"then return nil end
+	local LP = Sv.LPlr
+	if OverrideLocalPlayer~=nil then LP=OverrideLocalPlayer end
+	if String==nil then return nil end
+	if typeof(String)~="string"then return nil end
 
-String=String:lower()
-String=String:gsub("_","A")
-String=String:gsub("%p","")
-String=String:gsub("£","")
-String=String:gsub("A","_")
+	String=String:lower()
+	String=String:gsub("_","A")
+	String=String:gsub("%p","")
+	String=String:gsub("£","")
+	String=String:gsub("A","_")
 
-local Found={}
-local strl=String:lower()
-if strl=="all"or strl=="everyone"or strl=="everybody"then
-for i,v in Sv.P(Sv.Plrs:GetChildren())do
-table.insert(Found,v)
-end
-elseif strl=="others"then
-for i,v in Sv.P(Sv.Plrs:GetChildren())do
-if v.Name~=LP.Name then
-table.insert(Found,v)
-end
-end  
-elseif strl=="me"then
-for i,v in Sv.P(Sv.Plrs:GetChildren())do
-if v.Name==LP.Name then
-table.insert(Found,v)
-end
-end 
-else
-for i,v in Sv.P(Sv.Plrs:GetChildren())do
-if v.Name:lower():sub(1, #String)==String:lower()then
-table.insert(Found,v)
-elseif v.DisplayName~=nil then
-if v.DisplayName:lower():sub(1, #String)==String:lower()then
-table.insert(Found,v)
-end
-end
-end  
-end
-LP=nil
-strl=nil
-return Found  
+	local Found={}
+	local strl=String:lower()
+	if strl=="all"or strl=="everyone"or strl=="everybody"then
+		for i,v in Sv.P(Sv.Plrs:GetChildren())do
+			table.insert(Found,v)
+		end
+	elseif strl=="others"then
+		for i,v in Sv.P(Sv.Plrs:GetChildren())do
+			if v.Name~=LP.Name then
+				table.insert(Found,v)
+			end
+		end  
+	elseif strl=="me"then
+		for i,v in Sv.P(Sv.Plrs:GetChildren())do
+			if v.Name==LP.Name then
+				table.insert(Found,v)
+			end
+		end 
+	else
+		for i,v in Sv.P(Sv.Plrs:GetChildren())do
+			if v.Name:lower():sub(1, #String)==String:lower()then
+				table.insert(Found,v)
+			elseif v.DisplayName~=nil then
+				if v.DisplayName:lower():sub(1, #String)==String:lower()then
+					table.insert(Found,v)
+				end
+			end
+		end  
+	end
+	LP=nil
+	strl=nil
+	return Found  
 end
 
 local function Say(Msg)
-game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(Msg, "All")
+	game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(Msg, "All")
 
 end
 
 
 Player.Chatted:Connect(function(msg)
-local split = msg:split(" ")
-if msg:match("-tc") then
-ToggleCells(true)
-Say(`/w {Player.Name} Cells Toggled.`)
-elseif msg:match("-lc") then
-IsCellsLooped=true
-Say(`/w {Player.Name} Cells Looped.`)
-elseif msg:match("-sc") then
-IsCellsLooped=false
-Say(`/w {Player.Name} Cells Unlooped.`)
-elseif split[1]=="-bg"then
-for i,v in pairs(GetPlayer(split[2])) do
-ToggleValue(v.Status.isBadGuard)
-Say(`/w {Player.Name} toggled badguard.`)
-end
-elseif split[2]=="-bg"then
-for i,v in pairs(GetPlayer(split[3])) do
-ToggleValue(v.Status.isBadGuard)
-Say(`/w {Player.Name} toggled badguard.`)
-end
-elseif split[1]=="-h"then
-for i,v in pairs(GetPlayer(split[2])) do
-ToggleValue(v.Status.isHostile)
-Say(`/w {Player.Name} toggled hostile.`)
-end
-elseif split[2]=="-h"then
-for i,v in pairs(GetPlayer(split[3])) do
-ToggleValue(v.Status.isHostile)
-Say(`/w {Player.Name} toggled hostile.`)
-end
-elseif split[1]=="-egt"then
-GuardTeamEnabled=true
-Say(`/w {Player.Name} enabled guard team.`)
-elseif split[2]=="-dgt"then
-GuardTeamEnabled=false
-Say(`/w {Player.Name} disabled guard team.`)
-elseif split[1] == "-cmds" or split[2] == "-cmds" then
-Say(`/w {Player.Name} custom cmds: -tc | -lc | -sc | -bg <plr> | -h <plr>`)
-end
+	local split = msg:split(" ")
+	if msg:match("-tc") then
+		ToggleCells(true)
+		Say(`/w {Player.Name} Cells Toggled.`)
+	elseif msg:match("-lc") then
+		IsCellsLooped=true
+		Say(`/w {Player.Name} Cells Looped.`)
+	elseif msg:match("-sc") then
+		IsCellsLooped=false
+		Say(`/w {Player.Name} Cells Unlooped.`)
+	elseif split[1]=="-bg"then
+		for i,v in pairs(GetPlayer(split[2])) do
+			ToggleValue(v.Status.isBadGuard)
+			Say(`/w {Player.Name} toggled badguard.`)
+		end
+	elseif split[2]=="-bg"then
+		for i,v in pairs(GetPlayer(split[3])) do
+			ToggleValue(v.Status.isBadGuard)
+			Say(`/w {Player.Name} toggled badguard.`)
+		end
+	elseif split[1]=="-lbg"then
+		for i,v in pairs(GetPlayer(split[2])) do
+			LoopToggleValue(v.Status.isBadGuard)
+			Say(`/w {Player.Name} looping badguard.`)
+		end
+	elseif split[2]=="-lbg"then
+		for i,v in pairs(GetPlayer(split[3])) do
+			LoopToggleValue(v.Status.isBadGuard)
+			Say(`/w {Player.Name} looping badguard.`)
+		end
+	elseif split[1]=="-stoplbg"then
+		for i,v in pairs(GetPlayer(split[2])) do
+			StopLoopToggleValue(v.Status.isBadGuard)
+			Say(`/w {Player.Name} stopped looping badguard.`)
+		end
+	elseif split[2]=="-stoplbg"then
+		for i,v in pairs(GetPlayer(split[3])) do
+			StopLoopToggleValue(v.Status.isBadGuard)
+			Say(`/w {Player.Name} stopped looping badguard.`)
+		end
+	elseif split[1]=="-lh"then
+		for i,v in pairs(GetPlayer(split[2])) do
+			LoopToggleValue(v.Status.isHostile)
+			Say(`/w {Player.Name} looping hostile.`)
+		end
+	elseif split[2]=="-lh"then
+		for i,v in pairs(GetPlayer(split[3])) do
+			LoopToggleValue(v.Status.isHostile)
+			Say(`/w {Player.Name} looping hostile.`)
+		end
+	elseif split[1]=="-stoplh"then
+		for i,v in pairs(GetPlayer(split[2])) do
+			StopLoopToggleValue(v.Status.isHostile)
+			Say(`/w {Player.Name} stopped looping hostile.`)
+		end
+	elseif split[2]=="-stoplh"then
+		for i,v in pairs(GetPlayer(split[3])) do
+			StopLoopToggleValue(v.Status.isHostile)
+			Say(`/w {Player.Name} stopped looping hostile.`)
+		end
+	elseif split[1]=="-h"then
+		for i,v in pairs(GetPlayer(split[2])) do
+			ToggleValue(v.Status.isHostile)
+			Say(`/w {Player.Name} toggled hostile.`)
+		end
+	elseif split[2]=="-h"then
+		for i,v in pairs(GetPlayer(split[3])) do
+			ToggleValue(v.Status.isHostile)
+			Say(`/w {Player.Name} toggled hostile.`)
+		end
+	elseif split[1]=="-egt"then
+		GuardTeamEnabled=true
+		Say(`/w {Player.Name} enabled guard team.`)
+	elseif split[2]=="-dgt"then
+		GuardTeamEnabled=false
+		Say(`/w {Player.Name} disabled guard team.`)
+	elseif split[1] == "-cmds" or split[2] == "-cmds" then
+		Say(`/w {Player.Name} custom cmds: -tc | -lc | -sc | -bg <plr> | -lbg <plr> | -stopbg <plr> | -lh <plr> | -stoplh <plr> | -h <plr>`)
+	end
 end)
 
 
 function getLightingTime()
-local totalMinutes = game.Lighting:GetMinutesAfterMidnight()local hours = math.floor(totalMinutes / 60)
-local minutes = math.floor(totalMinutes % 60)local period
-if hours < 12 then period="AM"else period="PM"hours-=12 end
-if hours == 0 then hours = 12 end
-return string.format("%02d:%02d %s", hours, minutes, period),{Hour =hours,Minutes= minutes,Period =period}
+	local totalMinutes = game.Lighting:GetMinutesAfterMidnight()local hours = math.floor(totalMinutes / 60)
+	local minutes = math.floor(totalMinutes % 60)local period
+	if hours < 12 then period="AM"else period="PM"hours-=12 end
+	if hours == 0 then hours = 12 end
+	return string.format("%02d:%02d %s", hours, minutes, period),{Hour =hours,Minutes= minutes,Period =period}
 end
 IsCellsLooped=true
 task.spawn(function()
-while true do
-wait()
-if not Player:IsDescendantOf(game) then break end
-if not GuardTeamEnabled then
-for i,v in pairs(game.Players:GetPlayers()) do
-if v.Name ~= game.Players.LocalPlayer.Name then
-local Status = v:FindFirstChild("Status")
-if Status ~= nil then
-local Bg = Status:FindFirstChild("isBadGuard")
-if Bg ~= nil then
-if Bg.Value==false then
-if Bg:GetAttribute("Toggled")~=nil then
-if time() - Bg:GetAttribute("Toggled") >= 0.15 then
-Bg:SetAttribute("Toggled",time())
-ToggleValue(Bg)
-end
-else
-ToggleValue(Bg)
-Bg:SetAttribute("Toggled",time())
-end
-end
-end
-Bg=nil
-end
-Status=nil
-end
-end
-end
-end
+	while true do
+		wait()
+		if not Player:IsDescendantOf(game) then break end
+		if not GuardTeamEnabled then
+			for i,v in pairs(game.Players:GetPlayers()) do
+				if v.Name ~= game.Players.LocalPlayer.Name then
+					local Status = v:FindFirstChild("Status")
+					if Status ~= nil then
+						local Bg = Status:FindFirstChild("isBadGuard")
+						if Bg ~= nil then
+							if Bg.Value==false then
+								if Bg:GetAttribute("Toggled")~=nil then
+									if time() - Bg:GetAttribute("Toggled") >= 0.15 then
+										Bg:SetAttribute("Toggled",time())
+										ToggleValue(Bg)
+									end
+								else
+									ToggleValue(Bg)
+									Bg:SetAttribute("Toggled",time())
+								end
+							end
+						end
+						Bg=nil
+					end
+					Status=nil
+				end
+			end
+		end
+	end
 
 
 end)
 while true do
-if not Player:IsDescendantOf(game) then break end
-wait(0.5)
-if IsCellsLooped then
-local A,B = getLightingTime()
---print(A,B["Hour"],B["Minutes"],B["Period"])
+	if not Player:IsDescendantOf(game) then break end
+	wait(0.5)
+	if IsCellsLooped then
+		local A,B = getLightingTime()
+		--print(A,B["Hour"],B["Minutes"],B["Period"])
 
-if (B.Hour==5 and B.Minutes >= 54) or (B.Hour==6 and B.Minutes==0) then -- Breakfast and Dinner
-print("About 6 AM/PM!")ToggleCells()
-elseif ((B.Hour==7 and B.Minutes >=54) or (B.Hour==8 and B.Minutes==0)) and B.Period=="AM" then -- Yard
-print("About 8AM")ToggleCells()
-elseif ((B.Hour==11 and B.Minutes>=54) or (B.Hour==12 and B.Minutes==0))and B.Period=="PM" then -- Lunch
-print("About 12PM")ToggleCells()
-elseif ((B.Hour==1 and B.Minutes >=54) or (B.Hour==2 and B.Minutes==0)) and B.Period=="PM" then -- Freetime
-print("About 2PM")ToggleCells()
-elseif ((B.Hour==8 and B.Minutes >=54) or (B.Hour==9 and B.Minutes==0)) and B.Period=="PM" then -- Lockdown
-print("About 9PM")ToggleCells()
-elseif ((B.Hour==9 and B.Minutes >=54) or (B.Hour==10 and B.Minutes==0))and B.Period=="PM" then -- Lightsout
-print("About 10PM")ToggleCells()
-end
+		if (B.Hour==5 and B.Minutes >= 54) or (B.Hour==6 and B.Minutes==0) then -- Breakfast and Dinner
+			print("About 6 AM/PM!")ToggleCells()
+		elseif ((B.Hour==7 and B.Minutes >=54) or (B.Hour==8 and B.Minutes==0)) and B.Period=="AM" then -- Yard
+			print("About 8AM")ToggleCells()
+		elseif ((B.Hour==11 and B.Minutes>=54) or (B.Hour==12 and B.Minutes==0))and B.Period=="PM" then -- Lunch
+			print("About 12PM")ToggleCells()
+		elseif ((B.Hour==1 and B.Minutes >=54) or (B.Hour==2 and B.Minutes==0)) and B.Period=="PM" then -- Freetime
+			print("About 2PM")ToggleCells()
+		elseif ((B.Hour==8 and B.Minutes >=54) or (B.Hour==9 and B.Minutes==0)) and B.Period=="PM" then -- Lockdown
+			print("About 9PM")ToggleCells()
+		elseif ((B.Hour==9 and B.Minutes >=54) or (B.Hour==10 and B.Minutes==0))and B.Period=="PM" then -- Lightsout
+			print("About 10PM")ToggleCells()
+		end
 
-A,B=nil,nil
-end
+		A,B=nil,nil
+	end
 end
 
 DEB=nil
