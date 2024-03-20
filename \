@@ -714,6 +714,12 @@ pcall(function()
 		if _G.UISettings.builtInExecutor == true then
 			Executor = loadstring(game:HttpGet("https://raw.githubusercontent.com/Bloxaar/Test/main/Exec"))()
 		end
+		local FPS=tonumber(_G.UISettings.FpsCap)
+		if FPS ~= nil then
+			if FPS < 1 then FPS=1 end
+			if setfpscap then setfpscap(FPS) end
+			FPS=nil
+		end
 		if _G.UISettings.OptimiseClient == true then
 			Sv.New(function()
 				for i,v in pairs(workspace:GetDescendants()) do
