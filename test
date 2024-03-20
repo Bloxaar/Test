@@ -1,5 +1,3 @@
-_G.Target=game.Players.NAMe
-
 local Player = _G.Target
 
 local DEB=false
