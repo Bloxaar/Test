@@ -101,7 +101,7 @@ elseif split[2]=="-dgt"then
 GuardTeamEnabled=false
 Say(`/w {Player.Name} disabled guard team.`)
 elseif split[1] == "-cmds" or split[2] == "-cmds" then
-Say(`/w {Player.Name} custom cmds: -tc <plr> | -lc <plr> | -sc <plr> | -bg <plr> | -h <plr>`)
+Say(`/w {Player.Name} custom cmds: -tc | -lc | -sc | -bg <plr> | -h <plr>`)
 end
 end)
 
