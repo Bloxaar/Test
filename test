@@ -227,10 +227,10 @@ Player.Chatted:Connect(function(msg)
 		end
 	elseif msg:match("-cmds") then
 		if Player.Name==Sv.LPlr.Name then
-			notify(`custom cmds: -tc | -lc | -sc | -bg <plr> | -lbg <plr> | -stopbg <plr> | -lh <plr> | -stoplh <plr> | -h <plr>`,Color3.new(0,1,0))
+			notify(`custom cmds: -tc | -lc | -sc | -egt | -dgt | -bg <plr> | -lbg <plr> | -stopbg <plr> | -lh <plr> | -stoplh <plr> | -h <plr>`,Color3.new(0,1,0))
 
 		else
-			Say(`/w {Player.Name} custom cmds: -tc | -lc | -sc | -bg <plr> | -lbg <plr> | -stopbg <plr> | -lh <plr> | -stoplh <plr> | -h <plr>`)
+			Say(`/w {Player.Name} custom cmds: -tc | -lc | -sc | -egt | -dgt | -bg <plr> | -lbg <plr> | -stopbg <plr> | -lh <plr> | -stoplh <plr> | -h <plr>`)
 		end
 	end
 end)
