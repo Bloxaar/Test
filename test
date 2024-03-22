@@ -17,6 +17,7 @@ local IsCellsLooped,GuardTeamEnabled=true,true
 
 local Sv={}
 Sv.P=pairs
+Sv.LPlr=game.Players.LocalPlayer
 Sv.Plrs=game.Players
 
 local function GetPlayer(String, OverrideLocalPlayer)
