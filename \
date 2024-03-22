@@ -2208,6 +2208,7 @@ Neutral[_A.K]:Connect(function()local AA = Sv.LPlr[_A.P]:FindFirstChild("Humanoi
 	Sv.LPlr.Character.HumanoidRootPart.CFrame=CFrame.new(942, 100, 2376)
 	AA=nil
 	REALHRP=nil	
+	game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.All,true)
 end)
 Crim[_A.K]:Connect(function()
 	local PrimaryPart=Sv.LPlr[_A.P].PrimaryPart
