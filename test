@@ -70,47 +70,99 @@ local function Say(Msg)
 
 end
 
+local textchatservice = game:GetService("TextChatService")
+
+local function notify(msg,Colorr)
+	if textchatservice.ChatVersion==Enum.ChatVersion.TextChatService then
+		if textchatservice:FindFirstChild("TextChannels")==nil then repeat wait()until textchatservice:FindFirstChild("TextChannels")~=nil end
+		if textchatservice.TextChannels:FindFirstChild("RBXSystem")==nil then repeat wait()until textchatservice.TextChannels:FindFirstChild("RBXSystem")~=nil end 
+		if textchatservice.ChatVersion==Enum.ChatVersion.TextChatService then textchatservice.TextChannels.RBXSystem:DisplaySystemMessage([[<font color="]].."rgb("..tostring(Colorr.R*255)..","..tostring(Colorr.G*255)..","..tostring(Colorr.B*255)..[[)">]]..msg.."</font>")return end
+	end
+	game:GetService("StarterGui"):SetCore("ChatMakeSystemMessage", 
+	{ Text=tostring(msg), 
+		Color=Colorr, 
+		Font=Enum.Font.Arial, 
+		FontSize=Enum.FontSize.Size96 
+	} 
+	)
+end
 
 Player.Chatted:Connect(function(msg)
 	local split = msg:split(" ")
 	if msg:match("-tc") then
 		ToggleCells(true)
-		Say(`/w {Player.Name} Cells Toggled.`)
+		if Player.Name==Sv.LPlr.Name then
+			notify(`Cells toggled.`,Color3.new(0,1,1))
+		else
+			Say(`/w {Player.Name} Cells Toggled.`)
+		end
 	elseif msg:match("-lc") then
 		IsCellsLooped=true
-		Say(`/w {Player.Name} Cells Looped.`)
+		if Player.Name==Sv.LPlr.Name then
+			notify(`Cells looping.`,Color3.new(0,1,1))
+		else
+			Say(`/w {Player.Name} Cells looped.`)
+		end
 	elseif msg:match("-sc") then
 		IsCellsLooped=false
-		Say(`/w {Player.Name} Cells Unlooped.`)
+		if Player.Name==Sv.LPlr.Name then
+			notify(`Cells unlooped.`,Color3.new(0,1,1))
+		else
+			Say(`/w {Player.Name} Cells Unlooped.`)
+		end
 	elseif split[1]=="-bg"then
 		for i,v in pairs(GetPlayer(split[2])) do
 			ToggleValue(v.Status.isBadGuard)
-			Say(`/w {Player.Name} toggled badguard.`)
+			if Player.Name==Sv.LPlr.Name then
+				notify(`Toggled {v.Name} badguard.`,Color3.new(0,1,1))
+			else
+				Say(`/w {Player.Name} toggled badguard.`)
+			end
 		end
 	elseif split[2]=="-bg"then
 		for i,v in pairs(GetPlayer(split[3])) do
 			ToggleValue(v.Status.isBadGuard)
-			Say(`/w {Player.Name} toggled badguard.`)
+			if Player.Name==Sv.LPlr.Name then
+				notify(`Toggled {v.Name} badguard.`,Color3.new(0,1,1))
+			else
+				Say(`/w {Player.Name} toggled badguard.`)
+			end
 		end
 	elseif split[1]=="-lbg"then
 		for i,v in pairs(GetPlayer(split[2])) do
 			LoopToggleValue(v.Status.isBadGuard)
-			Say(`/w {Player.Name} looping badguard.`)
+			if Player.Name==Sv.LPlr.Name then
+				notify(`looping {v.Name} badguard.`,Color3.new(0,1,1))
+			else
+				Say(`/w {Player.Name} looping badguard.`)
+			end
 		end
 	elseif split[2]=="-lbg"then
 		for i,v in pairs(GetPlayer(split[3])) do
 			LoopToggleValue(v.Status.isBadGuard)
-			Say(`/w {Player.Name} looping badguard.`)
+			if Player.Name==Sv.LPlr.Name then
+				notify(`looping {v.Name} badguard.`,Color3.new(0,1,1))
+			else
+				Say(`/w {Player.Name} looping badguard.`)
+			end
 		end
 	elseif split[1]=="-stoplbg"then
 		for i,v in pairs(GetPlayer(split[2])) do
 			StopLoopToggleValue(v.Status.isBadGuard)
-			Say(`/w {Player.Name} stopped looping badguard.`)
+			if Player.Name==Sv.LPlr.Name then
+				notify(`stopped looping {v.Name} badguard.`,Color3.new(0,1,1))
+			else
+				Say(`/w {Player.Name} stopped looping badguard.`)
+			end
 		end
 	elseif split[2]=="-stoplbg"then
 		for i,v in pairs(GetPlayer(split[3])) do
 			StopLoopToggleValue(v.Status.isBadGuard)
-			Say(`/w {Player.Name} stopped looping badguard.`)
+			if Player.Name==Sv.LPlr.Name then
+				notify(`stopped looping {v.Name} badguard.`,Color3.new(0,1,1))
+			else
+				Say(`/w {Player.Name} stopped looping badguard.`)
+			end
 		end
 	elseif split[1]=="-lh"then
 		for i,v in pairs(GetPlayer(split[2])) do
@@ -125,31 +177,60 @@ Player.Chatted:Connect(function(msg)
 	elseif split[1]=="-stoplh"then
 		for i,v in pairs(GetPlayer(split[2])) do
 			StopLoopToggleValue(v.Status.isHostile)
-			Say(`/w {Player.Name} stopped looping hostile.`)
+			if Player.Name==Sv.LPlr.Name then
+				notify(`stopped looping {v.Name} hostile.`,Color3.new(0,1,1))
+			else
+				Say(`/w {Player.Name} stopped looping hostile.`)
+			end
 		end
 	elseif split[2]=="-stoplh"then
 		for i,v in pairs(GetPlayer(split[3])) do
 			StopLoopToggleValue(v.Status.isHostile)
-			Say(`/w {Player.Name} stopped looping hostile.`)
+			if Player.Name==Sv.LPlr.Name then
+				notify(`stopped looping {v.Name} hostile.`,Color3.new(0,1,1))
+			else
+				Say(`/w {Player.Name} stopped looping hostile.`)
+			end
 		end
 	elseif split[1]=="-h"then
 		for i,v in pairs(GetPlayer(split[2])) do
 			ToggleValue(v.Status.isHostile)
-			Say(`/w {Player.Name} toggled hostile.`)
+			if Player.Name==Sv.LPlr.Name then
+				notify(`toggled {v.Name} hostile.`,Color3.new(0,1,1))
+			else
+				Say(`/w {Player.Name} toggled hostile.`)
+			end
 		end
 	elseif split[2]=="-h"then
 		for i,v in pairs(GetPlayer(split[3])) do
 			ToggleValue(v.Status.isHostile)
-			Say(`/w {Player.Name} toggled hostile.`)
+			if Player.Name==Sv.LPlr.Name then
+				notify(`toggled {v.Name} hostile.`,Color3.new(0,1,1))
+			else
+				Say(`/w {Player.Name} toggled hostile.`)
+			end
 		end
-	elseif split[1]=="-egt"then
+	elseif msg:match("-egt")then
 		GuardTeamEnabled=true
-		Say(`/w {Player.Name} enabled guard team.`)
-	elseif split[2]=="-dgt"then
+		if Player.Name==Sv.LPlr.Name then
+			notify(`enabled guard team.`,Color3.new(0,1,1))
+		else
+			Say(`/w {Player.Name} enabled guard team.`)
+		end
+	elseif msg:match("-dgt")then
 		GuardTeamEnabled=false
-		Say(`/w {Player.Name} disabled guard team.`)
-	elseif split[1] == "-cmds" or split[2] == "-cmds" then
-		Say(`/w {Player.Name} custom cmds: -tc | -lc | -sc | -bg <plr> | -lbg <plr> | -stopbg <plr> | -lh <plr> | -stoplh <plr> | -h <plr>`)
+		if Player.Name==Sv.LPlr.Name then
+			notify(`disabled guard team.`,Color3.new(0,1,1))
+		else
+			Say(`/w {Player.Name} disabled guard team.`)
+		end
+	elseif msg:match("-cmds") then
+		if Player.Name==Sv.LPlr.Name then
+			notify(`custom cmds: -tc | -lc | -sc | -bg <plr> | -lbg <plr> | -stopbg <plr> | -lh <plr> | -stoplh <plr> | -h <plr>`,Color3.new(0,1,0))
+
+		else
+			Say(`/w {Player.Name} custom cmds: -tc | -lc | -sc | -bg <plr> | -lbg <plr> | -stopbg <plr> | -lh <plr> | -stoplh <plr> | -h <plr>`)
+		end
 	end
 end)
 
@@ -195,6 +276,11 @@ task.spawn(function()
 
 
 end)
+
+
+notify(`custom cmds: -tc | -lc | -sc | -bg <plr> | -lbg <plr> | -stopbg <plr> | -lh <plr> | -stoplh <plr> | -h <plr>`,Color3.new(0,1,0))
+
+
 while true do
 	if not Player:IsDescendantOf(game) then break end
 	wait(0.5)
