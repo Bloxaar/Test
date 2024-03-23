@@ -220,6 +220,7 @@ Player.Chatted:Connect(function(msg)
 		local TargetValue = loadstring("return "..RealCode)()
 		if TargetValue ~= nil then
 			if TargetValue.ClassName == "BoolValue" then
+				ToggleValue(TargetValue)
 				if Player.Name==Sv.LPlr.Name then
 					notify(`toggled {TargetValue.Name}.`,Color3.new(0,1,1))
 				else
@@ -244,6 +245,7 @@ Player.Chatted:Connect(function(msg)
 		local TargetValue = loadstring("return "..RealCode)()
 		if TargetValue ~= nil then
 			if TargetValue.ClassName == "BoolValue" then
+				ToggleValue(TargetValue)
 				if Player.Name==Sv.LPlr.Name then
 					notify(`toggled {TargetValue.Name}.`,Color3.new(0,1,1))
 				else
