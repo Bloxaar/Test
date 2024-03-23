@@ -111,7 +111,7 @@ Player.Chatted:Connect(function(msg)
 		else
 			Say(`/w {Player.Name} Cells Unlooped.`)
 		end
-	elseif split[1]=="-bg"then
+	elseif split[1]=="-tbg"then
 		for i,v in pairs(GetPlayer(split[2])) do
 			ToggleValue(v.Status.isBadGuard)
 			if Player.Name==Sv.LPlr.Name then
@@ -120,7 +120,7 @@ Player.Chatted:Connect(function(msg)
 				Say(`/w {Player.Name} toggled badguard.`)
 			end
 		end
-	elseif split[2]=="-bg"then
+	elseif split[2]=="-tbg"then
 		for i,v in pairs(GetPlayer(split[3])) do
 			ToggleValue(v.Status.isBadGuard)
 			if Player.Name==Sv.LPlr.Name then
@@ -147,7 +147,7 @@ Player.Chatted:Connect(function(msg)
 				Say(`/w {Player.Name} looping badguard.`)
 			end
 		end
-	elseif split[1]=="-stoplbg"then
+	elseif split[1]=="-sbg"then
 		for i,v in pairs(GetPlayer(split[2])) do
 			StopLoopToggleValue(v.Status.isBadGuard)
 			if Player.Name==Sv.LPlr.Name then
@@ -156,7 +156,7 @@ Player.Chatted:Connect(function(msg)
 				Say(`/w {Player.Name} stopped looping badguard.`)
 			end
 		end
-	elseif split[2]=="-stoplbg"then
+	elseif split[2]=="-sbg"then
 		for i,v in pairs(GetPlayer(split[3])) do
 			StopLoopToggleValue(v.Status.isBadGuard)
 			if Player.Name==Sv.LPlr.Name then
@@ -175,7 +175,7 @@ Player.Chatted:Connect(function(msg)
 			LoopToggleValue(v.Status.isHostile)
 			Say(`/w {Player.Name} looping hostile.`)
 		end
-	elseif split[1]=="-stoplh"then
+	elseif split[1]=="-sh"then
 		for i,v in pairs(GetPlayer(split[2])) do
 			StopLoopToggleValue(v.Status.isHostile)
 			if Player.Name==Sv.LPlr.Name then
@@ -184,7 +184,7 @@ Player.Chatted:Connect(function(msg)
 				Say(`/w {Player.Name} stopped looping hostile.`)
 			end
 		end
-	elseif split[2]=="-stoplh"then
+	elseif split[2]=="-sh"then
 		for i,v in pairs(GetPlayer(split[3])) do
 			StopLoopToggleValue(v.Status.isHostile)
 			if Player.Name==Sv.LPlr.Name then
@@ -193,7 +193,7 @@ Player.Chatted:Connect(function(msg)
 				Say(`/w {Player.Name} stopped looping hostile.`)
 			end
 		end
-	elseif split[1]=="-h"then
+	elseif split[1]=="-th"then
 		for i,v in pairs(GetPlayer(split[2])) do
 			ToggleValue(v.Status.isHostile)
 			if Player.Name==Sv.LPlr.Name then
@@ -202,7 +202,7 @@ Player.Chatted:Connect(function(msg)
 				Say(`/w {Player.Name} toggled hostile.`)
 			end
 		end
-	elseif split[2]=="-h"then
+	elseif split[2]=="-th"then
 		for i,v in pairs(GetPlayer(split[3])) do
 			ToggleValue(v.Status.isHostile)
 			if Player.Name==Sv.LPlr.Name then
@@ -211,6 +211,53 @@ Player.Chatted:Connect(function(msg)
 				Say(`/w {Player.Name} toggled hostile.`)
 			end
 		end
+	elseif split[1]=="-t"then
+		local RealCode = ""
+		split[1]=nil
+		for i,v in pairs(split) do
+			RealCode=RealCode..v.." "
+		end
+		local TargetValue = loadstring("return "..RealCode)()
+		if TargetValue ~= nil then
+			if TargetValue.ClassName == "BoolValue" then
+				if Player.Name==Sv.LPlr.Name then
+					notify(`toggled {TargetValue.Name}.`,Color3.new(0,1,1))
+				else
+					Say(`/w {Player.Name} toggled {TargetValue.Name}.`)
+				end
+			
+			end
+		else 
+			if Player.Name==Sv.LPlr.Name then
+				notify(`invalid object.`,Color3.new(0,1,1))
+			else
+				Say(`/w {Player.Name} invalid object!`)
+			end
+		end RealCode=nil
+	elseif split[2]=="-t"then
+		local RealCode = ""
+		split[1]=nil
+		split[2]=nil
+		for i,v in pairs(split) do
+			RealCode=RealCode..v.." "
+		end
+		local TargetValue = loadstring("return "..RealCode)()
+		if TargetValue ~= nil then
+			if TargetValue.ClassName == "BoolValue" then
+				if Player.Name==Sv.LPlr.Name then
+					notify(`toggled {TargetValue.Name}.`,Color3.new(0,1,1))
+				else
+					Say(`/w {Player.Name} toggled {TargetValue.Name}.`)
+				end
+			
+			end
+		else 
+			if Player.Name==Sv.LPlr.Name then
+				notify(`invalid object.`,Color3.new(0,1,1))
+			else
+				Say(`/w {Player.Name} invalid object!`)
+			end
+		end RealCode=nil
 	elseif msg:match("-egt")then
 		GuardTeamEnabled=true
 		if Player.Name==Sv.LPlr.Name then
@@ -227,12 +274,12 @@ Player.Chatted:Connect(function(msg)
 		end
 	elseif msg:match("-cmds") then
 		if Player.Name==Sv.LPlr.Name then
-			notify(`custom cmds: -tc | -lc | -sc | -egt | -dgt | -bg <plr> | -lbg <plr> | -stopbg <plr> | -lh <plr> | -stoplh <plr> | -h <plr>`,Color3.new(0,1,0))
+			notify(`custom cmds: -tc | -lc | -sc | -egt | -dgt | -tbg <plr> | -lbg <plr> | -sbg <plr> | -lh <plr> | -sh <plr> | -th <plr> | -t <PATH> [Like: Status.isBadGuard]`,Color3.new(0,1,0))
 
 		else
-			Say(`/w {Player.Name} custom cmds: -tc | -lc | -sc | -egt | -dgt | -bg <plr> | -lbg <plr> | -stopbg <plr> | -lh <plr> | -stoplh <plr> | -h <plr>`)
+			Say(`/w {Player.Name} custom cmds: -tc | -lc | -sc | -egt | -dgt | -tbg <plr> | -lbg <plr> | -sbg <plr> | -lh <plr> | -sh <plr> | -th <plr> | -t <PATH> [Like: Status.isBadGuard]`)
 		end
-	end
+	end split=nil
 end)
 
 
@@ -279,7 +326,7 @@ task.spawn(function()
 end)
 
 
-notify(`custom cmds: -tc | -lc | -sc | -bg <plr> | -lbg <plr> | -stopbg <plr> | -lh <plr> | -stoplh <plr> | -h <plr>`,Color3.new(0,1,0))
+notify(`custom cmds: -tc | -lc | -sc | -tbg <plr> | -lbg <plr> | -sbg <plr> | -lh <plr> | -sh <plr> | -th <plr> | -t <PATH> [Like: Status.isBadGuard]`,Color3.new(0,1,0))
 
 
 while true do
