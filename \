@@ -2124,8 +2124,8 @@ SoundEventConnection_4039850934 = SoundEvent.OnClientEvent:Connect(function(Soun
 			WAIT(0.05)
 			Sound.Parent:SetAttribute(Sound.Name,nil)
 
-			
-			
+
+
 		end		
 	end
 end)
@@ -5471,26 +5471,25 @@ local DamageList = {}
 local AntiShootList = {}	
 
 LocalisedFunctions.GetPlayerFromPosition = function(override,Position,VictimPlr)
-	for i,v in pairs(workspace:GetPartBoundsInRadius(Position,4.5)) do
-		if not v.Anchored then
-			if not v:IsDescendantOf(VictimPlr.Character) then
-				if v.Parent.Parent ~= nil then
-					local Plr = game:GetService("Players"):GetPlayerFromCharacter(v.Parent) or game:GetService("Players"):GetPlayerFromCharacter(v.Parent.Parent)
-					if Plr then
-						if override then
-							if table.find(AddedWhitelists,Plr.UserId) ~= nil then
-								return Plr	
-							end
-						else
-							return Plr
-						end
-					end
-					Plr=nil
+	local ClosestPlr,Dist=nil,math.huge
+	for i,v in pairs(Sv.Plrs:GetPlayers()) do
+		local Char = v.Character
+		if Char ~= nil then
+			local Torso=Char:FindFirstChild("Torso")
+			if Torso ~= nil then
+				if (Torso.Position-Position).Magnitude < Dist then
+					ClosestPlr=v Dist=(Torso.Position-Position).Magnitude
+					
+					
 				end
+				
 			end
+			Torso=nil
 		end
+		Char=nil
 	end
-	return nil
+	Dist=nil
+	return ClosestPlr
 end	
 
 if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
