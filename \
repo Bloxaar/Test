@@ -4745,7 +4745,7 @@ AdminCommands={
 		end
 
 	end,
-	["goto"]=function(PlayerTbl,Speaker)
+	["to"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		if Speaker ==_N then 
 			Speaker.Character.HumanoidRootPart.CFrame=PlayerTbl[1].Character.Head.CFrame
