@@ -4745,7 +4745,7 @@ AdminCommands={
 		end
 
 	end,
-	["to"]=function(PlayerTbl,Speaker)
+	["goto"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		if Speaker ==_N then 
 			Speaker.Character.HumanoidRootPart.CFrame=PlayerTbl[1].Character.Head.CFrame
@@ -5476,14 +5476,17 @@ LocalisedFunctions.GetPlayerFromPosition = function(override,Position,VictimPlr)
 		local Char = v.Character
 		if Char ~= nil then
 			local Torso=Char:FindFirstChild("Torso")
-			if Torso ~= nil then
-				if (Torso.Position-Position).Magnitude < Dist then
-					ClosestPlr=v Dist=(Torso.Position-Position).Magnitude
-					
-					
+			local Humanoid = Char:FindFirstChildOfClass("Humanoid")
+			if Humanoid ~= nil then
+				if Humanoid.Health>0 then
+					if Torso ~= nil then
+						if (Torso.Position-Position).Magnitude < Dist then
+							ClosestPlr=v Dist=(Torso.Position-Position).Magnitude
+						end
+					end
 				end
-				
 			end
+			Humanoid=nil
 			Torso=nil
 		end
 		Char=nil
