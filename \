@@ -4919,9 +4919,9 @@ AdminCommands={
 				end
 			end
 		end
-		
+
 		Sv.LPlr.Character.HumanoidRootPart.Velocity=Vector3.new(0,5,0)
-		
+
 		svc("RunService").Heartbeat:Wait()
 		svc("RunService").Heartbeat:Wait()
 
@@ -5444,7 +5444,7 @@ AdminCommands={
 		PreferredAdminsPrefix[Speaker.UserId]=Defaultprefix
 
 	end,
-	["uninfect"]=function(PlayerTbl,Speaker)
+	["cure"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		local Found=nil
 		for i,SelectedPlayer in Sv.P(PlayerTbl)do
@@ -5459,7 +5459,7 @@ AdminCommands={
 		Found=_N
 	end,
 	["help"]=function(PlayerTbl,Speaker)
-		local message = [[Use commands by typing ;k target/guards/crims/inmates/swats/team/admins/nonadmins/hostiles/nonhostiles/bacons/nonbacons (which kills them) | Type !prefix for prefix or !resetprefix]]
+		local message = [[Use commands by typing ;k target/guards/crims/inmates/swats/team/admins/nonadmins/hostiles/nonhostiles/bacons/nonbacons/nearest/furthest (which kills them) | Type !prefix for prefix or !resetprefix]]
 		if Speaker==_N then
 			notify(message,_A.R(0,1,0))
 		else
@@ -5521,7 +5521,13 @@ LocalisedFunctions.GetPlayerFromPosition = function(override,Position,VictimPlr)
 				if Humanoid.Health>0 then
 					if Torso ~= nil then
 						if (Torso.Position-Position).Magnitude < Dist then
-							ClosestPlr=v Dist=(Torso.Position-Position).Magnitude
+							if override then
+								if table.find(AddedWhitelists,v) then
+									ClosestPlr=v Dist=(Torso.Position-Position).Magnitude
+								end
+							else
+								ClosestPlr=v Dist=(Torso.Position-Position).Magnitude
+							end
 						end
 					end
 				end
@@ -5531,6 +5537,9 @@ LocalisedFunctions.GetPlayerFromPosition = function(override,Position,VictimPlr)
 		end
 		Char=nil
 	end
+	if (override ==true) and Dist > 15 then
+		ClosestPlr=nil
+	end
 	Dist=nil
 	return ClosestPlr
 end	
@@ -5538,7 +5547,7 @@ end
 if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 	game:GetService("ReplicatedStorage").ReplicateEvent.OnClientEvent:Connect(function(tbl)
 		if typeof(tbl)=="table" then
-			for i=1,5 do
+			for i=1,math.min(30,#tbl) do
 				if tbl[i] ~= nil then
 					if tbl[i].RayObject~= nil then
 						if typeof(tbl[i].RayObject)=="Ray" then
