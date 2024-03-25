@@ -4809,12 +4809,6 @@ end,
 
 			LocalisedFunctions.BringPlayerFunc({Speaker})
 
-			for i,SelectedPlayer in pairs(PlayerTbl) do
-				if SelectedPlayer==Speaker then continue end
-				LocalisedFunctions.BringPlayerFunc({SelectedPlayer})
-				break
-			end
-
 			for i=0,3 do wait()
 				LocalisedFunctions.TeleportPlayer(TargetCF)
 			end
