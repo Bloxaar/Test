@@ -5453,7 +5453,7 @@ end,
 	Found=_N
 end,
 ["help"]=function(PlayerTbl,Speaker)
-	local message = [[Use commands by typing ;k target/guards/crims/inmates/swats/team/admins/nonadmins/hostiles/nonhostiles/bacons/nonbacons/nearest/furthest (which kills them) | Type !prefix for prefix or !resetprefix]]
+	local message = [[Usage by typing ;k plr/guards/crims/inmates/swats/team/admins/nonadmins/hostiles/nonhostiles/bacons/nonbacons/nearest/furthest (which kills em) | Type !prefix for prefix or !resetprefix]]
 	if Speaker==_N then
 		notify(message,_A.R(0,1,0))
 	else
