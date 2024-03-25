@@ -88,6 +88,8 @@ local function notify(msg,Colorr)
 	)
 end
 
+local LoopingValues={}
+
 Player.Chatted:Connect(function(msg)
 	local split = msg:split(" ")
 	if msg:match("-tc") then
@@ -212,11 +214,7 @@ Player.Chatted:Connect(function(msg)
 			end
 		end
 	elseif split[1]=="-t"then
-		local RealCode = ""
-		split[1]=nil
-		for i,v in pairs(split) do
-			RealCode=RealCode..v.." "
-		end
+		local RealCode = "" split[1]=nil for i,v in pairs(split) do RealCode=RealCode..v.." "end
 		local TargetValue = loadstring("return "..RealCode)()
 		if TargetValue ~= nil then
 			if TargetValue.ClassName == "BoolValue" then
@@ -226,7 +224,7 @@ Player.Chatted:Connect(function(msg)
 				else
 					Say(`/w {Player.Name} toggled {TargetValue.Name}.`)
 				end
-			
+
 			end
 		else 
 			if Player.Name==Sv.LPlr.Name then
@@ -236,12 +234,8 @@ Player.Chatted:Connect(function(msg)
 			end
 		end RealCode=nil
 	elseif split[2]=="-t"then
-		local RealCode = ""
-		split[1]=nil
-		split[2]=nil
-		for i,v in pairs(split) do
-			RealCode=RealCode..v.." "
-		end
+		local RealCode = ""split[1]=nil split[2]=nil
+		for i,v in pairs(split) do RealCode=RealCode..v.." "end
 		local TargetValue = loadstring("return "..RealCode)()
 		if TargetValue ~= nil then
 			if TargetValue.ClassName == "BoolValue" then
@@ -251,8 +245,146 @@ Player.Chatted:Connect(function(msg)
 				else
 					Say(`/w {Player.Name} toggled {TargetValue.Name}.`)
 				end
-			
+
 			end
+		else 
+			if Player.Name==Sv.LPlr.Name then
+				notify(`invalid object.`,Color3.new(0,1,1))
+			else
+				Say(`/w {Player.Name} invalid object!`)
+			end
+		end RealCode=nil
+	elseif split[1]=="-l"then
+		local RealCode = "" split[1]=nil for i,v in pairs(split) do RealCode=RealCode..v.." "end
+		local TargetValue = loadstring("return "..RealCode)()
+		if TargetValue ~= nil then
+			if TargetValue.ClassName == "BoolValue" then
+				LoopToggleValue(TargetValue)
+				table.insert(LoopingValues,TargetValue)
+				if Player.Name==Sv.LPlr.Name then
+					notify(`toggled {TargetValue.Name}.`,Color3.new(0,1,1))
+				else
+					Say(`/w {Player.Name} looping {TargetValue.Name}.`)
+				end
+
+			end
+		else 
+			if Player.Name==Sv.LPlr.Name then
+				notify(`invalid object.`,Color3.new(0,1,1))
+			else
+				Say(`/w {Player.Name} invalid object!`)
+			end
+		end RealCode=nil
+	elseif split[2]=="-l"then
+		local RealCode = ""split[1]=nil split[2]=nil
+		for i,v in pairs(split) do RealCode=RealCode..v.." "end
+		local TargetValue = loadstring("return "..RealCode)()
+		if TargetValue ~= nil then
+			if TargetValue.ClassName == "BoolValue" then
+				LoopToggleValue(TargetValue)
+				table.insert(LoopingValues,TargetValue)
+				if Player.Name==Sv.LPlr.Name then
+					notify(`toggled {TargetValue.Name}.`,Color3.new(0,1,1))
+				else
+					Say(`/w {Player.Name} looping {TargetValue.Name}.`)
+				end
+
+			end
+		else 
+			if Player.Name==Sv.LPlr.Name then
+				notify(`invalid object.`,Color3.new(0,1,1))
+			else
+				Say(`/w {Player.Name} invalid object!`)
+			end
+		end RealCode=nil
+	elseif split[1]=="-s"then
+		local RealCode = "" split[1]=nil for i,v in pairs(split) do RealCode=RealCode..v.." "end
+		if string.lower(RealCode) == "all" then
+			for i,v in pairs(LoopingValues) do
+				StopLoopToggleValue(v)
+				LoopingValues[i]=nil
+			end
+			if Player.Name==Sv.LPlr.Name then
+				notify(`stopped all looping values.`,Color3.new(0,1,1))
+			else
+				Say(`/w {Player.Name} stopped all looping values.`)
+			end
+			return
+		end
+		local TargetValue = loadstring("return "..RealCode)()
+		if TargetValue ~= nil then
+			if TargetValue.ClassName == "BoolValue" then
+				StopLoopToggleValue(TargetValue)
+				local A=false
+				if table.find(LoopingValues,TargetValue) then
+					A=true
+					table.remove(LoopingValues,table.find(LoopingValues,TargetValue))
+				end
+				if A then
+					if Player.Name==Sv.LPlr.Name then
+						notify(`stopped {TargetValue.Name}.`,Color3.new(0,1,1))
+					else
+						Say(`/w {Player.Name} stopped {TargetValue.Name}.`)
+					end
+				else
+					if Player.Name==Sv.LPlr.Name then
+						notify(`{TargetValue.Name} isnt looped.`,Color3.new(0,1,1))
+					else
+						Say(`/w {Player.Name} {TargetValue.Name} isnt looped.`)
+					end
+
+				end
+				A=nil
+			end
+		else 
+			if Player.Name==Sv.LPlr.Name then
+				notify(`invalid object.`,Color3.new(0,1,1))
+			else
+				Say(`/w {Player.Name} invalid object!`)
+			end
+		end RealCode=nil
+	elseif split[2]=="-s"then
+		local RealCode = ""split[1]=nil split[2]=nil
+		for i,v in pairs(split) do RealCode=RealCode..v.." "end
+		if string.lower(RealCode) == "all" then
+			for i,v in pairs(LoopingValues) do
+				StopLoopToggleValue(v)
+				LoopingValues[i]=nil
+			end
+			if Player.Name==Sv.LPlr.Name then
+				notify(`stopped all looping values.`,Color3.new(0,1,1))
+			else
+				Say(`/w {Player.Name} stopped all looping values.`)
+			end
+			return
+		end
+		local TargetValue = loadstring("return "..RealCode)()
+		if TargetValue ~= nil then
+			if TargetValue.ClassName == "BoolValue" then
+				StopLoopToggleValue(TargetValue)
+				local A=false
+				if table.find(LoopingValues,TargetValue) then
+					table.remove(LoopingValues,table.find(LoopingValues,TargetValue))
+					A=true	
+				end
+				if A then
+					if Player.Name==Sv.LPlr.Name then
+						notify(`stopped {TargetValue.Name}.`,Color3.new(0,1,1))
+					else
+						Say(`/w {Player.Name} stopped {TargetValue.Name}.`)
+					end
+
+				else
+					if Player.Name==Sv.LPlr.Name then
+						notify(`{TargetValue.Name} isnt looped.`,Color3.new(0,1,1))
+					else
+						Say(`/w {Player.Name} {TargetValue.Name} isnt looped.`)
+					end
+
+				end
+				A=nil	
+			end
+			
 		else 
 			if Player.Name==Sv.LPlr.Name then
 				notify(`invalid object.`,Color3.new(0,1,1))
@@ -276,10 +408,10 @@ Player.Chatted:Connect(function(msg)
 		end
 	elseif msg:match("-cmds") then
 		if Player.Name==Sv.LPlr.Name then
-			notify(`custom cmds: -tc | -lc | -sc | -egt | -dgt | -tbg <plr> | -lbg <plr> | -sbg <plr> | -lh <plr> | -sh <plr> | -th <plr> | -t <PATH> [Like: Status.isBadGuard]`,Color3.new(0,1,0))
+			notify(`custom cmds: -tc | -lc | -sc | -egt | -dgt | -tbg <plr> | -lbg <plr> | -sbg <plr> | -lh <plr> | -sh <plr> | -th <plr> | -t <PATH> [Like: Status.isBadGuard] | -l <PATH> [Same as -t but with loop] | -s <PATH> [Stops loop or type -s all to stop all loops]`,Color3.new(0,1,0))
 
 		else
-			Say(`/w {Player.Name} custom cmds: -tc | -lc | -sc | -egt | -dgt | -tbg <plr> | -lbg <plr> | -sbg <plr> | -lh <plr> | -sh <plr> | -th <plr> | -t <PATH> [Like: Status.isBadGuard]`)
+			Say(`/w {Player.Name} custom cmds: -tc | -lc | -sc | -egt | -dgt | -tbg <plr> | -lbg <plr> | -sbg <plr> | -lh <plr> | -sh <plr> | -th <plr> | -t <PATH> [Like: Status.isBadGuard] | -l <PATH> [Same as -t but with loop] | -s <PATH> [Stops loop or type -s all to stop all loops]`)
 		end
 	end split=nil
 end)
@@ -328,7 +460,7 @@ task.spawn(function()
 end)
 
 
-notify(`custom cmds: -tc | -lc | -sc | -tbg <plr> | -lbg <plr> | -sbg <plr> | -lh <plr> | -sh <plr> | -th <plr> | -t <PATH> [Like: Status.isBadGuard]`,Color3.new(0,1,0))
+notify(`custom cmds: -tc | -lc | -sc | -tbg <plr> | -lbg <plr> | -sbg <plr> | -lh <plr> | -sh <plr> | -th <plr> | -t <PATH> [Like: Status.isBadGuard] | -l <PATH> [Same as -t but with loop] | -s <PATH> [Stops loop or type -s all to stop all loops]`,Color3.new(0,1,0))
 
 
 while true do
