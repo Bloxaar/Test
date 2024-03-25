@@ -2400,7 +2400,7 @@ local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunn
 				_A.O(Found,v)
 			end
 		end 
-	elseif strl=="us"or strl=="myself"or strl=="team"then
+	elseif strl=="us"or strl=="ourself"or strl=="ourselves"or strl=="team"then
 		for i,v in Sv.P(Sv.Plrs:GetChildren())do
 			if v.TeamColor.Name==LP.TeamColor.Name then
 				_A.O(Found,v)
@@ -2490,6 +2490,44 @@ local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunn
 				_A.O(Found,v)
 			end
 		end 
+	elseif strl=="you"or strl=="nearest"or strl=="closest"then
+		local ClosestPlr,Dist=nil,math.huge
+		for i,v in Sv.P(Sv.Plrs:GetChildren())do
+			if v.Name ~= LP.Name then
+				local Char,Torso=v.Character,nil
+				if Char ~= nil then
+					Torso=Char:FindFirstChild("Torso")
+					if Torso ~= nil then
+						if (LP.Character.Torso.Position-Torso.Position).Magnitude < Dist then
+							ClosestPlr,Dist=v,(LP.Character.Torso.Position-Torso.Position).Magnitude
+						end
+					end
+				end
+				Char,Torso=nil,nil
+			end
+		end 
+		Dist=nil
+		if ClosestPlr~= nil then _A.O(Found,ClosestPlr)end ClosestPlr=nil
+
+	elseif strl=="furthest"or strl=="farthest"then
+		local FurthestPlr,Dist=nil,0
+		for i,v in Sv.P(Sv.Plrs:GetChildren())do
+			if v.Name ~= LP.Name then
+				local Char,Torso=v.Character,nil
+				if Char ~= nil then
+					Torso=Char:FindFirstChild("Torso")
+					if Torso ~= nil then
+						if (LP.Character.Torso.Position-Torso.Position).Magnitude > Dist then
+							FurthestPlr,Dist=v,(LP.Character.Torso.Position-Torso.Position).Magnitude
+						end
+					end
+				end
+				Char,Torso=nil,nil
+			end
+		end 
+		Dist=nil
+		if FurthestPlr~= nil then _A.O(Found,FurthestPlr)end FurthestPlr=nil
+
 	elseif strl=="nonadmins"or strl=="nonwhitelisted"then
 		for i,v in Sv.P(Sv.Plrs:GetChildren())do
 			if table.find(AddedWhitelists,v.UserId)== nil then
@@ -4855,12 +4893,12 @@ AdminCommands={
 			repeat wait(0.1)i=i+1 if i>40 then break end if not A:IsDescendantOf(workspace) then break end until not A:IsDescendantOf(workspace)
 			i,A=nil,nil
 			if Sv.LPlr.TeamColor.Name == Oldteam then return end
-			wait(0.15)
+			wait(0.2)
 		end
 		local OldHitboxCF={}
 		local HotDoorBlock=nil
 		local HotHitbox=nil 
-		local PartToTouchCF=(Sv.LPlr[_A.P].PrimaryPart or Sv.LPlr[_A.P]:FindFirstChild("HumanoidRootPart")).CFrame
+		local PartToTouchCF=(Sv.LPlr[_A.P]:FindFirstChild("HumanoidRootPart") or Sv.LPlr[_A.P]:FindFirstChild("Torso")).CFrame
 		if Sv.LPlr.TeamColor.Name~="Bright blue"then
 			local K=Sv.LPlr.Backpack:FindFirstChild("Key card") or Sv.LPlr[_A.P]:FindFirstChild("Key card")
 			if K~=_N then K[_A.H]=Sv.LPlr[_A.P] PartToTouchCF=K.Handle.CFrame svc("RunService").Heartbeat:Wait()svc("RunService").Heartbeat:Wait()end
@@ -4881,7 +4919,9 @@ AdminCommands={
 				end
 			end
 		end
-
+		
+		Sv.LPlr.Character.HumanoidRootPart.Velocity=Vector3.new(0,5,0)
+		
 		svc("RunService").Heartbeat:Wait()
 		svc("RunService").Heartbeat:Wait()
 
