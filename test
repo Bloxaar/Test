@@ -13,7 +13,7 @@ local function StopLoopToggleValue(Bool)
 	end
 end
 
-local IsCellsLooped,GuardTeamEnabled=true,true
+local IsCellsLooped,GuardTeamEnabled=false,true
 
 local Sv={}
 Sv.P=pairs
