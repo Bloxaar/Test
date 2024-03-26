@@ -4459,6 +4459,7 @@ AdminCommands={
 			if H ~= nil then
 				H:ChangeState("Jumping")
 			end
+			WAIT(0.1)
 			H=nil
 			LocalisedFunctions.TeleportPlayer(OldPos)
 			TargetCF=nil
@@ -4510,6 +4511,7 @@ AdminCommands={
 			if H ~= nil then
 				H:ChangeState("Jumping")
 			end
+			WAIT(0.1)
 			H=nil
 			LocalisedFunctions.TeleportPlayer(OldPos)
 			TargetCF=nil
@@ -4562,6 +4564,7 @@ AdminCommands={
 			if H ~= nil then
 				H:ChangeState("Jumping")
 			end
+			WAIT(0.1)
 			H=nil
 			LocalisedFunctions.TeleportPlayer(OldPos)
 			TargetCF=nil
@@ -4614,6 +4617,7 @@ AdminCommands={
 			if H ~= nil then
 				H:ChangeState("Jumping")
 			end
+			WAIT(0.1)
 			H=nil
 			LocalisedFunctions.TeleportPlayer(OldPos)
 			TargetCF=nil
@@ -4667,6 +4671,7 @@ AdminCommands={
 			if H ~= nil then
 				H:ChangeState("Jumping")
 			end
+			WAIT(0.1)
 			H=nil
 			LocalisedFunctions.TeleportPlayer(OldPos)
 			TargetCF=nil
@@ -4719,6 +4724,7 @@ AdminCommands={
 			if H ~= nil then
 				H:ChangeState("Jumping")
 			end
+			WAIT(0.1)
 			H=nil
 			LocalisedFunctions.TeleportPlayer(OldPos)
 			TargetCF=nil
@@ -4772,6 +4778,7 @@ AdminCommands={
 				H:ChangeState("Jumping")
 			end
 			H=nil
+			WAIT(0.1)
 			LocalisedFunctions.TeleportPlayer(OldPos)
 			TargetCF=nil
 			OldPos=nil
@@ -4823,6 +4830,7 @@ AdminCommands={
 			if H ~= nil then
 				H:ChangeState("Jumping")
 			end
+			WAIT(0.1)
 			H=nil
 			LocalisedFunctions.TeleportPlayer(OldPos)
 			TargetCF=nil
@@ -4873,6 +4881,7 @@ AdminCommands={
 				if H ~= nil then
 					H:ChangeState("Jumping")
 				end
+				WAIT(0.1)
 				H=nil
 				LocalisedFunctions.TeleportPlayer(OldPos)
 				TargetCF=nil
