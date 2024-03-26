@@ -150,7 +150,9 @@ end
 local IsStudio = svc("RunService"):IsStudio()
 local _T,_F,_N=true,false,nil
 
-local function WAIT(t)t=t or 0 local start=tick()repeat svc("RunService").Stepped:Wait()until (tick()- start)>=t end
+local RS = svc("RunService")
+
+local function WAIT(t)t=t or 0 local start=tick()repeat  RS.Stepped:Wait()until (tick()- start)>=t start=nil end
 
 local _A,_B={},{}
 _A.A="BackgroundTransparency"_A.B="BackgroundColor3"_A.C="TextColor3"_A.D="BorderSizePixel"
@@ -372,7 +374,7 @@ function keypress(Key)
 	end
 	if typeof(Key) == "EnumItem" then
 		game:GetService("VirtualInputManager"):SendKeyEvent(false, Key, false, nil)
-		
+
 		game:GetService("VirtualInputManager"):SendKeyEvent(true, Key, false, nil)
 
 		game:GetService("VirtualInputManager"):SendKeyEvent(false, Key, false, nil)
@@ -712,7 +714,7 @@ function HideCars(autokill)
 					if v.Occupant == nil then
 						if v:FindFirstChildOfClass("Weld") == nil then
 							local A=40
-							repeat WAIT(0.05)A-=1
+							repeat  WAIT(0.05)A-=1
 								if A<=0 then break end
 								if not v:IsDescendantOf(workspace) then break end
 								v:Sit(Sv.LPlr.Character.Humanoid)
@@ -2664,7 +2666,7 @@ function RE(OldPos)
 					CrimSpawn:SetAttribute("AA",nil)
 				end)
 			else
-				repeat WAIT(0.01)
+				repeat  WAIT(0.01)
 				until CrimSpawn:GetAttribute("AA")==_N
 			end
 			local LastPos=CrimSpawn.CFrame
@@ -2800,7 +2802,7 @@ LocalisedFunctions.SpawnCar = function()
 			ROOT.CFrame=v["Car Spawner"].CFrame
 			Oldpos=v["Car Spawner"].CFrame
 			local spawned=false
-			repeat WAIT(0.25)
+			repeat  WAIT(0.25)
 				task.spawn(function()
 					for i,v in pairs(workspace:GetPartBoundsInRadius(ROOT.Position,22)) do
 						if v.ClassName=="VehicleSeat" then
@@ -2827,7 +2829,7 @@ LocalisedFunctions.SpawnCar = function()
 		HB=v:FindFirstChild("Body")
 		if HB==_N then
 			local Attempts = 20
-			repeat WAIT(0.05)Attempts-=1
+			repeat  WAIT(0.05)Attempts-=1
 				HB=v:FindFirstChild("Body")
 				if HB~=_N then break end
 				if Attempts<=0 then break end
@@ -3877,7 +3879,7 @@ LocalisedFunctions.DoCriminal = function(Player)
 				CrimSpawn:SetAttribute("AA",nil)
 			end)
 		else
-			repeat WAIT(0.01)
+			repeat  WAIT(0.01)
 			until CrimSpawn:GetAttribute("AA")==_N
 		end
 		local LastPos=CrimSpawn.CFrame
@@ -4934,7 +4936,7 @@ AdminCommands={
 			local A = Sv.LPlr.Character.Head
 			Remote.TeamEvent:FireServer("Bright blue")
 			local i =0
-			repeat WAIT(0.1)i=i+1 if i>40 then break end if not A:IsDescendantOf(workspace) then break end until not A:IsDescendantOf(workspace)
+			repeat  WAIT(0.1)i=i+1 if i>40 then break end if not A:IsDescendantOf(workspace) then break end until not A:IsDescendantOf(workspace)
 			i,A=nil,nil
 			if Sv.LPlr.TeamColor.Name == Oldteam then return end
 			WAIT(0.2)
@@ -6095,7 +6097,7 @@ end
 --Connect chat event for LocalPlayer
 local Chatbox=nil
 local Timeout=20
-repeat WAIT(0.2)
+repeat  WAIT(0.2)
 	Timeout=Timeout-1
 	local success,err=pcall(function()
 		Chatbox=Sv.LPlr:FindFirstChildWhichIsA("PlayerGui").Chat.Frame.ChatBarParentFrame.Frame.BoxFrame.Frame:FindFirstChild("ChatBar")
@@ -6805,10 +6807,10 @@ Sv.LPlr.CharacterAdded:Connect(function(A)
 	end)
 
 	if States.SmartCuffs then if Sv.LPlr:FindFirstChildWhichIsA("Backpack"):FindFirstChild("SmartCuffs")==_N then local a=Sv.LPlr:FindFirstChildWhichIsA("Backpack"):FindFirstChild("Handcuffs") or Sv.Ins("Tool",Sv.LPlr:FindFirstChildWhichIsA("Backpack"))a.Name="SmartCuffs"a.RequiresHandle=_F;a.Activated:Connect(function()local plr=Sv.Plrs:GetPlayerFromCharacter(Mouse.Target) or Sv.Plrs:GetPlayerFromCharacter(Mouse.Target.Parent)if plr==_N then plr=Sv.Plrs:GetPlayerFromCharacter(Mouse.Target.Parent)end;if plr then for i=0,3 do if (plr[_A.P].Head.Position -Sv.LPlr[_A.P].Head.Position).Magnitude <=15 then Remote.arrest:InvokeServer(plr[_A.P].HumanoidRootPart)end;WAIT(0.2)end;end;end)end;end
-	if States.AlwaysAK then spawn(function()repeat WAIT(0.2)if Sv.LPlr.Backpack:FindFirstChild("AK-47")then break end if Sv.LPlr[_A.P]:FindFirstChild("AK-47")then break end ItemHandler:InvokeServer({["Parent"]=workspace.Prison_ITEMS.giver["AK-47"],["Position"]=Vector3.new("-nan",0,0)})until 0 >1;end)end
-	if States.AlwaysAK then if UserOwnsRiotGamepass then spawn(function()repeat WAIT(0.2)if Sv.LPlr.Backpack:FindFirstChild("M4A1")then break end ItemHandler:InvokeServer({["Parent"]=workspace.Prison_ITEMS.giver["M4A1"],["Position"]=Vector3.new("-nan",0,0)})until Sv.LPlr.Character==nil end)end end
-	if States.AlwaysShotgun then spawn(function()repeat WAIT(0.2)if Sv.LPlr.Backpack:FindFirstChild("Remington 870")then break end;if Sv.LPlr[_A.P]:FindFirstChild("Remington 870")then break end;ItemHandler:InvokeServer({["Parent"]=workspace.Prison_ITEMS.giver["Remington 870"],["Position"]=Vector3.new("-nan",0,0)})until 0 >1;end)end
-	if States.AlwaysM9 then spawn(function()repeat WAIT(0.2)if Sv.LPlr.Backpack:FindFirstChild("M9")then break end;if Sv.LPlr[_A.P]:FindFirstChild("M9")then break end;ItemHandler:InvokeServer({["Parent"]=workspace.Prison_ITEMS.giver["M9"],["Position"]=Vector3.new("-nan",0,0)})until 0 >1;end)end
+	if States.AlwaysAK then spawn(function()repeat  WAIT(0.2)if Sv.LPlr.Backpack:FindFirstChild("AK-47")then break end if Sv.LPlr[_A.P]:FindFirstChild("AK-47")then break end ItemHandler:InvokeServer({["Parent"]=workspace.Prison_ITEMS.giver["AK-47"],["Position"]=Vector3.new("-nan",0,0)})until 0 >1;end)end
+	if States.AlwaysAK then if UserOwnsRiotGamepass then spawn(function()repeat  WAIT(0.2)if Sv.LPlr.Backpack:FindFirstChild("M4A1")then break end ItemHandler:InvokeServer({["Parent"]=workspace.Prison_ITEMS.giver["M4A1"],["Position"]=Vector3.new("-nan",0,0)})until Sv.LPlr.Character==nil end)end end
+	if States.AlwaysShotgun then spawn(function()repeat  WAIT(0.2)if Sv.LPlr.Backpack:FindFirstChild("Remington 870")then break end;if Sv.LPlr[_A.P]:FindFirstChild("Remington 870")then break end;ItemHandler:InvokeServer({["Parent"]=workspace.Prison_ITEMS.giver["Remington 870"],["Position"]=Vector3.new("-nan",0,0)})until 0 >1;end)end
+	if States.AlwaysM9 then spawn(function()repeat  WAIT(0.2)if Sv.LPlr.Backpack:FindFirstChild("M9")then break end;if Sv.LPlr[_A.P]:FindFirstChild("M9")then break end;ItemHandler:InvokeServer({["Parent"]=workspace.Prison_ITEMS.giver["M9"],["Position"]=Vector3.new("-nan",0,0)})until 0 >1;end)end
 	if States.AlwaysKeycard then if Sv.LPlr.Team.Name=="Guards"then return end;if Sv.LPlr.Backpack:FindFirstChild("Key Card")==_N then if workspace.Prison_ITEMS.single:FindFirstChild("Key card")then spawn(function()ItemHandler:InvokeServer({["Parent"]=workspace.Prison_ITEMS.single["Key card"],["Position"]=Vector3.new("-nan",0,0)})end)end;end;end
 	if States.Alawysmelees then if Sv.LPlr.TeamColor.Name=="Bright blue"then else spawn(function()ItemHandler:InvokeServer({["Parent"]=workspace.Prison_ITEMS.single["Hammer"],["Position"]=Vector3.new("-nan",0,0)})end)spawn(function()ItemHandler:InvokeServer({["Parent"]=workspace.Prison_ITEMS.single["Crude Knife"],["Position"]=Vector3.new("-nan",0,0)})end)end;end
 	if States.AlwaysShield then 
