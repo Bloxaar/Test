@@ -5622,7 +5622,9 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 									local VictimPlr = Sv.Plrs:GetPlayerFromCharacter(tbl[i].Hit.Parent)
 									if tbl[i].Hit.Parent ~= nil then
 										if VictimPlr ==nil then 
-											VictimPlr=Sv.Plrs:GetPlayerFromCharacter(tbl[i].Hit.Parent.Parent)
+											if tbl[i].Hit.Parent.Parent ~= nil then
+												VictimPlr=Sv.Plrs:GetPlayerFromCharacter(tbl[i].Hit.Parent.Parent)
+											end
 										end
 									end
 									if VictimPlr ~= nil then
@@ -5725,6 +5727,7 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 							end
 						end
 					end
+				else break --Optimise...
 				end
 
 			end
