@@ -359,7 +359,7 @@ end
 
 local KeyMappings = {}
 
-function keypress(Key)
+function keypress(Key,TimeHeld)
 	if Key == nil then return end
 	if KeyMappings[tostring(Key):lower()] ~= nil then -- More efficient.
 		Key = KeyMappings[tostring(Key):lower()]
@@ -376,7 +376,11 @@ function keypress(Key)
 		game:GetService("VirtualInputManager"):SendKeyEvent(false, Key, false, nil)
 
 		game:GetService("VirtualInputManager"):SendKeyEvent(true, Key, false, nil)
-
+		
+		if tonumber(TimeHeld) ~= nil then
+			WAIT(math.max(30,tonumber(TimeHeld) or 0))
+		end
+		
 		game:GetService("VirtualInputManager"):SendKeyEvent(false, Key, false, nil)
 
 	else
