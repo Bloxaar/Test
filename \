@@ -5631,9 +5631,12 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 		if typeof(tbl)=="table" then
 			for i=1,math.min(30,#tbl) do
 				if tbl[i] ~= nil then
+					warn("YES",i)
 					if tbl[i].RayObject~= nil then
+						warn"RAY OBJECT"
 						if typeof(tbl[i].RayObject)=="Ray" then
 							if tbl[i].Hit~= nil then
+								warn(tbl[i].Hit:GetFullName())
 								if tbl[i].Hit.Name == "Handle" or tbl[i].Hit.Parent.ClassName=="Model" then
 									local VictimPlr = Sv.Plrs:GetPlayerFromCharacter(tbl[i].Hit.Parent)
 									if VictimPlr ==nil then 
