@@ -3033,6 +3033,102 @@ LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint,AutokillSeate
 
 end
 
+function dotaze(dat,iskillreq)
+
+	local A_1={}
+	if iskillreq==_T then
+		for i,plr in Sv.P(dat)do
+			if plr.Team.Name~=Sv.LPlr.Team.Name then
+				for i=0,6 do
+					_A.O(A_1,{
+						["RayObject"]="",--Ray.new(Vector3.new(0,0,0),Vector3.new(0,0,0)),
+						["Hit"]=plr[_A.P].Head,
+						["Cframe"]="",
+					})
+--[[
+_A.O(A_1,{
+["RayObject"]=Ray.new(Vector3.new(845, 101, 2269), Vector3.new(-391, 8, -83)),
+["Distance"]=5,
+["Cframe"]=_A.N(840, 101, 2267, 0, 0, -0.9, 0, 0.9, 0.1, 1, -0.0096, 0.062),
+["Hit"]=plr[_A.P].Head
+})]]
+				end
+			end
+		end
+	else
+		local Char=nil
+		local Humanoid=nil
+		for i,plr in Sv.P(dat)do
+			Char=plr[_A.P]
+			if Char~=_N then
+				Humanoid=Char:FindFirstChildOfClass("Humanoid")
+				if Humanoid~=_N then
+					if Humanoid.Health <=0 then
+					else
+						for i=0,6 do
+							_A.O(A_1,{
+								["RayObject"]="",--Ray.new(Vector3.new(0,0,0),Vector3.new(0,0,0)),
+								["Hit"]=plr[_A.P].Head,
+								["Cframe"]="",
+							})
+--[[
+_A.O(A_1,{
+["RayObject"]=Ray.new(Vector3.new(845, 101, 2269), Vector3.new(-391, 8, -83)),
+["Distance"]=5,
+["Cframe"]=_A.N(840, 101, 2267, 0, 0, -0.9, 0, 0.9, 0.1, 1, -0.0096, 0.062),
+["Hit"]=plr[_A.P].Head
+})]]
+						end
+					end
+				end
+			end
+		end
+	end
+
+	if #A_1==0 then return end
+	local A_2=nil
+	for i,v in Sv.P(Sv.LPlr.Backpack:GetChildren())do
+		if v[_B.C]=="Tool"then
+			if v.Name=="Taser"then
+				if v:FindFirstChildOfClass("ModuleScript")then
+					A_2=v break
+				end
+			end
+		end
+	end
+	for i,v in Sv.P(Sv.LPlr[_A.P]:GetChildren())do
+		if v[_B.C]=="Tool"then
+			if v.Name=="Taser"then
+				if v:FindFirstChildOfClass("ModuleScript")then
+					A_2=v break
+				end
+			end
+		end
+	end
+	if A_2==_N then 
+		print("No tazer found. Exiting")
+		A_1=_N;A_2=_N -- Frees memory
+		return
+	end
+	if A_2==_N then
+		A_2=Sv.LPlr[_A.P]:FindFirstChildOfClass("Tool")
+		if A_2~=_N then
+			if A_2:FindFirstChildWhichIsA("ModuleScript")==_N then
+				A_2=_N
+			end
+		end
+
+	end
+	if A_2 ==_N then return end
+	local Event=svc("ReplicatedStorage").ShootEvent
+
+	Event:FireServer(A_1, A_2)
+	Event:FireServer(A_1, A_2)
+	game.ReplicatedStorage.ReloadEvent:FireServer(A_2)
+	A_1=_N;A_2=_N -- Frees memory
+
+end
+
 function dokill(dat,iskillreq)
 
 	local A_1={}
@@ -3352,6 +3448,113 @@ _A.O(A_1,{
 	A_1=_N;A_2=_N -- Frees memory
 end
 
+LocalisedFunctions.taze = function(dat,iskillreq)
+	if Sv.LPlr.Team.Name=="Guards"then
+		if #dat==#Sv.Plrs:GetPlayers()then
+			dat=LocalisedFunctions.returnhostileplayers(dat)
+		else
+			if iskillreq then
+			else
+				dat=LocalisedFunctions.returnhostileplayers(dat)
+			end
+		end
+	end
+	local A_1={}
+	if iskillreq==_T then
+		for i,plr in Sv.P(dat)do
+			if plr.Team.Name~=Sv.LPlr.Team.Name then
+				if table.find(AddedWhitelists,plr.UserId)then else
+					for i=0,6 do
+						_A.O(A_1,{
+							["RayObject"]="",--Ray.new(Vector3.new(0,0,0),Vector3.new(0,0,0)),
+							["Hit"]=plr[_A.P].Head,
+							["Cframe"]="",
+						})
+--[[
+_A.O(A_1,{
+["RayObject"]=Ray.new(Vector3.new(845, 101, 2269), Vector3.new(-391, 8, -83)),
+["Distance"]=5,
+["Cframe"]=_A.N(840, 101, 2267, 0, 0, -0.9, 0, 0.9, 0.1, 1, -0.0096, 0.062),
+["Hit"]=plr[_A.P].Head
+})]]
+					end
+				end
+			end
+		end
+	else
+		local Char=nil
+		local Humanoid=nil
+		for i,plr in Sv.P(dat)do
+			if table.find(AddedWhitelists,plr.UserId)then else
+				Char=plr[_A.P]
+				if Char~=_N then
+					Humanoid=Char:FindFirstChildOfClass("Humanoid")
+					if Humanoid~=_N then
+						if Humanoid.Health <=0 then
+						else
+							for i=0,6 do
+								_A.O(A_1,{
+									["RayObject"]="",--Ray.new(Vector3.new(0,0,0),Vector3.new(0,0,0)),
+									["Hit"]=plr[_A.P].Head,
+									["Cframe"]="",
+								})
+--[[
+_A.O(A_1,{
+["RayObject"]=Ray.new(Vector3.new(845, 101, 2269), Vector3.new(-391, 8, -83)),
+["Distance"]=5,
+["Cframe"]=_A.N(840, 101, 2267, 0, 0, -0.9, 0, 0.9, 0.1, 1, -0.0096, 0.062),
+["Hit"]=plr[_A.P].Head
+})]]
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+
+	if #A_1==0 then return end
+	local A_2=nil
+	for i,v in Sv.P(Sv.LPlr.Backpack:GetChildren())do
+		if v[_B.C]=="Tool"then
+			if v.Name=="Taser"then
+				if v:FindFirstChildOfClass("ModuleScript")then
+					A_2=v break
+				end
+			end
+		end
+	end
+	for i,v in Sv.P(Sv.LPlr[_A.P]:GetChildren())do
+		if v[_B.C]=="Tool"then
+			if v.Name=="Taser"then
+				if v:FindFirstChildOfClass("ModuleScript")then
+					A_2=v break
+				end
+			end
+		end
+	end
+	if A_2==_N then 
+		print("No gun found. Exiting..")
+		A_1=_N;A_2=_N -- Frees memory
+		return
+	end
+	if A_2==_N then
+		A_2=Sv.LPlr[_A.P]:FindFirstChildOfClass("Tool")
+		if A_2~=_N then
+			if A_2:FindFirstChildWhichIsA("ModuleScript")==_N then
+				A_2=_N
+			end
+		end
+
+	end
+	if A_2 ==_N then return end
+	local Event=svc("ReplicatedStorage").ShootEvent
+
+	Event:FireServer(A_1, A_2)
+	Event:FireServer(A_1, A_2)
+	game.ReplicatedStorage.ReloadEvent:FireServer(A_2)
+	A_1=_N;A_2=_N -- Frees memory
+end
 LocalisedFunctions.kill = function(dat,iskillreq)
 	if Sv.LPlr.Team.Name=="Guards"then
 		if #dat==#Sv.Plrs:GetPlayers()then
@@ -4930,6 +5133,63 @@ AdminCommands={
 			end
 		end
 		LocalisedFunctions.kill(PlayerTbl,true)
+	end,
+	["t"]=function(PlayerTbl,Speaker)
+		
+		local OLDTEAM = Sv.LPlr.TeamColor.Name
+		local OLDPOS = Sv.LPlr.Character.HumanoidRootPart.CFrame
+		
+		local Taser = Sv.LPlr.Character:FindFirstChild("Taser")or Sv.LPlr.Backpack:FindFirstChild("Taser")
+		
+		if Taser==nil then
+			local OLDC = Sv.LPlr.Character
+			Remote.TeamEvent:FireServer("Bright blue")
+			local Attempts = 30
+			repeat  WAIT(0.1)Attempts-=1
+				if Attempts<=0 then break end
+			until not OLDC:IsDescendantOf(workspace)
+			OLDC=nil
+			if Attempts<=0 then
+				Attempts=nil
+				OLDPOS=nil
+				OLDTEAM=nil
+				return
+			end
+			Attempts=nil
+			
+			repeat  WAIT(0.1)
+				Taser= Sv.LPlr.Character:FindFirstChild("Taser")or Sv.LPlr.Backpack:FindFirstChild("Taser")
+				if Taser~=nil then break end
+			until Taser ~= nil
+		end
+		
+		if PlayerTbl==_N then return end
+		if #PlayerTbl==1 then
+			if PlayerTbl[1]==Speaker then
+				if Speaker==_N then
+					return
+				else
+					dotaze({Speaker})
+					return
+				end
+			end
+		end
+		LocalisedFunctions.taze(PlayerTbl,true)
+		
+		if Sv.LPlr.TeamColor.Name ~= OLDTEAM then
+			if OLDTEAM=="Medium stone grey" then
+				Remote.TeamEvent:FireServer("Medium stone grey")
+			elseif OLDTEAM=="Really red" then
+				LocalisedFunctions.DoCriminal()
+			end
+			
+
+			Sv.LPlr.Character.HumanoidRootPart.CFrame=OLDPOS
+		end
+		
+		OLDPOS=nil
+		OLDTEAM=nil
+		
 	end,
 	["h"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
