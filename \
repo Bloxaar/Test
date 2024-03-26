@@ -2930,11 +2930,11 @@ end
 
 LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint,AutokillSeatedPlayers)
 	if Sv.LPlr[_A.P]==_N then return end
-	local OldPos=Sv.LPlr[_A.P].HumanoidRootPart.CFrame
+	local HumanoidRootPart=Sv.LPlr.Character:FindFirstChild("HumanoidRootPart")or Sv.LPlr.Character:FindFirstChild("Torso")
+	local OldPos=HumanoidRootPart.CFrame
 	local LHumanoid=Sv.LPlr[_A.P]:FindFirstChildOfClass("Humanoid")
 	if LHumanoid==_N then return end
 	local Car=nil
-	local HumanoidRootPart=Sv.LPlr.Character:FindFirstChild("HumanoidRootPart")or Sv.LPlr.Character:FindFirstChild("Torso")
 	if LHumanoid.SeatPart==_N then repeat  WAIT(0) Car=LocalisedFunctions.SpawnCar()if Car~=_N then break end until Car~=_N 
 
 		local HB=nil
@@ -2957,9 +2957,6 @@ LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint,AutokillSeate
 		HWheels=nil
 
 	end
-
-
-	HumanoidRootPart=_N
 
 	Car=_N
 
@@ -3023,6 +3020,7 @@ LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint,AutokillSeate
 		HHUM=_N
 		PlayerTBL=_N
 		LHumanoid=_N
+		HumanoidRootPart=_N
 		for Part,Collision in Sv.P(CarParts)do
 			Part.CanCollide=Collision
 		end
@@ -7012,4 +7010,3 @@ while wait()do
 
 	end)
 end
- 
