@@ -2934,6 +2934,7 @@ LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint,AutokillSeate
 	local LHumanoid=Sv.LPlr[_A.P]:FindFirstChildOfClass("Humanoid")
 	if LHumanoid==_N then return end
 	local Car=nil
+	local HumanoidRootPart=Sv.Lplr.Character:FindFirstChild("HumanoidRootPart")or Sv.Lplr.Character:FindFirstChild("Torso")
 	if LHumanoid.SeatPart==_N then repeat  WAIT(0) Car=LocalisedFunctions.SpawnCar()if Car~=_N then break end until Car~=_N 
 
 		local HB=nil
@@ -2945,6 +2946,7 @@ LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint,AutokillSeate
 		if HS.Occupant==_N then
 			repeat  WAIT(0)
 				if not HS:IsDescendantOf(workspace)then return end
+				HumanoidRootPart.CFrame=HS.CFrame
 				HS:Sit(LHumanoid)
 				if not LHumanoid:IsDescendantOf(workspace)then return end
 			until HS.Occupant~=_N
@@ -2957,7 +2959,7 @@ LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint,AutokillSeate
 	end
 
 
-
+	HumanoidRootPart=_N
 
 	Car=_N
 
@@ -2997,7 +2999,7 @@ LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint,AutokillSeate
 										if HHUM.Sit==_T then if HHUM.SeatPart==_N then break end end
 										if HHUM.MoveDirection.Magnitude>0.05 then
 											if SpawnPoint ~= nil then SpawnPoint.CFrame = HHRP.CFrame end
-											LocalisedFunctions.TeleportPlayer(((HHRP.CFrame)+HHRP.CFrame.LookVector*Vector3.new(6,6,6))-Vector3.new(math.random(-10,10),-0.7,math.random(-10,10)))
+											LocalisedFunctions.TeleportPlayer(((HHRP.CFrame)+HHRP.CFrame.LookVector*Vector3.new(7,7,7))-Vector3.new(math.random(-10,10),-0.7,math.random(-10,10)))
 
 											if AutokillSeatedPlayers then DoAutokillSeatedPlayers()end
 										else
@@ -3006,7 +3008,7 @@ LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint,AutokillSeate
 
 											if AutokillSeatedPlayers then DoAutokillSeatedPlayers()end
 										end
-										WAIT(0.03)
+										WAIT(0.05)
 									end
 								end
 							end
