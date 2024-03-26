@@ -376,11 +376,11 @@ function keypress(Key,TimeHeld)
 		game:GetService("VirtualInputManager"):SendKeyEvent(false, Key, false, nil)
 
 		game:GetService("VirtualInputManager"):SendKeyEvent(true, Key, false, nil)
-		
+
 		if tonumber(TimeHeld) ~= nil then
 			WAIT(math.max(30,tonumber(TimeHeld) or 0))
 		end
-		
+
 		game:GetService("VirtualInputManager"):SendKeyEvent(false, Key, false, nil)
 
 	else
@@ -5628,17 +5628,13 @@ end
 if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 	print("Replicate hooked!")
 	game:GetService("ReplicatedStorage").ReplicateEvent.OnClientEvent:Connect(function(tbl)
-		warn("FIRED",typeof(tbl))
 		if typeof(tbl)=="table" then
 			for i=1,math.min(30,#tbl) do
 				if tbl[i] ~= nil then
-					warn("YES",i)
 					if tbl[i].RayObject~= nil then
-						warn"RAY OBJECT"
 						if typeof(tbl[i].RayObject)=="Ray" then
 							if tbl[i].Hit~= nil then
-								warn(tbl[i].Hit:GetFullName())
-								if tbl[i].Hit.Name == "Handle" or tbl[i].Hit.Parent.ClassName=="Model" then
+								if tbl[i].Hit.Name == "Handle" then
 									local VictimPlr = Sv.Plrs:GetPlayerFromCharacter(tbl[i].Hit.Parent)
 									if VictimPlr ==nil then 
 										VictimPlr=Sv.Plrs:GetPlayerFromCharacter(tbl[i].Hit.Parent.Parent)
