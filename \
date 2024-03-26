@@ -2934,7 +2934,7 @@ LocalisedFunctions.BringPlayerFunc = function(PlayerTBL,SpawnPoint,AutokillSeate
 	local LHumanoid=Sv.LPlr[_A.P]:FindFirstChildOfClass("Humanoid")
 	if LHumanoid==_N then return end
 	local Car=nil
-	local HumanoidRootPart=Sv.Lplr.Character:FindFirstChild("HumanoidRootPart")or Sv.Lplr.Character:FindFirstChild("Torso")
+	local HumanoidRootPart=Sv.LPlr.Character:FindFirstChild("HumanoidRootPart")or Sv.LPlr.Character:FindFirstChild("Torso")
 	if LHumanoid.SeatPart==_N then repeat  WAIT(0) Car=LocalisedFunctions.SpawnCar()if Car~=_N then break end until Car~=_N 
 
 		local HB=nil
