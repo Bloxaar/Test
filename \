@@ -5783,6 +5783,7 @@ Sv.New(function()
 			for i,userid in Sv.P(AntiShootList)do
 				plr=Sv.Plrs:GetPlayerByUserId(userid)
 				if plr~=_N then
+					warn(plr:GetFullName(),"in antishoot/supergun")
 					if plr:IsDescendantOf(Sv.Plrs)then
 						if table.find(KillTBL,plr)~=_N then continue end
 						if plr.Team.Name~=Sv.LPlr.Team.Name then
