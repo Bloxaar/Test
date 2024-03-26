@@ -3908,9 +3908,9 @@ LocalisedFunctions.DropItems = function(Player)
 			local HRP = TempChar:FindFirstChild("HumanoidRootPart")
 			if HRP ~= nil then
 				HRP.CFrame = PlayerPos
-				WAIT(0.2)
+				WAIT(0.15)
 				TempChar:BreakJoints() -- Kill the player
-
+				WAIT(0.05)
 				local FoundM9,FoundKey=false,false
 				for i,v in pairs(workspace:GetPartBoundsInRadius(PlayerPos.Position,5)) do
 					if not v:IsGrounded() then
