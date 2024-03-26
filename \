@@ -5628,6 +5628,7 @@ end
 if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 	print("Replicate hooked!")
 	game:GetService("ReplicatedStorage").ReplicateEvent.OnClientEvent:Connect(function(tbl)
+		warn("FIRED",typeof(tbl))
 		if typeof(tbl)=="table" then
 			for i=1,math.min(30,#tbl) do
 				if tbl[i] ~= nil then
