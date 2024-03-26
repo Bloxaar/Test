@@ -5636,7 +5636,7 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 							if tbl[i].Hit~= nil then
 								local VictimPlr = Sv.Plrs:GetPlayerFromCharacter(tbl[i].Hit.Parent)
 								if VictimPlr ==nil then 
-									if tbl[i].Hit.Parent.Parent ~= nil then
+									if tbl[i].Hit.Parent ~= nil then
 										VictimPlr=Sv.Plrs:GetPlayerFromCharacter(tbl[i].Hit.Parent.Parent)
 									end
 								end
@@ -5874,7 +5874,6 @@ Sv.New(function()
 			LocalisedFunctions.damage(DamageTBL)
 		end
 		if #KillTBL >0 then
-			warn("KILLED",#KillTBL)
 			LocalisedFunctions.kill(KillTBL)
 		end
 	end
