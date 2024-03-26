@@ -5170,6 +5170,19 @@ AdminCommands={
 					return
 				else
 					dotaze({Speaker})
+					
+					if Sv.LPlr.TeamColor.Name ~= OLDTEAM then
+						if OLDTEAM=="Medium stone grey" then
+							Remote.TeamEvent:FireServer("Medium stone grey")
+						elseif OLDTEAM=="Really red" then
+							LocalisedFunctions.DoCriminal()
+						end
+
+
+						Sv.LPlr.Character.HumanoidRootPart.CFrame=OLDPOS
+					end
+					OLDPOS=nil
+					OLDTEAM=nil
 					return
 				end
 			end
