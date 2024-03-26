@@ -5637,9 +5637,7 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 								if tbl[i].Hit.Name == "Handle" or tbl[i].Hit.Parent.ClassName=="Model" then
 									local VictimPlr = Sv.Plrs:GetPlayerFromCharacter(tbl[i].Hit.Parent)
 									if VictimPlr ==nil then 
-										if tbl[i].Hit.Parent ~= nil then
-											VictimPlr=Sv.Plrs:GetPlayerFromCharacter(tbl[i].Hit.Parent.Parent)
-										end
+										VictimPlr=Sv.Plrs:GetPlayerFromCharacter(tbl[i].Hit.Parent.Parent)
 									end
 									if VictimPlr ~= nil then
 										local AdminPlr =  LocalisedFunctions.GetPlayerFromPosition(true,tbl[i].RayObject.Origin,VictimPlr)
