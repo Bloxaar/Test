@@ -5616,8 +5616,18 @@ LocalisedFunctions.GetPlayerFromPosition = function(override,Position,VictimPlr)
 	return ClosestPlr
 end
 
+if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
+else
+	if game.PlaceId ==155615604 then
+		repeat  WAIT(0)
+			if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") ~= nil then break end
+		until 0>1
+		WAIT(2)
+	end
+end
 
 if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
+	print("Replicate hooked!")
 	game:GetService("ReplicatedStorage").ReplicateEvent.OnClientEvent:Connect(function(tbl)
 		if typeof(tbl)=="table" then
 			warn("TBL YES")
