@@ -4457,6 +4457,8 @@ AdminCommands={
 			WAIT(0.35)
 			local H = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
 			if H ~= nil then
+
+				H.Sit=false
 				H:ChangeState("Jumping")
 			end
 			WAIT(0.1)
@@ -4509,6 +4511,8 @@ AdminCommands={
 			WAIT(0.35)
 			local H = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
 			if H ~= nil then
+
+				H.Sit=false
 				H:ChangeState("Jumping")
 			end
 			WAIT(0.1)
@@ -4562,6 +4566,8 @@ AdminCommands={
 			WAIT(0.35)
 			local H = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
 			if H ~= nil then
+
+				H.Sit=false
 				H:ChangeState("Jumping")
 			end
 			WAIT(0.1)
@@ -4615,6 +4621,8 @@ AdminCommands={
 			WAIT(0.35)
 			local H = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
 			if H ~= nil then
+
+				H.Sit=false
 				H:ChangeState("Jumping")
 			end
 			WAIT(0.1)
@@ -4669,6 +4677,8 @@ AdminCommands={
 			WAIT(0.35)
 			local H = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
 			if H ~= nil then
+
+				H.Sit=false
 				H:ChangeState("Jumping")
 			end
 			WAIT(0.1)
@@ -4722,6 +4732,8 @@ AdminCommands={
 			WAIT(0.35)
 			local H = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
 			if H ~= nil then
+
+				H.Sit=false
 				H:ChangeState("Jumping")
 			end
 			WAIT(0.1)
@@ -4775,6 +4787,8 @@ AdminCommands={
 			WAIT(0.35)
 			local H = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
 			if H ~= nil then
+
+				H.Sit=false
 				H:ChangeState("Jumping")
 			end
 			H=nil
@@ -4828,6 +4842,8 @@ AdminCommands={
 			WAIT(0.35)
 			local H = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
 			if H ~= nil then
+
+				H.Sit=false
 				H:ChangeState("Jumping")
 			end
 			WAIT(0.1)
@@ -4879,6 +4895,8 @@ AdminCommands={
 				WAIT(0.35)
 				local H = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
 				if H ~= nil then
+
+					H.Sit=false
 					H:ChangeState("Jumping")
 				end
 				WAIT(0.1)
