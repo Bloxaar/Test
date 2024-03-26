@@ -5635,16 +5635,15 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 						if typeof(tbl[i].RayObject)=="Ray" then
 							if tbl[i].Hit~= nil then
 								local VictimPlr = Sv.Plrs:GetPlayerFromCharacter(tbl[i].Hit.Parent)
-								warn(VictimPlr,"VICTIMPLR")
 								if VictimPlr ==nil then 
-									VictimPlr=Sv.Plrs:GetPlayerFromCharacter(tbl[i].Hit.Parent.Parent)
+									if tbl[i].Hit.Parent.Parent ~= nil then
+										VictimPlr=Sv.Plrs:GetPlayerFromCharacter(tbl[i].Hit.Parent.Parent)
+									end
 								end
-								warn(VictimPlr,"VICTIMPLR")
 								if VictimPlr ~= nil then
 									local AdminPlr =  LocalisedFunctions.GetPlayerFromPosition(true,tbl[i].RayObject.Origin,VictimPlr)
 									local AttackerPlr = LocalisedFunctions.GetPlayerFromPosition(false,tbl[i].RayObject.Origin,VictimPlr)
 									if AttackerPlr == nil then AttackerPlr = AdminPlr end
-									warn(AttackerPlr,"ATTACKER")
 									if AttackerPlr ~= nil then
 										if VictimPlr.Name==Sv.LPlr.Name and States.AntiShoot==true then
 											if Sv.LPlr.TeamColor.Name ~= AttackerPlr.TeamColor.Name then
@@ -5755,7 +5754,7 @@ Sv.New(function()
 	local KillTBL={}
 	local DamageTBL={}
 	local plr=nil
-	while WAIT(0.1)do
+	while true do WAIT(0.1)
 		KillTBL={}DamageTBL={}
 		if #DamageList >0 then
 			for i,userid in Sv.P(DamageList)do
@@ -5875,6 +5874,7 @@ Sv.New(function()
 			LocalisedFunctions.damage(DamageTBL)
 		end
 		if #KillTBL >0 then
+			warn("KILLED",#KillTBL)
 			LocalisedFunctions.kill(KillTBL)
 		end
 	end
