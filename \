@@ -5619,10 +5619,9 @@ end
 if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 else
 	if game.PlaceId ==155615604 then
-		repeat  WAIT(0)
+		repeat  WAIT(0.2)
 			if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") ~= nil then break end
 		until 0>1
-		WAIT(2)
 	end
 end
 
@@ -5630,8 +5629,7 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 	print("Replicate hooked!")
 	game:GetService("ReplicatedStorage").ReplicateEvent.OnClientEvent:Connect(function(tbl)
 		if typeof(tbl)=="table" then
-			warn("TBL YES")
-			for i=1,30 do
+			for i=1,math.min(30,#tbl) do
 				if tbl[i] ~= nil then
 					if tbl[i].RayObject~= nil then
 						if typeof(tbl[i].RayObject)=="Ray" then
@@ -5643,7 +5641,6 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 											VictimPlr=Sv.Plrs:GetPlayerFromCharacter(tbl[i].Hit.Parent.Parent)
 										end
 									end
-									warn(VictimPlr,"VICTIMPLR")
 									if VictimPlr ~= nil then
 										local AdminPlr =  LocalisedFunctions.GetPlayerFromPosition(true,tbl[i].RayObject.Origin,VictimPlr)
 										local AttackerPlr = LocalisedFunctions.GetPlayerFromPosition(false,tbl[i].RayObject.Origin,VictimPlr)
@@ -5795,7 +5792,6 @@ Sv.New(function()
 			for i,userid in Sv.P(AntiShootList)do
 				plr=Sv.Plrs:GetPlayerByUserId(userid)
 				if plr~=_N then
-					warn(plr:GetFullName(),"in antishoot/supergun")
 					if plr:IsDescendantOf(Sv.Plrs)then
 						if table.find(KillTBL,plr)~=_N then continue end
 						if plr.Team.Name~=Sv.LPlr.Team.Name then
