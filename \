@@ -5620,9 +5620,7 @@ end
 if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 	game:GetService("ReplicatedStorage").ReplicateEvent.OnClientEvent:Connect(function(tbl)
 		if typeof(tbl)=="table" then
-			local ITEMSINTBL = 0
-			for i,v in pairs(tbl) do ITEMSINTBL+=1 end
-			for i=1,math.min(30,ITEMSINTBL) do
+			for i=1,30 do
 				if tbl[i] ~= nil then
 					if tbl[i].RayObject~= nil then
 						if typeof(tbl[i].RayObject)=="Ray" then
@@ -5738,7 +5736,6 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 				end
 
 			end
-			ITEMSINTBL=nil
 			tbl=nil
 		end
 	end)
