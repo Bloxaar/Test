@@ -3908,7 +3908,7 @@ LocalisedFunctions.DropItems = function(Player)
 			local HRP = TempChar:FindFirstChild("HumanoidRootPart")
 			if HRP ~= nil then
 				HRP.CFrame = PlayerPos
-				WAIT(0.16)
+				WAIT(0.2)
 				TempChar:BreakJoints() -- Kill the player
 
 				local FoundM9,FoundKey=false,false
