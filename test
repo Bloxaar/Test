@@ -424,7 +424,7 @@ function getLightingTime()
 	if hours == 0 then hours = 12 end
 	return string.format("%02d:%02d %s", hours, minutes, period),{Hour =hours,Minutes= minutes,Period =period}
 end
-IsCellsLooped=true
+
 task.spawn(function()
 	while true do
 		wait()
