@@ -4240,29 +4240,31 @@ LocalisedFunctions.ArrestDatNoob = function(Target)
 		if Char ~= nil then
 			local HEAD = Char:FindFirstChild("Head")
 			local TARGETHRP=Char:FindFirstChild("HumanoidRootPart")
-			if (HEAD ~= nil and TARGETHRP ~= nil) then
-				if not HEAD:IsDescendantOf(workspace) then break end
-				if HEAD:FindFirstChild("handcuffedGui") ~= nil then
-					break
-				else
-					local HUM = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
-					if HUM ~= nil then
-						if HUM.Sit then
-							HUM.PlatformStand=true
-							HUM.Sit=false
+			if HEAD ~= nil then
+				if TARGETHRP ~= nil then
+					if not HEAD:IsDescendantOf(workspace) then break end
+					if HEAD:FindFirstChild("handcuffedGui") ~= nil then
+						break
+					else
+						local HUM = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
+						if HUM ~= nil then
+							if HUM.Sit then
+								HUM.PlatformStand=true
+								HUM.Sit=false
+							end
 						end
-					end
-					local HRP =Sv.LPlr.Character:FindFirstChild("HumanoidRootPart")
-					if HRP ~= nil then HRP.CFrame = (TARGETHRP.CFrame*CFrame.Angles(math.rad(90),0,0))-Vector3.new(0,4,0) end
-					if #HRP:GetJoints() == 0 then 
-						Remote.TeamEvent:FireServer("Bright orange") 
-						repeat  WAIT(0)until not HRP:IsDescendantOf(workspace) WAIT(0.1)
-						HRP =Sv.LPlr.Character:FindFirstChild("HumanoidRootPart")
+						local HRP =Sv.LPlr.Character:FindFirstChild("HumanoidRootPart")
 						if HRP ~= nil then HRP.CFrame = (TARGETHRP.CFrame*CFrame.Angles(math.rad(90),0,0))-Vector3.new(0,4,0) end
-					end
+						if #HRP:GetJoints() == 0 then 
+							Remote.TeamEvent:FireServer("Bright orange") 
+							repeat  WAIT(0)until not HRP:IsDescendantOf(workspace) WAIT(0.1)
+							HRP =Sv.LPlr.Character:FindFirstChild("HumanoidRootPart")
+							if HRP ~= nil then HRP.CFrame = (TARGETHRP.CFrame*CFrame.Angles(math.rad(90),0,0))-Vector3.new(0,4,0) end
+						end
 
-					task.spawn(function()Remote.arrest:InvokeServer({Parent=Char,Position=Vector3.new("nan",0,0)})end)
-					HRP=nil HUM=nil
+						task.spawn(function()Remote.arrest:InvokeServer({Parent=Char,Position=Vector3.new("nan",0,0)})end)
+						HRP=nil HUM=nil
+					end
 				end
 			end
 			HEAD=_N TARGETHRP=_N
@@ -4466,6 +4468,8 @@ AdminCommands={
 							BV.Velocity=Vector3.new(0,0,0)BV.MaxForce=Vector3.new("inf","inf","inf")
 						end
 					end
+				elseif v:IsA("Humanoid") then
+					v.PlatformStand=true
 				end
 			end
 
@@ -4492,7 +4496,7 @@ AdminCommands={
 		if Sv.LPlr.Character ~= nil then
 			local HUM = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
 			if HUM~=nil then
-				HUM.PlatformStand=true 
+				HUM.PlatformStand=false 
 			end HUM=nil
 		end	
 		WAIT(0.3)
