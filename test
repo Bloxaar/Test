@@ -5,7 +5,7 @@ local function ToggleCells(arg)if arg == nil then if DEB then return end end tas
 
 local function ToggleValue(Bool)task.spawn(function()workspace.Remote.ItemHandler:InvokeServer({Parent = workspace.Prison_ITEMS.buttons["Prison Gate"],Position = Vector3.new("nan",0,0),isActive=Bool})end)end
 
-local function LoopToggleValue(Bool)if Bool:FindFirstChild("Loop") ~= nil then return end local a =Instance.new("BoolValue",Bool) a.Name="Loop" while wait(1) do if not a:IsDescendantOf(Bool) then break end task.spawn(function()workspace.Remote.ItemHandler:InvokeServer({Parent = workspace.Prison_ITEMS.buttons["Prison Gate"],Position = Vector3.new("nan",0,0),isActive=Bool})end) end end
+local function LoopToggleValue(Bool)if Bool:FindFirstChild("Loop") ~= nil then return end local a =Instance.new("BoolValue",Bool) a.Name="Loop" while true do if not a:IsDescendantOf(Bool) then break end task.spawn(function()workspace.Remote.ItemHandler:InvokeServer({Parent = workspace.Prison_ITEMS.buttons["Prison Gate"],Position = Vector3.new("nan",0,0),isActive=Bool})end) wait(1) end end
 
 local function StopLoopToggleValue(Bool)
 	if Bool:FindFirstChild("Loop") ~= nil then
@@ -384,7 +384,7 @@ Player.Chatted:Connect(function(msg)
 				end
 				A=nil	
 			end
-			
+
 		else 
 			if Player.Name==Sv.LPlr.Name then
 				notify(`invalid object.`,Color3.new(0,1,1))
@@ -408,10 +408,10 @@ Player.Chatted:Connect(function(msg)
 		end
 	elseif msg:match("-cmds") then
 		if Player.Name==Sv.LPlr.Name then
-			notify(`custom cmds: -tc | -lc | -sc | -egt | -dgt | -tbg <plr> | -lbg <plr> | -sbg <plr> | -lh <plr> | -sh <plr> | -th <plr> | -t <PATH> [Like: Status.isBadGuard] | -l <PATH> [Same as -t but with loop] | -s <PATH> [Stops loop or type -s all to stop all loops]`,Color3.new(0,1,0))
+			notify(`custom cmds: -tc |-lc |-sc |-egt |-dgt |-tbg <plr> |-lbg <plr> |-sbg <plr> |-lh <plr> |-sh <plr> |-th <plr> |-t <PATH> [Like: Status.isBadGuard] |-l <PATH> [Same as -t but with loop] |-s <PATH> [Stops loop or type -s all to stop all loops]`,Color3.new(0,1,0))
 
 		else
-			Say(`/w {Player.Name} custom cmds: -tc | -lc | -sc | -egt | -dgt | -tbg <plr> | -lbg <plr> | -sbg <plr> | -lh <plr> | -sh <plr> | -th <plr> | -t <PATH> [Like: Status.isHostile] | -l <PATH> [Same as -t but loops] | -s <PATH> [Stops loop or type -s all to stop loops]`)
+			Say(`/w {Player.Name} custom cmds: -tc |-lc |-sc |-egt |-dgt |-tbg <p> |-lbg <p> |-sbg <p> |-lh <p> |-sh <p> |-th <p> |-t <DIR> [Like: Status.isHostile] |-l <PATH> [-t but loops] |-s <PATH> [stops loop / -s all]`)
 		end
 	end split=nil
 end)
@@ -460,7 +460,7 @@ task.spawn(function()
 end)
 
 
-notify(`custom cmds: -tc | -lc | -sc | -tbg <plr> | -lbg <plr> | -sbg <plr> | -lh <plr> | -sh <plr> | -th <plr> | -t <PATH> [Like: Status.isBadGuard] | -l <PATH> [Same as -t but with loop] | -s <PATH> [Stops loop or type -s all to stop all loops]`,Color3.new(0,1,0))
+notify(`custom cmds: -tc |-lc |-sc |-tbg <plr> |-lbg <plr> |-sbg <plr> |-lh <plr> |-sh <plr> |-th <plr> |-t <PATH> [Like: Status.isBadGuard] |-l <PATH> [Same as -t but with loop] |-s <PATH> [Stops loop or type -s all to stop all loops]`,Color3.new(0,1,0))
 
 
 while true do
