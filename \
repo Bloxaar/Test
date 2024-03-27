@@ -4238,7 +4238,8 @@ LocalisedFunctions.ArrestDatNoob = function(Target)
 		local Char = Target.Character
 		if Char ~= nil then
 			local HEAD = Char:FindFirstChild("Head")
-			if HEAD ~= nil then
+			local TARGETHRP=Char:FindFirstChild("HumanoidRootPart")
+			if (HEAD ~= nil and TARGETHRP ~= nil) then
 				if not HEAD:IsDescendantOf(workspace) then break end
 				if HEAD:FindFirstChild("handcuffedGui") ~= nil then
 					break
@@ -4251,7 +4252,7 @@ LocalisedFunctions.ArrestDatNoob = function(Target)
 						end
 					end
 					local HRP =Sv.LPlr.Character:FindFirstChild("HumanoidRootPart")
-					if HRP ~= nil then HRP.CFrame = (HEAD.CFrame*CFrame.Angles(math.rad(90),0,0))-Vector3.new(0,4,0) end
+					if HRP ~= nil then HRP.CFrame = (TARGETHRP.CFrame*CFrame.Angles(math.rad(90),0,0))-Vector3.new(0,3,0) end
 					if #HRP:GetJoints() == 0 then 
 						Remote.TeamEvent:FireServer("Bright orange") 
 						repeat  WAIT(0)until not HRP:IsDescendantOf(workspace) WAIT(0.1)
@@ -4263,7 +4264,7 @@ LocalisedFunctions.ArrestDatNoob = function(Target)
 					HRP=nil HUM=nil
 				end
 			end
-			HEAD=_N
+			HEAD=_N TARGETHRP=_N
 		else 
 			break
 		end
@@ -4462,7 +4463,6 @@ AdminCommands={
 							BV=Instance.new("BodyVelocity",Sv.LPlr.Character.HumanoidRootPart)
 							BV.Name="Omg"
 							BV.Velocity=Vector3.new(0,0,0)BV.MaxForce=Vector3.new("inf","inf","inf")
-							BV=nil
 						end
 					end
 				end
