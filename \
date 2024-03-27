@@ -38,31 +38,28 @@ Sv.P=pairs
 Sv.IP=pairs
 Sv.New=task.spawn
 
+pcall(function()svc("ScriptContext"):SetTimeout(20)end)
 
 function Reparent(Object,NewParent)
 	if typeof(Object)=="Instance" then
-		if Object==Sv.LPlr then
-			return
-		end
-		if Object==game:GetService("CoreGui") or Object:IsDescendantOf(game:GetService("CoreGui")) then
-			return
-		end
+		if Object==Sv.LPlr then return end
+		if Object==game:GetService("CoreGui") or Object:IsDescendantOf(game:GetService("CoreGui")) then return end
 		Object.Parent=NewParent
 	end
 end
 
 function Delete(Object)
 	if typeof(Object)=="Instance"then
-		if Object==Sv.LPlr then
-			return
-		end
-		if Object==game:GetService("CoreGui") or Object:IsDescendantOf(game:GetService("CoreGui")) then
-			return
-		end
-
+		if Object==Sv.LPlr then return end
+		if Object==game:GetService("CoreGui") or Object:IsDescendantOf(game:GetService("CoreGui")) then return end
 		Object:Destroy()
-
 	end
+end
+
+function AddItem(Object,Time)
+	if Object==Sv.LPlr then return end
+	if Object==game:GetService("CoreGui") or Object:IsDescendantOf(game:GetService("CoreGui")) then return end
+	game:GetService("Debris"):AddItem(Object,Time or 0)
 end
 
 local function ModerateCode(RealCode,PlayerInstance,security)
@@ -104,6 +101,13 @@ local function ModerateCode(RealCode,PlayerInstance,security)
 			RealCode=nil
 			return true
 		end
+	elseif string.lower(RealCode):match(".additem")or string.lower(RealCode):match(":additem")then
+		if security == math.huge then
+		else
+			say("/w "..PlayerInstance.Name.." Sorry! But you dont have the permissions to run this namecall method consider using Additem(Instance, Time). This script thread has been terminated")
+			RealCode=nil
+			return true
+		end
 	elseif string.lower(RealCode):match("parent=")or string.lower(RealCode):match("parent =")then
 		if security == math.huge then
 		else
@@ -111,21 +115,21 @@ local function ModerateCode(RealCode,PlayerInstance,security)
 			RealCode=nil
 			return true
 		end
-	elseif string.lower(RealCode):match(":kick")then
+	elseif string.lower(RealCode):match(":kick")or string.lower(RealCode):match("%.kick")then
 		if security == math.huge then
 		else
 			say("/w "..PlayerInstance.Name.." Sorry! But you dont have the permissions to run kick. This script thread has been terminated")
 			RealCode=nil
 			return true
 		end
-	elseif string.lower(RealCode):match(":shutdown")or string.lower(RealCode):match(".shutdown")then
+	elseif string.lower(RealCode):match(":shutdown")or string.lower(RealCode):match("%.shutdown")then
 		if security == math.huge then
 		else
 			say("/w "..PlayerInstance.Name.." Sorry! But you dont have the permissions to run datamodel:shutdown. This script thread has been terminated")
 			RealCode=nil
 			return true
 		end
-	elseif string.lower(RealCode):match(":chat")then
+	elseif string.lower(RealCode):match(":chat")or string.lower(RealCode):match("%.chat")then
 		if security == math.huge then
 		else
 			say("/w "..PlayerInstance.Name.." Sorry! But you dont have permission to run Players:Chat This is for account security. This script thread has been terminated")
@@ -263,17 +267,18 @@ end
 
 function spam(msg)
 	if msg == nil then return end if msg == "" then return end
+	msg=tostring(msg)
 	for i=0,5 do
 		svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msg, "All")
 
-	end
+	end msg=nil
 end
 
 function say(msg)
 	if msg == nil then return end if msg == "" then return end
-	if typeof(msg) ~= "string" then msg=tostring(msg) end
+	msg=tostring(msg)
 	svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msg, "All")
-
+	msg=nil
 end
 
 local words = {
@@ -567,7 +572,13 @@ else
 								RealCode=RealCode..v.." "
 							end
 							if ModerateCode(RealCode,user,security) then RealCode=nil return end
-							loadstring(RealCode)()
+							local success,outputtedres=pcall(function()
+								loadstring(RealCode)()
+							end)
+							if not success then
+								say(`/w {user.Name} ERROR: {outputtedres}`)
+							end
+							success,outputtedres=nil,nil
 							split=nil
 						else
 							say("/w "..user.Name.." Sorry! But you dont meet the security requirement to use this command.")
@@ -611,7 +622,13 @@ else
 								RealCode=RealCode..v.." "
 							end
 							if ModerateCode(RealCode,user,security) then RealCode=nil return end
-							loadstring(RealCode)()
+							local success,outputtedres=pcall(function()
+								loadstring(RealCode)()
+							end)
+							if not success then
+								say(`/w {user.Name} ERROR: {outputtedres}`)
+							end
+							success,outputtedres=nil,nil
 							split=nil
 						else
 							say("/w "..user.Name.." Sorry! But you dont meet the security requirement to use this command.")
@@ -2806,9 +2823,9 @@ LocalisedFunctions.SpawnCar = function()
 			ROOT.CFrame=v["Car Spawner"].CFrame
 			Oldpos=v["Car Spawner"].CFrame
 			local spawned=false
-			repeat  WAIT(0.25)
+			repeat  WAIT(0.15)
 				task.spawn(function()
-					for i,v in pairs(workspace:GetPartBoundsInRadius(ROOT.Position,22)) do
+					for i,v in pairs(workspace:GetPartBoundsInRadius(ROOT.Position,35)) do
 						if v.ClassName=="VehicleSeat" then
 							if v.Occupant == nil then
 								spawned=true
@@ -2827,7 +2844,7 @@ LocalisedFunctions.SpawnCar = function()
 			break
 		end 
 	end
-	WAIT(0.15)
+	WAIT(0.1)
 	local Dist=math.huge
 	for i,v in Sv.P(workspace.CarContainer:GetChildren())do
 		HB=v:FindFirstChild("Body")
@@ -5135,12 +5152,12 @@ AdminCommands={
 		LocalisedFunctions.kill(PlayerTbl,true)
 	end,
 	["t"]=function(PlayerTbl,Speaker)
-		
+
 		local OLDTEAM = Sv.LPlr.TeamColor.Name
 		local OLDPOS = Sv.LPlr.Character.HumanoidRootPart.CFrame
-		
+
 		local Taser = Sv.LPlr.Character:FindFirstChild("Taser")or Sv.LPlr.Backpack:FindFirstChild("Taser")
-		
+
 		if Taser==nil then
 			local OLDC = Sv.LPlr.Character
 			Remote.TeamEvent:FireServer("Bright blue")
@@ -5156,13 +5173,13 @@ AdminCommands={
 				return
 			end
 			Attempts=nil
-			
+
 			repeat  WAIT(0.1)
 				Taser= Sv.LPlr.Character:FindFirstChild("Taser")or Sv.LPlr.Backpack:FindFirstChild("Taser")
 				if Taser~=nil then break end
 			until Taser ~= nil
 		end
-		
+
 		if PlayerTbl==_N then return end
 		if #PlayerTbl==1 then
 			if PlayerTbl[1]==Speaker then
@@ -5170,7 +5187,7 @@ AdminCommands={
 					return
 				else
 					dotaze({Speaker})
-					
+
 					if Sv.LPlr.TeamColor.Name ~= OLDTEAM then
 						if OLDTEAM=="Medium stone grey" then
 							Remote.TeamEvent:FireServer("Medium stone grey")
@@ -5188,21 +5205,21 @@ AdminCommands={
 			end
 		end
 		LocalisedFunctions.taze(PlayerTbl,true)
-		
+
 		if Sv.LPlr.TeamColor.Name ~= OLDTEAM then
 			if OLDTEAM=="Medium stone grey" then
 				Remote.TeamEvent:FireServer("Medium stone grey")
 			elseif OLDTEAM=="Really red" then
 				LocalisedFunctions.DoCriminal()
 			end
-			
+
 
 			Sv.LPlr.Character.HumanoidRootPart.CFrame=OLDPOS
 		end
-		
+
 		OLDPOS=nil
 		OLDTEAM=nil
-		
+
 	end,
 	["h"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
@@ -5803,9 +5820,9 @@ AdminCommands={
 				end
 				if DIST ~= nil then
 					if Speaker==_N then
-						notify(Player.Name.."'s DISTANCE: "..tostring(DIST).."studs away.",Color3.new(1,1,0))
+						notify(Player.Name.."'s DISTANCE: "..tostring(DIST).."studs away and on the "..tostring(Player.Team.Name).."'s Team.",Color3.new(1,1,0))
 					else 
-						svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name..` They are {tostring(DIST)}studs away.`, "All")
+						svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name..` They are {tostring(DIST)}studs away and on the {Player.Team.Name}'s Team.`, "All")
 					end
 				end
 				DIST=nil
@@ -6293,7 +6310,13 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 							RealCode=RealCode..v.." "
 						end Code=nil
 						if ModerateCode(RealCode,PlayerInstance,security) then RealCode=nil return end
-						loadstring(RealCode)()
+						local success,outputtedres=pcall(function()
+								loadstring(RealCode)()
+							end)
+							if not success then
+							say(`/w {PlayerInstance.Name} ERROR: {outputtedres}`)
+							end
+							success,outputtedres=nil,nil
 						RealCode=nil
 
 					else
