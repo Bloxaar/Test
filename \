@@ -4463,7 +4463,7 @@ AdminCommands={
 					v.CanCollide=false
 					if v.Name=="HumanoidRootPart"then
 						if v:FindFirstChild("Omg")==nil then
-							BV=Instance.new("BodyVelocity",Sv.LPlr.Character.HumanoidRootPart)
+							BV=Instance.new("BodyVelocity",v)
 							BV.Name="Omg"
 							BV.Velocity=Vector3.new(0,0,0)BV.MaxForce=Vector3.new("inf","inf","inf")
 						end
@@ -4472,7 +4472,7 @@ AdminCommands={
 					v.PlatformStand=true
 				end
 			end
-
+			Char=nil
 
 
 
