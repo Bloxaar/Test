@@ -4226,7 +4226,6 @@ end
 
 
 LocalisedFunctions.ArrestDatNoob = function(Target)
-
 	for i=0,50 do
 		if Target.TeamColor.Name == "Bright orange" then
 			local Good,Bad = LocalisedFunctions.ValidateInmateRegions()
@@ -4251,7 +4250,7 @@ LocalisedFunctions.ArrestDatNoob = function(Target)
 						end
 					end
 					local HRP =Sv.LPlr.Character:FindFirstChild("HumanoidRootPart")
-					if HRP ~= nil then HRP.CFrame = HEAD.CFrame end
+					if HRP ~= nil then HRP.CFrame = (HEAD.CFrame*CFrame.Angles(math.rad(90),0,0))-Vector3.new(0,2.5,0) end
 					if #HRP:GetJoints() == 0 then 
 						Remote.TeamEvent:FireServer("Bright orange") 
 						repeat  WAIT(0)until not HRP:IsDescendantOf(workspace) WAIT(0.1)
@@ -4270,6 +4269,7 @@ LocalisedFunctions.ArrestDatNoob = function(Target)
 		Char=nil
 		WAIT(0.065)
 	end
+	BV:Destroy()
 end
 
 function TermNuke()IsNuking=false end
@@ -4447,6 +4447,32 @@ AdminCommands={
 			A=nil
 			repeat  WAIT(0) if Sv.LPlr.Character.PrimaryPart ~= nil then break end until Sv.LPlr.Character.PrimaryPart ~= nil WAIT(0.1)
 		end
+		
+		local TempNoclip = nil
+		
+		local BV=nil
+		TempNoclip=svc("RunService").Stepped:Connect(function()
+			local Char=Sv.LPlr.Character
+			if Char==nil then return end
+			for i,v in pairs(Char:GetDescendants()) do
+				if v:IsA("BasePart")then
+					v.CanCollide=false
+					if v.Name=="HumanoidRootPart"then
+						if v:FindFirstChild("Omg")==nil then
+							BV=Instance.new("BodyVelocity",Sv.LPlr.Character.HumanoidRootPart)
+							BV.Name="Omg"
+							BV.Velocity=Vector3.new(0,0,0)BV.MaxForce=Vector3.new("inf","inf","inf")
+							BV=nil
+						end
+					end
+				end
+			end
+			
+			
+
+			
+		end)
+		
 		for i,Plr in Sv.P(PlayerTbl)do
 			if Plr.TeamColor.Name ~= "Bright blue" then
 				if Plr.Name ~= Sv.LPlr.Name then
@@ -4460,6 +4486,8 @@ AdminCommands={
 				end
 			end
 		end
+		TempNoclip:Disconnect()
+		BV:Destroy()	
 		WAIT(0.3)
 		if Sv.LPlr.TeamColor.Name ~= OldTeam then
 			if OldTeam=="Really red" then
