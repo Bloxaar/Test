@@ -4254,12 +4254,12 @@ LocalisedFunctions.ArrestDatNoob = function(Target)
 							end
 						end
 						local HRP =Sv.LPlr.Character:FindFirstChild("HumanoidRootPart")
-						if HRP ~= nil then HRP.CFrame = (TARGETHRP.CFrame*CFrame.Angles(math.rad(90),0,0))-Vector3.new(0,4,0) end
+						if HRP ~= nil then HRP.CFrame = (TARGETHRP.CFrame*CFrame.Angles(math.rad(90),0,0))-Vector3.new(0,4.5,0) end
 						if #HRP:GetJoints() == 0 then 
 							Remote.TeamEvent:FireServer("Bright orange") 
 							repeat  WAIT(0)until not HRP:IsDescendantOf(workspace) WAIT(0.1)
 							HRP =Sv.LPlr.Character:FindFirstChild("HumanoidRootPart")
-							if HRP ~= nil then HRP.CFrame = (TARGETHRP.CFrame*CFrame.Angles(math.rad(90),0,0))-Vector3.new(0,4,0) end
+							if HRP ~= nil then HRP.CFrame = (TARGETHRP.CFrame*CFrame.Angles(math.rad(90),0,0))-Vector3.new(0,4.5,0) end
 						end
 
 						task.spawn(function()Remote.arrest:InvokeServer({Parent=Char,Position=Vector3.new("nan",0,0)})end)
