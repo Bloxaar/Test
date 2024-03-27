@@ -4091,8 +4091,9 @@ LocalisedFunctions.RespawnPlayerOnGuardTeam = function()
 end
 
 LocalisedFunctions.DoCriminal = function(Player)
-	if Player.Character == nil then return end
-	local Primary = Player.Character:FindFirstChild("HumanoidRootPart")or Player.Character.PrimaryPart
+	local Char = Player.Character
+	if Char == nil then Char=nil return end
+	local Primary = Char:FindFirstChild("HumanoidRootPart")or Char.PrimaryPart
 	if Primary~=_N then
 		local CrimSpawn=workspace["Criminals Spawn"].SpawnLocation
 		if CrimSpawn:GetAttribute("AA")==_N then
@@ -4114,7 +4115,7 @@ LocalisedFunctions.DoCriminal = function(Player)
 		svc("RunService").Heartbeat:Wait()
 		CrimSpawn.CFrame=LastPos
 		CrimSpawn.Transparency=0;CrimSpawn=nil;LastPos=nil
-	end;Primary=nil
+	end;Primary=nil;Char=nil
 end
 
 LocalisedFunctions.DropItems = function(Player)
