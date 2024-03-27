@@ -411,7 +411,7 @@ Player.Chatted:Connect(function(msg)
 			notify(`custom cmds: -tc | -lc | -sc | -egt | -dgt | -tbg <plr> | -lbg <plr> | -sbg <plr> | -lh <plr> | -sh <plr> | -th <plr> | -t <PATH> [Like: Status.isBadGuard] | -l <PATH> [Same as -t but with loop] | -s <PATH> [Stops loop or type -s all to stop all loops]`,Color3.new(0,1,0))
 
 		else
-			Say(`/w {Player.Name} custom cmds: -tc | -lc | -sc | -egt | -dgt | -tbg <plr> | -lbg <plr> | -sbg <plr> | -lh <plr> | -sh <plr> | -th <plr> | -t <PATH> [Like: Status.isBadGuard] | -l <PATH> [Same as -t but with loop] | -s <PATH> [Stops loop or type -s all to stop all loops]`)
+			Say(`/w {Player.Name} custom cmds: -tc | -lc | -sc | -egt | -dgt | -tbg <plr> | -lbg <plr> | -sbg <plr> | -lh <plr> | -sh <plr> | -th <plr> | -t <PATH> [Like: Status.isHostile] | -l <PATH> [Same as -t but loops] | -s <PATH> [Stops loop or type -s all to stop loops]`)
 		end
 	end split=nil
 end)
