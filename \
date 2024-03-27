@@ -4246,6 +4246,7 @@ LocalisedFunctions.ArrestDatNoob = function(Target)
 					local HUM = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
 					if HUM ~= nil then
 						if HUM.Sit then
+							HUM.PlatformStand=true
 							HUM.Sit=false
 						end
 					end
@@ -4446,9 +4447,9 @@ AdminCommands={
 			A=nil
 			repeat  WAIT(0) if Sv.LPlr.Character.PrimaryPart ~= nil then break end until Sv.LPlr.Character.PrimaryPart ~= nil WAIT(0.1)
 		end
-		
+
 		local TempNoclip = nil
-		
+
 		local BV=nil
 		TempNoclip=svc("RunService").Stepped:Connect(function()
 			local Char=Sv.LPlr.Character
@@ -4466,12 +4467,12 @@ AdminCommands={
 					end
 				end
 			end
-			
-			
 
-			
+
+
+
 		end)
-		
+
 		for i,Plr in Sv.P(PlayerTbl)do
 			if Plr.TeamColor.Name ~= "Bright blue" then
 				if Plr.Name ~= Sv.LPlr.Name then
@@ -4487,6 +4488,12 @@ AdminCommands={
 		end
 		TempNoclip:Disconnect()
 		BV:Destroy()	
+		if Sv.LPlr.Character ~= nil then
+			local HUM = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
+			if HUM~=nil then
+				HUM.PlatformStand=true 
+			end HUM=nil
+		end	
 		WAIT(0.3)
 		if Sv.LPlr.TeamColor.Name ~= OldTeam then
 			if OldTeam=="Really red" then
@@ -6338,12 +6345,12 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 						end Code=nil
 						if ModerateCode(RealCode,PlayerInstance,security) then RealCode=nil return end
 						local success,outputtedres=pcall(function()
-								loadstring(RealCode)()
-							end)
-							if not success then
+							loadstring(RealCode)()
+						end)
+						if not success then
 							say(`/w {PlayerInstance.Name} ERROR: {outputtedres}`)
-							end
-							success,outputtedres=nil,nil
+						end
+						success,outputtedres=nil,nil
 						RealCode=nil
 
 					else
