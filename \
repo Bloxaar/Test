@@ -4492,7 +4492,8 @@ AdminCommands={
 			end
 		end
 		TempNoclip:Disconnect()
-		BV:Destroy()	
+		if BV ~= nil then BV:Destroy() end
+		BV=nil
 		if Sv.LPlr.Character ~= nil then
 			local HUM = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
 			if HUM~=nil then
