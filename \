@@ -4556,7 +4556,7 @@ AdminCommands={
 							OldHumanoid=Humanoid.Died:Connect(function()
 								task.spawn(function()WAIT(10)Humanoid:SetAttribute("CON",nil) end)
 								if Plr:FindFirstChild("DeathXplosive")~=nil then
-									LocalisedFunctions.DoXplosiveThingy({RayObject={Origin = HRP.Position,Direction=Vector3.new(1,1,1)}},Plr,nil,true)
+									LocalisedFunctions.DoXplosiveThingy({RayObject=Ray.new(HRP.Position,Vector3.new(0,0,0))},Plr,nil,false)
 								else
 									Connections[Plr.UserId]:Disconnect()
 								end 
@@ -6175,8 +6175,8 @@ end
 
 LocalisedFunctions.DoXplosiveThingy = function(tbl,AttackerPlr,VictimPlr,IsDeathOne)
 	local Gun = AttackerPlr.Character:FindFirstChildOfClass("Tool")
-	if (Gun ~= nil) or IsDeathOne then
-		if Gun:FindFirstChildOfClass("ModuleScript") or IsDeathOne then
+	if (IsDeathOne) or Gun ~= nil then
+		if (IsDeathOne) or Gun:FindFirstChildOfClass("ModuleScript") then
 			if AttackerPlr.Name ~= Sv.LPlr.Name then
 				local Params=RaycastParams.new()
 				Params.FilterDescendantsInstances={AttackerPlr.Character} 
@@ -7673,7 +7673,7 @@ LocalisedFunctions.DoKillAura = function(IsTeam)for i,v in Sv.P(Sv.Plrs:GetPlaye
 
 local LocalHumanoid,HotLocalChar,HotLocalBackpack,HotLocalCurrentEquippedTool,HotChatBox=nil,nil,nil,nil,nil
 
-print("V2.65")
+print("V2.7")
 
 while true do WAIT(0)
 	task.spawn(function()
