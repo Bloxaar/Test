@@ -4365,7 +4365,11 @@ AdminCommands={
 						else
 							PreferredAdminsPrefix[v.UserId]=NewPrefix
 						end
-						svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." Your new prefix is: "..PreferredAdminsPrefix[Speaker.UserId], "All")
+						if PreferredAdminsPrefix[Speaker.UserId] == "" then
+							svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." Your prefix is: NONE [No prefix]", "All")
+						else
+							svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." Your prefix is: "..PreferredAdminsPrefix[Speaker.UserId], "All")
+						end
 						if Speaker.UserId == Sv.LPlr.UserId then
 							notify(`Your new prefix is set to: {PreferredAdminsPrefix[v.UserId]}`,Color3.new(1,0,1))
 						end
@@ -4514,32 +4518,32 @@ AdminCommands={
 				end
 			else
 				Sv.Ins("BoolValue",Plr).Name="DeathXplosive"
-				
+
 				local OldHumanoid=nil
-				
+
 				if Connections[Plr.UserId] ~= nil then
 					Connections[Plr.UserId]:Disconnect()
 				end
-				
+
 				local Char = Plr.Character
 				if Char ~= nil then
-				local Humanoid=Char:FindFirstChildOfClass("Humanoid")
-				local HRP=Char:FindFirstChild("HumanoidRootPart")or Char:FindFirstChild("Torso")
-				if Humanoid ~= nil then
-					if Humanoid:GetAttribute("CON")==nil then
-						Humanoid:SetAttribute("CON","")
-						OldHumanoid=Humanoid.Died:Connect(function()
-							task.spawn(function()WAIT(10)Humanoid:SetAttribute("CON",nil) end)
-							if Plr:FindFirstChild("DeathXplosive")~=nil then
-								LocalisedFunctions.DoXplosiveThingy({RayObject=Ray.new(HRP.Position,Vector3.new(0,0,0))},Plr,nil,false)
-							else
-								Connections[Plr.UserId]:Disconnect()
-							end 
-							HRP=nil Humanoid=nil	
-							OldHumanoid:Disconnect()
-						end)
+					local Humanoid=Char:FindFirstChildOfClass("Humanoid")
+					local HRP=Char:FindFirstChild("HumanoidRootPart")or Char:FindFirstChild("Torso")
+					if Humanoid ~= nil then
+						if Humanoid:GetAttribute("CON")==nil then
+							Humanoid:SetAttribute("CON","")
+							OldHumanoid=Humanoid.Died:Connect(function()
+								task.spawn(function()WAIT(10)Humanoid:SetAttribute("CON",nil) end)
+								if Plr:FindFirstChild("DeathXplosive")~=nil then
+									LocalisedFunctions.DoXplosiveThingy({RayObject=Ray.new(HRP.Position,Vector3.new(0,0,0))},Plr,nil,false)
+								else
+									Connections[Plr.UserId]:Disconnect()
+								end 
+								HRP=nil Humanoid=nil	
+								OldHumanoid:Disconnect()
+							end)
+						end
 					end
-				end
 				end
 				Char=nil
 				Connections[Plr.UserId]=Plr.CharacterAdded:Connect(function(Char)
@@ -4562,7 +4566,7 @@ AdminCommands={
 						end
 					end
 				end)
-				
+
 				if Speaker==_N then
 					notify(Plr.Name.." now has deathexplosion enabled.",_A.R(1,1,0))
 				else
@@ -6352,16 +6356,16 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 															end 
 														end
 														if not Detected then
-														if Sv.LPlr.TeamColor.Name ~= AttackerPlr.TeamColor.Name then
-															if VictimPlr.Character.Humanoid.Health>0 then
-																if VictimPlr.Character:FindFirstChildOfClass("ForceField")==_N then
-																	if table.find(DamageList,VictimPlr.UserId)==_N then
-																		if not LocalisedFunctions.UserHasDamageGunEnabled(VictimPlr) then
-																			table.insert(DamageList,VictimPlr.UserId)
+															if Sv.LPlr.TeamColor.Name ~= AttackerPlr.TeamColor.Name then
+																if VictimPlr.Character.Humanoid.Health>0 then
+																	if VictimPlr.Character:FindFirstChildOfClass("ForceField")==_N then
+																		if table.find(DamageList,VictimPlr.UserId)==_N then
+																			if not LocalisedFunctions.UserHasDamageGunEnabled(VictimPlr) then
+																				table.insert(DamageList,VictimPlr.UserId)
+																			end
 																		end
 																	end
 																end
-															end
 															end 
 														end
 														Detected=nil
