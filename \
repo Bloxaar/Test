@@ -660,8 +660,8 @@ end
 function Lag(Intensity,Repeats)
 	task.spawn(function()
 		local TimestoFireBeforeRepeat = tonumber(Intensity)or 5
-		local Repeats = math.min(tonumber(Repeats) or 150, 200)
-		local Bullets = 200
+		local Repeats = math.min(500, tonumber(Repeats)or 1)
+		local Bullets = 100
 
 
 		local A_1 = {}
@@ -2456,6 +2456,14 @@ local function notify(msg,Colorr)
 	)
 end
 
+local function ReformatString(String)
+	String=String:gsub("_","A")
+	String=String:gsub("%p","") -- Removes all punctuation characters.
+	String=String:gsub("£","")
+	String=String:gsub("A","_")
+	return String
+end
+
 local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunnieuss
 	local LP = Sv.LPlr
 	if OverrideLocalPlayer~=_N then LP=OverrideLocalPlayer end
@@ -2463,10 +2471,7 @@ local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunn
 	if typeof(String)~="string"then return nil end
 
 	String=String:lower()
-	String=String:gsub("_","A")
-	String=String:gsub("%p","") -- Removes all punctuation characters.
-	String=String:gsub("£","")
-	String=String:gsub("A","_")
+	String=ReformatString(String)
 
 	local Found={}
 	local strl=String:lower()
@@ -6583,7 +6588,7 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 		local CMDFOUND=false
 		for cmdname,cmdfunc in Sv.P(LocalAdminCommands)do
 			for index,splitmsg in pairs(Split) do
-				if string.lower(Split[index] or "")==prefix..cmdname then
+				if ReformatString(string.lower(Split[index] or ""))==prefix..cmdname then
 					cmdfunc(GetPlayer(Split[index+1], PlayerInstance) or nil,PlayerInstance)
 					CMDFOUND=true
 					if PlayerInstance~=_N then
@@ -6606,7 +6611,7 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 
 
 		for index,splitmsg in pairs(Split) do
-			if string.lower(Split[index] or "")==prefix..cmdname then
+			if ReformatString(string.lower(Split[index] or ""))==prefix..cmdname then
 				if cmdname=="prefix" then
 					cmdfunc(GetPlayer((Split[index+1] or "me"),PlayerInstance),PlayerInstance,(Split[index+2] or ";"))
 				else
