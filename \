@@ -5583,7 +5583,7 @@ AdminCommands={
 				WAIT(0.05)
 			end
 		end
-		
+
 		WAIT(0.03)
 		local Humanoid = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
 		if Humanoid ~= nil then Humanoid.Sit=false end
@@ -6060,12 +6060,14 @@ LocalisedFunctions.DoXplosiveThingy = function(tbl,AttackerPlr,VictimPlr)
 				Params.FilterDescendantsInstances={AttackerPlr.Character} 
 				Params.FilterType=Enum.RaycastFilterType.Exclude
 				local RayCasted = workspace:Raycast(tbl.RayObject.Origin,tbl.RayObject.Direction*Vector3.new(2,2,2),Params)
-				
-				if VictimPlr.ClassName=="Player"then
-					if VictimPlr.Character:FindFirstChildOfClass("ForceField")==_N then
-						if table.find(AntiShootList,VictimPlr.UserId)==_N then
-							if not LocalisedFunctions.UserHasSuperGunEnabled(VictimPlr) then
-								table.insert(AntiShootList,VictimPlr.UserId)
+
+				if VictimPlr ~= nil then
+					if VictimPlr.ClassName=="Player"then
+						if VictimPlr.Character:FindFirstChildOfClass("ForceField")==_N then
+							if table.find(AntiShootList,VictimPlr.UserId)==_N then
+								if not LocalisedFunctions.UserHasSuperGunEnabled(VictimPlr) then
+									table.insert(AntiShootList,VictimPlr.UserId)
+								end
 							end
 						end
 					end
@@ -6079,7 +6081,7 @@ LocalisedFunctions.DoXplosiveThingy = function(tbl,AttackerPlr,VictimPlr)
 						for i,v in pairs(workspace:GetPartBoundsInRadius(Intersection,ScriptSettings.ExplosionSize)) do
 							local Humanoid = v.Parent:FindFirstChildOfClass("Humanoid")
 							if Humanoid ~= nil then
-								
+
 								if FireSound ~= nil then 
 									task.spawn(function()
 										local ClonedVar=FireSound
@@ -6087,24 +6089,24 @@ LocalisedFunctions.DoXplosiveThingy = function(tbl,AttackerPlr,VictimPlr)
 										ClonedVar=_N
 									end)
 								end
-								
+
 								if Humanoid.Health>0 then
 									if Humanoid.Parent:FindFirstChildOfClass("ForceField")==_N then
 										local HitPlayer = Sv.Plrs:GetPlayerFromCharacter(Humanoid.Parent)
 										if HitPlayer ~= nil then
 											if HitPlayer == AttackerPlr or HitPlayer == Sv.LPlr then else
-											if HitPlayer.TeamColor.Name ~= Sv.LPlr.TeamColor.Name then
+												if HitPlayer.TeamColor.Name ~= Sv.LPlr.TeamColor.Name then
 
-												if table.find(AddedWhitelists,HitPlayer.UserId) ~= nil then if UserIsOperator(AttackerPlr) then else return end end
-												if table.find(AntiShootList,HitPlayer.UserId)==nil then
+													if table.find(AddedWhitelists,HitPlayer.UserId) ~= nil then if UserIsOperator(AttackerPlr) then else return end end
+													if table.find(AntiShootList,HitPlayer.UserId)==nil then
 
-													if not (LocalisedFunctions.UserHasExplosiveGunEnabled(HitPlayer) or LocalisedFunctions.UserHasSuperGunEnabled(HitPlayer)) then
-														table.insert(AntiShootList,HitPlayer.UserId)
+														if not (LocalisedFunctions.UserHasExplosiveGunEnabled(HitPlayer) or LocalisedFunctions.UserHasSuperGunEnabled(HitPlayer)) then
+															table.insert(AntiShootList,HitPlayer.UserId)
 
 
-													end													
+														end													
+													end
 												end
-											end
 											end	
 										end
 									end
