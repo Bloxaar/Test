@@ -2468,11 +2468,12 @@ local function notify(msg,Colorr)
 end
 
 local function ReformatString(String)
-	String=String:gsub("_","A")
-	String=String:gsub("%p","") -- Removes all punctuation characters.
-	String=String:gsub("£","")
-	String=String:gsub("A","_")
-	return String
+	local TEXT = String:sub(2,#String)
+	TEXT=TEXT:gsub("_","A")
+	TEXT=TEXT:gsub("%p","") -- Removes all punctuation characters.
+	TEXT=TEXT:gsub("£","")
+	TEXT=TEXT:gsub("A","_")
+	return String:sub(0,1)..TEXT
 end
 
 local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunnieuss
