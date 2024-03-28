@@ -281,6 +281,62 @@ function say(msg)
 	msg=nil
 end
 
+
+function AutoJoin(User)
+	local Place = game.PlaceId
+	local HttpService = game:GetService("HttpService")
+
+	local FoundUser, UserId = pcall(function()
+		if tonumber(User) then
+			return tonumber(User)
+		end
+
+		return game:GetService("Players"):GetUserIdFromNameAsync(User)
+	end)
+
+	local Plr = game.Players:GetPlayerByUserId(UserId)
+	if Plr ~= nil then
+		repeat wait(1)
+			Plr = game.Players:GetPlayerByUserId(UserId)
+		until Plr==nil
+	end
+
+	if not FoundUser then
+		warn('Join Error','Username/UserID does not exist')
+	else
+		while wait(5) do
+			warn('Join Player','Loading servers. Hold on a second.')
+			local URL2 = ("https://games.roblox.com/v1/games/"..Place.."/servers/Public?sortOrder=Asc&limit=100")
+			local Http = HttpService:JSONDecode(game:HttpGet(URL2))
+			local GUID
+
+			local function tablelength(T)
+				local count = 0
+				for _ in pairs(T) do count = count + 1 end
+				return count
+			end
+
+			for i=1,tonumber(tablelength(Http.data)) do
+				for j,k in pairs(Http.data[i].playerIds) do
+					if k == UserId then
+						GUID = Http.data[i].id
+					end
+				end
+			end
+			tablelength=nil
+			if GUID ~= nil then
+				warn('Join Player','Joining '..User)
+				game:GetService("TeleportService"):TeleportToPlaceInstance(Place,GUID,Players.LocalPlayer)
+			else
+				warn('Join Error','Unable to join user.')
+			end
+		end
+	end
+
+end
+
+
+
 local words = {
 	['gay'] = 'Bullying',
 	['lesbian'] = 'Bullying',
@@ -7710,7 +7766,7 @@ LocalisedFunctions.DoKillAura = function(IsTeam)for i,v in Sv.P(Sv.Plrs:GetPlaye
 
 local LocalHumanoid,HotLocalChar,HotLocalBackpack,HotLocalCurrentEquippedTool,HotChatBox=nil,nil,nil,nil,nil
 
-print("V2.7")
+print("V2.725")
 
 while true do WAIT(0)
 	task.spawn(function()
