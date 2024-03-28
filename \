@@ -4361,7 +4361,7 @@ AdminCommands={
 				if UserIsOperator(v) then
 					if UserIsOperator(Speaker) then
 						if NewPrefix==true then
-							PreferredAdminsPrefix[v.UserId]=nil
+							PreferredAdminsPrefix[v.UserId]=""
 						else
 							PreferredAdminsPrefix[v.UserId]=NewPrefix
 						end
@@ -6754,7 +6754,7 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 		for index,splitmsg in pairs(Split) do
 			if ReformatString(string.lower(Split[index] or ""),false)==(prefix or "")..cmdname then
 				if cmdname=="prefix" then
-					if Split[index+2] == "\na" then
+					if Split[index+2] == [[-nil]] then
 						cmdfunc(GetPlayer((Split[index+1] or "me"),PlayerInstance),PlayerInstance,true)
 					else
 						cmdfunc(GetPlayer((Split[index+1] or "me"),PlayerInstance),PlayerInstance,(Split[index+2] or ";"))
@@ -7669,7 +7669,7 @@ LocalisedFunctions.DoKillAura = function(IsTeam)for i,v in Sv.P(Sv.Plrs:GetPlaye
 
 local LocalHumanoid,HotLocalChar,HotLocalBackpack,HotLocalCurrentEquippedTool,HotChatBox=nil,nil,nil,nil,nil
 
-print("V2.5")
+print("V2.6")
 
 while true do WAIT(0)
 	task.spawn(function()
