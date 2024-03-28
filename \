@@ -4556,7 +4556,7 @@ AdminCommands={
 							OldHumanoid=Humanoid.Died:Connect(function()
 								task.spawn(function()WAIT(10)Humanoid:SetAttribute("CON",nil) end)
 								if Plr:FindFirstChild("DeathXplosive")~=nil then
-									LocalisedFunctions.DoXplosiveThingy({RayObject=Ray.new(HRP.Position,Vector3.new(0,0,0))},Plr,nil,true)
+									LocalisedFunctions.DoXplosiveThingy({RayObject={Origin = HRP.Position,Direction=Vector3.new(1,1,1)}},Plr,nil,true)
 								else
 									Connections[Plr.UserId]:Disconnect()
 								end 
@@ -7673,7 +7673,7 @@ LocalisedFunctions.DoKillAura = function(IsTeam)for i,v in Sv.P(Sv.Plrs:GetPlaye
 
 local LocalHumanoid,HotLocalChar,HotLocalBackpack,HotLocalCurrentEquippedTool,HotChatBox=nil,nil,nil,nil,nil
 
-print("V2.6")
+print("V2.65")
 
 while true do WAIT(0)
 	task.spawn(function()
