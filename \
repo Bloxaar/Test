@@ -2234,7 +2234,18 @@ local equipShield = Remote:FindFirstChild("equipShield")
 
 local ScriptSettings = {}
 ScriptSettings.ExplosionSize=10
+ScriptSettings.DeathExplosionSize=15
 ScriptSettings.InfectAuraSize=15
+
+
+function ChangeAtt(AttributeName,NewValue)
+	if ScriptSettings[AttributeName] then
+		if tonumber(NewValue) ~= nil then
+			ScriptSettings[AttributeName]=tonumber(NewValue)
+			warn("SET",AttributeName,"TO:",tostring(NewValue).."!")
+		end
+	end
+end
 
 
 local States={}
@@ -4313,6 +4324,8 @@ end
 
 function TermNuke()IsNuking=false end
 
+local Connections={}
+
 AdminCommands={
 	["prefix"]=function(PlayerTbl,Speaker,NewPrefix)
 		if Speaker== _N then Speaker = Sv.LPlr end
@@ -4471,6 +4484,89 @@ AdminCommands={
 					notify(Plr.Name.." nolonger has supergun enabled.",_A.R(1,1,0))
 				else
 					notify(Speaker.Name.." removed supergun from "..tostring(Plr.Name),_A.R(1,1,0))
+				end
+			end
+		end
+	end,
+	["deathexp"]=function(PlayerTbl,Speaker)
+		if PlayerTbl==_N then return end
+		for i,Plr in Sv.P(PlayerTbl)do
+			if Plr:FindFirstChild("DeathXplosive")~=_N then
+				if Speaker==_N then
+					notify(Plr.Name.." already has deathexplosion enabled.",_A.R(1,1,0))
+				end
+			else
+				Sv.Ins("BoolValue",Plr).Name="DeathXplosive"
+				
+				local OldHumanoid=nil
+				
+				if Connections[Plr.UserId] ~= nil then
+					Connections[Plr.UserId]:Disconnect()
+				end
+				
+				local Char = Plr.Character
+				if Char ~= nil then
+				local Humanoid=Char:FindFirstChildOfClass("Humanoid")
+				local HRP=Char:FindFirstChild("HumanoidRootPart")or Char:FindFirstChild("Torso")
+				if Humanoid ~= nil then
+					if Humanoid:GetAttribute("CON")==nil then
+						Humanoid:SetAttribute("CON","")
+						OldHumanoid=Humanoid.Died:Connect(function()
+							task.spawn(function()WAIT(10)Humanoid:SetAttribute("CON",nil) end)
+							if Plr:FindFirstChild("DeathXplosive")~=nil then
+								LocalisedFunctions.DoXplosiveThingy({RayObject=Ray.new(HRP.Position,Vector3.new(0,0,0))},Plr,nil,false)
+							else
+								Connections[Plr.UserId]:Disconnect()
+							end 
+							HRP=nil Humanoid=nil	
+							OldHumanoid:Disconnect()
+						end)
+					end
+				end
+				end
+				Char=nil
+				Connections[Plr.UserId]=Plr.CharacterAdded:Connect(function(Char)
+					if OldHumanoid then OldHumanoid:Disconnect() end
+					local Humanoid=Char:FindFirstChildOfClass("Humanoid")
+					local HRP=Char:FindFirstChild("HumanoidRootPart")or Char:FindFirstChild("Torso")
+					if Humanoid ~= nil then
+						if Humanoid:GetAttribute("CON")==nil then
+							Humanoid:SetAttribute("CON","")
+							OldHumanoid=Humanoid.Died:Connect(function()
+								task.spawn(function()WAIT(10)Humanoid:SetAttribute("CON",nil) end)
+								if Plr:FindFirstChild("DeathXplosive")~=nil then
+									LocalisedFunctions.DoXplosiveThingy({RayObject=Ray.new(HRP.Position,Vector3.new(0,0,0))},Plr,nil,true)
+								else
+									Connections[Plr.UserId]:Disconnect()
+								end 
+								HRP=nil Humanoid=nil	
+								OldHumanoid:Disconnect()
+							end)
+						end
+					end
+				end)
+				
+				if Speaker==_N then
+					notify(Plr.Name.." now has deathexplosion enabled.",_A.R(1,1,0))
+				else
+					notify(Speaker.Name.." enabled deathexplosion to "..tostring(Plr.Name),_A.R(1,1,0))
+				end
+			end
+		end
+	end,
+	["nodeathexp"]=function(PlayerTbl,Speaker)
+		if PlayerTbl==_N then return end
+		for i,Plr in Sv.P(PlayerTbl)do
+			if Plr:FindFirstChild("DeathXplosive")==_N then
+				if Speaker==_N then
+					notify(Plr.Name.." doesnt have deathexplosion.",_A.R(1,1,0))
+				end
+			else
+				Plr.DeathXplosive:Destroy()
+				if Speaker==_N then
+					notify(Plr.Name.." nolonger has deathexplosion enabled.",_A.R(1,1,0))
+				else
+					notify(Speaker.Name.." removed deathexplosion from "..tostring(Plr.Name),_A.R(1,1,0))
 				end
 			end
 		end
@@ -6056,10 +6152,10 @@ else
 	end
 end
 
-LocalisedFunctions.DoXplosiveThingy = function(tbl,AttackerPlr,VictimPlr)
+LocalisedFunctions.DoXplosiveThingy = function(tbl,AttackerPlr,VictimPlr,IsDeathOne)
 	local Gun = AttackerPlr.Character:FindFirstChildOfClass("Tool")
-	if Gun ~= nil then
-		if Gun:FindFirstChildOfClass("ModuleScript") then
+	if (Gun ~= nil) or IsDeathOne then
+		if Gun:FindFirstChildOfClass("ModuleScript") or IsDeathOne then
 			if AttackerPlr.Name ~= Sv.LPlr.Name then
 				local Params=RaycastParams.new()
 				Params.FilterDescendantsInstances={AttackerPlr.Character} 
@@ -6080,37 +6176,49 @@ LocalisedFunctions.DoXplosiveThingy = function(tbl,AttackerPlr,VictimPlr)
 				if RayCasted ~= nil then
 					if RayCasted.Instance ~= nil then
 						local FireSound = Gun.Handle:FindFirstChild("FireSound")
-						local Intersection = RayCasted.Position
-
-						local HitPlayers={}
-						for i,v in pairs(workspace:GetPartBoundsInRadius(Intersection,ScriptSettings.ExplosionSize)) do
+						local RANGE = 0
+						if IsDeathOne then 
+							RANGE=ScriptSettings.DeathExplosionSize
+						else 
+							RANGE=ScriptSettings.ExplosionSize
+						end
+						for i,v in pairs(workspace:GetPartBoundsInRadius(RayCasted.Position,RANGE)) do
 							local Humanoid = v.Parent:FindFirstChildOfClass("Humanoid")
 							if Humanoid ~= nil then
-
-								if FireSound ~= nil then 
-									task.spawn(function()
-										local ClonedVar=FireSound
-										for i=0,10 do SoundEvent:FireServer(ClonedVar) WAIT(0.1) end
-										ClonedVar=_N
-									end)
+								if not IsDeathOne then
+									if FireSound ~= nil then 
+										task.spawn(function()
+											local ClonedVar=FireSound
+											for i=0,15 do SoundEvent:FireServer(ClonedVar) WAIT(0.2) end
+											ClonedVar=_N
+										end)
+									end
 								end
-
 								if Humanoid.Health>0 then
 									if Humanoid.Parent:FindFirstChildOfClass("ForceField")==_N then
 										local HitPlayer = Sv.Plrs:GetPlayerFromCharacter(Humanoid.Parent)
 										if HitPlayer ~= nil then
 											if HitPlayer == AttackerPlr or HitPlayer == Sv.LPlr then else
 												if HitPlayer.TeamColor.Name ~= Sv.LPlr.TeamColor.Name then
-
-													if table.find(AddedWhitelists,HitPlayer.UserId) ~= nil then if UserIsOperator(AttackerPlr) then else return end end
-													if table.find(AntiShootList,HitPlayer.UserId)==nil then
-
-														if not (LocalisedFunctions.UserHasExplosiveGunEnabled(HitPlayer) or LocalisedFunctions.UserHasSuperGunEnabled(HitPlayer)) then
-															table.insert(AntiShootList,HitPlayer.UserId)
-
-
-														end													
+													local Detected=false
+													if table.find(AddedWhitelists,HitPlayer.UserId) ~= nil then 
+														if UserIsOperator(AttackerPlr) then 
+															Detected=true		
+														else 
+															Detected=true
+														end 
 													end
+													if not Detected then
+														if table.find(AntiShootList,HitPlayer.UserId)==nil then
+
+															if not (LocalisedFunctions.UserHasExplosiveGunEnabled(HitPlayer) or LocalisedFunctions.UserHasSuperGunEnabled(HitPlayer)) then
+																table.insert(AntiShootList,HitPlayer.UserId)
+
+
+															end													
+														end 
+													end
+													Detected=nil
 												end
 											end	
 										end
@@ -6119,7 +6227,7 @@ LocalisedFunctions.DoXplosiveThingy = function(tbl,AttackerPlr,VictimPlr)
 							end Humanoid=nil
 						end
 
-
+						RANGE=nil
 
 						FireSound=nil
 					end
@@ -6148,9 +6256,9 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 										VictimPlr=Sv.Plrs:GetPlayerFromCharacter(tbl[i].Hit.Parent.Parent)
 									end
 								end
+								local AdminPlr =  LocalisedFunctions.GetPlayerFromPosition(true,tbl[i].RayObject.Origin,VictimPlr)
+								local AttackerPlr = LocalisedFunctions.GetPlayerFromPosition(false,tbl[i].RayObject.Origin,VictimPlr)
 								if VictimPlr ~= nil then
-									local AdminPlr =  LocalisedFunctions.GetPlayerFromPosition(true,tbl[i].RayObject.Origin,VictimPlr)
-									local AttackerPlr = LocalisedFunctions.GetPlayerFromPosition(false,tbl[i].RayObject.Origin,VictimPlr)
 									if AttackerPlr == nil then AttackerPlr = AdminPlr end AdminPlr=nil
 									if AttackerPlr ~= nil then
 										if VictimPlr.Name==Sv.LPlr.Name and States.AntiShoot==true then
@@ -6187,18 +6295,28 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 											if Gun ~= nil then
 												if Gun:FindFirstChildOfClass("ModuleScript") then
 													if AttackerPlr.Name ~= Sv.LPlr.Name then 
-														if table.find(AddedWhitelists,VictimPlr.UserId) ~= nil then if UserIsOperator(AttackerPlr) then else return end end
-														if Sv.LPlr.TeamColor.Name ~= AttackerPlr.TeamColor.Name then
-															if VictimPlr.Character.Humanoid.Health>0 then
-																if VictimPlr.Character:FindFirstChildOfClass("ForceField")==_N then
-																	if table.find(AntiShootList,VictimPlr.UserId)==_N then
-																		if not LocalisedFunctions.UserHasSuperGunEnabled(VictimPlr) then
-																			table.insert(AntiShootList,VictimPlr.UserId)
+														local Detected=false
+														if table.find(AddedWhitelists,VictimPlr.UserId) ~= nil then 
+															if UserIsOperator(AttackerPlr) then 
+																Detected=true		
+															else 
+																Detected=true
+															end 
+														end
+														if not Detected then
+															if Sv.LPlr.TeamColor.Name ~= AttackerPlr.TeamColor.Name then
+																if VictimPlr.Character.Humanoid.Health>0 then
+																	if VictimPlr.Character:FindFirstChildOfClass("ForceField")==_N then
+																		if table.find(AntiShootList,VictimPlr.UserId)==_N then
+																			if not LocalisedFunctions.UserHasSuperGunEnabled(VictimPlr) then
+																				table.insert(AntiShootList,VictimPlr.UserId)
+																			end
 																		end
 																	end
 																end
-															end
+															end 
 														end
+														Detected=nil
 													end
 												end
 												Gun=nil
@@ -6208,7 +6326,15 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 											if Gun ~= nil then
 												if Gun:FindFirstChildOfClass("ModuleScript") then
 													if AttackerPlr.Name ~= Sv.LPlr.Name then 
-														if table.find(AddedWhitelists,VictimPlr.UserId) ~= nil then if UserIsOperator(AttackerPlr) then else return end end
+														local Detected=false
+														if table.find(AddedWhitelists,VictimPlr.UserId) ~= nil then 
+															if UserIsOperator(AttackerPlr) then 
+																Detected=true		
+															else 
+																Detected=true
+															end 
+														end
+														if not Detected then
 														if Sv.LPlr.TeamColor.Name ~= AttackerPlr.TeamColor.Name then
 															if VictimPlr.Character.Humanoid.Health>0 then
 																if VictimPlr.Character:FindFirstChildOfClass("ForceField")==_N then
@@ -6219,7 +6345,9 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 																	end
 																end
 															end
+															end 
 														end
+														Detected=nil
 													end
 												end
 												Gun=nil
@@ -6242,11 +6370,8 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 											end
 
 										end
-										AttackerPlr=nil
 									end
 								else -- If the bullet hit something other than a bodypart..
-									local AdminPlr =  LocalisedFunctions.GetPlayerFromPosition(true,tbl[i].RayObject.Origin,VictimPlr)
-									local AttackerPlr = LocalisedFunctions.GetPlayerFromPosition(false,tbl[i].RayObject.Origin,VictimPlr)
 									if AttackerPlr == nil then AttackerPlr = AdminPlr end AdminPlr=nil
 									if AttackerPlr ~= nil then
 
@@ -6259,9 +6384,8 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 
 
 									end
-
-									AttackerPlr=nil
 								end
+								AttackerPlr=nil
 								VictimPlr=nil
 							end
 						end
