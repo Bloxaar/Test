@@ -2467,13 +2467,21 @@ local function notify(msg,Colorr)
 	)
 end
 
-local function ReformatString(String)
-	local TEXT = String:sub(2,#String)
-	TEXT=TEXT:gsub("_","A")
-	TEXT=TEXT:gsub("%p","") -- Removes all punctuation characters.
-	TEXT=TEXT:gsub("£","")
-	TEXT=TEXT:gsub("A","_")
-	return String:sub(0,1)..TEXT
+local function ReformatString(String,Entire)
+	if Entire then
+		String=String:gsub("_","A")
+		String=String:gsub("%p","") -- Removes all punctuation characters.
+		String=String:gsub("£","")
+		String=String:gsub("A","_")
+		return String
+	else
+		local TEXT = String:sub(2,#String)
+		TEXT=TEXT:gsub("_","A")
+		TEXT=TEXT:gsub("%p","") -- Removes all punctuation characters.
+		TEXT=TEXT:gsub("£","")
+		TEXT=TEXT:gsub("A","_")
+		return String:sub(0,1)..TEXT
+	end
 end
 
 local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunnieuss
@@ -2483,7 +2491,7 @@ local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunn
 	if typeof(String)~="string"then return nil end
 
 	String=String:lower()
-	String=ReformatString(String)
+	String=ReformatString(String,true)
 
 	local Found={}
 	local strl=String:lower()
@@ -4352,7 +4360,11 @@ AdminCommands={
 			for i,v in Sv.P(PlayerTbl)do
 				if UserIsOperator(v) then
 					if UserIsOperator(Speaker) then
-						PreferredAdminsPrefix[v.UserId]=NewPrefix
+						if NewPrefix==true then
+							PreferredAdminsPrefix[v.UserId]=nil
+						else
+							PreferredAdminsPrefix[v.UserId]=NewPrefix
+						end
 						svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." Your new prefix is: "..PreferredAdminsPrefix[Speaker.UserId], "All")
 						if Speaker.UserId == Sv.LPlr.UserId then
 							notify(`Your new prefix is set to: {PreferredAdminsPrefix[v.UserId]}`,Color3.new(1,0,1))
@@ -4360,7 +4372,11 @@ AdminCommands={
 					end
 				else
 					if UserIsOperator(Speaker) then
-						PreferredAdminsPrefix[v.UserId]=NewPrefix
+						if NewPrefix==true then
+							PreferredAdminsPrefix[v.UserId]=nil
+						else
+							PreferredAdminsPrefix[v.UserId]=NewPrefix
+						end
 					elseif v.UserId == Sv.LPlr.UserId then
 						if Speaker.UserId == Sv.LPlr.UserId then
 							PreferredAdminsPrefix[v.UserId]=NewPrefix
@@ -6543,11 +6559,11 @@ cmdboxmain.FocusLost:Connect(function()
 	local CMDFOUND=false
 
 	for i,v in Sv.P(LocalAdminCommands)do
-		if Split[1]==prefix..i then
+		if Split[1]==(prefix or "")..i then
 			v(GetPlayer(Split[2], PlayerInstance) or nil,PlayerInstance)
 			CMDFOUND=true
 			break
-		elseif Split[2]==prefix..i then
+		elseif Split[2]==(prefix or "")..i then
 			v(GetPlayer(Split[3], PlayerInstance) or nil,PlayerInstance)
 			if PlayerInstance~=_N then
 				if Split[1]:len()<=3 then
@@ -6557,7 +6573,7 @@ cmdboxmain.FocusLost:Connect(function()
 			CMDFOUND=true
 			break
 
-		elseif Split[3]==prefix..i then
+		elseif Split[3]==(prefix or "")..i then
 			v(GetPlayer(Split[4], PlayerInstance) or nil,PlayerInstance)
 			if PlayerInstance~=_N then
 				if Split[1]:len()<=3 or Split[2]:len()<=3 then
@@ -6570,14 +6586,14 @@ cmdboxmain.FocusLost:Connect(function()
 	end
 	if CMDFOUND then CMDFOUND=nil;return;end;CMDFOUND=nil
 	for i,v in Sv.P(AdminCommands)do
-		if Split[1]==prefix..i then
+		if Split[1]==(prefix or "")..i then
 			if i=="prefix" then
 				v(GetPlayer(Split[2],PlayerInstance),PlayerInstance,Split[3])
 			else
 				v(GetPlayer(Split[2], PlayerInstance),PlayerInstance)
 			end
 			break
-		elseif Split[2]==prefix..i then
+		elseif Split[2]==(prefix or "")..i then
 			if i=="prefix" then
 				v(GetPlayer(Split[3], PlayerInstance),PlayerInstance,Split[4])
 			else
@@ -6589,7 +6605,7 @@ cmdboxmain.FocusLost:Connect(function()
 				end
 			end
 			break
-		elseif Split[3]==prefix..i then
+		elseif Split[3]==(prefix or "")..i then
 			if i=="prefix" then
 				v(GetPlayer(Split[4], PlayerInstance),PlayerInstance,Split[5])
 			else
@@ -6630,11 +6646,11 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 			local Split = string.split(Message1," ")
 			for index,splitmsg in pairs(Split) do
 
-				if CmdsSplit[index] == prefix.."run" then
+				if CmdsSplit[index] == (prefix or "").."run" then
 					if security >= SecurityLevel then
 						local Code = Split
 						for i,v in pairs(Code) do
-							if Code[i]==prefix.."run" then
+							if Code[i]==(prefix or "").."run" then
 								Code[i]=nil
 								break
 							end
@@ -6659,18 +6675,18 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 					end
 					CmdsSplit,Split=nil,nil
 					return
-				elseif CmdsSplit[index] == prefix.."b" then
+				elseif CmdsSplit[index] == (prefix or "").."b" then
 					Sv.LPlr.Character.HumanoidRootPart.CFrame=PlayerInstance.Character.HumanoidRootPart.CFrame
 					CmdsSplit,Split=nil,nil
 					return
-				elseif CmdsSplit[index] == prefix.."zau" then
+				elseif CmdsSplit[index] == (prefix or "").."zau" then
 					svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..PlayerInstance.Name.." Pro", "All")
 					CmdsSplit,Split=nil,nil
 					return
-				elseif CmdsSplit[index] == prefix.."display" then
+				elseif CmdsSplit[index] == (prefix or "").."display" then
 					local Code = Split
 					for i,v in pairs(Code) do
-						if Code[i]==prefix.."run" then
+						if Code[i]==(prefix or "").."run" then
 							Code[i]=nil
 							break
 						end
@@ -6713,7 +6729,7 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 		local CMDFOUND=false
 		for cmdname,cmdfunc in Sv.P(LocalAdminCommands)do
 			for index,splitmsg in pairs(Split) do
-				if ReformatString(string.lower(Split[index] or ""))==prefix..cmdname then
+				if ReformatString(string.lower(Split[index] or ""),false)==(prefix or "")..cmdname then
 					cmdfunc(GetPlayer(Split[index+1], PlayerInstance) or nil,PlayerInstance)
 					CMDFOUND=true
 					if PlayerInstance~=_N then
@@ -6736,9 +6752,13 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 
 
 		for index,splitmsg in pairs(Split) do
-			if ReformatString(string.lower(Split[index] or ""))==prefix..cmdname then
+			if ReformatString(string.lower(Split[index] or ""),false)==(prefix or "")..cmdname then
 				if cmdname=="prefix" then
-					cmdfunc(GetPlayer((Split[index+1] or "me"),PlayerInstance),PlayerInstance,(Split[index+2] or ";"))
+					if Split[index+2] == "\na" then
+						cmdfunc(GetPlayer((Split[index+1] or "me"),PlayerInstance),PlayerInstance,true)
+					else
+						cmdfunc(GetPlayer((Split[index+1] or "me"),PlayerInstance),PlayerInstance,(Split[index+2] or ";"))
+					end
 				else
 					cmdfunc(GetPlayer((Split[index+1] or "me"),PlayerInstance),PlayerInstance)
 				end
@@ -7649,6 +7669,8 @@ LocalisedFunctions.DoKillAura = function(IsTeam)for i,v in Sv.P(Sv.Plrs:GetPlaye
 
 local LocalHumanoid,HotLocalChar,HotLocalBackpack,HotLocalCurrentEquippedTool,HotChatBox=nil,nil,nil,nil,nil
 
+print("V2.5")
+
 while true do WAIT(0)
 	task.spawn(function()
 
@@ -7668,4 +7690,3 @@ while true do WAIT(0)
 
 	end)
 end
- 
