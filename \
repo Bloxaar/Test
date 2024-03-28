@@ -4533,13 +4533,13 @@ AdminCommands={
 						if Humanoid:GetAttribute("CON")==nil then
 							Humanoid:SetAttribute("CON","")
 							OldHumanoid=Humanoid.Died:Connect(function()
-								task.spawn(function()WAIT(10)Humanoid:SetAttribute("CON",nil) end)
+								task.spawn(function()WAIT(10)Humanoid:SetAttribute("CON",nil) Humanoid=nil end)
 								if Plr:FindFirstChild("DeathXplosive")~=nil then
 									LocalisedFunctions.DoXplosiveThingy({RayObject=Ray.new(HRP.Position,Vector3.new(0,0,0))},Plr,nil,false)
 								else
 									Connections[Plr.UserId]:Disconnect()
 								end 
-								HRP=nil Humanoid=nil	
+								HRP=nil	
 								OldHumanoid:Disconnect()
 							end)
 						end
