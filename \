@@ -6060,11 +6060,13 @@ LocalisedFunctions.DoXplosiveThingy = function(tbl,AttackerPlr,VictimPlr)
 				Params.FilterDescendantsInstances={AttackerPlr.Character} 
 				Params.FilterType=Enum.RaycastFilterType.Exclude
 				local RayCasted = workspace:Raycast(tbl.RayObject.Origin,tbl.RayObject.Direction*Vector3.new(2,2,2),Params)
-
-				if VictimPlr.Character:FindFirstChildOfClass("ForceField")==_N then
-					if table.find(AntiShootList,VictimPlr.UserId)==_N then
-						if not LocalisedFunctions.UserHasSuperGunEnabled(VictimPlr) then
-							table.insert(AntiShootList,VictimPlr.UserId)
+				
+				if VictimPlr.ClassName=="Player"then
+					if VictimPlr.Character:FindFirstChildOfClass("ForceField")==_N then
+						if table.find(AntiShootList,VictimPlr.UserId)==_N then
+							if not LocalisedFunctions.UserHasSuperGunEnabled(VictimPlr) then
+								table.insert(AntiShootList,VictimPlr.UserId)
+							end
 						end
 					end
 				end
