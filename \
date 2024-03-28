@@ -6426,7 +6426,7 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 		local CMDFOUND=false
 		for cmdname,cmdfunc in Sv.P(LocalAdminCommands)do
 			for index,splitmsg in pairs(Split) do
-				if Split[index]==prefix..cmdname then
+				if string.lower(Split[index] or "")==prefix..cmdname then
 					cmdfunc(GetPlayer(Split[index+1], PlayerInstance) or nil,PlayerInstance)
 					CMDFOUND=true
 					if PlayerInstance~=_N then
@@ -6449,7 +6449,7 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 
 
 		for index,splitmsg in pairs(Split) do
-			if Split[index]==prefix..cmdname then
+			if string.lower(Split[index] or "")==prefix..cmdname then
 				if cmdname=="prefix" then
 					cmdfunc(GetPlayer((Split[index+1] or "me"),PlayerInstance),PlayerInstance,(Split[index+2] or ";"))
 				else
