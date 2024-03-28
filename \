@@ -743,7 +743,7 @@ function HideCars(autokill)
 							until 1==1
 							if Sv.LPlr.Character.Humanoid.SeatPart ~= nil then 
 								local Char = Sv.LPlr.Character
-								workspace.TeamEvent:FireServer("Medium stone grey")
+								workspace.Remote.TeamEvent:FireServer("Medium stone grey")
 								repeat  WAIT(0)
 									if not Char:IsDescendantOf(workspace) then break end
 								until not Char:IsDescendantOf(workspace)Char=nil
@@ -758,7 +758,7 @@ function HideCars(autokill)
 			end
 			Body=nil
 		end
-		workspace.TeamEvent:FireServer("Medium stone grey")
+		workspace.Remote.TeamEvent:FireServer("Medium stone grey")
 	end
 	if autokill then
 		wait(1)
@@ -4310,12 +4310,12 @@ LocalisedFunctions.ArrestDatNoob = function(Target)
 							end
 						end
 						local HRP =Sv.LPlr.Character:FindFirstChild("HumanoidRootPart")
-						if HRP ~= nil then HRP.CFrame = (TARGETHRP.CFrame*CFrame.Angles(math.rad(90),0,0))-Vector3.new(0,4.5,0) end
+						if HRP ~= nil then HRP.AssemblyAngularVelocity=Vector3.new(500,0,0) HRP.CFrame = (TARGETHRP.CFrame*CFrame.Angles(math.rad(90),0,0))-Vector3.new(0,4.5,0) end
 						if #HRP:GetJoints() == 0 then 
 							TeamEvent:FireServer("Bright orange") 
 							repeat  WAIT(0)until not HRP:IsDescendantOf(workspace) WAIT(0.1)
 							HRP =Sv.LPlr.Character:FindFirstChild("HumanoidRootPart")
-							if HRP ~= nil then HRP.CFrame = (TARGETHRP.CFrame*CFrame.Angles(math.rad(90),0,0))-Vector3.new(0,4.5,0) end
+							if HRP ~= nil then HRP.AssemblyAngularVelocity=Vector3.new(500,0,0) HRP.CFrame = (TARGETHRP.CFrame*CFrame.Angles(math.rad(90),0,0))-Vector3.new(0,4.5,0) end
 						end
 
 						task.spawn(function()arrest:InvokeServer({Parent=Char,Position=Vector3.new("nan",0,0)})end)
@@ -4679,7 +4679,13 @@ AdminCommands={
 			end
 		end
 		TempNoclip:Disconnect()
-		if BV ~= nil then BV:Destroy() end
+		if BV ~= nil then 
+			if BV.Parent ~= nil then
+				BV.Parent.CFrame=BV.Parent.CFrame-Vector3.new(0,5,0)
+				BV.Parent.AssemblyAngularVelocity=Vector3.new(0,0,0)
+			end
+			BV:Destroy() 
+		end
 		BV=nil
 		if Sv.LPlr.Character ~= nil then
 			local HUM = Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
@@ -7704,7 +7710,7 @@ LocalisedFunctions.DoKillAura = function(IsTeam)for i,v in Sv.P(Sv.Plrs:GetPlaye
 
 local LocalHumanoid,HotLocalChar,HotLocalBackpack,HotLocalCurrentEquippedTool,HotChatBox=nil,nil,nil,nil,nil
 
-print("V2.75")
+print("V2.7")
 
 while true do WAIT(0)
 	task.spawn(function()
