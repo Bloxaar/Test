@@ -3055,6 +3055,7 @@ function dotaze(dat,iskillreq)
 	local A_1={}
 	if iskillreq==_T then
 		for i,plr in Sv.P(dat)do
+			if plr.TeamColor.Name ~= "Bright blue" then
 			if plr.Team.Name~=Sv.LPlr.Team.Name then
 				for i=0,6 do
 					_A.O(A_1,{
@@ -3071,23 +3072,25 @@ _A.O(A_1,{
 })]]
 				end
 			end
+			end
 		end
 	else
 		local Char=nil
 		local Humanoid=nil
 		for i,plr in Sv.P(dat)do
-			Char=plr[_A.P]
-			if Char~=_N then
-				Humanoid=Char:FindFirstChildOfClass("Humanoid")
-				if Humanoid~=_N then
-					if Humanoid.Health <=0 then
-					else
-						for i=0,6 do
-							_A.O(A_1,{
-								["RayObject"]="",--Ray.new(Vector3.new(0,0,0),Vector3.new(0,0,0)),
-								["Hit"]=plr[_A.P].Head,
-								["Cframe"]="",
-							})
+			if plr.TeamColor.Name ~= "Bright blue" then
+				Char=plr[_A.P]
+				if Char~=_N then
+					Humanoid=Char:FindFirstChildOfClass("Humanoid")
+					if Humanoid~=_N then
+						if Humanoid.Health <=0 then
+						else
+							for i=0,6 do
+								_A.O(A_1,{
+									["RayObject"]="",--Ray.new(Vector3.new(0,0,0),Vector3.new(0,0,0)),
+									["Hit"]=plr[_A.P].Head,
+									["Cframe"]="",
+								})
 --[[
 _A.O(A_1,{
 ["RayObject"]=Ray.new(Vector3.new(845, 101, 2269), Vector3.new(-391, 8, -83)),
@@ -3095,6 +3098,7 @@ _A.O(A_1,{
 ["Cframe"]=_A.N(840, 101, 2267, 0, 0, -0.9, 0, 0.9, 0.1, 1, -0.0096, 0.062),
 ["Hit"]=plr[_A.P].Head
 })]]
+							end
 						end
 					end
 				end
@@ -3479,6 +3483,7 @@ LocalisedFunctions.taze = function(dat,iskillreq)
 	local A_1={}
 	if iskillreq==_T then
 		for i,plr in Sv.P(dat)do
+			if plr.TeamColor.Name ~= "Bright blue" then
 			if plr.Team.Name~=Sv.LPlr.Team.Name then
 				if table.find(AddedWhitelists,plr.UserId)then else
 					for i=0,6 do
@@ -3497,11 +3502,13 @@ _A.O(A_1,{
 					end
 				end
 			end
+			end
 		end
 	else
 		local Char=nil
 		local Humanoid=nil
 		for i,plr in Sv.P(dat)do
+			if plr.TeamColor.Name ~= "Bright blue" then
 			if table.find(AddedWhitelists,plr.UserId)then else
 				Char=plr[_A.P]
 				if Char~=_N then
@@ -3526,6 +3533,7 @@ _A.O(A_1,{
 						end
 					end
 				end
+			end
 			end
 		end
 	end
