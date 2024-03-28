@@ -2233,7 +2233,7 @@ local arrest = Remote:FindFirstChild("arrest")
 local equipShield = Remote:FindFirstChild("equipShield")
 
 local ScriptSettings = {}
-ScriptSettings.ExplosionSize=18
+ScriptSettings.ExplosionSize=10
 ScriptSettings.InfectAuraSize=15
 
 
@@ -4461,7 +4461,7 @@ AdminCommands={
 					notify(Plr.Name.." doesnt have explosivegun.",_A.R(1,1,0))
 				end
 			else
-				Plr.SuperGun:Destroy()
+				Plr.XplosiveGun:Destroy()
 				if Speaker==_N then
 					notify(Plr.Name.." nolonger has supergun enabled.",_A.R(1,1,0))
 				else
@@ -7538,4 +7538,3 @@ while true do WAIT(0)
 
 	end)
 end
- 
