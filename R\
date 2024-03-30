@@ -5,7 +5,7 @@ if ToclipboardFunc ~= nil then UserHasClipBoardFunc=true end
 local getcallingscript = getcallingscript or blankfunction
 
 local RSPYRunning=true
-
+ 
 
 
 local LegacySpy = Instance.new("ScreenGui")
