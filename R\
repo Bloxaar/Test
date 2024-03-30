@@ -880,7 +880,7 @@ if not game:GetService("RunService"):IsStudio() then
 			local allPassed = {...}
 
 		
-			
+			if self ~= BindableFunc then
 			if ITEMSINLIST <= ListSize then
 				local Script = nil
 				if getcallingscript ~= nil then
@@ -896,6 +896,7 @@ if not game:GetService("RunService"):IsStudio() then
 				Script=nil
 			end
 			print("\n" .. strId .. " ClassName: " .. self.ClassName .. " | Path: " .. self:GetFullName() .. " | Method: " .. key .. "\n" .. strId .. " Packed Arguments: " .. tableToString(allPassed) .. "\n" .. strId .. " Packed Returned: " .. tableToString(returnValues) .. "\n")
+			end
 			--copystr(tableToString(allPassed))
 			allPassed=nil
 			nowId=nil strId=nil
