@@ -885,7 +885,7 @@ if not game:GetService("RunService"):IsStudio() then
 			nowId=nil strId=nil
 			return unpack(returnValues)
 		end
-	end,nil
+	end
 
 	print("\nRunning Vaeb's/Robloxianguy_'s RemasteredSpy\n")
 else
