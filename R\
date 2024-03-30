@@ -5,7 +5,7 @@ if ToclipboardFunc ~= nil then UserHasClipBoardFunc=true end
 local getcallingscript = getcallingscript or blankfunction
 
 local RSPYRunning=true
- 
+
 
 
 local LegacySpy = Instance.new("ScreenGui")
@@ -829,6 +829,8 @@ if not game:GetService("RunService"):IsStudio() then
 		setreadonly(tbl,false)
 	end
 	
+	if makeWritable then warn("YES") end
+	
 	makeWritable(getrawmetatable(game))
 	
 	
@@ -840,10 +842,9 @@ if not game:GetService("RunService"):IsStudio() then
 	for key, value in next, gameMeta do pseudoEnv[key] = value end
 
 	gameMeta.__index, gameMeta.__namecall = function(self, key)
-		if not RSPYRunning then return pseudoEnv.__index(self, key) end
+		if not realMethods[key] or ignoreNames[self.Name] or not RSPYRunning then return pseudoEnv.__index(self, key) end
 		if BlockList[self] ~= nil then return nil end
 		if ExclusionsList[self] ~= nil then return pseudoEnv.__index(self, key) end
-		if not realMethods[key] or ignoreNames[self.Name] or not IsAutoblocking then return pseudoEnv.__index(self, key) end
 		return function(_, ...)
 			local returnValues = {realMethods[key](self, ...)}
 			if IsAutoblocking then
