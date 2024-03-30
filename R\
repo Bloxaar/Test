@@ -634,7 +634,7 @@ local function Display(Data)
 	local TextToShow = ""
 	
 	
-	TextToShow = "local args = "..tostring(tableToString(Data.Packed))
+	TextToShow = "local args = "..tostring(Data.Packed)
 	TextToShow=TextToShow.."\n"
 	TextToShow=Data.Object:GetFullName()..":"..tostring(Data.Method).."(unpack(args))\n"
 	TextToShow=TextToShow.."args=nil --Optimise mem."
