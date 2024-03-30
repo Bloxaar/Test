@@ -639,7 +639,7 @@ local function Display(Data)
 	TextToShow=Data.Object:GetFullName()..":"..tostring(Data.Method).."(unpack(args))\n"
 	TextToShow=TextToShow.."args=nil --Optimise mem."
 	
-	warn(tableToString(Data.Packed))
+	warn(tableToString(Data.Packed),typeof(tableToString(Data.Packed)))
 	warn("~~~~~~~~~~~~~~~~~~~~~")
 	warn(Data.Packed)
 	warn("--------------------")
