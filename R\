@@ -632,8 +632,9 @@ local SELECTEDREMOTETBL={}
 local function Display(Data)
 
 	local TextToShow = ""
-
-	TextToShow = "local args = "..tableToString(Data.Packed)
+	
+	
+	TextToShow = "local args = "..tostring(tableToString(Data.Packed))
 	TextToShow=TextToShow.."\n\n"
 	TextToShow=Data.Object:GetFullName()..":"..tostring(Data.Method).."(unpack(args))"
 
