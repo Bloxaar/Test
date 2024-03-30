@@ -825,6 +825,10 @@ end
 
 if not game:GetService("RunService"):IsStudio() then
 	
+	local makeWritable = make_writeable or makewriteable or function(tbl)
+		setreadonly(tbl,false)
+	end
+	
 	make_writeable(getrawmetatable(game))
 	
 	
