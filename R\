@@ -653,7 +653,7 @@ end
 ClearLogs.MouseButton1Click:Connect(function()
 	for i,v in pairs(RemotesList:GetChildren()) do
 		if v.ClassName=="Frame" then
-			if v.Name ~= "Template" then
+			if v ~= RemoteTemplate then
 				v:Destroy()
 			end
 		end
