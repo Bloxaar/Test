@@ -1,0 +1,902 @@
+if game:GetService("RunService"):IsStudio() then
+else
+	if make_writeable then
+	else
+		warn("Exec doesnt support make_writable. Exiting thread.")return
+	end
+	if getrawmetatable then
+	else
+		warn("Exec doesnt support getrawmetatable. Exiting thread.")return
+	end
+end
+local UserHasClipBoardFunc=false
+local ToclipboardFunc = setclipboard or toclipboard or set_clipboard or (Clipboard and Clipboard.set)
+if ToclipboardFunc ~= nil then UserHasClipBoardFunc=true end
+
+local getcallingscript = getcallingscript or blankfunction
+
+local RSPYRunning=true
+
+
+
+local LegacySpy = Instance.new("ScreenGui")
+local Main = Instance.new("Frame")
+local OptionsFrame = Instance.new("Frame")
+local Minimize = Instance.new("TextButton")
+local ToggleMaximize = Instance.new("TextButton")
+local Close = Instance.new("TextButton")
+local Title = Instance.new("TextLabel")
+local Frame = Instance.new("Frame")
+local CopyCode = Instance.new("TextButton")
+local RunCode = Instance.new("TextButton")
+local ClearLogs = Instance.new("TextButton")
+local ReturnScript = Instance.new("TextButton")
+local Exclude = Instance.new("TextButton")
+local Block = Instance.new("TextButton")
+local ClearBlocks = Instance.new("TextButton")
+local ClearExclusions = Instance.new("TextButton")
+local DecompileScript = Instance.new("TextButton")
+local Autoblock = Instance.new("TextButton")
+local LogsList = Instance.new("TextButton")
+local RemotesList = Instance.new("ScrollingFrame")
+local RemoteTemplate = Instance.new("Frame")
+local Click = Instance.new("TextButton")
+local Icon = Instance.new("ImageLabel")
+local EventName = Instance.new("TextLabel")
+local UIListLayout = Instance.new("UIListLayout")
+local OutputText = Instance.new("TextLabel")
+local DisplayFrame = Instance.new("ScrollingFrame")
+local TextToDisplay = Instance.new("TextBox")
+local Show = Instance.new("TextButton")
+
+--Properties:
+
+LegacySpy.Name = "LegacySpy"
+local s = pcall(function()
+	LegacySpy.Parent = game:GetService("CoreGui")
+end)
+if not s then
+	wait(1)
+	LegacySpy.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+end s=nil
+LegacySpy.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Main.Name = "Main"
+Main.Parent = LegacySpy
+Main.BackgroundColor3 = Color3.fromRGB(163, 163, 163)
+Main.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Main.BorderSizePixel = 3
+Main.Position = UDim2.new(0.323102772, 0, 0.120270267, 0)
+Main.Size = UDim2.new(0, 370, 0, 280)
+
+OptionsFrame.Name = "OptionsFrame"
+OptionsFrame.Parent = Main
+OptionsFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+OptionsFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+OptionsFrame.BorderSizePixel = 0
+OptionsFrame.Position = UDim2.new(0.775351048, 0, 8.17435151e-08, 0)
+OptionsFrame.Size = UDim2.new(0.224649251, 0, 0.0752678066, 0)
+
+Minimize.Name = "Minimize"
+Minimize.Parent = OptionsFrame
+Minimize.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Minimize.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Minimize.BorderSizePixel = 0
+Minimize.Position = UDim2.new(-0.0231112838, 0, -7.85523753e-07, 0)
+Minimize.Size = UDim2.new(0.357923508, 0, 1.05808318, 0)
+Minimize.Font = Enum.Font.SourceSans
+Minimize.Text = "-"
+Minimize.TextColor3 = Color3.fromRGB(0, 0, 0)
+Minimize.TextScaled = true
+Minimize.TextSize = 14.000
+Minimize.TextWrapped = true
+
+ToggleMaximize.Name = "ToggleMaximize"
+ToggleMaximize.Parent = OptionsFrame
+ToggleMaximize.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ToggleMaximize.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ToggleMaximize.BorderSizePixel = 0
+ToggleMaximize.Position = UDim2.new(0.33481127, 0, -7.85523753e-07, 0)
+ToggleMaximize.Size = UDim2.new(0.332478315, 0, 1.05808318, 0)
+ToggleMaximize.Font = Enum.Font.SourceSans
+ToggleMaximize.Text = "[[]]"
+ToggleMaximize.TextColor3 = Color3.fromRGB(0, 0, 0)
+ToggleMaximize.TextScaled = true
+ToggleMaximize.TextSize = 14.000
+ToggleMaximize.TextWrapped = true
+
+Close.Name = "Close"
+Close.Parent = OptionsFrame
+Close.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Close.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Close.BorderSizePixel = 0
+Close.Position = UDim2.new(0.667323589, 0, -7.85523753e-07, 0)
+Close.Size = UDim2.new(0.332478255, 0, 1.05808318, 0)
+Close.Font = Enum.Font.SourceSans
+Close.Text = "X"
+Close.TextColor3 = Color3.fromRGB(0, 0, 0)
+Close.TextScaled = true
+Close.TextSize = 14.000
+Close.TextWrapped = true
+
+Title.Name = "Title"
+Title.Parent = Main
+Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Title.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Title.BorderSizePixel = 0
+Title.Position = UDim2.new(0.00303629111, 0, 8.17435151e-08, 0)
+Title.Size = UDim2.new(0.766554236, 0, 0.0752678066, 0)
+Title.Font = Enum.Font.SourceSans
+Title.Text = "[LEGACY] Spy - Remastered by RobloxianGuy_"
+Title.TextColor3 = Color3.fromRGB(0, 0, 0)
+Title.TextScaled = true
+Title.TextSize = 14.000
+Title.TextWrapped = true
+
+Frame.Parent = Main
+Frame.BackgroundColor3 = Color3.fromRGB(111, 111, 111)
+Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Frame.BorderSizePixel = 0
+Frame.Position = UDim2.new(0.262240946, 0, 0.578339219, 0)
+Frame.Size = UDim2.new(0.737758934, 0, 0.265287995, 0)
+
+CopyCode.Name = "CopyCode"
+CopyCode.Parent = Frame
+CopyCode.BackgroundColor3 = Color3.fromRGB(145, 145, 145)
+CopyCode.BorderColor3 = Color3.fromRGB(57, 57, 57)
+CopyCode.BorderSizePixel = 2
+CopyCode.Position = UDim2.new(0.0263765119, 0, 0.0664320812, 0)
+CopyCode.Size = UDim2.new(0.211522877, 0, 0.237257853, 0)
+CopyCode.Font = Enum.Font.SourceSans
+CopyCode.Text = "Copy"
+CopyCode.TextColor3 = Color3.fromRGB(0, 0, 0)
+CopyCode.TextScaled = true
+CopyCode.TextSize = 14.000
+CopyCode.TextWrapped = true
+
+RunCode.Name = "RunCode"
+RunCode.Parent = Frame
+RunCode.BackgroundColor3 = Color3.fromRGB(145, 145, 145)
+RunCode.BorderColor3 = Color3.fromRGB(57, 57, 57)
+RunCode.BorderSizePixel = 2
+RunCode.Position = UDim2.new(0.0263765119, 0, 0.380406767, 0)
+RunCode.Size = UDim2.new(0.211522877, 0, 0.237257853, 0)
+RunCode.Font = Enum.Font.SourceSans
+RunCode.Text = "Run!"
+RunCode.TextColor3 = Color3.fromRGB(0, 0, 0)
+RunCode.TextScaled = true
+RunCode.TextSize = 14.000
+RunCode.TextWrapped = true
+
+ClearLogs.Name = "ClearLogs"
+ClearLogs.Parent = Frame
+ClearLogs.BackgroundColor3 = Color3.fromRGB(145, 145, 145)
+ClearLogs.BorderColor3 = Color3.fromRGB(57, 57, 57)
+ClearLogs.BorderSizePixel = 2
+ClearLogs.Position = UDim2.new(0.0263765119, 0, 0.701005161, 0)
+ClearLogs.Size = UDim2.new(0.211522877, 0, 0.237257734, 0)
+ClearLogs.Font = Enum.Font.SourceSans
+ClearLogs.Text = "Clear Logs"
+ClearLogs.TextColor3 = Color3.fromRGB(0, 0, 0)
+ClearLogs.TextScaled = true
+ClearLogs.TextSize = 14.000
+ClearLogs.TextWrapped = true
+
+ReturnScript.Name = "ReturnScript"
+ReturnScript.Parent = Frame
+ReturnScript.BackgroundColor3 = Color3.fromRGB(145, 145, 145)
+ReturnScript.BorderColor3 = Color3.fromRGB(57, 57, 57)
+ReturnScript.BorderSizePixel = 2
+ReturnScript.Position = UDim2.new(0.272332639, 0, 0.0664320812, 0)
+ReturnScript.Size = UDim2.new(0.211522818, 0, 0.237257853, 0)
+ReturnScript.Font = Enum.Font.SourceSans
+ReturnScript.Text = "Get script"
+ReturnScript.TextColor3 = Color3.fromRGB(0, 0, 0)
+ReturnScript.TextScaled = true
+ReturnScript.TextSize = 14.000
+ReturnScript.TextWrapped = true
+
+Exclude.Name = "Exclude"
+Exclude.Parent = Frame
+Exclude.BackgroundColor3 = Color3.fromRGB(145, 145, 145)
+Exclude.BorderColor3 = Color3.fromRGB(57, 57, 57)
+Exclude.BorderSizePixel = 2
+Exclude.Position = UDim2.new(0.272332639, 0, 0.380406767, 0)
+Exclude.Size = UDim2.new(0.211522818, 0, 0.237257853, 0)
+Exclude.Font = Enum.Font.SourceSans
+Exclude.Text = "Exclude [i]"
+Exclude.TextColor3 = Color3.fromRGB(0, 0, 0)
+Exclude.TextScaled = true
+Exclude.TextSize = 14.000
+Exclude.TextWrapped = true
+
+Block.Name = "Block"
+Block.Parent = Frame
+Block.BackgroundColor3 = Color3.fromRGB(145, 145, 145)
+Block.BorderColor3 = Color3.fromRGB(57, 57, 57)
+Block.BorderSizePixel = 2
+Block.Position = UDim2.new(0.272332639, 0, 0.701005161, 0)
+Block.Size = UDim2.new(0.211522818, 0, 0.237257734, 0)
+Block.Font = Enum.Font.SourceSans
+Block.Text = "Block [i]"
+Block.TextColor3 = Color3.fromRGB(0, 0, 0)
+Block.TextScaled = true
+Block.TextSize = 14.000
+Block.TextWrapped = true
+
+ClearBlocks.Name = "ClearBlocks"
+ClearBlocks.Parent = Frame
+ClearBlocks.BackgroundColor3 = Color3.fromRGB(145, 145, 145)
+ClearBlocks.BorderColor3 = Color3.fromRGB(57, 57, 57)
+ClearBlocks.BorderSizePixel = 2
+ClearBlocks.Position = UDim2.new(0.518290043, 0, 0.701005161, 0)
+ClearBlocks.Size = UDim2.new(0.211522758, 0, 0.237257734, 0)
+ClearBlocks.Font = Enum.Font.SourceSans
+ClearBlocks.Text = "!Blocks"
+ClearBlocks.TextColor3 = Color3.fromRGB(126, 0, 0)
+ClearBlocks.TextScaled = true
+ClearBlocks.TextSize = 14.000
+ClearBlocks.TextWrapped = true
+
+ClearExclusions.Name = "ClearExclusions"
+ClearExclusions.Parent = Frame
+ClearExclusions.BackgroundColor3 = Color3.fromRGB(145, 145, 145)
+ClearExclusions.BorderColor3 = Color3.fromRGB(57, 57, 57)
+ClearExclusions.BorderSizePixel = 2
+ClearExclusions.Position = UDim2.new(0.518290043, 0, 0.380406767, 0)
+ClearExclusions.Size = UDim2.new(0.211522758, 0, 0.237257853, 0)
+ClearExclusions.Font = Enum.Font.SourceSans
+ClearExclusions.Text = "!Exclusions"
+ClearExclusions.TextColor3 = Color3.fromRGB(126, 0, 0)
+ClearExclusions.TextScaled = true
+ClearExclusions.TextSize = 14.000
+ClearExclusions.TextWrapped = true
+
+DecompileScript.Name = "DecompileScript"
+DecompileScript.Parent = Frame
+DecompileScript.BackgroundColor3 = Color3.fromRGB(145, 145, 145)
+DecompileScript.BorderColor3 = Color3.fromRGB(57, 57, 57)
+DecompileScript.BorderSizePixel = 2
+DecompileScript.Position = UDim2.new(0.518290043, 0, 0.0664320812, 0)
+DecompileScript.Size = UDim2.new(0.211522758, 0, 0.237257853, 0)
+DecompileScript.Font = Enum.Font.SourceSans
+DecompileScript.Text = "Decompile"
+DecompileScript.TextColor3 = Color3.fromRGB(0, 0, 0)
+DecompileScript.TextScaled = true
+DecompileScript.TextSize = 14.000
+DecompileScript.TextWrapped = true
+
+Autoblock.Name = "Autoblock"
+Autoblock.Parent = Frame
+Autoblock.BackgroundColor3 = Color3.fromRGB(145, 145, 145)
+Autoblock.BorderColor3 = Color3.fromRGB(57, 57, 57)
+Autoblock.BorderSizePixel = 2
+Autoblock.Position = UDim2.new(0.76083535, 0, 0.0664318576, 0)
+Autoblock.Size = UDim2.new(0.211522788, 0, 0.38054049, 0)
+Autoblock.Font = Enum.Font.SourceSans
+Autoblock.Text = "Autoblock [FALSE]"
+Autoblock.TextColor3 = Color3.fromRGB(0, 0, 0)
+Autoblock.TextScaled = true
+Autoblock.TextSize = 14.000
+Autoblock.TextWrapped = true
+
+LogsList.Name = "LogsList"
+LogsList.Parent = Frame
+LogsList.BackgroundColor3 = Color3.fromRGB(145, 145, 145)
+LogsList.BorderColor3 = Color3.fromRGB(57, 57, 57)
+LogsList.BorderSizePixel = 2
+LogsList.Position = UDim2.new(0.76083535, 0, 0.54970032, 0)
+LogsList.Size = UDim2.new(0.211522788, 0, 0.388562471, 0)
+LogsList.Font = Enum.Font.SourceSans
+LogsList.Text = "ListSize: 100"
+LogsList.TextColor3 = Color3.fromRGB(0, 0, 0)
+LogsList.TextScaled = true
+LogsList.TextSize = 14.000
+LogsList.TextWrapped = true
+
+RemotesList.Name = "RemotesList"
+RemotesList.Parent = Main
+RemotesList.Active = true
+RemotesList.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+RemotesList.BorderColor3 = Color3.fromRGB(0, 0, 0)
+RemotesList.BorderSizePixel = 0
+RemotesList.Position = UDim2.new(0.00303038722, 0, 0.0779074505, 0)
+RemotesList.Size = UDim2.new(0.259210825, 0, 0.765719593, 0)
+RemotesList.ScrollBarThickness = 3
+
+RemoteTemplate.Name = "RemoteTemplate"
+RemoteTemplate.Parent = RemotesList
+RemoteTemplate.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+RemoteTemplate.BorderColor3 = Color3.fromRGB(0, 0, 0)
+RemoteTemplate.BorderSizePixel = 0
+RemoteTemplate.Size = UDim2.new(1, 0, 0, 20)
+RemoteTemplate.Visible = false
+
+Click.Name = "Click"
+Click.Parent = RemoteTemplate
+Click.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Click.BackgroundTransparency = 1.000
+Click.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Click.BorderSizePixel = 0
+Click.Size = UDim2.new(1, 0, 1, 0)
+Click.ZIndex = 2
+Click.Font = Enum.Font.SourceSans
+Click.Text = ""
+Click.TextColor3 = Color3.fromRGB(0, 0, 0)
+Click.TextSize = 14.000
+
+Icon.Name = "Icon"
+Icon.Parent = RemoteTemplate
+Icon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Icon.BackgroundTransparency = 1.000
+Icon.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Icon.BorderSizePixel = 0
+Icon.Size = UDim2.new(0.200000003, 0, 1, 0)
+Icon.Image = "rbxassetid://10851817249"
+
+EventName.Name = "EventName"
+EventName.Parent = RemoteTemplate
+EventName.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+EventName.BackgroundTransparency = 1.000
+EventName.BorderColor3 = Color3.fromRGB(0, 0, 0)
+EventName.BorderSizePixel = 0
+EventName.Position = UDim2.new(0.199999884, 0, 0, 0)
+EventName.Size = UDim2.new(0.800000131, 0, 1, 0)
+EventName.Font = Enum.Font.SourceSans
+EventName.Text = "RemoteEvent"
+EventName.TextColor3 = Color3.fromRGB(255, 255, 255)
+EventName.TextScaled = true
+EventName.TextSize = 14.000
+EventName.TextWrapped = true
+EventName.TextXAlignment = Enum.TextXAlignment.Left
+
+UIListLayout.Parent = RemotesList
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout.Padding = UDim.new(0, 3)
+
+OutputText.Name = "OutputText"
+OutputText.Parent = Main
+OutputText.BackgroundColor3 = Color3.fromRGB(165, 165, 165)
+OutputText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+OutputText.BorderSizePixel = 0
+OutputText.Position = UDim2.new(0.00303645735, 0, 0.843627274, 0)
+OutputText.Size = UDim2.new(0.994532108, 0, 0.159944147, 0)
+OutputText.Font = Enum.Font.SourceSans
+OutputText.Text = "Waiting for user to do something.."
+OutputText.TextColor3 = Color3.fromRGB(0, 0, 0)
+OutputText.TextSize = 17.000
+OutputText.TextWrapped = true
+OutputText.TextXAlignment = Enum.TextXAlignment.Left
+OutputText.TextYAlignment = Enum.TextYAlignment.Top
+
+DisplayFrame.Name = "DisplayFrame"
+DisplayFrame.Parent = Main
+DisplayFrame.Active = true
+DisplayFrame.BackgroundColor3 = Color3.fromRGB(126, 126, 126)
+DisplayFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+DisplayFrame.BorderSizePixel = 0
+DisplayFrame.Position = UDim2.new(0.263219684, 0, 0.0752679035, 0)
+DisplayFrame.Size = UDim2.new(0.736780405, 0, 0.501785696, 0)
+DisplayFrame.CanvasSize = UDim2.new(4, 0, 0, 0)
+DisplayFrame.ScrollBarThickness = 2
+
+TextToDisplay.Name = "TextToDisplay"
+TextToDisplay.Parent = DisplayFrame
+TextToDisplay.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextToDisplay.BackgroundTransparency = 1.000
+TextToDisplay.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextToDisplay.BorderSizePixel = 0
+TextToDisplay.Size = UDim2.new(1, 0, 1, 0)
+TextToDisplay.Font = Enum.Font.SourceSans
+TextToDisplay.PlaceholderColor3 = Color3.fromRGB(0, 0, 0)
+TextToDisplay.PlaceholderText = "No code to display :<"
+TextToDisplay.Text = ""
+TextToDisplay.TextColor3 = Color3.fromRGB(0, 0, 0)
+TextToDisplay.TextEditable=false
+TextToDisplay.TextSize = 15.000
+TextToDisplay.TextXAlignment = Enum.TextXAlignment.Left
+TextToDisplay.TextYAlignment = Enum.TextYAlignment.Top
+
+Show.Name = "Show"
+Show.Parent = LegacySpy
+Show.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Show.BackgroundTransparency = 0.450
+Show.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Show.BorderSizePixel = 0
+Show.Position = UDim2.new(0, 0, 0.937837839, 0)
+Show.Size = UDim2.new(0.0393852107, 0, 0.0621621609, 0)
+Show.Font = Enum.Font.SourceSans
+Show.Text = "RSPY"
+Show.TextColor3 = Color3.fromRGB(0, 0, 0)
+Show.TextScaled = true
+Show.TextSize = 14.000
+Show.TextWrapped = true
+Show.Visible=false
+
+
+local UserInputService = game:GetService("UserInputService")
+
+function dragify(Frame)
+
+	local dragToggle = nil
+	local dragSpeed = 0.50
+	local dragInput = nil
+	local dragStart = nil
+	local dragTime = 0.05
+	local dragPos = nil
+	local startPos
+	local function updateInput(input)
+		if Frame:GetAttribute("Locked")==nil then
+			local Delta = input.Position - dragStart
+			local Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + Delta.X, startPos.Y.Scale, startPos.Y.Offset + Delta.Y)
+			game:GetService("TweenService"):Create(Frame, TweenInfo.new(dragTime), {Position = Position}):Play()
+			Delta,Position=nil,nil
+		end
+	end
+	Frame.InputBegan:Connect(function(input)
+		if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) and UserInputService:GetFocusedTextBox() == nil then
+			dragToggle = true
+			dragStart = input.Position
+			startPos = Frame.Position
+			input.Changed:Connect(function()
+				if input.UserInputState == Enum.UserInputState.End then
+					dragToggle = false
+				end
+			end)
+		end
+	end)
+	Frame.InputChanged:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+			dragInput = input
+		end
+	end)
+	game:GetService("UserInputService").InputChanged:Connect(function(input)
+		if input == dragInput and dragToggle then
+			updateInput(input)
+		end
+	end)
+end
+
+
+
+dragify(Main)
+
+
+local BlockList={}
+local ExclusionsList={}
+
+local IsAutoblocking=false
+local ListSize=100
+
+local Sizes={100,150,200,250,300,350,400,450,500}
+
+if not game:GetService("RunService"):IsStudio() then
+	make_writeable(getrawmetatable(game))
+end
+
+local tabChar = "      "
+
+local function getSmaller(a, b, notLast)
+	local aByte = a:byte() or -1
+	local bByte = b:byte() or -1
+	if aByte == bByte then
+		if notLast and #a == 1 and #b == 1 then
+			return -1
+		elseif #b == 1 then
+			return false
+		elseif #a == 1 then
+			return true
+		else
+			return getSmaller(a:sub(2), b:sub(2), notLast)
+		end
+	else
+		return aByte < bByte
+	end
+end
+
+local function parseData(obj, numTabs, isKey, overflow, noTables, forceDict)
+	local objType = typeof(obj)
+	local objStr = tostring(obj)
+	if objType == "table" then
+		if noTables then
+			return objStr
+		end
+		local isCyclic = overflow[obj]
+		overflow[obj] = true
+		local out = {}
+		local nextIndex = 1
+		local isDict = false
+		local hasTables = false
+		local data = {}
+
+		for key, val in next, obj do
+			if not hasTables and typeof(val) == "table" then
+				hasTables = true
+			end
+
+			if not isDict and key ~= nextIndex then
+				isDict = true
+			else
+				nextIndex = nextIndex + 1
+			end
+
+			data[#data+1] = {key, val}
+		end
+
+		if isDict or hasTables or forceDict then
+			out[#out+1] = (isCyclic and "Cyclic " or "") .. "{"
+			table.sort(data, function(a, b)
+				local aType = typeof(a[2])
+				local bType = typeof(b[2])
+				if bType == "string" and aType ~= "string" then
+					return false
+				end
+				local res = getSmaller(aType, bType, true)
+				if res == -1 then
+					return getSmaller(tostring(a[1]), tostring(b[1]))
+				else
+					return res
+				end
+			end)
+			for i = 1, #data do
+				local arr = data[i]
+				local nowKey = arr[1]
+				local nowVal = arr[2]
+				local parseKey = parseData(nowKey, numTabs+1, true, overflow, isCyclic)
+				local parseVal = parseData(nowVal, numTabs+1, false, overflow, isCyclic)
+				if isDict then
+					local nowValType = typeof(nowVal)
+					local preStr = ""
+					local postStr = ""
+					if i > 1 and (nowValType == "table" or typeof(data[i-1][2]) ~= nowValType) then
+						preStr = "\n"
+					end
+					if i < #data and nowValType == "table" and typeof(data[i+1][2]) ~= "table" and typeof(data[i+1][2]) == nowValType then
+						postStr = "\n"
+					end
+					out[#out+1] = preStr .. string.rep(tabChar, numTabs+1) .. parseKey .. " = " .. parseVal .. ";" .. postStr
+				else
+					out[#out+1] = string.rep(tabChar, numTabs+1) .. parseVal .. ";"
+				end
+			end
+			out[#out+1] = string.rep(tabChar, numTabs) .. "}"
+		else
+			local data2 = {}
+			for i = 1, #data do
+				local arr = data[i]
+				local nowVal = arr[2]
+				local parseVal = parseData(nowVal, 0, false, overflow, isCyclic)
+				data2[#data2+1] = parseVal
+			end
+			out[#out+1] = "{" .. table.concat(data2, ", ") .. "}"
+		end
+
+		return table.concat(out, "\n")
+	else
+		local returnVal = nil
+		if (objType == "string" or objType == "Content") and (not isKey or tonumber(obj:sub(1, 1))) then
+			local retVal = '"' .. objStr .. '"'
+			if isKey then
+				retVal = "[" .. retVal .. "]"
+			end
+			returnVal = retVal
+		elseif objType == "EnumItem" then
+			returnVal = "Enum." .. tostring(obj.EnumType) .. "." .. obj.Name
+		elseif objType == "Enum" then
+			returnVal = "Enum." .. objStr
+		elseif objType == "Instance" then
+			returnVal = obj.Parent and obj:GetFullName() or obj.ClassName
+		elseif objType == "CFrame" then
+			returnVal = "CFrame.new(" .. objStr .. ")"
+		elseif objType == "Vector3" then
+			returnVal = "Vector3.new(" .. objStr .. ")"
+		elseif objType == "Vector2" then
+			returnVal = "Vector2.new(" .. objStr .. ")"
+		elseif objType == "UDim2" then
+			returnVal = "UDim2.new(" .. objStr:gsub("[{}]", "") .. ")"
+		elseif objType == "BrickColor" then
+			returnVal = "BrickColor.new(\"" .. objStr .. "\")"
+		elseif objType == "Color3" then
+			returnVal = "Color3.new(" .. objStr .. ")"
+		elseif objType == "NumberRange" then
+			returnVal = "NumberRange.new(" .. objStr:gsub("^%s*(.-)%s*$", "%1"):gsub(" ", ", ") .. ")"
+		elseif objType == "PhysicalProperties" then
+			returnVal = "PhysicalProperties.new(" .. objStr .. ")"
+		else
+			returnVal = objStr
+		end
+		return returnVal
+	end
+end
+
+function tableToString(t)
+	return parseData(t, 0, false, {}, nil, false)
+end
+
+local detectClasses = {
+	BindableEvent = false;
+	BindableFunction = false;
+	RemoteEvent = true;
+	RemoteFunction = true;
+}
+
+local ignoreNames = {
+	Event = true;
+	MessagesChanged = true;
+}
+
+local classMethods = {
+	BindableEvent = "Fire";
+	BindableFunction = "Invoke";
+	RemoteEvent = "FireServer";
+	RemoteFunction = "InvokeServer";
+}
+
+local realMethods = {}
+
+for name, enabled in next, detectClasses do
+	if enabled then
+		realMethods[classMethods[name]] = Instance.new(name)[classMethods[name]]
+	end
+end
+
+local incId = 0
+
+local SELECTEDREMOTETBL={}
+
+local function Display(Data)
+
+	local TextToShow = ""
+
+	TextToShow = "local args = "..tableToString(Data.Packed)
+	TextToShow=TextToShow.."\n\n"
+	TextToShow=Data.Object:GetFullName()..":"..tostring(Data.Method).."(unpack(args))"
+
+	warn(Data.Packed)
+	warn("--------------------")
+	warn(Data.Returned)
+	warn("--------------------")
+	warn(Data.Object)
+	warn("--------------------")
+
+	TextToDisplay.Text="--Code generated by LegacySpy - Remastered\n"..TextToShow
+
+	warn("SAMPLE CODE:\n"..TextToShow)
+	TextToShow=nil
+end
+
+ClearLogs.MouseButton1Click:Connect(function()
+	for i,v in pairs(RemotesList:GetChildren()) do
+		if v.ClassName=="Frame" then
+			if v.Name ~= "Template" then
+				v:Destroy()
+			end
+		end
+	end
+
+	RemotesList.CanvasSize=UDim2.new(0,0,0,0)
+
+end)
+
+local Index=1
+local ITEMSTODISPLAYINLOGS=Sizes[Index]
+
+LogsList.MouseButton1Click:Connect(function()
+	Index+=1
+	if Index > #Sizes then Index=1 end
+	ITEMSTODISPLAYINLOGS=Sizes[Index]
+	LogsList.Text="ListSize: "..tostring(Sizes[Index])
+end)
+Autoblock.MouseButton1Click:Connect(function()
+	IsAutoblocking=not IsAutoblocking
+	Autoblock.Text="Autoblock ["..tostring(IsAutoblocking):upper().."]"
+end)
+
+ClearBlocks.MouseButton1Click:Connect(function()
+	BlockList={}
+	OutputText.Text="Cleared Block list."
+end)
+ClearExclusions.MouseButton1Click:Connect(function()
+	ExclusionsList={}
+	OutputText.Text="Cleared Exclusions."	
+end)
+CopyCode.MouseButton1Click:Connect(function()
+	if UserHasClipBoardFunc then
+		ToclipboardFunc(TextToDisplay.Text)
+		OutputText.Text="Copied to clipboard!"
+	else
+		OutputText.Text="Exec doesnt support clipboard func. Please manually copy the text by highlighting the code displayed above."
+	end
+end)
+Block.MouseButton1Click:Connect(function()
+	if SELECTEDREMOTETBL.Object ~= nil then
+		BlockList[SELECTEDREMOTETBL.Object]=true
+		OutputText.Text="Blocked remote! ["..tostring(SELECTEDREMOTETBL.Object.Name).."] Will no longer be able to send requests."
+	end
+end)
+Exclude.MouseButton1Click:Connect(function()
+	if SELECTEDREMOTETBL.Object ~= nil then
+		ExclusionsList[SELECTEDREMOTETBL.Object]=true
+		OutputText.Text="Excluded remote! ["..tostring(SELECTEDREMOTETBL.Object.Name).."] Will no longer showup on Legacyspy but will still function normally."
+	end	
+	
+end)
+
+RunCode.MouseButton1Click:Connect(function()
+	local s,r =pcall(function()
+		loadstring(TextToDisplay.Text)()
+	end)
+	if not s then
+		OutputText.Text="An error has occoured while trying to execute!\nERROR: "..tostring(r)
+	else
+		OutputText.Text="Successfully executed!"
+	end s,r=nil,nil
+end)
+DecompileScript.MouseButton1Click:Connect(function()
+	if decompile then
+		if UserHasClipBoardFunc then
+			ToclipboardFunc(tostring(decompile(SELECTEDREMOTETBL.Script)))
+			OutputText.Text="Copied decompiled code to clipboard!"
+		else
+			OutputText.Text="Exec doesnt support clipboard func. Decompiled code wont be displayed on screen."
+		end
+	else
+		OutputText.Text="Exec doesnt support this feature. (Missing decompile function)"
+	end
+end)
+ReturnScript.MouseButton1Click:Connect(function()
+	if UserHasClipBoardFunc then
+		if SELECTEDREMOTETBL.Script ~= nil then
+			ToclipboardFunc(SELECTEDREMOTETBL.Script:GetFullName())
+		else
+			ToclipboardFunc(tostring(SELECTEDREMOTETBL.Script))
+		end
+		OutputText.Text="Copied script path to clipboard."
+	else
+		if SELECTEDREMOTETBL.Script ~= nil then
+			OutputText.Text=[[Clipboard is not supported: Copy the path to the script below
+]]..SELECTEDREMOTETBL.Script:GetFullName()			
+		else
+			OutputText.Text="Path to script not found."
+		end
+
+
+	end
+end)
+
+local IsMaximized=false
+
+Show.MouseButton1Click:Connect(function()
+	Main.Visible=true
+	Show.Visible=false
+end)
+
+local OLDPOS=UDim2.new(0,0,0,0)
+Minimize.MouseButton1Click:Connect(function()
+	Main.Visible=false
+	Show.Visible=true
+end)
+ToggleMaximize.MouseButton1Click:Connect(function()
+	IsMaximized=not IsMaximized
+	if IsMaximized then
+		ToggleMaximize.Text="[[]]"
+		OLDPOS=Main.Position
+		Main:SetAttribute("Locked","")
+		Main:TweenSizeAndPosition(UDim2.new(1,0,1,0),UDim2.new(0,0,0,0),Enum.EasingDirection.In,Enum.EasingStyle.Linear,0.05,true)
+		
+	else
+		ToggleMaximize.Text="[]"
+		Main.Size=UDim2.new(0,370,0,280)
+		Main.Position=OLDPOS
+		Main:SetAttribute("Locked",nil)
+	end
+end)
+Close.MouseButton1Click:Connect(function()
+	LegacySpy.Enabled=false
+	RSPYRunning=false
+	BlockList=nil
+	ExclusionsList=nil
+	parseData=nil
+	tableToString=nil
+	Display=nil
+	LegacySpy:Destroy()
+end)
+
+local function CreateViewDataButton(Tbl)
+	local Packed,Returned,TheInstance = Tbl.Packed,Tbl.Returned,Tbl.Object
+
+	local TEMP=RemoteTemplate:Clone()
+	TEMP.Name="Logged"
+	TEMP.Parent=RemotesList
+	TEMP.EventName.Text=TheInstance.Name
+	if TheInstance.ClassName=="RemoteEvent"then
+		TEMP.BackgroundColor3=Color3.new(1, 0.75, 0)
+		TEMP.Icon.Image = "rbxassetid://13936075598"
+	elseif TheInstance.ClassName=="RemoteFunction"then
+		TEMP.BackgroundColor3=Color3.new(0.4, 0, 0.75)
+		TEMP.Icon.Image = "rbxassetid://13936070051"
+	elseif TheInstance.ClassName=="BindableEvent"then
+		TEMP.BackgroundColor3=Color3.new(1, 0.75, 0)
+		TEMP.Icon.Image = "rbxassetid://10851817249"
+	elseif TheInstance.ClassName=="BindableFunction"then
+		TEMP.BackgroundColor3=Color3.new(0.4, 0, 0.75)
+		TEMP.Icon.Image = "rbxassetid://16126950672"
+	end
+	
+	
+	TEMP.Click.MouseButton1Click:Connect(function()
+		SELECTEDREMOTETBL=Tbl
+		Display(Tbl)
+	end)
+
+	TEMP.Visible=true
+
+	if TEMP.Position.Y.Offset >= RemotesList.AbsoluteCanvasSize.Y then
+		RemotesList.CanvasSize+=UDim2.new(0,0,1,0)
+	end
+
+	Packed,Returned,TheInstance=nil,nil,nil--Optimise mem USAGE
+end
+
+if not game:GetService("RunService"):IsStudio() then
+	local Cooldown=0.05
+	local RateLimits = {}
+	
+	local pseudoEnv = {}
+	local gameMeta = getrawmetatable(game)
+	for key, value in next, gameMeta do pseudoEnv[key] = value end
+
+	gameMeta.__index, gameMeta.__namecall = function(self, key)
+		if not RSPYRunning then return pseudoEnv.__index(self, key) end
+		if BlockList[self] ~= nil then return nil end
+		if ExclusionsList[self] ~= nil then return pseudoEnv.__index(self, key) end
+		if not realMethods[key] or ignoreNames[self.Name] or not IsAutoblocking then return pseudoEnv.__index(self, key) end
+		return function(_, ...)
+			local returnValues = {realMethods[key](self, ...)}
+			if IsAutoblocking then
+				if RateLimits[self] ~= nil then
+					if tick() - RateLimits[self] <= Cooldown then
+						return unpack(returnValues)
+					else RateLimits[self]=tick()
+					end
+				else
+					RateLimits[self]=tick()
+				end
+			end
+			incId = incId + 1
+			local nowId = incId
+			local strId = "[RemoteSpy_" .. nowId .. "]"
+
+			local allPassed = {...}
+
+		
+			
+			if #RemotesList:GetChildren()-1 <= ListSize then
+				local Script = nil
+				if getcallingscript ~= nil then
+					Script = getcallingscript()
+				end		
+				CreateViewDataButton({
+					Packed=tableToString(allPassed),
+					Returned=tableToString(returnValues),
+					Method = key,
+					Object = self,
+					Script = Script,
+				})
+				Script=nil
+			end
+			print("\n" .. strId .. " ClassName: " .. self.ClassName .. " | Path: " .. self:GetFullName() .. " | Method: " .. key .. "\n" .. strId .. " Packed Arguments: " .. tableToString(allPassed) .. "\n" .. strId .. " Packed Returned: " .. tableToString(returnValues) .. "\n")
+			--copystr(tableToString(allPassed))
+			allPassed=nil
+			nowId=nil strId=nil
+			return unpack(returnValues)
+		end
+	end,nil
+
+	print("\nRunning Vaeb's/Robloxianguy_'s RemasteredSpy\n")
+else
+
+	print("\nRunning Vaeb's/Robloxianguy_'s RemasteredSpy TESTING MODE")
+end
+
+
