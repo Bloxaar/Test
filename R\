@@ -633,12 +633,14 @@ local function Display(Data)
 
 	local TextToShow = ""
 	
+	TextToShow = "local args = "
 	
-	TextToShow = "local args = "..tostring(Data.Packed)
-	TextToShow=TextToShow.."\n"
+	TextToShow=TextToShow.."}\n"
 	TextToShow=Data.Object:GetFullName()..":"..tostring(Data.Method).."(unpack(args))\n"
 	TextToShow=TextToShow.."args=nil --Optimise mem."
-
+	
+	warn(tableToString(Data.Packed))
+	warn("~~~~~~~~~~~~~~~~~~~~~")
 	warn(Data.Packed)
 	warn("--------------------")
 	warn(Data.Returned)
