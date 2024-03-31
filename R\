@@ -634,9 +634,10 @@ local function Display(Data)
 	local TextToShow = ""
 
 	TextToShow = "local args = "
-	local A = Instance.new("StringValue")
-	A.Value=tableToString(Data.Packed)
-	TextToShow=TextToShow..A.Value.."\n" A.Value=""A=nil
+	local _,Text = pcall(function()
+		return tableToString(Data.Packed)
+	end)
+	TextToShow=TextToShow..Text.."\n" _,Text=nil,nil
 	TextToShow=Data.Object:GetFullName()..":"..tostring(Data.Method).."(unpack(args))\n"
 	TextToShow=TextToShow.."args=nil --Optimise mem."
 
@@ -647,7 +648,7 @@ local function Display(Data)
 	warn("SAMPLE CODE:\n"..TextToShow)
 	TextToShow=nil
 end
-warn("R1")
+warn("R2")
 ClearLogs.MouseButton1Click:Connect(function()
 	for i,v in pairs(RemotesList:GetChildren()) do
 		if v.ClassName=="Frame" then
@@ -909,4 +910,3 @@ else
 end
 
 
- 
