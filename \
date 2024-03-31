@@ -6292,7 +6292,7 @@ LocalisedFunctions.DoXplosiveThingy = function(tbl,AttackerPlr,VictimPlr,IsDeath
 									if FireSound ~= nil then 
 										task.spawn(function()
 											local ClonedVar=FireSound
-											for i=0,15 do SoundEvent:FireServer(ClonedVar) WAIT(0.2) end
+											for i=0,5 do SoundEvent:FireServer(ClonedVar) WAIT(0.2) end
 											ClonedVar=_N
 										end)
 									end
