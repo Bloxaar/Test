@@ -629,17 +629,12 @@ local incId = 0
 
 local SELECTEDREMOTETBL={}
 
-function tableToStr(list)
-	return table.concat(list, ",") -- turn the table into one string, with a comma between each value
-end
-
 local function Display(Data)
 
 	local TextToShow = ""
 	
-	TextToShow = "local args = "..tableToStr(Data.Packed)
-	
-	TextToShow=TextToShow.."}\n"
+	TextToShow = "local args = "
+	TextToShow=TextToShow..tableToString(Data.Packed).."\n"
 	TextToShow=Data.Object:GetFullName()..":"..tostring(Data.Method).."(unpack(args))\n"
 	TextToShow=TextToShow.."args=nil --Optimise mem."
 	
