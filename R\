@@ -886,6 +886,13 @@ if not game:GetService("RunService"):IsStudio() then
 
 
 			if self ~= BindableFunc then
+				if (self.ClassName=="RemoteEvent") and self:FindFirstChild("__Function") then
+					if allPassed[3] == "kick" then
+						allPassed[3]=""	
+					end					
+--This is adonis remote being fired.
+					--Scan for an attempt of adonis kick to avoid being logged.
+				end
 				if ITEMSINLIST <= ListSize then
 					local Script = nil
 					if getcallingscript ~= nil then
