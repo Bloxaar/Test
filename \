@@ -6687,8 +6687,8 @@ Sv.New(function()
 									if HotHeadVar~=_N then
 										local Params = RaycastParams.new()
 										Params.FilterType=Enum.RaycastFilterType.Exclude 
-										Params.FilterDescendantsInstances={HotCharVar.Parent}
-										local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-4,0),Params)Params=nil
+										Params.FilterDescendantsInstances={HotCharVar}
+										local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)Params=nil
 										if FloorMaterial ~= nil then
 											if FloorMaterial.Material==Enum.Material.Grass then
 												HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
@@ -6724,8 +6724,8 @@ Sv.New(function()
 									if HotHeadVar~=_N then
 										local Params = RaycastParams.new()
 										Params.FilterType=Enum.RaycastFilterType.Exclude 
-										Params.FilterDescendantsInstances={HotCharVar.Parent}
-										local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-4,0),Params)Params=nil
+										Params.FilterDescendantsInstances={HotCharVar}
+										local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)Params=nil
 										if FloorMaterial ~= nil then
 											if FloorMaterial.Material==Enum.Material.Concrete then
 												HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
@@ -6761,8 +6761,8 @@ Sv.New(function()
 									if HotHeadVar~=_N then
 										local Params = RaycastParams.new()
 										Params.FilterType=Enum.RaycastFilterType.Exclude 
-										Params.FilterDescendantsInstances={HotCharVar.Parent}
-										local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-4,0),Params)Params=nil
+										Params.FilterDescendantsInstances={HotCharVar}
+										local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)Params=nil
 										if FloorMaterial ~= nil then
 											if FloorMaterial.Material==Enum.Material.Plastic or FloorMaterial.Material==Enum.Material.SmoothPlastic then
 												HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
