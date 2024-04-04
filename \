@@ -854,10 +854,12 @@ pcall(function()
 				for i,v in pairs(workspace:GetDescendants()) do
 					if i/1000 == math.round(i/1000) then wait() end
 					if v.ClassName=="Decal" or v.ClassName=="Accessory"or v.ClassName=="Texture" then
+						v.Name=""
 						v:Destroy()
 					elseif v.ClassName=="UnionOperation" then
+						v:SetAttribute("MT",v.Material.Value)
 						if not v:IsDescendantOf(workspace.Prison_Cellblock) then
-							v.Parent=game:GetService("Lighting")
+							--v.Parent=game:GetService("Lighting")
 						end
 					elseif v:IsA("BasePart") then
 						v:SetAttribute("MT",v.Material.Value)
@@ -868,6 +870,7 @@ pcall(function()
 					elseif v.ClassName:match("Script") then
 						if not v:IsDescendantOf(Sv.LPlr.Character) then
 							v:Destroy()
+							v.Name=""
 						end
 					end
 				end
@@ -4014,7 +4017,7 @@ _A.O(A_1,{
 end
 local AdminCommands,AdminCommandsDESC={},{}
 local LoopKillTBL,GunbanTBL={},{}
-local ConcreteBanTBL,GrassBanTBL,PlasticBanTBL={},{},{}
+local ConcreteBanTBL,GrassBanTBL,PlasticBanTBL,MetalBanTBL={},{},{},{}
 
 local DoorsCooldown=_F
 
@@ -4619,6 +4622,34 @@ AdminCommands={
 					notify(v.Name.." can now touch grass again.",_A.R(1,0,0))
 				end
 				table.remove(GrassBanTBL,table.find(GrassBanTBL,v.UserId))
+			end
+		end
+	end,
+	["metaly"]=function(PlayerTbl,Speaker)
+		if PlayerTbl==_N then return end
+		for i,v in Sv.P(PlayerTbl)do
+			if table.find(MetalBanTBL,v.UserId)~=_N then
+				if Speaker==_N then
+					notify(v.Name.." already cant touch metal.",_A.R(1,1,0))
+				end
+			else
+				_A.O(MetalBanTBL,v.UserId)
+				if Speaker==_N then
+					notify(v.Name.." cant touch metal anymore.",_A.R(1,1,0))
+				else
+					notify(Speaker.Name.." made them not be able to touch metal anymore: "..tostring(v.Name),_A.R(1,1,0))
+				end
+			end
+		end
+	end,
+	["unmetaly"]=function(PlayerTbl,Speaker)
+		if PlayerTbl==_N then return end
+		for i,v in Sv.P(PlayerTbl)do
+			if table.find(MetalBanTBL,v.UserId)~=_N then
+				if Speaker==_N then
+					notify(v.Name.." can now touch metal again.",_A.R(1,0,0))
+				end
+				table.remove(MetalBanTBL,table.find(MetalBanTBL,v.UserId))
 			end
 		end
 	end,
@@ -6640,7 +6671,7 @@ LocalisedFunctions.IsColour = function(Colour,Name)
 	elseif Name == "Plastic" then
 		local MaterialENUMCODE = Colour:GetAttribute("MT")
 		if MaterialENUMCODE ~= nil then
-			if Enum.Material.Plastic.Value==MaterialENUMCODE or Enum.Material.SmoothPlastic.Value==MaterialENUMCODE then
+			if (Enum.Material.Plastic.Value==MaterialENUMCODE or Enum.Material.SmoothPlastic.Value==MaterialENUMCODE) then
 				MaterialENUMCODE=nil
 				return true
 			end
@@ -6650,6 +6681,14 @@ LocalisedFunctions.IsColour = function(Colour,Name)
 				if (Colour.Color.B*255 >= 160 and Colour.Color.R*255 <= 170) then
 					return true
 				end
+			end
+		end
+	elseif Name == "Metal" then
+		local MaterialENUMCODE = Colour:GetAttribute("MT")
+		if MaterialENUMCODE ~= nil then
+			if Enum.Material.DiamondPlate.Value==MaterialENUMCODE then
+				MaterialENUMCODE=nil
+				return true
 			end
 		end
 	end
@@ -6781,6 +6820,43 @@ Sv.New(function()
 										local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)Params=nil
 										if FloorMaterial ~= nil then
 											if FloorMaterial.Material==Enum.Material.Concrete or LocalisedFunctions.IsColour(FloorMaterial,"Concrete") then
+												HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
+												if HotHumanoidVar~=_N then
+													if HotHumanoidVar.Health >0 then
+														if HotHumanoidVar:GetAttribute("LKD")==_N then
+															_A.O(ForceKillTBL,plr)
+															Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+														end
+													end
+												end
+											end
+										end FloorMaterial=nil
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+		if #MetalBanTBL >0 then
+			for i,userid in Sv.P(MetalBanTBL)do
+				plr=Sv.Plrs:GetPlayerByUserId(userid)
+				if plr~=_N then
+					if plr:IsDescendantOf(Sv.Plrs)then
+						if table.find(ForceKillTBL,plr)~=_N then continue end
+						if plr.Team.Name~=Sv.LPlr.Team.Name then
+							HotCharVar=plr[_A.P]
+							if HotCharVar~=_N then
+								if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
+									HotHeadVar=HotCharVar:FindFirstChild("Head")
+									if HotHeadVar~=_N then
+										local Params = RaycastParams.new()
+										Params.FilterType=Enum.RaycastFilterType.Exclude 
+										Params.FilterDescendantsInstances={HotCharVar}
+										local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)Params=nil
+										if FloorMaterial ~= nil then
+											if FloorMaterial.Material==Enum.Material.DiamondPlate or LocalisedFunctions.IsColour(FloorMaterial,"Metal") then
 												HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
 												if HotHumanoidVar~=_N then
 													if HotHumanoidVar.Health >0 then
