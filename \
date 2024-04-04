@@ -6595,6 +6595,14 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 		end
 	end)
 end
+
+LocalisedFunctions.RayCast = function(Origin,Direction,Params)
+	local RayCast = workspace:RayCast(Origin,Direction,Params)
+	if (RayCast ~= nil) and RayCast.Instance then
+		return RayCast.Instance
+	end
+end
+
 Sv.New(function()
 	local HotCharVar=nil
 	local HotHeadVar=nil
