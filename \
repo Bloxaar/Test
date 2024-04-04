@@ -6597,9 +6597,12 @@ if game:GetService("ReplicatedStorage"):FindFirstChild("ReplicateEvent") then
 end
 
 LocalisedFunctions.RayCast = function(Origin,Direction,Params)
-	local RayCast = workspace:RayCast(Origin,Direction,Params)
-	if (RayCast ~= nil) and RayCast.Instance then
-		return RayCast.Instance
+	local RayCast = workspace:Raycast(Origin,Direction,Params)
+	if RayCast ~= nil then
+		if RayCast.Instance ~= nil then
+			return RayCast.Instance
+		end
+		RayCast=nil
 	end
 end
 
@@ -6748,7 +6751,7 @@ Sv.New(function()
 			end
 		end
 		if #PlasticBanTBL >0 then
-			for i,userid in Sv.P(ConcreteBanTBL)do
+			for i,userid in Sv.P(PlasticBanTBL)do
 				plr=Sv.Plrs:GetPlayerByUserId(userid)
 				if plr~=_N then
 					if plr:IsDescendantOf(Sv.Plrs)then
