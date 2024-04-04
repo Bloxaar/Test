@@ -4011,10 +4011,9 @@ _A.O(A_1,{
 	game.ReplicatedStorage.ReloadEvent:FireServer(A_2)
 	A_1=_N;A_2=_N -- Frees memory
 end
-local AdminCommands={}
-local AdminCommandsDESC={}
-local LoopKillTBL={}
-local GunbanTBL={}
+local AdminCommands,AdminCommandsDESC={},{}
+local LoopKillTBL,GunbanTBL={},{}
+local ConcreteBanTBL,GrassBanTBL,PlasticBanTBL={},{},{}
 
 local DoorsCooldown=_F
 
@@ -4498,7 +4497,7 @@ AdminCommands={
 			end
 		end
 	end,
-	["supergun"]=function(PlayerTbl,Speaker)
+	["sgun"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		for i,Plr in Sv.P(PlayerTbl)do
 			if Plr:FindFirstChild("SuperGun")~=_N then
@@ -4515,7 +4514,7 @@ AdminCommands={
 			end
 		end
 	end,
-	["nosupergun"]=function(PlayerTbl,Speaker)
+	["nosgun"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		for i,Plr in Sv.P(PlayerTbl)do
 			if Plr:FindFirstChild("SuperGun")==_N then
@@ -4532,7 +4531,7 @@ AdminCommands={
 			end
 		end
 	end,
-	["expgun"]=function(PlayerTbl,Speaker)
+	["egun"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		for i,Plr in Sv.P(PlayerTbl)do
 			if Plr:FindFirstChild("XplosiveGun")~=_N then
@@ -4549,7 +4548,7 @@ AdminCommands={
 			end
 		end
 	end,
-	["noexpgun"]=function(PlayerTbl,Speaker)
+	["noegun"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		for i,Plr in Sv.P(PlayerTbl)do
 			if Plr:FindFirstChild("XplosiveGun")==_N then
@@ -4563,6 +4562,90 @@ AdminCommands={
 				else
 					notify(Speaker.Name.." removed supergun from "..tostring(Plr.Name),_A.R(1,1,0))
 				end
+			end
+		end
+	end,
+	["concrete"]=function(PlayerTbl,Speaker)
+		if PlayerTbl==_N then return end
+		for i,v in Sv.P(PlayerTbl)do
+			if table.find(ConcreteBanTBL,v.UserId)~=_N then
+				if Speaker==_N then
+					notify(v.Name.." already cant touch concrete.",_A.R(1,1,0))
+				end
+			else
+				_A.O(ConcreteBanTBL,v.UserId)
+				if Speaker==_N then
+					notify(v.Name.." already cant touch concrete.",_A.R(1,1,0))
+				else
+					notify(Speaker.Name.." made them not be able to touch concrete anymore: "..tostring(v.Name),_A.R(1,1,0))
+				end
+			end
+		end
+	end,
+	["unconcrete"]=function(PlayerTbl,Speaker)
+		if PlayerTbl==_N then return end
+		for i,v in Sv.P(PlayerTbl)do
+			if table.find(ConcreteBanTBL,v.UserId)~=_N then
+				if Speaker==_N then
+					notify(v.Name.." can now touch concrete again.",_A.R(1,0,0))
+				end
+				table.remove(ConcreteBanTBL,table.find(ConcreteBanTBL,v.UserId))
+			end
+		end
+	end,
+	["grassy"]=function(PlayerTbl,Speaker)
+		if PlayerTbl==_N then return end
+		for i,v in Sv.P(PlayerTbl)do
+			if table.find(GrassBanTBL,v.UserId)~=_N then
+				if Speaker==_N then
+					notify(v.Name.." already cant touch grass.",_A.R(1,1,0))
+				end
+			else
+				_A.O(GrassBanTBL,v.UserId)
+				if Speaker==_N then
+					notify(v.Name.." cant touch grass anymore.",_A.R(1,1,0))
+				else
+					notify(Speaker.Name.." made them not be able to touch grass anymore: "..tostring(v.Name),_A.R(1,1,0))
+				end
+			end
+		end
+	end,
+	["ungrassy"]=function(PlayerTbl,Speaker)
+		if PlayerTbl==_N then return end
+		for i,v in Sv.P(PlayerTbl)do
+			if table.find(GrassBanTBL,v.UserId)~=_N then
+				if Speaker==_N then
+					notify(v.Name.." can now touch grass again.",_A.R(1,0,0))
+				end
+				table.remove(GrassBanTBL,table.find(GrassBanTBL,v.UserId))
+			end
+		end
+	end,
+	["plasticy"]=function(PlayerTbl,Speaker)
+		if PlayerTbl==_N then return end
+		for i,v in Sv.P(PlayerTbl)do
+			if table.find(PlasticBanTBL,v.UserId)~=_N then
+				if Speaker==_N then
+					notify(v.Name.." already cant touch plastic.",_A.R(1,1,0))
+				end
+			else
+				_A.O(PlasticBanTBL,v.UserId)
+				if Speaker==_N then
+					notify(v.Name.." cant touch plastic anymore.",_A.R(1,1,0))
+				else
+					notify(Speaker.Name.." made them not be able to touch plastic anymore: "..tostring(v.Name),_A.R(1,1,0))
+				end
+			end
+		end
+	end,
+	["unplastic"]=function(PlayerTbl,Speaker)
+		if PlayerTbl==_N then return end
+		for i,v in Sv.P(PlayerTbl)do
+			if table.find(PlasticBanTBL,v.UserId)~=_N then
+				if Speaker==_N then
+					notify(v.Name.." can now touch plastic again.",_A.R(1,0,0))
+				end
+				table.remove(PlasticBanTBL,table.find(PlasticBanTBL,v.UserId))
 			end
 		end
 	end,
@@ -6245,7 +6328,7 @@ LocalisedFunctions.FriendlyFireEnabled = function()
 	Number=nil
 	if ScriptSettings.FriendlyFire==false then return false end
 	if ScriptSettings.FriendlyFire=="no"or ScriptSettings.FriendlyFire=="n" then return false end
-	
+
 	return true
 end
 
@@ -6517,10 +6600,11 @@ Sv.New(function()
 	local HotHeadVar=nil
 	local HotHumanoidVar=nil
 	local KillTBL={}
+	local ForceKillTBL={}
 	local DamageTBL={}
 	local plr=nil
 	while true do WAIT(0.1)
-		KillTBL={}DamageTBL={}
+		KillTBL={}DamageTBL={}ForceKillTBL={}
 		if #DamageList >0 then
 			for i,userid in Sv.P(DamageList)do
 				plr=Sv.Plrs:GetPlayerByUserId(userid)
@@ -6581,6 +6665,117 @@ Sv.New(function()
 				AntiShootList[i]=nil
 			end
 		end
+		if #GrassBanTBL >0 then
+			for i,userid in Sv.P(GrassBanTBL)do
+				plr=Sv.Plrs:GetPlayerByUserId(userid)
+				if plr~=_N then
+					if plr:IsDescendantOf(Sv.Plrs)then
+						if table.find(ForceKillTBL,plr)~=_N then continue end
+						if plr.Team.Name~=Sv.LPlr.Team.Name then
+							HotCharVar=plr[_A.P]
+							if HotCharVar~=_N then
+								if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
+									HotHeadVar=HotCharVar:FindFirstChild("Head")
+									if HotHeadVar~=_N then
+										local Params = RaycastParams.new()
+										Params.FilterType=Enum.RaycastFilterType.Exclude 
+										Params.FilterDescendantsInstances={HotCharVar.Parent}
+										local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-4,0),Params)Params=nil
+										if FloorMaterial ~= nil then
+											if FloorMaterial.Material==Enum.Material.Grass then
+												HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
+												if HotHumanoidVar~=_N then
+													if HotHumanoidVar.Health >0 then
+														if HotHumanoidVar:GetAttribute("LKD")==_N then
+															_A.O(ForceKillTBL,plr)
+															Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+														end
+													end
+												end
+											end
+										end FloorMaterial=nil
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+		if #ConcreteBanTBL >0 then
+			for i,userid in Sv.P(ConcreteBanTBL)do
+				plr=Sv.Plrs:GetPlayerByUserId(userid)
+				if plr~=_N then
+					if plr:IsDescendantOf(Sv.Plrs)then
+						if table.find(ForceKillTBL,plr)~=_N then continue end
+						if plr.Team.Name~=Sv.LPlr.Team.Name then
+							HotCharVar=plr[_A.P]
+							if HotCharVar~=_N then
+								if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
+									HotHeadVar=HotCharVar:FindFirstChild("Head")
+									if HotHeadVar~=_N then
+										local Params = RaycastParams.new()
+										Params.FilterType=Enum.RaycastFilterType.Exclude 
+										Params.FilterDescendantsInstances={HotCharVar.Parent}
+										local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-4,0),Params)Params=nil
+										if FloorMaterial ~= nil then
+											if FloorMaterial.Material==Enum.Material.Concrete then
+												HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
+												if HotHumanoidVar~=_N then
+													if HotHumanoidVar.Health >0 then
+														if HotHumanoidVar:GetAttribute("LKD")==_N then
+															_A.O(ForceKillTBL,plr)
+															Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+														end
+													end
+												end
+											end
+										end FloorMaterial=nil
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+		if #PlasticBanTBL >0 then
+			for i,userid in Sv.P(ConcreteBanTBL)do
+				plr=Sv.Plrs:GetPlayerByUserId(userid)
+				if plr~=_N then
+					if plr:IsDescendantOf(Sv.Plrs)then
+						if table.find(ForceKillTBL,plr)~=_N then continue end
+						if plr.Team.Name~=Sv.LPlr.Team.Name then
+							HotCharVar=plr[_A.P]
+							if HotCharVar~=_N then
+								if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
+									HotHeadVar=HotCharVar:FindFirstChild("Head")
+									if HotHeadVar~=_N then
+										local Params = RaycastParams.new()
+										Params.FilterType=Enum.RaycastFilterType.Exclude 
+										Params.FilterDescendantsInstances={HotCharVar.Parent}
+										local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-4,0),Params)Params=nil
+										if FloorMaterial ~= nil then
+											if FloorMaterial.Material==Enum.Material.Plastic or FloorMaterial.Material==Enum.Material.SmoothPlastic then
+												HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
+												if HotHumanoidVar~=_N then
+													if HotHumanoidVar.Health >0 then
+														if HotHumanoidVar:GetAttribute("LKD")==_N then
+															_A.O(ForceKillTBL,plr)
+															Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+														end
+													end
+												end
+											end
+										end FloorMaterial=nil
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+		end
 		if #LoopKillTBL >0 then
 			for i,userid in Sv.P(LoopKillTBL)do
 				plr=Sv.Plrs:GetPlayerByUserId(userid)
@@ -6638,7 +6833,11 @@ Sv.New(function()
 		if #DamageTBL >0 then
 			LocalisedFunctions.damage(DamageTBL)
 		end
+		if #ForceKillTBL >0 then
+			dokill(ForceKillTBL)
+		end
 		if #KillTBL >0 then
+			if #ForceKillTBL >0 then for i,v in pairs(ForceKillTBL) do if table.find(KillTBL,v) ~= _N then table.remove(KillTBL,table.find(KillTBL,v)) end end end
 			LocalisedFunctions.kill(KillTBL)
 		end
 	end
