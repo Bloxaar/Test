@@ -6817,7 +6817,7 @@ Sv.New(function()
 										Params.FilterDescendantsInstances={HotCharVar}
 										local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)Params=nil
 										if FloorMaterial ~= nil then
-											if FloorMaterial.Material==Enum.Material.Plastic or FloorMaterial.Material==Enum.Material.SmoothPlastic or LocalisedFunctions.IsColour("Plastic") then
+											if LocalisedFunctions.IsColour("Plastic") then
 												HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
 												if HotHumanoidVar~=_N then
 													if HotHumanoidVar.Health >0 then
