@@ -860,6 +860,7 @@ pcall(function()
 							v.Parent=game:GetService("Lighting")
 						end
 					elseif v:IsA("BasePart") then
+						v:SetAttribute("MT",v.Material.Value)
 						v.Material=Enum.Material.Plastic
 						if v.Anchored==false then
 							v.CanCollide=false
@@ -4638,7 +4639,7 @@ AdminCommands={
 			end
 		end
 	end,
-	["unplastic"]=function(PlayerTbl,Speaker)
+	["unplasticy"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		for i,v in Sv.P(PlayerTbl)do
 			if table.find(PlasticBanTBL,v.UserId)~=_N then
@@ -6605,6 +6606,55 @@ LocalisedFunctions.RayCast = function(Origin,Direction,Params)
 		RayCast=nil
 	end
 end
+LocalisedFunctions.IsColour = function(Colour,Name)
+	if Name == "Grass" then
+		local MaterialENUMCODE = Colour:GetAttribute("MT")
+		if MaterialENUMCODE ~= nil then
+			if Enum.Material.Grass.Value==MaterialENUMCODE then
+				MaterialENUMCODE=nil
+				return true
+			end
+		end
+		if (Colour.Color.R*255 >= 75 and Colour.Color.R*255 <= 80) then 
+			if Colour.Color.G*255 >= 150 then
+				if (Colour.Color.B*255 >= 75 and Colour.Color.R*255 <= 80) then
+					return true
+				end
+			end
+		end
+	elseif Name == "Concrete" then
+		local MaterialENUMCODE = Colour:GetAttribute("MT")
+		if MaterialENUMCODE ~= nil then
+			if Enum.Material.Concrete.Value==MaterialENUMCODE then
+				MaterialENUMCODE=nil
+				return true
+			end
+		end
+		if (Colour.Color.R*255 >= 160 and Colour.Color.R*255 <= 170) then 
+			if (Colour.Color.R*255 >= 160 and Colour.Color.R*255 <= 170) then
+				if (Colour.Color.B*255 >= 160 and Colour.Color.R*255 <= 170) then
+					return true
+				end
+			end
+		end
+	elseif Name == "Plastic" then
+		local MaterialENUMCODE = Colour:GetAttribute("MT")
+		if MaterialENUMCODE ~= nil then
+			if Enum.Material.Plastic.Value==MaterialENUMCODE or Enum.Material.SmoothPlastic.Value==MaterialENUMCODE then
+				MaterialENUMCODE=nil
+				return true
+			end
+		end
+		if (Colour.Color.R*255 >= 160 and Colour.Color.R*255 <= 170) then 
+			if (Colour.Color.R*255 >= 160 and Colour.Color.R*255 <= 170) then
+				if (Colour.Color.B*255 >= 160 and Colour.Color.R*255 <= 170) then
+					return true
+				end
+			end
+		end
+	end
+	return false
+end
 
 Sv.New(function()
 	local HotCharVar=nil
@@ -6693,7 +6743,7 @@ Sv.New(function()
 										Params.FilterDescendantsInstances={HotCharVar}
 										local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)Params=nil
 										if FloorMaterial ~= nil then
-											if FloorMaterial.Material==Enum.Material.Grass then
+											if FloorMaterial.Material==Enum.Material.Grass or LocalisedFunctions.IsColour(FloorMaterial,"Grass") then
 												HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
 												if HotHumanoidVar~=_N then
 													if HotHumanoidVar.Health >0 then
@@ -6730,7 +6780,7 @@ Sv.New(function()
 										Params.FilterDescendantsInstances={HotCharVar}
 										local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)Params=nil
 										if FloorMaterial ~= nil then
-											if FloorMaterial.Material==Enum.Material.Concrete then
+											if FloorMaterial.Material==Enum.Material.Concrete or LocalisedFunctions.IsColour(FloorMaterial,"Concrete") then
 												HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
 												if HotHumanoidVar~=_N then
 													if HotHumanoidVar.Health >0 then
@@ -6767,7 +6817,7 @@ Sv.New(function()
 										Params.FilterDescendantsInstances={HotCharVar}
 										local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)Params=nil
 										if FloorMaterial ~= nil then
-											if FloorMaterial.Material==Enum.Material.Plastic or FloorMaterial.Material==Enum.Material.SmoothPlastic then
+											if FloorMaterial.Material==Enum.Material.Plastic or FloorMaterial.Material==Enum.Material.SmoothPlastic or LocalisedFunctions.IsColour("Plastic") then
 												HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
 												if HotHumanoidVar~=_N then
 													if HotHumanoidVar.Health >0 then
