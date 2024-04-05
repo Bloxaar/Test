@@ -6692,9 +6692,9 @@ LocalisedFunctions.IsColour = function(Colour,Name)
 			if Enum.Material.DiamondPlate.Value==MaterialENUMCODE then
 				MaterialENUMCODE=nil
 				return true 
-			elseif Enum.Material.Metal.Value==MaterialENUMCODE then
-				MaterialENUMCODE=nil
-				return true
+			--elseif Enum.Material.Metal.Value==MaterialENUMCODE then
+				--MaterialENUMCODE=nil
+				--return true
 			end
 		end
 	end
