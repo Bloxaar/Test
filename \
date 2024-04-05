@@ -6669,6 +6669,7 @@ LocalisedFunctions.IsColour = function(Colour,Name)
 			end
 		end
 	elseif Name == "Plastic" then
+		if Colour.ClassName=="SpawnLocation" then return false end
 		local MaterialENUMCODE = Colour:GetAttribute("MT")
 		if MaterialENUMCODE ~= nil then
 			if Enum.Material.Plastic.Value==MaterialENUMCODE then
