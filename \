@@ -6695,7 +6695,45 @@ LocalisedFunctions.RayCast = function(Origin,Direction,Params)
 		RayCast=nil
 	end
 end
-LocalisedFunctions.IsColour = function(Colour,Name)
+LocalisedFunctions.IsColour = function(Colour,Name,BrickColorCheck)
+	if BrickColorCheck then		
+		if Name=="!Dark" then
+			local CC = Colour.BrickColor.Name:lower()
+			if CC:match("dark")or CC:match("black")or CC =="deep blue"or CC =="navy blue"or CC:match("burnt") then
+				CC=nil
+				return true
+			end	CC=nil
+			local Lightness =Colour.Color.R*255
+			Lightness+=Colour.Color.G*255
+			Lightness+=Colour.Color.B*255
+			if Lightness <=150 then
+				Lightness=nil
+				return true
+			else
+				warn(Lightness,Colour.BrickColor.Name,Colour:GetFullName())
+				
+			end
+			
+			Lightness=nil
+		elseif Name=="!Light" then
+			local CC = Colour.BrickColor.Name:lower()
+			if CC:match("light")or CC:match("black") then
+				CC=nil
+				return true
+			end	CC=nil
+			local Lightness =Colour.Color.R*255
+			Lightness+=Colour.Color.G*255
+			Lightness+=Colour.Color.B*255
+			if Lightness >=150 then
+				Lightness=nil
+				return true
+			else
+				warn(Lightness,Colour.BrickColor.Name,Colour:GetFullName())
+
+			end		
+end
+		return false
+	end
 	if Name == "Grass" then
 		local MaterialENUMCODE = Colour:GetAttribute("MT")
 		if MaterialENUMCODE ~= nil then
@@ -6959,6 +6997,80 @@ Sv.New(function()
 										local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)Params=nil
 										if FloorMaterial ~= nil then
 											if LocalisedFunctions.IsColour(FloorMaterial,"Plastic") then
+												HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
+												if HotHumanoidVar~=_N then
+													if HotHumanoidVar.Health >0 then
+														if HotHumanoidVar:GetAttribute("LKD")==_N then
+															_A.O(ForceKillTBL,plr)
+															Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+														end
+													end
+												end
+											end
+										end FloorMaterial=nil
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+		if #BanTBLS.Stored_LightyBanTBL >0 then
+			for i,userid in Sv.P(BanTBLS.Stored_LightyBanTBL)do
+				plr=Sv.Plrs:GetPlayerByUserId(userid)
+				if plr~=_N then
+					if plr:IsDescendantOf(Sv.Plrs)then
+						if table.find(ForceKillTBL,plr)~=_N then continue end
+						if plr.Team.Name~=Sv.LPlr.Team.Name then
+							HotCharVar=plr[_A.P]
+							if HotCharVar~=_N then
+								if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
+									HotHeadVar=HotCharVar:FindFirstChild("Head")
+									if HotHeadVar~=_N then
+										local Params = RaycastParams.new()
+										Params.FilterType=Enum.RaycastFilterType.Exclude 
+										Params.FilterDescendantsInstances={HotCharVar}
+										local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)Params=nil
+										if FloorMaterial ~= nil then
+											if LocalisedFunctions.IsColour(FloorMaterial,"!Light",true) then
+												HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
+												if HotHumanoidVar~=_N then
+													if HotHumanoidVar.Health >0 then
+														if HotHumanoidVar:GetAttribute("LKD")==_N then
+															_A.O(ForceKillTBL,plr)
+															Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+														end
+													end
+												end
+											end
+										end FloorMaterial=nil
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+		if #BanTBLS.Stored_DarkyBanTBL >0 then
+			for i,userid in Sv.P(BanTBLS.Stored_DarkyBanTBL)do
+				plr=Sv.Plrs:GetPlayerByUserId(userid)
+				if plr~=_N then
+					if plr:IsDescendantOf(Sv.Plrs)then
+						if table.find(ForceKillTBL,plr)~=_N then continue end
+						if plr.Team.Name~=Sv.LPlr.Team.Name then
+							HotCharVar=plr[_A.P]
+							if HotCharVar~=_N then
+								if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
+									HotHeadVar=HotCharVar:FindFirstChild("Head")
+									if HotHeadVar~=_N then
+										local Params = RaycastParams.new()
+										Params.FilterType=Enum.RaycastFilterType.Exclude 
+										Params.FilterDescendantsInstances={HotCharVar}
+										local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)Params=nil
+										if FloorMaterial ~= nil then
+											if LocalisedFunctions.IsColour(FloorMaterial,"!Dark",true) then
 												HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
 												if HotHumanoidVar~=_N then
 													if HotHumanoidVar.Health >0 then
@@ -8167,7 +8279,7 @@ LocalisedFunctions.DoKillAura = function(IsTeam)for i,v in Sv.P(Sv.Plrs:GetPlaye
 
 local LocalHumanoid,HotLocalChar,HotLocalBackpack,HotLocalCurrentEquippedTool,HotChatBox=nil,nil,nil,nil,nil
 
-print("V2.75")
+print("V2.73")
 
 while true do WAIT(0)
 	task.spawn(function()
