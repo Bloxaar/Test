@@ -6710,10 +6710,10 @@ LocalisedFunctions.IsColour = function(Colour,Name,BrickColorCheck)
 				Lightness=nil
 				return true
 			else
-				warn(Lightness,Colour.BrickColor.Name,Colour:GetFullName())
-				
+				warn(tostring(Lightness).." / 150",Colour.BrickColor.Name,Colour:GetFullName())
+
 			end
-			
+
 			Lightness=nil
 		elseif Name=="!Light" then
 			local CC = Colour.BrickColor.Name:lower()
@@ -6728,10 +6728,10 @@ LocalisedFunctions.IsColour = function(Colour,Name,BrickColorCheck)
 				Lightness=nil
 				return true
 			else
-				warn(Lightness,Colour.BrickColor.Name,Colour:GetFullName())
+				warn(tostring(Lightness).." / 150",Colour.BrickColor.Name,Colour:GetFullName())
 
 			end		
-end
+		end
 		return false
 	end
 	if Name == "Grass" then
