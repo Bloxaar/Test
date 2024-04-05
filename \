@@ -6671,8 +6671,11 @@ LocalisedFunctions.IsColour = function(Colour,Name)
 	elseif Name == "Plastic" then
 		local MaterialENUMCODE = Colour:GetAttribute("MT")
 		if MaterialENUMCODE ~= nil then
-			if (Enum.Material.Plastic.Value==MaterialENUMCODE or Enum.Material.SmoothPlastic.Value==MaterialENUMCODE) then
+			if Enum.Material.Plastic.Value==MaterialENUMCODE then
 				MaterialENUMCODE=nil
+				return true
+			elseif Enum.Material.SmoothPlastic.Value==MaterialENUMCODE then
+				MaterialENUMCODE=nil 
 				return true
 			end
 		end
@@ -6687,6 +6690,9 @@ LocalisedFunctions.IsColour = function(Colour,Name)
 		local MaterialENUMCODE = Colour:GetAttribute("MT")
 		if MaterialENUMCODE ~= nil then
 			if Enum.Material.DiamondPlate.Value==MaterialENUMCODE then
+				MaterialENUMCODE=nil
+				return true 
+			elseif Enum.Material.Metal.Value==MaterialENUMCODE then
 				MaterialENUMCODE=nil
 				return true
 			end
@@ -6893,7 +6899,7 @@ Sv.New(function()
 										Params.FilterDescendantsInstances={HotCharVar}
 										local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)Params=nil
 										if FloorMaterial ~= nil then
-											if LocalisedFunctions.IsColour("Plastic") then
+											if LocalisedFunctions.IsColour(FloorMaterial,"Plastic") then
 												HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
 												if HotHumanoidVar~=_N then
 													if HotHumanoidVar.Health >0 then
