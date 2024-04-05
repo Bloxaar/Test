@@ -6646,26 +6646,12 @@ LocalisedFunctions.IsColour = function(Colour,Name)
 				return true
 			end
 		end
-		if (Colour.Color.R*255 >= 75 and Colour.Color.R*255 <= 80) then 
-			if Colour.Color.G*255 >= 150 then
-				if (Colour.Color.B*255 >= 75 and Colour.Color.R*255 <= 80) then
-					return true
-				end
-			end
-		end
 	elseif Name == "Concrete" then
 		local MaterialENUMCODE = Colour:GetAttribute("MT")
 		if MaterialENUMCODE ~= nil then
 			if Enum.Material.Concrete.Value==MaterialENUMCODE then
 				MaterialENUMCODE=nil
 				return true
-			end
-		end
-		if (Colour.Color.R*255 >= 160 and Colour.Color.R*255 <= 170) then 
-			if (Colour.Color.R*255 >= 160 and Colour.Color.R*255 <= 170) then
-				if (Colour.Color.B*255 >= 160 and Colour.Color.R*255 <= 170) then
-					return true
-				end
 			end
 		end
 	elseif Name == "Plastic" then
@@ -6678,13 +6664,6 @@ LocalisedFunctions.IsColour = function(Colour,Name)
 			elseif Enum.Material.SmoothPlastic.Value==MaterialENUMCODE then
 				MaterialENUMCODE=nil 
 				return true
-			end
-		end
-		if (Colour.Color.R*255 >= 160 and Colour.Color.R*255 <= 170) then 
-			if (Colour.Color.R*255 >= 160 and Colour.Color.R*255 <= 170) then
-				if (Colour.Color.B*255 >= 160 and Colour.Color.R*255 <= 170) then
-					return true
-				end
 			end
 		end
 	elseif Name == "Metal" then
