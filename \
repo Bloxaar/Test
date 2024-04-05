@@ -282,60 +282,6 @@ function say(msg)
 end
 
 
-function AutoJoin(User)
-	local Place = game.PlaceId
-	local HttpService = game:GetService("HttpService")
-
-	local FoundUser, UserId = pcall(function()
-		if tonumber(User) then
-			return tonumber(User)
-		end
-
-		return game:GetService("Players"):GetUserIdFromNameAsync(User)
-	end)
-
-	local Plr = game.Players:GetPlayerByUserId(UserId)
-	if Plr ~= nil then
-		repeat wait(1)
-			Plr = game.Players:GetPlayerByUserId(UserId)
-		until Plr==nil
-	end
-
-	if not FoundUser then
-		warn('Join Error','Username/UserID does not exist')
-	else
-		while wait(5) do
-			warn('Join Player','Loading servers. Hold on a second.')
-			local URL2 = ("https://games.roblox.com/v1/games/"..Place.."/servers/Public?sortOrder=Asc&limit=100")
-			local Http = HttpService:JSONDecode(game:HttpGet(URL2))
-			local GUID
-
-			local function tablelength(T)
-				local count = 0
-				for _ in pairs(T) do count = count + 1 end
-				return count
-			end
-
-			for i=1,tonumber(tablelength(Http.data)) do
-				for j,k in pairs(Http.data[i].playerIds) do
-					if k == UserId then
-						GUID = Http.data[i].id
-					end
-				end
-			end
-			tablelength=nil
-			if GUID ~= nil then
-				warn('Join Player','Joining '..User)
-				game:GetService("TeleportService"):TeleportToPlaceInstance(Place,GUID,Players.LocalPlayer)
-			else
-				warn('Join Error','Unable to join user.')
-			end
-		end
-	end
-
-end
-
-
 
 local words = {
 	['gay'] = 'Bullying',
@@ -373,6 +319,8 @@ local words = {
 	['l ez'] = 'Bullying',
 	['negro'] = 'Bullying',
 	['nivver'] = 'Bullying',
+	['n word'] = 'Bullying',
+	['swear'] = 'Bullying',
 	['negar'] = 'Bullying',
 	['bad'] = 'Bullying',
 	['worst'] = 'Bullying',
@@ -382,7 +330,7 @@ local words = {
 	['cheat'] = 'Scamming',
 	['download'] = 'Offsite Links',
 	['youtube'] = 'Offsite Links',
-	['dizzy'] = 'Offsite Links',
+	['discord'] = 'Offsite Links',
 	['trans'] = 'Bullying',
 	['lgbt'] = 'Bullying'
 }
@@ -400,7 +348,7 @@ function report(Player,Amount,Reason)
 	for i=0,Amount do
 
 		if i/2 == math.round(Amount/2) then
-			say(`File progress is {i}/Amount!.!.!`)
+			say(`File progress is {i}/{Amount}!.!.!`)
 		end
 
 		Sv.Plrs:ReportAbuse(Player, ActualReason, Reason)
@@ -422,17 +370,31 @@ local KeyMappings = {}
 
 function keypress(Key,TimeHeld)
 	if Key == nil then return end
-	if KeyMappings[tostring(Key):lower()] ~= nil then -- More efficient.
-		Key = KeyMappings[tostring(Key):lower()]
+	if typeof(Key) == "number" then
+		if KeyMappings[tostring(Key):lower()] ~= nil then -- More efficient.
+			Key = KeyMappings[tostring(Key):lower()]
+		else
+			for i,v in pairs(Enum.KeyCode:GetEnumItems()) do
+				if v.Value == Key then
+					Key = v 
+					break
+				end
+			end
+		end
 	else
-		for i,v in pairs(Enum.KeyCode:GetEnumItems()) do
-			if (tostring(v):gsub("Enum%.KeyCode%.","")):lower() == tostring(Key):lower() then
-				KeyMappings[tostring(Key):lower()]= v
-				Key = v
-				break
+		if KeyMappings[tostring(Key):lower()] ~= nil then -- More efficient.
+			Key = KeyMappings[tostring(Key):lower()]
+		else
+			for i,v in pairs(Enum.KeyCode:GetEnumItems()) do
+				if (tostring(v):gsub("Enum%.KeyCode%.","")):lower() == tostring(Key):lower() then
+					KeyMappings[tostring(Key):lower()]= v
+					Key = v
+					break
+				end
 			end
 		end
 	end
+
 	if typeof(Key) == "EnumItem" then
 		game:GetService("VirtualInputManager"):SendKeyEvent(false, Key, false, nil)
 
@@ -446,18 +408,32 @@ function keypress(Key,TimeHeld)
 
 	else
 		warn(Key," is not a valid EnumItem.")
+		Key=nil
 	end
 end
 function keydown(Key)
 	if Key == nil then return end
-	if KeyMappings[tostring(Key):lower()] ~= nil then -- More efficient.
-		Key = KeyMappings[tostring(Key):lower()]
+	if typeof(Key) == "number" then
+		if KeyMappings[tostring(Key):lower()] ~= nil then -- More efficient.
+			Key = KeyMappings[tostring(Key):lower()]
+		else
+			for i,v in pairs(Enum.KeyCode:GetEnumItems()) do
+				if v.Value == Key then
+					Key = v 
+					break
+				end
+			end
+		end
 	else
-		for i,v in pairs(Enum.KeyCode:GetEnumItems()) do
-			if (tostring(v):gsub("Enum%.KeyCode%.","")):lower() == tostring(Key):lower() then
-				KeyMappings[tostring(Key):lower()]= v
-				Key = v
-				break
+		if KeyMappings[tostring(Key):lower()] ~= nil then -- More efficient.
+			Key = KeyMappings[tostring(Key):lower()]
+		else
+			for i,v in pairs(Enum.KeyCode:GetEnumItems()) do
+				if (tostring(v):gsub("Enum%.KeyCode%.","")):lower() == tostring(Key):lower() then
+					KeyMappings[tostring(Key):lower()]= v
+					Key = v
+					break
+				end
 			end
 		end
 	end
@@ -471,16 +447,29 @@ function keydown(Key)
 end
 function keyup(Key)
 	if Key == nil then return end
-	if KeyMappings[tostring(Key):lower()] ~= nil then -- More efficient.
-		Key = KeyMappings[tostring(Key):lower()]
-	else
-		for i,v in pairs(Enum.KeyCode:GetEnumItems()) do
-			if (tostring(v):gsub("Enum%.KeyCode%.","")):lower() == tostring(Key):lower() then
-				KeyMappings[tostring(Key):lower()]= v
-				Key = v
-				break
+	if typeof(Key) == "number" then
+		if KeyMappings[tostring(Key):lower()] ~= nil then -- More efficient.
+			Key = KeyMappings[tostring(Key):lower()]
+		else
+			for i,v in pairs(Enum.KeyCode:GetEnumItems()) do
+				if v.Value == Key then
+					Key = v 
+					break
+				end
 			end
 		end
+	else
+		if KeyMappings[tostring(Key):lower()] ~= nil then -- More efficient.
+			Key = KeyMappings[tostring(Key):lower()]
+		else
+			for i,v in pairs(Enum.KeyCode:GetEnumItems()) do
+				if (tostring(v):gsub("Enum%.KeyCode%.","")):lower() == tostring(Key):lower() then
+					KeyMappings[tostring(Key):lower()]= v
+					Key = v
+					break
+				end
+			end
+		end 
 	end
 	if typeof(Key) == "EnumItem" then
 
@@ -781,36 +770,41 @@ function HideCars(autokill)
 			local Body = car:FindFirstChild("Body")
 			if Body ~= nil then
 				local Seats = {}
+				local CarIsNearNeutralSpawn=false
 				for i,v in pairs(Body:GetChildren()) do
 					if #Seats>=4 then break end
 					if v.ClassName=="Seat"or v.ClassName=="VehicleSeat"then
+						if (v.Position-Sv.LPlr.Character.Head.Position).Magnitude <= 50 then CarIsNearNeutralSpawn=true break end
 						table.insert(Seats,v)
 					end
 				end
-				for i,v in pairs(Seats) do
-					if v.Occupant == nil then
-						if v:FindFirstChildOfClass("Weld") == nil then
-							local A=40
-							repeat  WAIT(0.05)A-=1
-								if A<=0 then break end
-								if not v:IsDescendantOf(workspace) then break end
-								v:Sit(Sv.LPlr.Character.Humanoid)
-								if Sv.LPlr.Character.Humanoid.SeatPart ~= nil then break end
-							until 1==1
-							if Sv.LPlr.Character.Humanoid.SeatPart ~= nil then 
-								local Char = Sv.LPlr.Character
-								workspace.Remote.TeamEvent:FireServer("Medium stone grey")
-								repeat  WAIT(0)
-									if not Char:IsDescendantOf(workspace) then break end
-								until not Char:IsDescendantOf(workspace)Char=nil
-								WAIT(0.05)
-								break 
+				if CarIsNearNeutralSpawn then
+				else
+					for i,v in pairs(Seats) do
+						if v.Occupant == nil then
+							if v:FindFirstChildOfClass("Weld") == nil then
+								local A=40
+								repeat  WAIT(0.05)A-=1
+									if A<=0 then break end
+									if not v:IsDescendantOf(workspace) then break end
+									v:Sit(Sv.LPlr.Character.Humanoid)
+									if Sv.LPlr.Character.Humanoid.SeatPart ~= nil then break end
+								until 1==1
+								if Sv.LPlr.Character.Humanoid.SeatPart ~= nil then 
+									local Char = Sv.LPlr.Character
+									workspace.Remote.TeamEvent:FireServer("Medium stone grey")
+									repeat  WAIT(0)
+										if not Char:IsDescendantOf(workspace) then break end
+									until not Char:IsDescendantOf(workspace)Char=nil
+									WAIT(0.05)
+									break 
+								end
+								A=nil
 							end
-							A=nil
 						end
 					end
 				end
-				Seats=nil
+				Seats=nil CarIsNearNeutralSpawn=nil 
 			end
 			Body=nil
 		end
@@ -6646,12 +6640,26 @@ LocalisedFunctions.IsColour = function(Colour,Name)
 				return true
 			end
 		end
+		if (Colour.Color.R*255 >= 75 and Colour.Color.R*255 <= 80) then 
+			if Colour.Color.G*255 >= 150 then
+				if (Colour.Color.B*255 >= 75 and Colour.Color.R*255 <= 80) then
+					return true
+				end
+			end
+		end
 	elseif Name == "Concrete" then
 		local MaterialENUMCODE = Colour:GetAttribute("MT")
 		if MaterialENUMCODE ~= nil then
 			if Enum.Material.Concrete.Value==MaterialENUMCODE then
 				MaterialENUMCODE=nil
 				return true
+			end
+		end
+		if (Colour.Color.R*255 >= 160 and Colour.Color.R*255 <= 170) then 
+			if (Colour.Color.R*255 >= 160 and Colour.Color.R*255 <= 170) then
+				if (Colour.Color.B*255 >= 160 and Colour.Color.R*255 <= 170) then
+					return true
+				end
 			end
 		end
 	elseif Name == "Plastic" then
@@ -6666,13 +6674,20 @@ LocalisedFunctions.IsColour = function(Colour,Name)
 				return true
 			end
 		end
+		if (Colour.Color.R*255 >= 160 and Colour.Color.R*255 <= 170) then 
+			if (Colour.Color.R*255 >= 160 and Colour.Color.R*255 <= 170) then
+				if (Colour.Color.B*255 >= 160 and Colour.Color.R*255 <= 170) then
+					return true
+				end
+			end
+		end
 	elseif Name == "Metal" then
 		local MaterialENUMCODE = Colour:GetAttribute("MT")
 		if MaterialENUMCODE ~= nil then
 			if Enum.Material.DiamondPlate.Value==MaterialENUMCODE then
 				MaterialENUMCODE=nil
 				return true 
-			--elseif Enum.Material.Metal.Value==MaterialENUMCODE then
+				--elseif Enum.Material.Metal.Value==MaterialENUMCODE then
 				--MaterialENUMCODE=nil
 				--return true
 			end
@@ -7899,7 +7914,7 @@ Sv.LPlr.CharacterAdded:Connect(function(A)
 						local Humanoid1=hit.Parent:FindFirstChildOfClass("Humanoid")
 						if Humanoid1~=_N then
 							if Humanoid1.Health >0 then
-								Sv.New(function()Plr:SetAttribute("DEB",1)wait(1)Plr:SetAttribute("DEB",nil)end)
+								Sv.New(function()Plr:SetAttribute("DEB",1)WAIT(1)Plr:SetAttribute("DEB",nil)end)
 								for i=0,17 do
 									MeleeEvent:FireServer(Plr)
 								end
@@ -7977,7 +7992,7 @@ LocalisedFunctions.Punch = function(FastPunch)
 			else local Track=Sv.LPlr[_A.P].Humanoid:LoadAnimation(Animation1)Track:Play()Track=_N
 			end
 			TotalAnimationsRunning+=1
-			spawn(function()wait(1)if TotalAnimationsRunning>0 then TotalAnimationsRunning-=1;end;end)
+			spawn(function()WAIT(1)if TotalAnimationsRunning>0 then TotalAnimationsRunning-=1;end;end)
 		end
 		WAIT(0.02)Part:Destroy()A:Disconnect()
 		return
@@ -7993,7 +8008,7 @@ UIS.InputBegan:Connect(function(Input)
 	if UIS:GetFocusedTextBox()~=_N then return end
 	if States.SuperPunch then if Input.KeyCode==Enum.KeyCode.F then if Cooldown then return end LocalisedFunctions.Punch()end
 	elseif States.FastPunch then if Input.KeyCode==Enum.KeyCode.F then LocalisedFunctions.Punch(true)end
-	elseif States.RapidPunch then if Input.KeyCode==Enum.KeyCode.F then IskeyFdown=_T local Maxtimeout=40 while WAIT(0.05)do if not States.RapidPunch then break end if Maxtimeout<0 then break end if IskeyFdown then Maxtimeout=40 Punch(true)else Maxtimeout=Maxtimeout-1 end end Maxtimeout=_N end
+	elseif States.RapidPunch then if Input.KeyCode==Enum.KeyCode.F then IskeyFdown=_T local Maxtimeout=40 while true do WAIT(0.05) if not States.RapidPunch then break end if Maxtimeout<0 then break end if IskeyFdown then Maxtimeout=40 Punch(true)else Maxtimeout=Maxtimeout-1 end end Maxtimeout=_N end
 	end
 end)
 UIS.InputEnded:Connect(function(Input)
