@@ -774,7 +774,7 @@ function HideCars(autokill)
 				for i,v in pairs(Body:GetChildren()) do
 					if #Seats>=4 then break end
 					if v.ClassName=="Seat"or v.ClassName=="VehicleSeat"then
-						if (v.Position-Vector3.new(888, 29, 2353)).Magnitude <= 50 then CarIsNearNeutralSpawn=true break end
+						if ((v.Position-Vector3.new(880, 30, 2350))*Vector3.new(1,0,1)).Magnitude <= 50 then CarIsNearNeutralSpawn=true break end
 						table.insert(Seats,v)
 					end
 				end
