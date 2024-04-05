@@ -4010,8 +4010,16 @@ _A.O(A_1,{
 	A_1=_N;A_2=_N -- Frees memory
 end
 local AdminCommands,AdminCommandsDESC={},{}
-local LoopKillTBL,GunbanTBL={},{}
-local ConcreteBanTBL,GrassBanTBL,PlasticBanTBL,MetalBanTBL={},{},{},{}
+local LoopKillTBL={}
+local BanTBLS = {
+	Stored_GunbanTBL={},	
+	Stored_ConcreteBanTBL ={},
+	Stored_GrassBanTBL ={},
+	Stored_PlasticBanTBL ={},
+	Stored_MetalBanTBL ={},
+	Stored_DarkyBanTBL ={},
+	Stored_LightyBanTBL ={},
+}
 
 local DoorsCooldown=_F
 
@@ -4481,12 +4489,12 @@ AdminCommands={
 	["hban"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		for i,v in Sv.P(PlayerTbl)do
-			if table.find(GunbanTBL,v.UserId)~=_N then
+			if table.find(BanTBLS.Stored_GunbanTBL,v.UserId)~=_N then
 				if Speaker==_N then
 					notify(v.Name.." is already hostilebanned.",_A.R(1,1,0))
 				end
 			else
-				_A.O(GunbanTBL,v.UserId)
+				_A.O(BanTBLS.Stored_GunbanTBL,v.UserId)
 				if Speaker==_N then
 					notify(v.Name.." is already hostilebanned.",_A.R(1,1,0))
 				else
@@ -4566,12 +4574,12 @@ AdminCommands={
 	["concrete"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		for i,v in Sv.P(PlayerTbl)do
-			if table.find(ConcreteBanTBL,v.UserId)~=_N then
+			if table.find(BanTBLS.Stored_ConcreteBanTBL,v.UserId)~=_N then
 				if Speaker==_N then
 					notify(v.Name.." already cant touch concrete.",_A.R(1,1,0))
 				end
 			else
-				_A.O(ConcreteBanTBL,v.UserId)
+				_A.O(BanTBLS.Stored_ConcreteBanTBL,v.UserId)
 				if Speaker==_N then
 					notify(v.Name.." already cant touch concrete.",_A.R(1,1,0))
 				else
@@ -4583,23 +4591,23 @@ AdminCommands={
 	["unconcrete"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		for i,v in Sv.P(PlayerTbl)do
-			if table.find(ConcreteBanTBL,v.UserId)~=_N then
+			if table.find(BanTBLS.Stored_ConcreteBanTBL,v.UserId)~=_N then
 				if Speaker==_N then
 					notify(v.Name.." can now touch concrete again.",_A.R(1,0,0))
 				end
-				table.remove(ConcreteBanTBL,table.find(ConcreteBanTBL,v.UserId))
+				table.remove(BanTBLS.Stored_ConcreteBanTBL,table.find(BanTBLS.Stored_ConcreteBanTBL,v.UserId))
 			end
 		end
 	end,
 	["grassy"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		for i,v in Sv.P(PlayerTbl)do
-			if table.find(GrassBanTBL,v.UserId)~=_N then
+			if table.find(BanTBLS.Stored_GrassBanTBL,v.UserId)~=_N then
 				if Speaker==_N then
 					notify(v.Name.." already cant touch grass.",_A.R(1,1,0))
 				end
 			else
-				_A.O(GrassBanTBL,v.UserId)
+				_A.O(BanTBLS.Stored_GrassBanTBL,v.UserId)
 				if Speaker==_N then
 					notify(v.Name.." cant touch grass anymore.",_A.R(1,1,0))
 				else
@@ -4611,23 +4619,79 @@ AdminCommands={
 	["ungrassy"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		for i,v in Sv.P(PlayerTbl)do
-			if table.find(GrassBanTBL,v.UserId)~=_N then
+			if table.find(BanTBLS.Stored_GrassBanTBL,v.UserId)~=_N then
 				if Speaker==_N then
 					notify(v.Name.." can now touch grass again.",_A.R(1,0,0))
 				end
-				table.remove(GrassBanTBL,table.find(GrassBanTBL,v.UserId))
+				table.remove(BanTBLS.Stored_GrassBanTBL,table.find(BanTBLS.Stored_GrassBanTBL,v.UserId))
+			end
+		end
+	end,
+	["darky"]=function(PlayerTbl,Speaker)
+		if PlayerTbl==_N then return end
+		for i,v in Sv.P(PlayerTbl)do
+			if table.find(BanTBLS.Stored_DarkyBanTBL,v.UserId)~=_N then
+				if Speaker==_N then
+					notify(v.Name.." already cant the colour black grass.",_A.R(1,1,0))
+				end
+			else
+				_A.O(BanTBLS.Stored_DarkyBanTBL,v.UserId)
+				if Speaker==_N then
+					notify(v.Name.." cant the colour black anymore.",_A.R(1,1,0))
+				else
+					notify(Speaker.Name.." made them not be able to the colour black anymore: "..tostring(v.Name),_A.R(1,1,0))
+				end
+			end
+		end
+	end,
+	["undarky"]=function(PlayerTbl,Speaker)
+		if PlayerTbl==_N then return end
+		for i,v in Sv.P(PlayerTbl)do
+			if table.find(BanTBLS.Stored_DarkyBanTBL,v.UserId)~=_N then
+				if Speaker==_N then
+					notify(v.Name.." can not touch the colour black again.",_A.R(1,0,0))
+				end
+				table.remove(BanTBLS.Stored_DarkyBanTBL,table.find(BanTBLS.Stored_DarkyBanTBL,v.UserId))
+			end
+		end
+	end,
+	["lighty"]=function(PlayerTbl,Speaker)
+		if PlayerTbl==_N then return end
+		for i,v in Sv.P(PlayerTbl)do
+			if table.find(BanTBLS.Stored_LightyBanTBL,v.UserId)~=_N then
+				if Speaker==_N then
+					notify(v.Name.." already cant the colour white grass.",_A.R(1,1,0))
+				end
+			else
+				_A.O(BanTBLS.Stored_LightyBanTBL,v.UserId)
+				if Speaker==_N then
+					notify(v.Name.." cant the colour white anymore.",_A.R(1,1,0))
+				else
+					notify(Speaker.Name.." made them not be able to the colour white anymore: "..tostring(v.Name),_A.R(1,1,0))
+				end
+			end
+		end
+	end,
+	["unlighty"]=function(PlayerTbl,Speaker)
+		if PlayerTbl==_N then return end
+		for i,v in Sv.P(PlayerTbl)do
+			if table.find(BanTBLS.Stored_LightyBanTBL,v.UserId)~=_N then
+				if Speaker==_N then
+					notify(v.Name.." can not touch the colour white again.",_A.R(1,0,0))
+				end
+				table.remove(BanTBLS.Stored_LightyBanTBL,table.find(BanTBLS.Stored_LightyBanTBL,v.UserId))
 			end
 		end
 	end,
 	["metaly"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		for i,v in Sv.P(PlayerTbl)do
-			if table.find(MetalBanTBL,v.UserId)~=_N then
+			if table.find(BanTBLS.Stored_MetalBanTBL,v.UserId)~=_N then
 				if Speaker==_N then
 					notify(v.Name.." already cant touch metal.",_A.R(1,1,0))
 				end
 			else
-				_A.O(MetalBanTBL,v.UserId)
+				_A.O(BanTBLS.Stored_MetalBanTBL,v.UserId)
 				if Speaker==_N then
 					notify(v.Name.." cant touch metal anymore.",_A.R(1,1,0))
 				else
@@ -4639,23 +4703,23 @@ AdminCommands={
 	["unmetaly"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		for i,v in Sv.P(PlayerTbl)do
-			if table.find(MetalBanTBL,v.UserId)~=_N then
+			if table.find(BanTBLS.Stored_MetalBanTBL,v.UserId)~=_N then
 				if Speaker==_N then
 					notify(v.Name.." can now touch metal again.",_A.R(1,0,0))
 				end
-				table.remove(MetalBanTBL,table.find(MetalBanTBL,v.UserId))
+				table.remove(BanTBLS.Stored_MetalBanTBL,table.find(BanTBLS.Stored_MetalBanTBL,v.UserId))
 			end
 		end
 	end,
 	["plasticy"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		for i,v in Sv.P(PlayerTbl)do
-			if table.find(PlasticBanTBL,v.UserId)~=_N then
+			if table.find(BanTBLS.Stored_PlasticBanTBL,v.UserId)~=_N then
 				if Speaker==_N then
 					notify(v.Name.." already cant touch plastic.",_A.R(1,1,0))
 				end
 			else
-				_A.O(PlasticBanTBL,v.UserId)
+				_A.O(BanTBLS.Stored_PlasticBanTBL,v.UserId)
 				if Speaker==_N then
 					notify(v.Name.." cant touch plastic anymore.",_A.R(1,1,0))
 				else
@@ -4667,11 +4731,11 @@ AdminCommands={
 	["unplasticy"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		for i,v in Sv.P(PlayerTbl)do
-			if table.find(PlasticBanTBL,v.UserId)~=_N then
+			if table.find(BanTBLS.Stored_PlasticBanTBL,v.UserId)~=_N then
 				if Speaker==_N then
 					notify(v.Name.." can now touch plastic again.",_A.R(1,0,0))
 				end
-				table.remove(PlasticBanTBL,table.find(PlasticBanTBL,v.UserId))
+				table.remove(BanTBLS.Stored_PlasticBanTBL,table.find(BanTBLS.Stored_PlasticBanTBL,v.UserId))
 			end
 		end
 	end,
@@ -4940,11 +5004,11 @@ AdminCommands={
 	["unhban"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		for i,v in Sv.P(PlayerTbl)do
-			if table.find(GunbanTBL,v.UserId)~=_N then
+			if table.find(BanTBLS.Stored_GunbanTBL,v.UserId)~=_N then
 				if Speaker==_N then
 					notify(v.Name.." is nolonger hostilebanned.",_A.R(1,0,0))
 				end
-				table.remove(GunbanTBL,table.find(GunbanTBL,v.UserId))
+				table.remove(BanTBLS.Stored_GunbanTBL,table.find(BanTBLS.Stored_GunbanTBL,v.UserId))
 			end
 		end
 	end,
@@ -6766,8 +6830,8 @@ Sv.New(function()
 				AntiShootList[i]=nil
 			end
 		end
-		if #GrassBanTBL >0 then
-			for i,userid in Sv.P(GrassBanTBL)do
+		if #BanTBLS.Stored_GrassBanTBL >0 then
+			for i,userid in Sv.P(BanTBLS.Stored_GrassBanTBL)do
 				plr=Sv.Plrs:GetPlayerByUserId(userid)
 				if plr~=_N then
 					if plr:IsDescendantOf(Sv.Plrs)then
@@ -6803,8 +6867,8 @@ Sv.New(function()
 				end
 			end
 		end
-		if #ConcreteBanTBL >0 then
-			for i,userid in Sv.P(ConcreteBanTBL)do
+		if #BanTBLS.Stored_ConcreteBanTBL >0 then
+			for i,userid in Sv.P(BanTBLS.Stored_ConcreteBanTBL)do
 				plr=Sv.Plrs:GetPlayerByUserId(userid)
 				if plr~=_N then
 					if plr:IsDescendantOf(Sv.Plrs)then
@@ -6840,8 +6904,8 @@ Sv.New(function()
 				end
 			end
 		end
-		if #MetalBanTBL >0 then
-			for i,userid in Sv.P(MetalBanTBL)do
+		if #BanTBLS.Stored_MetalBanTBL >0 then
+			for i,userid in Sv.P(BanTBLS.Stored_MetalBanTBL)do
 				plr=Sv.Plrs:GetPlayerByUserId(userid)
 				if plr~=_N then
 					if plr:IsDescendantOf(Sv.Plrs)then
@@ -6877,8 +6941,8 @@ Sv.New(function()
 				end
 			end
 		end
-		if #PlasticBanTBL >0 then
-			for i,userid in Sv.P(PlasticBanTBL)do
+		if #BanTBLS.Stored_PlasticBanTBL >0 then
+			for i,userid in Sv.P(BanTBLS.Stored_PlasticBanTBL)do
 				plr=Sv.Plrs:GetPlayerByUserId(userid)
 				if plr~=_N then
 					if plr:IsDescendantOf(Sv.Plrs)then
@@ -6943,8 +7007,8 @@ Sv.New(function()
 				end
 			end
 		end
-		if #GunbanTBL >0 then
-			for i,plr in Sv.P(LocalisedFunctions.returnhostileplayers(GunbanTBL))do
+		if #BanTBLS.Stored_GunbanTBL >0 then
+			for i,plr in Sv.P(LocalisedFunctions.returnhostileplayers(BanTBLS.Stored_GunbanTBL))do
 				if plr.TeamColor.Name~=Sv.LPlr.TeamColor.Name then
 					if table.find(LoopKillTBL,plr.UserId)==_N then
 						HotCharVar=plr[_A.P]
@@ -8103,7 +8167,7 @@ LocalisedFunctions.DoKillAura = function(IsTeam)for i,v in Sv.P(Sv.Plrs:GetPlaye
 
 local LocalHumanoid,HotLocalChar,HotLocalBackpack,HotLocalCurrentEquippedTool,HotChatBox=nil,nil,nil,nil,nil
 
-print("V2.73")
+print("V2.75")
 
 while true do WAIT(0)
 	task.spawn(function()
