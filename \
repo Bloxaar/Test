@@ -6748,7 +6748,7 @@ LocalisedFunctions.IsColour = function(Colour,Name,BrickColorCheck)
 			Lightness=nil
 		elseif Name=="!Light" then
 			local CC = Colour.BrickColor.Name:lower()
-			if CC:match("light")or CC:match("bright")or CC:match("medium") then
+			if CC:match("light")or CC:match("bright") then
 				CC=nil
 				return true
 			end	CC=nil
