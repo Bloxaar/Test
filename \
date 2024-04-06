@@ -6941,7 +6941,7 @@ Sv.New(function()
 													local VERIFY=false
 													local PreArgs={Enum.Material.Grass, "Grass", false}
 
-													local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)Params=nil
+													local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)
 													if FloorMaterial ~= nil then
 														VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
 														if VERIFY then
@@ -6951,7 +6951,7 @@ Sv.New(function()
 													end  
 													if not VERIFY then
 														if LEFTLEG~=nil then
-															FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)Params=nil
+															FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)
 															if FloorMaterial ~= nil then
 																VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
 																if VERIFY then
@@ -6962,7 +6962,7 @@ Sv.New(function()
 														end
 														if not VERIFY then
 															if RIGHTLEG~=nil then
-																FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)Params=nil
+																FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)
 																if FloorMaterial ~= nil then
 																	VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
 																	if VERIFY then
@@ -6973,7 +6973,7 @@ Sv.New(function()
 															end 
 														end
 													end
-													PreArgs=nil VERIFY=nil FloorMaterial=nil RIGHTLEG,LEFTLEG=nil,nil
+													PreArgs=nil VERIFY=nil FloorMaterial=nil RIGHTLEG,LEFTLEG=nil,nil Params=nil
 												end
 											end
 										end
@@ -7010,7 +7010,7 @@ Sv.New(function()
 													local VERIFY=false
 													local PreArgs={Enum.Material.Concrete, "Concrete", false}
 
-													local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)Params=nil
+													local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)
 													if FloorMaterial ~= nil then
 														VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
 														if VERIFY then
@@ -7020,7 +7020,7 @@ Sv.New(function()
 													end  
 													if not VERIFY then
 														if LEFTLEG~=nil then
-															FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)Params=nil
+															FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)
 															if FloorMaterial ~= nil then
 																VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
 																if VERIFY then
@@ -7031,7 +7031,7 @@ Sv.New(function()
 														end
 														if not VERIFY then
 															if RIGHTLEG~=nil then
-																FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)Params=nil
+																FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)
 																if FloorMaterial ~= nil then
 																	VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
 																	if VERIFY then
@@ -7042,7 +7042,7 @@ Sv.New(function()
 															end 
 														end
 													end
-													PreArgs=nil VERIFY=nil FloorMaterial=nil RIGHTLEG,LEFTLEG=nil,nil	
+													PreArgs=nil VERIFY=nil FloorMaterial=nil RIGHTLEG,LEFTLEG=nil,nil Params=nil	
 												end
 											end
 										end
@@ -7081,7 +7081,7 @@ Sv.New(function()
 													local VERIFY=false
 													local PreArgs={Enum.Material.DiamondPlate, "Metal", false}
 
-													local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)Params=nil
+													local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)
 													if FloorMaterial ~= nil then
 														VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
 														if VERIFY then
@@ -7091,7 +7091,7 @@ Sv.New(function()
 													end  
 													if not VERIFY then
 														if LEFTLEG~=nil then
-															FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)Params=nil
+															FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)
 															if FloorMaterial ~= nil then
 																VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
 																if VERIFY then
@@ -7102,7 +7102,7 @@ Sv.New(function()
 														end
 														if not VERIFY then
 															if RIGHTLEG~=nil then
-																FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)Params=nil
+																FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)
 																if FloorMaterial ~= nil then
 																	VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
 																	if VERIFY then
@@ -7113,7 +7113,7 @@ Sv.New(function()
 															end 
 														end
 													end
-													PreArgs=nil VERIFY=nil FloorMaterial=nil RIGHTLEG,LEFTLEG=nil,nil	
+													PreArgs=nil VERIFY=nil FloorMaterial=nil RIGHTLEG,LEFTLEG=nil,nil Params=nil	
 												end
 											end
 										end
@@ -7152,7 +7152,7 @@ Sv.New(function()
 													local VERIFY=false
 													local PreArgs={nil, "Plastic", false}
 
-													local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)Params=nil
+													local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)
 													if FloorMaterial ~= nil then
 														VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
 														if VERIFY then
@@ -7162,7 +7162,7 @@ Sv.New(function()
 													end  
 													if not VERIFY then
 														if LEFTLEG~=nil then
-															FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)Params=nil
+															FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)
 															if FloorMaterial ~= nil then
 																VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
 																if VERIFY then
@@ -7173,7 +7173,7 @@ Sv.New(function()
 														end
 														if not VERIFY then
 															if RIGHTLEG~=nil then
-																FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)Params=nil
+																FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)
 																if FloorMaterial ~= nil then
 																	VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
 																	if VERIFY then
@@ -7184,7 +7184,7 @@ Sv.New(function()
 															end 
 														end
 													end
-													PreArgs=nil VERIFY=nil FloorMaterial=nil RIGHTLEG,LEFTLEG=nil,nil	
+													PreArgs=nil VERIFY=nil FloorMaterial=nil RIGHTLEG,LEFTLEG=nil,nil Params=nil	
 												end
 											end
 										end
@@ -7211,7 +7211,7 @@ Sv.New(function()
 										local Params = RaycastParams.new()
 										Params.FilterType=Enum.RaycastFilterType.Exclude 
 										Params.FilterDescendantsInstances={HotCharVar}
-										local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)Params=nil
+										local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)
 										if FloorMaterial ~= nil then 
 											if FloorMaterial.Transparency>=1 then else
 												if LocalisedFunctions.IsColour(FloorMaterial,"!Light",true) then
@@ -7236,7 +7236,7 @@ Sv.New(function()
 																end  
 																if not VERIFY then
 																	if LEFTLEG~=nil then
-																		FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)Params=nil
+																		FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)
 																		if FloorMaterial ~= nil then
 																			VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
 																			if VERIFY then
@@ -7247,7 +7247,7 @@ Sv.New(function()
 																	end
 																	if not VERIFY then
 																		if RIGHTLEG~=nil then
-																			FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)Params=nil
+																			FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)
 																			if FloorMaterial ~= nil then
 																				VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
 																				if VERIFY then
@@ -7258,7 +7258,7 @@ Sv.New(function()
 																		end 
 																	end
 																end
-																PreArgs=nil VERIFY=nil FloorMaterial=nil RIGHTLEG,LEFTLEG=nil,nil	
+																PreArgs=nil VERIFY=nil FloorMaterial=nil RIGHTLEG,LEFTLEG=nil,nil Params=nil	
 															end
 														end
 													end
@@ -7288,7 +7288,7 @@ Sv.New(function()
 										local Params = RaycastParams.new()
 										Params.FilterType=Enum.RaycastFilterType.Exclude 
 										Params.FilterDescendantsInstances={HotCharVar}
-										local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)Params=nil
+										local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)
 										if FloorMaterial ~= nil then 
 											if FloorMaterial.Transparency>=1 then else 
 												if LocalisedFunctions.IsColour(FloorMaterial,"!Dark",true) then
@@ -7313,7 +7313,7 @@ Sv.New(function()
 																end  
 																if not VERIFY then
 																	if LEFTLEG~=nil then
-																		FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)Params=nil
+																		FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)
 																		if FloorMaterial ~= nil then
 																			VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
 																			if VERIFY then
@@ -7324,7 +7324,7 @@ Sv.New(function()
 																	end
 																	if not VERIFY then
 																		if RIGHTLEG~=nil then
-																			FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)Params=nil
+																			FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)
 																			if FloorMaterial ~= nil then
 																				VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
 																				if VERIFY then
@@ -7335,7 +7335,7 @@ Sv.New(function()
 																		end 
 																	end
 																end
-																PreArgs=nil VERIFY=nil FloorMaterial=nil RIGHTLEG,LEFTLEG=nil,nil	
+																PreArgs=nil VERIFY=nil FloorMaterial=nil RIGHTLEG,LEFTLEG=nil,nil Params=nil	
 															end
 														end
 													end
@@ -8539,7 +8539,7 @@ LocalisedFunctions.DoKillAura = function(IsTeam)for i,v in Sv.P(Sv.Plrs:GetPlaye
 
 local LocalHumanoid,HotLocalChar,HotLocalBackpack,HotLocalCurrentEquippedTool,HotChatBox=nil,nil,nil,nil,nil
 
-print("V2.87")
+print("V2.9")
 
 while true do WAIT(0)
 	task.spawn(function()
