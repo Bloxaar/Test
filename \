@@ -8541,9 +8541,9 @@ LocalisedFunctions.DoKillAura = function(IsTeam)for i,v in Sv.P(Sv.Plrs:GetPlaye
 
 local LocalHumanoid,HotLocalChar,HotLocalBackpack,HotLocalCurrentEquippedTool,HotChatBox=nil,nil,nil,nil,nil
 
-print("V2.9")
+print("V2.91")
 
-while true do WAIT(0)
+while true do WAIT(0.001)
 	task.spawn(function()
 
 		HotChatBox=svc("UserInputService"):GetFocusedTextBox()
