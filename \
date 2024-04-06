@@ -6841,7 +6841,7 @@ LocalisedFunctions.IsColour = function(Colour,Name,BrickColorCheck)
 end
 
 LocalisedFunctions.DoFloorThingy = function(FloorMaterial,Material,ColourCode,bool)
-	if (FloorMaterial ~= nil) and FloorMaterial.Material==Material or LocalisedFunctions.IsColour(FloorMaterial,"Grass") then
+	if (FloorMaterial ~= nil) and FloorMaterial.Material==Material or LocalisedFunctions.IsColour(FloorMaterial,ColourCode,bool) then
 		return true
 	end
 	return false
