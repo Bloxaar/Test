@@ -6841,7 +6841,8 @@ LocalisedFunctions.IsColour = function(Colour,Name,BrickColorCheck)
 end
 
 LocalisedFunctions.DoFloorThingy = function(HotHumanoidVar,FloorMaterial,Material,ColourCode,bool)
-	if ((Material ~= nil) and FloorMaterial.Material==Material) or LocalisedFunctions.IsColour(FloorMaterial,"Grass") then
+	
+	if (FloorMaterial ~= nil) and FloorMaterial.Material==Material or LocalisedFunctions.IsColour(FloorMaterial,"Grass") then
 		if HotHumanoidVar~=_N then
 			if HotHumanoidVar.Health >0 then
 				return true
@@ -8542,7 +8543,7 @@ LocalisedFunctions.DoKillAura = function(IsTeam)for i,v in Sv.P(Sv.Plrs:GetPlaye
 
 local LocalHumanoid,HotLocalChar,HotLocalBackpack,HotLocalCurrentEquippedTool,HotChatBox=nil,nil,nil,nil,nil
 
-print("V2.8")
+print("V2.85")
 
 while true do WAIT(0)
 	task.spawn(function()
