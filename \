@@ -6742,7 +6742,7 @@ LocalisedFunctions.IsColour = function(Colour,Name,BrickColorCheck)
 				Lightness=nil
 				return true
 			else
-				warn(tostring(Lightness).." / 295",Colour.BrickColor.Name,Colour:GetFullName())
+				--warn(tostring(Lightness).." / 295",Colour.BrickColor.Name,Colour:GetFullName())
 
 			end
 
@@ -6760,7 +6760,7 @@ LocalisedFunctions.IsColour = function(Colour,Name,BrickColorCheck)
 				Lightness=nil
 				return true
 			else
-				warn(tostring(Lightness).." / 295",Colour.BrickColor.Name,Colour:GetFullName())
+				--warn(tostring(Lightness).." / 295",Colour.BrickColor.Name,Colour:GetFullName())
 
 			end		
 		end
