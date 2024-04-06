@@ -6840,14 +6840,9 @@ LocalisedFunctions.IsColour = function(Colour,Name,BrickColorCheck)
 	return false
 end
 
-LocalisedFunctions.DoFloorThingy = function(HotHumanoidVar,FloorMaterial,Material,ColourCode,bool)
-	
+LocalisedFunctions.DoFloorThingy = function(FloorMaterial,Material,ColourCode,bool)
 	if (FloorMaterial ~= nil) and FloorMaterial.Material==Material or LocalisedFunctions.IsColour(FloorMaterial,"Grass") then
-		if HotHumanoidVar~=_N then
-			if HotHumanoidVar.Health >0 then
-				return true
-			end
-		end
+		return true
 	end
 	return false
 end
