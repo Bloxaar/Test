@@ -764,6 +764,23 @@ function Lag(Intensity,Repeats)
 	end)
 end
 
+function TeamEvent(BrickCol)
+	if typeof(BrickCol)=="string" then
+		local COL = BrickColor.new(BrickCol)
+		if COL ~= nil then
+			if COL.Name=="Medium stone grey" or COL.Name=="Bright orange" or COL.Name=="Bright blue" then
+				workspace.Remote.TeamEvent:FireServer(COL.Name)
+			end
+		elseif COL == "Neutral" then
+			workspace.Remote.TeamEvent:FireServer("Medium stone grey")
+		elseif COL == "Inmates" then
+			workspace.Remote.TeamEvent:FireServer("Bright orange")
+		elseif COL == "Guards" then
+			workspace.Remote.TeamEvent:FireServer("Bright blue")
+		end
+	end
+end
+
 function HideCars(autokill)
 	if Sv.LPlr.TeamColor.Name == "Medium stone grey" then
 		for i,car in pairs(workspace.CarContainer:GetChildren()) do
