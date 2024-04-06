@@ -7064,18 +7064,20 @@ Sv.New(function()
 										Params.FilterType=Enum.RaycastFilterType.Exclude 
 										Params.FilterDescendantsInstances={HotCharVar}
 										local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)Params=nil
-										if FloorMaterial ~= nil then
-											if LocalisedFunctions.IsColour(FloorMaterial,"!Light",true) then
-												HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
-												if HotHumanoidVar~=_N then
-													if HotHumanoidVar.Health >0 then
-														if HotHumanoidVar:GetAttribute("LKD")==_N then
-															_A.O(ForceKillTBL,plr)
-															Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+										if FloorMaterial ~= nil then 
+											if FloorMaterial.Transparency>=1 then else
+												if LocalisedFunctions.IsColour(FloorMaterial,"!Light",true) then
+													HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
+													if HotHumanoidVar~=_N then
+														if HotHumanoidVar.Health >0 then
+															if HotHumanoidVar:GetAttribute("LKD")==_N then
+																_A.O(ForceKillTBL,plr)
+																Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+															end
 														end
 													end
 												end
-											end
+											end 
 										end FloorMaterial=nil
 									end
 								end
@@ -7101,18 +7103,20 @@ Sv.New(function()
 										Params.FilterType=Enum.RaycastFilterType.Exclude 
 										Params.FilterDescendantsInstances={HotCharVar}
 										local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)Params=nil
-										if FloorMaterial ~= nil then
-											if LocalisedFunctions.IsColour(FloorMaterial,"!Dark",true) then
-												HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
-												if HotHumanoidVar~=_N then
-													if HotHumanoidVar.Health >0 then
-														if HotHumanoidVar:GetAttribute("LKD")==_N then
-															_A.O(ForceKillTBL,plr)
-															Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+										if FloorMaterial ~= nil then 
+											if FloorMaterial.Transparency>=1 then else 
+												if LocalisedFunctions.IsColour(FloorMaterial,"!Dark",true) then
+													HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
+													if HotHumanoidVar~=_N then
+														if HotHumanoidVar.Health >0 then
+															if HotHumanoidVar:GetAttribute("LKD")==_N then
+																_A.O(ForceKillTBL,plr)
+																Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+															end
 														end
 													end
 												end
-											end
+											end 
 										end FloorMaterial=nil
 									end
 								end
@@ -8311,7 +8315,7 @@ LocalisedFunctions.DoKillAura = function(IsTeam)for i,v in Sv.P(Sv.Plrs:GetPlaye
 
 local LocalHumanoid,HotLocalChar,HotLocalBackpack,HotLocalCurrentEquippedTool,HotChatBox=nil,nil,nil,nil,nil
 
-print("V2.73")
+print("V2.78")
 
 while true do WAIT(0)
 	task.spawn(function()
