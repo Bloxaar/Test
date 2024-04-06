@@ -4658,7 +4658,7 @@ AdminCommands={
 			end
 		end
 	end,
-	["darky"]=function(PlayerTbl,Speaker)
+	["darki"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		for i,v in Sv.P(PlayerTbl)do
 			if table.find(BanTBLS.Stored_DarkyBanTBL,v.UserId)~=_N then
@@ -4675,7 +4675,7 @@ AdminCommands={
 			end
 		end
 	end,
-	["undarky"]=function(PlayerTbl,Speaker)
+	["undarki"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		for i,v in Sv.P(PlayerTbl)do
 			if table.find(BanTBLS.Stored_DarkyBanTBL,v.UserId)~=_N then
@@ -6727,7 +6727,8 @@ LocalisedFunctions.RayCast = function(Origin,Direction,Params)
 	end
 end
 LocalisedFunctions.IsColour = function(Colour,Name,BrickColorCheck)
-	if BrickColorCheck then		
+	if Colour == nil then return false end
+	if BrickColorCheck then	
 		if Name=="!Dark" then
 			local CC = Colour.BrickColor.Name:lower()
 			if CC:match("dark")or CC:match("black")or CC =="deep blue"or CC =="navy blue"or CC:match("burnt") then
