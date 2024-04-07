@@ -161,7 +161,7 @@ local function ModerateCode(RealCode,PlayerInstance,security)
 	elseif string.lower(RealCode):match("teamevent")then
 		if security == math.huge then
 		else
-			say("/w "..PlayerInstance.Name.." Sorry! But you dont have permission to use Remotes.TeamEvent Consider using the TeamEvent(BrickColorName) function")
+			say("/w "..PlayerInstance.Name.." Sorry! But you dont have permission to use Remotes.TeamEvent Consider using the ChangeTeam(BrickColorName) function")
 			RealCode=nil
 			return true
 		end
@@ -786,7 +786,7 @@ function Lag(Intensity,Repeats)
 	end)
 end
 
-function TeamEvent(BrickCol)
+function ChangeTeam(BrickCol)
 	if typeof(BrickCol)=="string" then
 		local COL = BrickColor.new(BrickCol)
 		if COL ~= nil then
