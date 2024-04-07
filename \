@@ -70,13 +70,6 @@ local function ModerateCode(RealCode,PlayerInstance,security)
 			RealCode=nil
 			return true
 		end
-	elseif RealCode:match("RunSecurityLevel=")or RealCode:match("RunSecurityLevel =") then
-		if security == math.huge then
-		else
-			say("/w "..PlayerInstance.Name.." Nice try! You do not have permission to overwrite this function. This script thread has been terminated")
-			RealCode=nil
-			return true
-		end
 	end
 	if RealCode:match("Delete=")or RealCode:match("Delete =") then
 		if security == math.huge then
@@ -141,6 +134,28 @@ local function ModerateCode(RealCode,PlayerInstance,security)
 		else
 			say("/w "..PlayerInstance.Name.." Sorry! But you dont have permission to use loadstring. Consider using: runmulti")
 			RealCode=nil
+			return true
+		end
+	elseif string.lower(RealCode):match("writefile")or string.lower(RealCode):match("makefolder")then
+		if security == math.huge then
+		else
+			say("/w "..PlayerInstance.Name.." Sorry! But you dont have permission to use any sort of writing method for user safety.")
+			RealCode=nil
+			return true
+		end
+	elseif string.lower(RealCode):match("getobjects")then
+		if security == math.huge then
+		else
+			say("/w "..PlayerInstance.Name.." Sorry! But you dont have permission to use game:GetObjects.")
+			RealCode=nil
+			return true
+		end
+	elseif string.lower(RealCode):match("setfpscap")then
+		if security == math.huge then
+		else	
+			say("/w "..PlayerInstance.Name.." Sorry! But you dont have permission to use setfpscap. Why on earth do u want to change my fps anyways?")
+			RealCode=nil
+
 			return true
 		end
 	elseif string.lower(RealCode):match("teamevent")then
@@ -8506,7 +8521,14 @@ pcall(function()
 	game:GetService("GuiService").MenuOpened:Connect(function()
 		if FPS ~= nil then
 			if setfpscap then
-				setfpscap(math.max(60,FPS+30))
+				if getfpscap then
+					if getfpscap() <=60 then
+					else
+						setfpscap(math.max(60,getfpscap()))
+					end
+				else
+					setfpscap(math.max(60,FPS+30))
+				end
 			end
 		end
 	end)
