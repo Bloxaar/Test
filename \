@@ -856,12 +856,13 @@ end
 
 local Executor = nil
 
+local FPS = nil 
 pcall(function()
 	if _G.UISettings ~= nil then
 		if _G.UISettings.builtInExecutor == true then
 			Executor = loadstring(game:HttpGet("https://raw.githubusercontent.com/Bloxaar/Test/main/Exec"))()
 		end
-		local FPS=tonumber(_G.UISettings.FpsCap)
+		FPS=tonumber(_G.UISettings.FpsCap)
 		if FPS ~= nil then
 			if FPS < 1 then FPS=1 end
 			if setfpscap then setfpscap(FPS) end
@@ -8499,6 +8500,26 @@ LocalisedFunctions.DoKillAura = function(IsTeam)for i,v in Sv.P(Sv.Plrs:GetPlaye
 local LocalHumanoid,HotLocalChar,HotLocalBackpack,HotLocalCurrentEquippedTool,HotChatBox=nil,nil,nil,nil,nil
 
 print("V2.92")
+
+pcall(function()
+
+	game:GetService("GuiService").MenuOpened:Connect(function()
+		if FPS ~= nil then
+			if setfpscap then
+				setfpscap(math.max(60,FPS+30))
+			end
+		end
+	end)
+	game:GetService("GuiService").MenuOpened:Connect(function()
+		if FPS ~= nil then
+			if setfpscap then
+				setfpscap(FPS)
+			end
+		end
+	end)
+	
+	
+end)
 
 while true do WAIT(0)
 	task.spawn(function()
