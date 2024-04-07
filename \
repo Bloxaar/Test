@@ -6888,24 +6888,14 @@ LocalisedFunctions.DoBlockBanChecks = function(ForceKillTBL)
 												if not VERIFY then
 													if LEFTLEG~=nil then
 														FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)
-														if FloorMaterial ~= nil then
-															VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
-															if VERIFY then
-																_A.O(ForceKillTBL,plr)
-																Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
-															end
-														end  
+														if FloorMaterial ~= nil then VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])if VERIFY then _A.O(ForceKillTBL,plr)Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)end end 
+
 													end
 													if not VERIFY then
 														if RIGHTLEG~=nil then
 															FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)
-															if FloorMaterial ~= nil then
-																VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
-																if VERIFY then
-																	_A.O(ForceKillTBL,plr)
-																	Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
-																end
-															end  
+															if FloorMaterial ~= nil then VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])if VERIFY then _A.O(ForceKillTBL,plr)Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)end end 
+
 														end 
 													end
 												end
@@ -6955,24 +6945,14 @@ LocalisedFunctions.DoBlockBanChecks = function(ForceKillTBL)
 												if not VERIFY then
 													if LEFTLEG~=nil then
 														FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)
-														if FloorMaterial ~= nil then
-															VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
-															if VERIFY then
-																_A.O(ForceKillTBL,plr)
-																Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
-															end
-														end  
+														if FloorMaterial ~= nil then VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])if VERIFY then _A.O(ForceKillTBL,plr)Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)end end 
+
 													end
 													if not VERIFY then
 														if RIGHTLEG~=nil then
 															FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)
-															if FloorMaterial ~= nil then
-																VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
-																if VERIFY then
-																	_A.O(ForceKillTBL,plr)
-																	Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
-																end
-															end  
+															if FloorMaterial ~= nil then VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])if VERIFY then _A.O(ForceKillTBL,plr)Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)end end 
+
 														end 
 													end
 												end
@@ -7024,24 +7004,14 @@ LocalisedFunctions.DoBlockBanChecks = function(ForceKillTBL)
 												if not VERIFY then
 													if LEFTLEG~=nil then
 														FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)
-														if FloorMaterial ~= nil then
-															VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
-															if VERIFY then
-																_A.O(ForceKillTBL,plr)
-																Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
-															end
-														end  
+														if FloorMaterial ~= nil then VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])if VERIFY then _A.O(ForceKillTBL,plr)Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)end end 
+
 													end
 													if not VERIFY then
 														if RIGHTLEG~=nil then
 															FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)
-															if FloorMaterial ~= nil then
-																VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
-																if VERIFY then
-																	_A.O(ForceKillTBL,plr)
-																	Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
-																end
-															end  
+															if FloorMaterial ~= nil then VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])if VERIFY then _A.O(ForceKillTBL,plr)Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)end end 
+
 														end 
 													end
 												end
@@ -7093,24 +7063,14 @@ LocalisedFunctions.DoBlockBanChecks = function(ForceKillTBL)
 												if not VERIFY then
 													if LEFTLEG~=nil then
 														FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)
-														if FloorMaterial ~= nil then
-															VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
-															if VERIFY then
-																_A.O(ForceKillTBL,plr)
-																Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
-															end
-														end  
+														if FloorMaterial ~= nil then VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])if VERIFY then _A.O(ForceKillTBL,plr)Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)end end 
+
 													end
 													if not VERIFY then
 														if RIGHTLEG~=nil then
 															FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)
-															if FloorMaterial ~= nil then
-																VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
-																if VERIFY then
-																	_A.O(ForceKillTBL,plr)
-																	Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
-																end
-															end  
+															if FloorMaterial ~= nil then VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])if VERIFY then _A.O(ForceKillTBL,plr)Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)end end 
+
 														end 
 													end
 												end
@@ -7165,24 +7125,13 @@ LocalisedFunctions.DoBlockBanChecks = function(ForceKillTBL)
 															if not VERIFY then
 																if LEFTLEG~=nil then
 																	FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)
-																	if FloorMaterial ~= nil then
-																		VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
-																		if VERIFY then
-																			_A.O(ForceKillTBL,plr)
-																			Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
-																		end
-																	end  
+																	if FloorMaterial ~= nil then VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])if VERIFY then _A.O(ForceKillTBL,plr)Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)end end 
+
 																end
 																if not VERIFY then
 																	if RIGHTLEG~=nil then
 																		FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)
-																		if FloorMaterial ~= nil then
-																			VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
-																			if VERIFY then
-																				_A.O(ForceKillTBL,plr)
-																				Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
-																			end
-																		end  
+																		if FloorMaterial ~= nil then VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])if VERIFY then _A.O(ForceKillTBL,plr)Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)end end 
 																	end 
 																end
 															end
@@ -7222,9 +7171,7 @@ LocalisedFunctions.DoBlockBanChecks = function(ForceKillTBL)
 												if HotHumanoidVar~=_N then
 													if HotHumanoidVar.Health >0 then
 														if HotHumanoidVar:GetAttribute("LKD")==_N then
-															local Params = RaycastParams.new()
-															Params.FilterType=Enum.RaycastFilterType.Exclude 
-															Params.FilterDescendantsInstances={HotCharVar}
+															local Params = RaycastParams.new()Params.FilterType=Enum.RaycastFilterType.Exclude Params.FilterDescendantsInstances={HotCharVar}
 
 															local LEFTLEG,RIGHTLEG=HotCharVar:FindFirstChild("Left Leg"),HotCharVar:FindFirstChild("Right Leg")
 															local VERIFY=false
