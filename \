@@ -2275,7 +2275,7 @@ SoundEvent.Name="SoundEvent1"
 for i,v in pairs(Sv.Plrs:GetPlayers()) do
 	local Spawned=tick()
 	v.CharacterAdded:Connect(function(a) --Anti teamevent crash
-		if tick()-Spawned <=0.05 then
+		if tick()-Spawned <=0.2 then
 			if a:IsDescendantOf(game)then a:Destroy()return end
 		end
 		Spawned=tick()
@@ -2286,7 +2286,7 @@ end
 Sv.Plrs.PlayerAdded:Connect(function(v)
 	local Spawned=tick()
 	v.CharacterAdded:Connect(function(a) --Anti teamevent crash
-		if tick()-Spawned <=0.05 then
+		if tick()-Spawned <=0.2 then
 			if a:IsDescendantOf(game)then a:Destroy()return end
 		end
 		Spawned=tick()
@@ -8755,7 +8755,7 @@ LocalisedFunctions.DoKillAura = function(IsTeam)for i,v in Sv.P(Sv.Plrs:GetPlaye
 
 local LocalHumanoid,HotLocalChar,HotLocalBackpack,HotLocalCurrentEquippedTool,HotChatBox=nil,nil,nil,nil,nil
 
-print("V3.11")
+print("V3.12")
 
 pcall(function()
 
