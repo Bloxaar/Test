@@ -2279,7 +2279,7 @@ for i,v in pairs(Sv.Plrs:GetPlayers()) do
 			if a:IsDescendantOf(game)then a:Destroy()return end
 		end
 		Spawned=tick()
-		
+
 	end)
 end
 
