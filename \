@@ -2338,6 +2338,7 @@ ScriptSettings.ExplosionSize=10
 ScriptSettings.DeathExplosionSize=15
 ScriptSettings.InfectAuraSize=15
 ScriptSettings.FriendlyFire=0
+ScriptSettings.MeleeSize=8.5
 
 
 function ChangeAtt(AttributeName,NewValue)
@@ -2648,7 +2649,7 @@ local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunn
 				Verify=_N
 			end
 		end
-	elseif strl=="hostiles"then
+	elseif strl=="hostiles"or strl=="murderers"then
 		local Format = {}
 		for i,v in pairs(Sv.Plrs:GetChildren()) do
 			if v.TeamColor.Name ~= "Bright blue" then
@@ -2659,7 +2660,7 @@ local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunn
 			_A.O(Found,v)
 		end
 		Format=_N
-	elseif strl=="nonhostiles"then
+	elseif strl=="nonhostiles"or strl=="innocents"then
 		local Format = {}
 		for i,v in pairs(Sv.Plrs:GetPlayers()) do
 			if v.TeamColor.Name ~= "Bright blue" then
@@ -2703,6 +2704,8 @@ local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunn
 				_A.O(Found,v)
 			end
 		end 
+	elseif strl=="random"or strl=="someone"then
+		_A.O(Found,Sv.Plrs:GetPlayers()[math.random(1,#Sv.Plrs:GetPlayers())])
 	elseif strl=="you"or strl=="nearest"or strl=="closest"then
 		local ClosestPlr,Dist=nil,math.huge
 		for i,v in Sv.P(Sv.Plrs:GetChildren())do
@@ -6232,7 +6235,7 @@ AdminCommands={
 													end
 												end
 												if IsPunching==true then
-													for i,v in pairs(workspace:GetPartBoundsInRadius(Torso.Position,8.5)) do
+													for i,v in pairs(workspace:GetPartBoundsInRadius(Torso.Position,ScriptSettings.MeleeSize)) do
 														if not v:IsDescendantOf(Torso.Parent) then
 															if not v:IsDescendantOf(Sv.LPlr.Character) then 
 																HotTorso = v.Parent:FindFirstChild("Torso")
