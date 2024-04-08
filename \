@@ -2272,6 +2272,32 @@ local SoundEvent=ReplicatedStorage:FindFirstChild("SoundEvent1") or ReplicatedSt
 SoundEvent:Clone().Parent=ReplicatedStorage
 SoundEvent.Name="SoundEvent1"
 
+for i,v in pairs(Sv.Plrs:GetPlayers()) do
+	v.CharacterAdded:Connect(function(a) --Anti teamevent crash
+		WAIT(0)
+		if not a:IsDescendantOf(workspace)then a:Destroy()return end
+		WAIT(0.01)
+		if not a:IsDescendantOf(workspace)then a:Destroy()return end
+		WAIT(0.015)
+		if not a:IsDescendantOf(workspace)then a:Destroy()return end
+		WAIT(0.015)
+		if not a:IsDescendantOf(workspace)then a:Destroy()return end
+	end)
+end
+
+Sv.Plrs.PlayerAdded:Connect(function(v)
+	v.CharacterAdded:Connect(function(a) --Anti teamevent crash
+		WAIT(0)
+		if not a:IsDescendantOf(workspace)then a:Destroy()return end
+		WAIT(0.01)
+		if not a:IsDescendantOf(workspace)then a:Destroy()return end
+		WAIT(0.015)
+		if not a:IsDescendantOf(workspace)then a:Destroy()return end
+		WAIT(0.015)
+		if not a:IsDescendantOf(workspace)then a:Destroy()return end
+	end)
+end)
+
 if SoundEventConnection_4039850934 ~= nil then
 	if typeof(SoundEventConnection_4039850934)=="RBXScriptConnection"then
 		SoundEventConnection_4039850934:Disconnect()
@@ -8733,7 +8759,7 @@ LocalisedFunctions.DoKillAura = function(IsTeam)for i,v in Sv.P(Sv.Plrs:GetPlaye
 
 local LocalHumanoid,HotLocalChar,HotLocalBackpack,HotLocalCurrentEquippedTool,HotChatBox=nil,nil,nil,nil,nil
 
-print("V2.92")
+print("V3")
 
 pcall(function()
 
