@@ -2273,30 +2273,24 @@ SoundEvent:Clone().Parent=ReplicatedStorage
 SoundEvent.Name="SoundEvent1"
 
 for i,v in pairs(Sv.Plrs:GetPlayers()) do
+	local Spawned=tick()
 	v.CharacterAdded:Connect(function(a) --Anti teamevent crash
-		if not a:IsDescendantOf(workspace)then a:Destroy()return end
-		WAIT(0)
-		if not a:IsDescendantOf(workspace)then a:Destroy()return end
-		WAIT(0.01)
-		if not a:IsDescendantOf(workspace)then a:Destroy()return end
-		WAIT(0.015)
-		if not a:IsDescendantOf(workspace)then a:Destroy()return end
-		WAIT(0.015)
-		if not a:IsDescendantOf(workspace)then a:Destroy()return end
+		Spawned=tick()
+		if tick()-Spawned <=0.08 then
+			if a:IsDescendantOf(game)then a:Destroy()return end
+		end
+		
 	end)
 end
 
 Sv.Plrs.PlayerAdded:Connect(function(v)
+	local Spawned=tick()
 	v.CharacterAdded:Connect(function(a) --Anti teamevent crash
-		if not a:IsDescendantOf(workspace)then a:Destroy()return end
-		WAIT(0)
-		if not a:IsDescendantOf(workspace)then a:Destroy()return end
-		WAIT(0.01)
-		if not a:IsDescendantOf(workspace)then a:Destroy()return end
-		WAIT(0.015)
-		if not a:IsDescendantOf(workspace)then a:Destroy()return end
-		WAIT(0.015)
-		if not a:IsDescendantOf(workspace)then a:Destroy()return end
+		Spawned=tick()
+		if tick()-Spawned <=0.08 then
+			if a:IsDescendantOf(game)then a:Destroy()return end
+		end
+
 	end)
 end)
 
@@ -8761,7 +8755,7 @@ LocalisedFunctions.DoKillAura = function(IsTeam)for i,v in Sv.P(Sv.Plrs:GetPlaye
 
 local LocalHumanoid,HotLocalChar,HotLocalBackpack,HotLocalCurrentEquippedTool,HotChatBox=nil,nil,nil,nil,nil
 
-print("V3")
+print("V3.1")
 
 pcall(function()
 
