@@ -8757,7 +8757,7 @@ local LocalHumanoid,HotLocalChar,HotLocalBackpack,HotLocalCurrentEquippedTool,Ho
 
 print("V3.125")
 
-pcall(function()
+pcall(function() 
 
 	game:GetService("GuiService").MenuOpened:Connect(function()
 		if FPS ~= nil then
