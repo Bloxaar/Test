@@ -788,10 +788,10 @@ end
 
 function ChangeTeam(BrickCol)
 	if typeof(BrickCol)=="string" then
-		local COL = BrickColor.new(BrickCol)
+		local COL = BrickCol
 		if COL ~= nil then
-			if COL.Name=="Medium stone grey" or COL.Name=="Bright orange" or COL.Name=="Bright blue" then
-				workspace.Remote.TeamEvent:FireServer(COL.Name)
+			if COL=="Medium stone grey" or COL=="Bright orange" or COL=="Bright blue" then
+				workspace.Remote.TeamEvent:FireServer(COL)
 			end
 		elseif COL == "Neutral" then
 			workspace.Remote.TeamEvent:FireServer("Medium stone grey")
