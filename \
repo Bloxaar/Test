@@ -4066,6 +4066,10 @@ local BanTBLS = {
 	Stored_MetalBanTBL ={},
 	Stored_DarkyBanTBL ={},
 	Stored_LightyBanTBL ={},
+	
+	Stored_JumpingBanTBL ={},
+	Stored_ExposedSunlightBanTBL ={},
+	Stored_ExposedMoonlightBanTBL ={},
 }
 
 local DoorsCooldown=_F
@@ -4643,6 +4647,90 @@ AdminCommands={
 					notify(v.Name.." can now touch concrete again.",_A.R(1,0,0))
 				end
 				table.remove(BanTBLS.Stored_ConcreteBanTBL,table.find(BanTBLS.Stored_ConcreteBanTBL,v.UserId))
+			end
+		end
+	end,
+	["nighty"]=function(PlayerTbl,Speaker)
+		if PlayerTbl==_N then return end
+		for i,v in Sv.P(PlayerTbl)do
+			if table.find(BanTBLS.Stored_ExposedMoonlightBanTBL,v.UserId)~=_N then
+				if Speaker==_N then
+					notify(v.Name.." already cant go in moonlight.",_A.R(1,1,0))
+				end
+			else
+				_A.O(BanTBLS.Stored_ExposedMoonlightBanTBL,v.UserId)
+				if Speaker==_N then
+					notify(v.Name.." already cant go in moonlight.",_A.R(1,1,0))
+				else
+					notify(Speaker.Name.." made them not be able to go in moonlight again: "..tostring(v.Name),_A.R(1,1,0))
+				end
+			end
+		end
+	end,
+	["unnighty"]=function(PlayerTbl,Speaker)
+		if PlayerTbl==_N then return end
+		for i,v in Sv.P(PlayerTbl)do
+			if table.find(BanTBLS.Stored_ExposedMoonlightBanTBL,v.UserId)~=_N then
+				if Speaker==_N then
+					notify(v.Name.." can now go in moonlight again.",_A.R(1,0,0))
+				end
+				table.remove(BanTBLS.Stored_ExposedMoonlightBanTBL,table.find(BanTBLS.Stored_ExposedMoonlightBanTBL,v.UserId))
+			end
+		end
+	end,
+	["daylighty"]=function(PlayerTbl,Speaker)
+		if PlayerTbl==_N then return end
+		for i,v in Sv.P(PlayerTbl)do
+			if table.find(BanTBLS.Stored_ExposedSunlightBanTBL,v.UserId)~=_N then
+				if Speaker==_N then
+					notify(v.Name.." already cant go in daylight.",_A.R(1,1,0))
+				end
+			else
+				_A.O(BanTBLS.Stored_ExposedSunlightBanTBL,v.UserId)
+				if Speaker==_N then
+					notify(v.Name.." already cant go in daylight.",_A.R(1,1,0))
+				else
+					notify(Speaker.Name.." made them not be able to go in daylight anymore: "..tostring(v.Name),_A.R(1,1,0))
+				end
+			end
+		end
+	end,
+	["undaylighty"]=function(PlayerTbl,Speaker)
+		if PlayerTbl==_N then return end
+		for i,v in Sv.P(PlayerTbl)do
+			if table.find(BanTBLS.Stored_ExposedSunlightBanTBL,v.UserId)~=_N then
+				if Speaker==_N then
+					notify(v.Name.." can now walk in daylight again.",_A.R(1,0,0))
+				end
+				table.remove(BanTBLS.Stored_ExposedSunlightBanTBL,table.find(BanTBLS.Stored_ExposedSunlightBanTBL,v.UserId))
+			end
+		end
+	end,
+	["jumpy"]=function(PlayerTbl,Speaker)
+		if PlayerTbl==_N then return end
+		for i,v in Sv.P(PlayerTbl)do
+			if table.find(BanTBLS.Stored_JumpingBanTBL,v.UserId)~=_N then
+				if Speaker==_N then
+					notify(v.Name.." already cant jump.",_A.R(1,1,0))
+				end
+			else
+				_A.O(BanTBLS.Stored_JumpingBanTBL,v.UserId)
+				if Speaker==_N then
+					notify(v.Name.." already cant jump.",_A.R(1,1,0))
+				else
+					notify(Speaker.Name.." made them not be able to jump: "..tostring(v.Name),_A.R(1,1,0))
+				end
+			end
+		end
+	end,
+	["unjumpy"]=function(PlayerTbl,Speaker)
+		if PlayerTbl==_N then return end
+		for i,v in Sv.P(PlayerTbl)do
+			if table.find(BanTBLS.Stored_JumpingBanTBL,v.UserId)~=_N then
+				if Speaker==_N then
+					notify(v.Name.." can now jump again.",_A.R(1,0,0))
+				end
+				table.remove(BanTBLS.Stored_JumpingBanTBL,table.find(BanTBLS.Stored_JumpingBanTBL,v.UserId))
 			end
 		end
 	end,
@@ -6773,6 +6861,12 @@ LocalisedFunctions.IsColour = function(Colour,Name,BrickColorCheck)
 			end
 
 			Lightness=nil
+		elseif Name=="!Brown" then
+			local CC = Colour.BrickColor.Name:lower()
+			if CC:match("brown") or CC:match("rust") or CC:match("dust") or CC:match("cocoa") or CC:match("bronze") then
+				CC=nil
+				return true
+			end	CC=nil
 		elseif Name=="!Light" then
 			local CC = Colour.BrickColor.Name:lower()
 			if CC:match("light")or CC:match("bright") then
@@ -6861,6 +6955,14 @@ end
 LocalisedFunctions.DoFloorThingy = function(FloorMaterial,Material,ColourCode,bool)
 	if FloorMaterial ==nil then return false end
 	if FloorMaterial.Material==Material or LocalisedFunctions.IsColour(FloorMaterial,ColourCode,bool) then
+		return true
+	end
+	return false
+end
+
+local Lighting = svc("Lighting")
+LocalisedFunctions.IsDaytime = function()
+	if Lighting.ClockTime >= 7 and Lighting.ClockTime <= 18 then
 		return true
 	end
 	return false
@@ -7241,7 +7343,117 @@ LocalisedFunctions.DoBlockBanChecks = function(ForceKillTBL)
 	end
 	
 	
+	if #BanTBLS.Stored_JumpingBanTBL >0 then
+		for i,userid in Sv.P(BanTBLS.Stored_JumpingBanTBL)do
+			plr=Sv.Plrs:GetPlayerByUserId(userid)
+			if plr~=_N then
+				if plr:IsDescendantOf(Sv.Plrs)then
+					if table.find(ForceKillTBL,plr)~=_N then continue end
+					if plr.Team.Name~=Sv.LPlr.Team.Name then
+						HotCharVar=plr[_A.P]
+						if HotCharVar~=_N then
+							if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
+
+								HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
+								if HotHumanoidVar~=_N then
+									if HotHumanoidVar:GetState()==Enum.HumanoidStateType.Jumping then
+										if HotHumanoidVar.Health >0 then
+											if HotHumanoidVar:GetAttribute("LKD")==_N then
+
+												_A.O(ForceKillTBL,plr)
+												Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+											end	
+										end	
+									end
+								end	
+							end 
+						end 
+					end
+				end
+			end
+		end
+	end
+
+	if #BanTBLS.Stored_ExposedSunlightBanTBL >0 then
+		for i,userid in Sv.P(BanTBLS.Stored_ExposedSunlightBanTBL)do
+			plr=Sv.Plrs:GetPlayerByUserId(userid)
+			if plr~=_N then
+				if plr:IsDescendantOf(Sv.Plrs)then
+					if table.find(ForceKillTBL,plr)~=_N then continue end
+					if plr.Team.Name~=Sv.LPlr.Team.Name then
+						HotCharVar=plr[_A.P]
+						if HotCharVar~=_N then
+							if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
+								HotHeadVar = HotCharVar:FindFirstChild("Head")
+								if HotHeadVar~=_N then
+									local Params = RaycastParams.new()Params.FilterType=Enum.RaycastFilterType.Exclude Params.FilterDescendantsInstances={HotCharVar}
+									local IsPartAbove = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,1000,0),Params)
+									if IsPartAbove==_N then
+										if LocalisedFunctions.IsDaytime() then
+											HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
+											if HotHumanoidVar~=_N then
+												if HotHumanoidVar.Health >0 then
+													if HotHumanoidVar:GetAttribute("LKD")==_N then
+
+														_A.O(ForceKillTBL,plr)
+														Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+													end	
+												end
+											end	
+										end
+									end	
+									IsPartAbove,Params=_N,_N
+								end
+
+							end 
+						end 
+					end
+				end
+			end
+		end
+	end
 	
+	if #BanTBLS.Stored_ExposedMoonlightBanTBL >0 then
+		for i,userid in Sv.P(BanTBLS.Stored_ExposedMoonlightBanTBL)do
+			plr=Sv.Plrs:GetPlayerByUserId(userid)
+			if plr~=_N then
+				if plr:IsDescendantOf(Sv.Plrs)then
+					if table.find(ForceKillTBL,plr)~=_N then continue end
+					if plr.Team.Name~=Sv.LPlr.Team.Name then
+						HotCharVar=plr[_A.P]
+						if HotCharVar~=_N then
+							if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
+								HotHeadVar = HotCharVar:FindFirstChild("Head")
+								if HotHeadVar~=_N then
+									local Params = RaycastParams.new()Params.FilterType=Enum.RaycastFilterType.Exclude Params.FilterDescendantsInstances={HotCharVar}
+									local IsPartAbove = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,1000,0),Params)
+									if IsPartAbove==_N then
+										if not LocalisedFunctions.IsDaytime() then
+											HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
+											if HotHumanoidVar~=_N then
+												if HotHumanoidVar.Health >0 then
+													if HotHumanoidVar:GetAttribute("LKD")==_N then
+
+														_A.O(ForceKillTBL,plr)
+														Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+													end	
+												end
+											end	
+										end
+									end	
+									IsPartAbove,Params=_N,_N
+								end
+
+							end 
+						end 
+					end
+				end
+			end
+		end
+	end
+
+
+
 	HotCharVar=nil
 	HotHumanoidVar=nil
 	HotHeadVar=nil
@@ -7319,12 +7531,16 @@ Sv.New(function()
 				AntiShootList[i]=nil
 			end
 		end
-		
+
 		local IsUsing=false
 		for i,v in pairs(BanTBLS) do if #v >0 then IsUsing=true break end end
 		if IsUsing then 
 			LocalisedFunctions.DoBlockBanChecks(ForceKillTBL) -- Integrated forloops inside of function to simplify this whileloop
+			
 		end
+		
+
+		
 		if #LoopKillTBL >0 then
 			for i,userid in Sv.P(LoopKillTBL)do
 				plr=Sv.Plrs:GetPlayerByUserId(userid)
@@ -8539,8 +8755,8 @@ pcall(function()
 			end
 		end
 	end)
-	
-	
+
+
 end)
 
 while true do WAIT(0)
