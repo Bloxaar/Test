@@ -2274,6 +2274,7 @@ SoundEvent.Name="SoundEvent1"
 
 for i,v in pairs(Sv.Plrs:GetPlayers()) do
 	v.CharacterAdded:Connect(function(a) --Anti teamevent crash
+		if not a:IsDescendantOf(workspace)then a:Destroy()return end
 		WAIT(0)
 		if not a:IsDescendantOf(workspace)then a:Destroy()return end
 		WAIT(0.01)
@@ -2287,6 +2288,7 @@ end
 
 Sv.Plrs.PlayerAdded:Connect(function(v)
 	v.CharacterAdded:Connect(function(a) --Anti teamevent crash
+		if not a:IsDescendantOf(workspace)then a:Destroy()return end
 		WAIT(0)
 		if not a:IsDescendantOf(workspace)then a:Destroy()return end
 		WAIT(0.01)
@@ -4095,7 +4097,7 @@ local BanTBLS = {
 	Stored_MetalBanTBL ={},
 	Stored_DarkyBanTBL ={},
 	Stored_LightyBanTBL ={},
-	
+
 	Stored_JumpingBanTBL ={},
 	Stored_ExposedSunlightBanTBL ={},
 	Stored_ExposedMoonlightBanTBL ={},
@@ -7370,8 +7372,8 @@ LocalisedFunctions.DoBlockBanChecks = function(ForceKillTBL)
 			end
 		end
 	end
-	
-	
+
+
 	if #BanTBLS.Stored_JumpingBanTBL >0 then
 		for i,userid in Sv.P(BanTBLS.Stored_JumpingBanTBL)do
 			plr=Sv.Plrs:GetPlayerByUserId(userid)
@@ -7441,7 +7443,7 @@ LocalisedFunctions.DoBlockBanChecks = function(ForceKillTBL)
 			end
 		end
 	end
-	
+
 	if #BanTBLS.Stored_ExposedMoonlightBanTBL >0 then
 		for i,userid in Sv.P(BanTBLS.Stored_ExposedMoonlightBanTBL)do
 			plr=Sv.Plrs:GetPlayerByUserId(userid)
@@ -7565,11 +7567,11 @@ Sv.New(function()
 		for i,v in pairs(BanTBLS) do if #v >0 then IsUsing=true break end end
 		if IsUsing then 
 			LocalisedFunctions.DoBlockBanChecks(ForceKillTBL) -- Integrated forloops inside of function to simplify this whileloop
-			
-		end
-		
 
-		
+		end
+
+
+
 		if #LoopKillTBL >0 then
 			for i,userid in Sv.P(LoopKillTBL)do
 				plr=Sv.Plrs:GetPlayerByUserId(userid)
