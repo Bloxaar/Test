@@ -7356,7 +7356,7 @@ LocalisedFunctions.DoBlockBanChecks = function(ForceKillTBL)
 
 								HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
 								if HotHumanoidVar~=_N then
-									if HotHumanoidVar:GetState()==Enum.HumanoidStateType.Jumping then
+									if HotHumanoidVar.Jump==true or HotHumanoidVar:GetState()==Enum.HumanoidStateType.Jumping then
 										if HotHumanoidVar.Health >0 then
 											if HotHumanoidVar:GetAttribute("LKD")==_N then
 
@@ -8621,7 +8621,7 @@ LocalisedFunctions.Punch = function(FastPunch)
 			TotalAnimationsRunning+=1
 			spawn(function()WAIT(1)if TotalAnimationsRunning>0 then TotalAnimationsRunning-=1;end;end)
 		end
-		WAIT(0.02)Part:Destroy()A:Disconnect()
+		WAIT(0.05)Part:Destroy()A:Disconnect()
 		return
 	end
 	Cooldown=_T
