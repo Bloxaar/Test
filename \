@@ -2275,10 +2275,10 @@ SoundEvent.Name="SoundEvent1"
 for i,v in pairs(Sv.Plrs:GetPlayers()) do
 	local Spawned=tick()
 	v.CharacterAdded:Connect(function(a) --Anti teamevent crash
-		Spawned=tick()
-		if tick()-Spawned <=0.08 then
+		if tick()-Spawned <=0.05 then
 			if a:IsDescendantOf(game)then a:Destroy()return end
 		end
+		Spawned=tick()
 		
 	end)
 end
@@ -2286,10 +2286,10 @@ end
 Sv.Plrs.PlayerAdded:Connect(function(v)
 	local Spawned=tick()
 	v.CharacterAdded:Connect(function(a) --Anti teamevent crash
-		Spawned=tick()
-		if tick()-Spawned <=0.08 then
+		if tick()-Spawned <=0.05 then
 			if a:IsDescendantOf(game)then a:Destroy()return end
 		end
+		Spawned=tick()
 
 	end)
 end)
