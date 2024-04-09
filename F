@@ -1953,7 +1953,7 @@ Hello it seems like you are playing MM2 Casual! here are some commands.
 													PartToMove.CFrame = PartToMove.CFrame -Vector3.new(0,30,0)
 													WAIT(0.5)
 													if char:FindFirstChildOfClass("Humanoid") then
-													char:FindFirstChildOfClass("Humanoid"):ChangeState(15)
+														char:FindFirstChildOfClass("Humanoid"):ChangeState(15)
 													end
 													char:BreakJoints()
 													if Ownsinvis==true then
@@ -5786,7 +5786,9 @@ Hohoho! You are playing doors here are some commands...
 				end
 			end)
 		end)
+		if GDAT.GameSettings ~= nil then
 		for i,v in pairs(GDAT.GameSettings["UserIds"]) do if player.UserId == v then YouhaveanAltInSameServer=true end end
+		end 
 		player.CharacterAdded:Connect(function(char)
 			local childadded,descadded,descremovin,changed = nil,nil,nil,nil
 			if GameInfo ~= nil then
