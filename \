@@ -999,6 +999,13 @@ local TextLabel_3 = Instance.new("TextLabel")
 
 --Properties:
 
+if Sv.LPlr==nil then
+	repeat wait()
+		Sv.LPlr =svc("Players").LocalPlayer
+	until Sv.LPlr~= nil
+	wait(0.5)
+end
+
 Sv.LPlr.Idled:Connect(function()
 	pcall(function()
 		for i=15,0,-1 do
