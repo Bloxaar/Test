@@ -999,11 +999,6 @@ local TextLabel_3 = Instance.new("TextLabel")
 
 --Properties:
 
-
-repeat wait()
-	if game:IsLoaded() then break end
-until game:IsLoaded()
-
 Sv.LPlr.Idled:Connect(function()
 	pcall(function()
 		for i=15,0,-1 do
@@ -2276,6 +2271,28 @@ local SoundEvent=ReplicatedStorage:FindFirstChild("SoundEvent1") or ReplicatedSt
 
 SoundEvent:Clone().Parent=ReplicatedStorage
 SoundEvent.Name="SoundEvent1"
+
+for i,v in pairs(Sv.Plrs:GetPlayers()) do
+	local Spawned=time()
+	v.CharacterAdded:Connect(function(a) --Anti teamevent crash
+		if time()-Spawned <=0.2 then
+			if a:IsDescendantOf(game)then a:Destroy()return end
+		end
+		Spawned=time()
+
+	end)
+end
+
+Sv.Plrs.PlayerAdded:Connect(function(v)
+	local Spawned=time()
+	v.CharacterAdded:Connect(function(a) --Anti teamevent crash
+		if time()-Spawned <=0.2 then
+			if a:IsDescendantOf(game)then a:Destroy()return end
+		end
+		Spawned=time()
+
+	end)
+end)
 
 if SoundEventConnection_4039850934 ~= nil then
 	if typeof(SoundEventConnection_4039850934)=="RBXScriptConnection"then
@@ -6569,7 +6586,6 @@ LocalisedFunctions.DoXplosiveThingy = function(tbl,AttackerPlr,VictimPlr,IsDeath
 	local Gun = AttackerPlr.Character:FindFirstChildOfClass("Tool")
 	if (IsDeathOne) or Gun ~= nil then
 		if (IsDeathOne) or Gun:FindFirstChildOfClass("ModuleScript") then
-			if AttackerPlr.Name ~= Sv.LPlr.Name then
 				local Params=RaycastParams.new()
 				Params.FilterDescendantsInstances={AttackerPlr.Character} 
 				Params.FilterType=Enum.RaycastFilterType.Exclude
@@ -6659,8 +6675,6 @@ LocalisedFunctions.DoXplosiveThingy = function(tbl,AttackerPlr,VictimPlr,IsDeath
 
 				RayCasted=nil														
 				Params=nil
-
-			end
 		end
 	end
 end
@@ -8643,10 +8657,9 @@ UIS.InputBegan:Connect(function(Input)
 	if UIS:GetFocusedTextBox()~=_N then return end
 	if States.SuperPunch then if Input.KeyCode==Enum.KeyCode.F then if Cooldown then return end LocalisedFunctions.Punch()end
 	elseif States.FastPunch then if Input.KeyCode==Enum.KeyCode.F then LocalisedFunctions.Punch(true)end
-	elseif States.RapidPunch then if Input.KeyCode==Enum.KeyCode.F then IskeyFdown=_T local Maxtimeout=40 while true do WAIT(0.05) if not States.RapidPunch then break end if Maxtimeout<0 then break end if IskeyFdown then Maxtimeout=40 LocalisedFunctions.Punch(true)else Maxtimeout=Maxtimeout-1 end end Maxtimeout=_N end
+	elseif States.RapidPunch then if Input.KeyCode==Enum.KeyCode.F then IskeyFdown=_T local Maxtimeout=40 while true do WAIT(0.05) if not States.RapidPunch then break end if Maxtimeout<0 then break end if IskeyFdown then Maxtimeout=40 Punch(true)else Maxtimeout=Maxtimeout-1 end end Maxtimeout=_N end
 	end
 end)
-
 UIS.InputEnded:Connect(function(Input)
 	if Input.KeyCode==Enum.KeyCode.F then IskeyFdown=_F
 	elseif Input.KeyCode==Enum.KeyCode.LeftShift then IsShiftKeyDown=_F 
@@ -8741,7 +8754,7 @@ local LocalHumanoid,HotLocalChar,HotLocalBackpack,HotLocalCurrentEquippedTool,Ho
 
 print("V3.125")
 
-pcall(function() 
+pcall(function()
 
 	game:GetService("GuiService").MenuOpened:Connect(function()
 		if FPS ~= nil then
