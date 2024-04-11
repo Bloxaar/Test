@@ -2819,17 +2819,15 @@ function RE(OldPos)
 			end
 		end
 	elseif Oldteam=="Criminals" then
-		if Oldteam=="Guards" then
-			local Guards=0
-			for i,v in pairs(Sv.Plrs:GetPlayers()) do if v.TeamColor.Name=="Bright blue" then
-					Guards+=1
-				end end
-			if Guards>=8 then
-				TeamEvent:FireServer("Bright orange")TeamEvent:FireServer("Bright blue")
-			else 
-				TeamEvent:FireServer("Bright blue")
-			end Guards=nil
-		end
+		local Guards=0
+		for i,v in pairs(Sv.Plrs:GetPlayers()) do if v.TeamColor.Name=="Bright blue" then
+				Guards+=1
+			end end
+		if Guards>=8 then
+			TeamEvent:FireServer("Bright orange")TeamEvent:FireServer("Bright blue")
+		else 
+			TeamEvent:FireServer("Bright blue")
+		end Guards=nil
 		IsCriminal=true
 		wait()
 	end
@@ -8840,7 +8838,7 @@ LocalisedFunctions.DoKillAura = function(IsTeam)for i,v in Sv.P(Sv.Plrs:GetPlaye
 
 local LocalHumanoid,HotLocalChar,HotLocalBackpack,HotLocalCurrentEquippedTool,HotChatBox=nil,nil,nil,nil,nil
 
-print("V3.125")
+print("V3.3")
 
 pcall(function()
 
