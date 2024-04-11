@@ -1,7 +1,7 @@
 local OPERATORUSERID = {
 	--{USERID, Accesslevel}
 	{5450973191,math.huge}, -- Totallynotaimbot
-	{5378221683,math.huge}, -- Youdontstop0
+	--{5378221683,math.huge}, -- Youdontstop0
 	{523322320,1}, -- Palamode (A friend of mines)
 
 }
