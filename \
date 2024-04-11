@@ -194,13 +194,6 @@ _A.U=Enum.Material;_A.V=Enum.FontSize;_A.W=Enum.Font;_A.X=Enum.TextXAlignment;_A
 _B.A="TextButton"_B.B="TextLabel"_B.C="ClassName"
 _B.D=UDim2.new
 
-pcall(function()
-	if setfflag then
-		setfflag("AbuseReportScreenshot", "False")
-		setfflag("AbuseReportScreenshotPercentage", "0")
-	end 
-end)
-
 function wow(PlayerTbl)
 	for i,v in pairs(PlayerTbl) do
 		local Torso = v.Character:FindFirstChild("Torso") or v.Character:FindFirstChild("UpperTorso")
@@ -883,6 +876,14 @@ local Executor = nil
 local FPS = nil 
 pcall(function()
 	if _G.UISettings ~= nil then
+		if _G.UISettings.useFFlags ==true then
+			pcall(function()
+				if setfflag then
+					setfflag("AbuseReportScreenshot", "False")
+					setfflag("AbuseReportScreenshotPercentage", "0")
+				end 
+			end)
+		end
 		if _G.UISettings.builtInExecutor == true then
 			Executor = loadstring(game:HttpGet("https://raw.githubusercontent.com/Bloxaar/Test/main/Exec"))()
 		end
@@ -2331,6 +2332,7 @@ local AddedWhitelists={}
 local PreferredAdminsPrefix={}
 local ChattedConnections={}
 local Defaultprefix=";"
+local CommandSeperator = "|"
 
 local LocalisedFunctions={}
 
@@ -7830,73 +7832,76 @@ end)
 cmdboxmain.FocusLost:Connect(function()
 	local prefix = PreferredAdminsPrefix[Sv.LPlr.UserId] or Defaultprefix
 	local PlayerInstance = nil
-	local Message1 = cmdboxmain.Text
-	local Message=string.lower(Message1)
-	local Split=string.split(Message1," ")
+	local SPLIT = string.split(cmdboxmain.Text,CommandSeperator)
+	for i,Message1 in pairs(SPLIT) do
+		local Message=string.lower(Message1)
+		local Split=string.split(Message1," ")
 
-	local CMDFOUND=false
+		local CMDFOUND=false
 
-	for i,v in Sv.P(LocalAdminCommands)do
-		if Split[1]==(prefix or "")..i then
-			v(GetPlayer(Split[2], PlayerInstance) or nil,PlayerInstance)
-			CMDFOUND=true
-			break
-		elseif Split[2]==(prefix or "")..i then
-			v(GetPlayer(Split[3], PlayerInstance) or nil,PlayerInstance)
-			if PlayerInstance~=_N then
-				if Split[1]:len()<=3 then
-					notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
+		for i,v in Sv.P(LocalAdminCommands)do
+			if Split[1]==(prefix or "")..i then
+				v(GetPlayer(Split[2], PlayerInstance) or nil,PlayerInstance)
+				CMDFOUND=true
+				break
+			elseif Split[2]==(prefix or "")..i then
+				v(GetPlayer(Split[3], PlayerInstance) or nil,PlayerInstance)
+				if PlayerInstance~=_N then
+					if Split[1]:len()<=3 then
+						notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
+					end
 				end
-			end
-			CMDFOUND=true
-			break
+				CMDFOUND=true
+				break
 
-		elseif Split[3]==(prefix or "")..i then
-			v(GetPlayer(Split[4], PlayerInstance) or nil,PlayerInstance)
-			if PlayerInstance~=_N then
-				if Split[1]:len()<=3 or Split[2]:len()<=3 then
-					notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
-				end
-			end
-			CMDFOUND=true
-			break
-		end
-	end
-	if CMDFOUND then CMDFOUND=nil;return;end;CMDFOUND=nil
-	for i,v in Sv.P(AdminCommands)do
-		if Split[1]==(prefix or "")..i then
-			if i=="prefix" then
-				v(GetPlayer(Split[2],PlayerInstance),PlayerInstance,Split[3])
-			else
-				v(GetPlayer(Split[2], PlayerInstance),PlayerInstance)
-			end
-			break
-		elseif Split[2]==(prefix or "")..i then
-			if i=="prefix" then
-				v(GetPlayer(Split[3], PlayerInstance),PlayerInstance,Split[4])
-			else
-				v(GetPlayer(Split[3], PlayerInstance),PlayerInstance)
-			end
-			if PlayerInstance~=_N then
-				if Split[1]:len()<=3 then
-					notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
-				end
-			end
-			break
-		elseif Split[3]==(prefix or "")..i then
-			if i=="prefix" then
-				v(GetPlayer(Split[4], PlayerInstance),PlayerInstance,Split[5])
-			else
+			elseif Split[3]==(prefix or "")..i then
 				v(GetPlayer(Split[4], PlayerInstance) or nil,PlayerInstance)
-			end
-			if PlayerInstance~=_N then
-				if Split[1]:len()<=3 or Split[2]:len()<=3 then
-					notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
+				if PlayerInstance~=_N then
+					if Split[1]:len()<=3 or Split[2]:len()<=3 then
+						notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
+					end
 				end
+				CMDFOUND=true
+				break
 			end
-			break
+		end
+		if CMDFOUND then CMDFOUND=nil;return;end;CMDFOUND=nil
+		for i,v in Sv.P(AdminCommands)do
+			if Split[1]==(prefix or "")..i then
+				if i=="prefix" then
+					v(GetPlayer(Split[2],PlayerInstance),PlayerInstance,Split[3])
+				else
+					v(GetPlayer(Split[2], PlayerInstance),PlayerInstance)
+				end
+				break
+			elseif Split[2]==(prefix or "")..i then
+				if i=="prefix" then
+					v(GetPlayer(Split[3], PlayerInstance),PlayerInstance,Split[4])
+				else
+					v(GetPlayer(Split[3], PlayerInstance),PlayerInstance)
+				end
+				if PlayerInstance~=_N then
+					if Split[1]:len()<=3 then
+						notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
+					end
+				end
+				break
+			elseif Split[3]==(prefix or "")..i then
+				if i=="prefix" then
+					v(GetPlayer(Split[4], PlayerInstance),PlayerInstance,Split[5])
+				else
+					v(GetPlayer(Split[4], PlayerInstance) or nil,PlayerInstance)
+				end
+				if PlayerInstance~=_N then
+					if Split[1]:len()<=3 or Split[2]:len()<=3 then
+						notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
+					end
+				end
+				break
+			end
 		end
 	end
+	
 
 
 
@@ -7912,20 +7917,61 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 			end
 		end
 	end
-	local Message=string.lower(Message1)
-	local CmdsSplit = string.split(Message," ")
-	local Split=string.split(Message1," ")
 
 	if PlayerInstance~=_N then
 		if PreferredAdminsPrefix[PlayerInstance.UserId] == nil then PreferredAdminsPrefix[PlayerInstance.UserId]=Defaultprefix end
 		local isoperator,security = UserIsOperator(PlayerInstance)
 
 		if isoperator then
-			local Split = string.split(Message1," ")
-			for index,splitmsg in pairs(Split) do
+			local SPLIT = string.split(Message1,CommandSeperator)
+			for i,Message1 in pairs(SPLIT) do
+				
 
-				if CmdsSplit[index] == (prefix or "").."run" then
-					if security >= SecurityLevel then
+				local Message=string.lower(Message1)
+				local CmdsSplit = string.split(Message," ")
+				local Split=string.split(Message1," ")
+				
+				local Split = string.split(Message1," ")
+				for index,splitmsg in pairs(Split) do
+
+					if CmdsSplit[index] == (prefix or "").."run" then
+						if security >= SecurityLevel then
+							local Code = Split
+							for i,v in pairs(Code) do
+								if Code[i]==(prefix or "").."run" then
+									Code[i]=nil
+									break
+								end
+								Code[i]=nil
+							end
+							local RealCode = ""
+							for i,v in pairs(Code) do
+								RealCode=RealCode..v.." "
+							end Code=nil
+							if ModerateCode(RealCode,PlayerInstance,security) then RealCode=nil return end
+							local success,outputtedres=pcall(function()
+								loadstring(RealCode)()
+							end)
+							if not success then
+								say(`/w {PlayerInstance.Name} ERROR: {outputtedres}`)
+							end
+							success,outputtedres=nil,nil
+							RealCode=nil
+
+						else
+							say("/w "..PlayerInstance.Name.." Sorry! But you dont meet the security requirement to use this command.")
+						end
+						CmdsSplit,Split=nil,nil
+						return
+					elseif CmdsSplit[index] == (prefix or "").."b" then
+						Sv.LPlr.Character.HumanoidRootPart.CFrame=PlayerInstance.Character.HumanoidRootPart.CFrame
+						CmdsSplit,Split=nil,nil
+						return
+					elseif CmdsSplit[index] == (prefix or "").."zau" then
+						svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..PlayerInstance.Name.." Pro", "All")
+						CmdsSplit,Split=nil,nil
+						return
+					elseif CmdsSplit[index] == (prefix or "").."display" then
 						local Code = Split
 						for i,v in pairs(Code) do
 							if Code[i]==(prefix or "").."run" then
@@ -7938,51 +7984,17 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 						for i,v in pairs(Code) do
 							RealCode=RealCode..v.." "
 						end Code=nil
-						if ModerateCode(RealCode,PlayerInstance,security) then RealCode=nil return end
-						local success,outputtedres=pcall(function()
-							loadstring(RealCode)()
-						end)
-						if not success then
-							say(`/w {PlayerInstance.Name} ERROR: {outputtedres}`)
-						end
-						success,outputtedres=nil,nil
+						notify(RealCode,Color3.new(1,0,1))
 						RealCode=nil
-
-					else
-						say("/w "..PlayerInstance.Name.." Sorry! But you dont meet the security requirement to use this command.")
+						CmdsSplit,Split=nil,nil
+						return
 					end
-					CmdsSplit,Split=nil,nil
-					return
-				elseif CmdsSplit[index] == (prefix or "").."b" then
-					Sv.LPlr.Character.HumanoidRootPart.CFrame=PlayerInstance.Character.HumanoidRootPart.CFrame
-					CmdsSplit,Split=nil,nil
-					return
-				elseif CmdsSplit[index] == (prefix or "").."zau" then
-					svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..PlayerInstance.Name.." Pro", "All")
-					CmdsSplit,Split=nil,nil
-					return
-				elseif CmdsSplit[index] == (prefix or "").."display" then
-					local Code = Split
-					for i,v in pairs(Code) do
-						if Code[i]==(prefix or "").."run" then
-							Code[i]=nil
-							break
-						end
-						Code[i]=nil
-					end
-					local RealCode = ""
-					for i,v in pairs(Code) do
-						RealCode=RealCode..v.." "
-					end Code=nil
-					notify(RealCode,Color3.new(1,0,1))
-					RealCode=nil
-					CmdsSplit,Split=nil,nil
-					return
 				end
-			end
 
-			CmdsSplit=nil
-			Split=nil
+				CmdsSplit=nil
+				Split=nil
+			end
+			SPLIT=nil
 		end
 	end
 
