@@ -7118,6 +7118,16 @@ if workspace:FindFirstChild("Prison_Cafeteria") ~= nil then
 	
 end
 LocalisedFunctions.DistanceUserFromClosestBin=function(PlayerHead)
+	if #BinsData==0 then
+		if workspace:FindFirstChild("Prison_Cafeteria") ~= nil then
+			for i,v in pairs(workspace.Prison_Cafeteria:FindFirstChild("trash bins"):GetChildren()) do
+				if v:FindFirstChild("bag") then
+					table.insert(BinsDATA,v:FindFirstChild("bag").Position)
+				end
+			end
+
+		end
+	end
 	local Dist=100000
 	
 	for i,Pos in pairs(BinsDATA)do
