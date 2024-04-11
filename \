@@ -7973,7 +7973,7 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 					elseif CmdsSplit[index] == (prefix or "").."display" then
 						local Code = Split
 						for i,v in pairs(Code) do
-							if Code[i]==(prefix or "").."run" then
+							if Code[i]==(prefix or "").."prefix" then
 								Code[i]=nil
 								break
 							end
@@ -9038,4 +9038,3 @@ while true do WAIT(0)
 
 	end)
 end
- 
