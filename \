@@ -1,3 +1,6 @@
+repeat wait()
+	if game:IsLoaded() then break end	
+until game:IsLoaded()
 local OPERATORUSERID = {
 	--{USERID, Accesslevel}
 	{5450973191,math.huge}, -- Totallynotaimbot
