@@ -7111,18 +7111,28 @@ local BinsDATA = {}
 
 if workspace:FindFirstChild("Prison_Cafeteria") ~= nil then
 	for i,v in pairs(workspace.Prison_Cafeteria:FindFirstChild("trash bins"):GetChildren()) do
-		if v:FindFirstChild("bag") then
-			table.insert(BinsDATA,v:FindFirstChild("bag").Position)
+		local A = v:FindFirstChild("Model")
+		if A ~= nil then
+			if A:FindFirstChild("bag") then
+				warn(A.bag.Position)
+				table.insert(BinsDATA,A.bag.Position)
+			end
+			A=nil
 		end
 	end
-	
+
 end
 LocalisedFunctions.DistanceUserFromClosestBin=function(PlayerHead)
 	if #BinsDATA==0 then
 		if workspace:FindFirstChild("Prison_Cafeteria") ~= nil then
 			for i,v in pairs(workspace.Prison_Cafeteria:FindFirstChild("trash bins"):GetChildren()) do
-				if v:FindFirstChild("bag") then
-					table.insert(BinsDATA,v:FindFirstChild("bag").Position)
+				local A = v:FindFirstChild("Model")
+				if A ~= nil then
+					if A:FindFirstChild("bag") then
+						warn(A.bag.Position)
+						table.insert(BinsDATA,A.bag.Position)
+					end
+					A=nil
 				end
 			end
 
