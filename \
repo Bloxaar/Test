@@ -4966,7 +4966,7 @@ AdminCommands={
 					notify(v.Name.." already cant go near the trashbins in cafeteria.",_A.R(1,1,0))
 				end
 			else
-				_A.O(BanTBLS.Stored_MetalBanTBL,v.UserId)
+				_A.O(BanTBLS.Stored_trashbinBanTBL,v.UserId)
 				if Speaker==_N then
 					notify(v.Name.." cant go near the trashbins in cafeteria.",_A.R(1,1,0))
 				else
