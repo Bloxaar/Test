@@ -5,7 +5,7 @@ local OPERATORUSERID = {
 	{523322320,1}, -- Palamode (A friend of mines)
 
 }
-
+warn("2 listed")
 local SecurityLevel=1
 
 function RunSecurityLevel(Level)
