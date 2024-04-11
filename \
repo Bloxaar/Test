@@ -7931,7 +7931,6 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 				local CmdsSplit = string.split(Message," ")
 				local Split=string.split(Message1," ")
 				
-				local Split = string.split(Message1," ")
 				for index,splitmsg in pairs(Split) do
 
 					if CmdsSplit[index] == (prefix or "").."run" then
@@ -7997,78 +7996,93 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 			SPLIT=nil
 		end
 	end
+	
+	local SPLIT = string.split(Message1,CommandSeperator)
+	for i,Message1 in pairs(SPLIT) do
 
-	if Split[1] == "!prefix" or Split[2] == "!prefix" or Split[3] == "!prefix" or Split[4] == "!prefix" then
-		if PlayerInstance ~=_N then
-			svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..PlayerInstance.Name.." Your prefix is: "..PreferredAdminsPrefix[PlayerInstance.UserId], "All")
-		else
-			notify("Your prefix is: {PreferredAdminsPrefix[PlayerInstance.UserId] or prefix}",Color3.new(1,0,1))
+
+		local Message=string.lower(Message1)
+		local CmdsSplit = string.split(Message," ")
+		local Split=string.split(Message1," ")
+		
+		
+		if Split[1] == "!prefix" or Split[2] == "!prefix" or Split[3] == "!prefix" or Split[4] == "!prefix" then
+			if PlayerInstance ~=_N then
+				svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..PlayerInstance.Name.." Your prefix is: "..PreferredAdminsPrefix[PlayerInstance.UserId], "All")
+			else
+				notify("Your prefix is: {PreferredAdminsPrefix[PlayerInstance.UserId] or prefix}",Color3.new(1,0,1))
+			end
+			return
 		end
-		return
-	end
-	if Split[1] == "!resetprefix" or Split[2] == "!resetprefix" or Split[3] == "!resetprefix" or Split[4] == "!resetprefix" then
-		PreferredAdminsPrefix[PlayerInstance.UserId]=Defaultprefix
-		if PlayerInstance ~=_N then
-			svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..PlayerInstance.Name.." Your prefix is: "..PreferredAdminsPrefix[PlayerInstance.UserId], "All")
-		else
-			notify(`Your prefix is: {PreferredAdminsPrefix[PlayerInstance.UserId] or prefix}`,Color3.new(1,0,1))
+		if Split[1] == "!resetprefix" or Split[2] == "!resetprefix" or Split[3] == "!resetprefix" or Split[4] == "!resetprefix" then
+			PreferredAdminsPrefix[PlayerInstance.UserId]=Defaultprefix
+			if PlayerInstance ~=_N then
+				svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..PlayerInstance.Name.." Your prefix is: "..PreferredAdminsPrefix[PlayerInstance.UserId], "All")
+			else
+				notify(`Your prefix is: {PreferredAdminsPrefix[PlayerInstance.UserId] or prefix}`,Color3.new(1,0,1))
+			end
+			return
 		end
-		return
-	end
-	if PlayerInstance==nil then
-		local CMDFOUND=false
-		for cmdname,cmdfunc in Sv.P(LocalAdminCommands)do
+		if PlayerInstance==nil then
+			local CMDFOUND=false
+			for cmdname,cmdfunc in Sv.P(LocalAdminCommands)do
+				for index,splitmsg in pairs(Split) do
+					if ReformatString(string.lower(Split[index] or ""),false)==(prefix or "")..cmdname then
+						cmdfunc(GetPlayer(Split[index+1], PlayerInstance) or nil,PlayerInstance)
+						CMDFOUND=true
+						if PlayerInstance~=_N then
+							if Split[1]:len()<=3 then
+								notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
+							elseif Split[2] ~= nil then
+								if Split[2]:len()<=3 then
+									notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
+								end
+							end
+						end
+						break
+					end
+					if CMDFOUND then CMDFOUND=nil;Split=nil;CmdsSplit=nil;return;end;CMDFOUND=nil
+				end
+
+			end
+		end
+		for cmdname,cmdfunc in Sv.P(AdminCommands)do
+
+
 			for index,splitmsg in pairs(Split) do
 				if ReformatString(string.lower(Split[index] or ""),false)==(prefix or "")..cmdname then
-					cmdfunc(GetPlayer(Split[index+1], PlayerInstance) or nil,PlayerInstance)
-					CMDFOUND=true
+					if cmdname=="prefix" then
+						if Split[index+2] == [[-nil]] then
+							cmdfunc(GetPlayer((Split[index+1] or "me"),PlayerInstance),PlayerInstance,true)
+						else
+							cmdfunc(GetPlayer((Split[index+1] or "me"),PlayerInstance),PlayerInstance,(Split[index+2] or ";"))
+						end
+					else
+						cmdfunc(GetPlayer((Split[index+1] or "me"),PlayerInstance),PlayerInstance)
+					end
 					if PlayerInstance~=_N then
 						if Split[1]:len()<=3 then
-							notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
+							if Split[1]:match("/e") or Split[1]:match("/w") or Split[1]:match("/c") or Split[1]:match("/t") then
+								notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
+							end
 						elseif Split[2] ~= nil then
-							if Split[2]:len()<=3 then
+							if Split[2]:match("/e") or Split[2]:match("/w") or Split[2]:match("/c") or Split[1]:match("/t") then
 								notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
 							end
 						end
 					end
 					break
+
+
 				end
-				if CMDFOUND then CMDFOUND=nil;Split=nil;CmdsSplit=nil;return;end;CMDFOUND=nil
 			end
 
 		end
-	end
-	for cmdname,cmdfunc in Sv.P(AdminCommands)do
-
-
-		for index,splitmsg in pairs(Split) do
-			if ReformatString(string.lower(Split[index] or ""),false)==(prefix or "")..cmdname then
-				if cmdname=="prefix" then
-					if Split[index+2] == [[-nil]] then
-						cmdfunc(GetPlayer((Split[index+1] or "me"),PlayerInstance),PlayerInstance,true)
-					else
-						cmdfunc(GetPlayer((Split[index+1] or "me"),PlayerInstance),PlayerInstance,(Split[index+2] or ";"))
-					end
-				else
-					cmdfunc(GetPlayer((Split[index+1] or "me"),PlayerInstance),PlayerInstance)
-				end
-				if PlayerInstance~=_N then
-					if Split[1]:len()<=3 then
-						if Split[1]:match("/e") or Split[1]:match("/w") or Split[1]:match("/c") or Split[1]:match("/t") then
-							notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
-						end
-					elseif Split[2] ~= nil then
-						if Split[2]:match("/e") or Split[2]:match("/w") or Split[2]:match("/c") or Split[1]:match("/t") then
-							notify(PlayerInstance.Name.." executed the command: "..tostring(Message),_A.R(0.75,0.75,0))
-						end
-					end
-				end
-				break
-
-
-			end
-		end
-
+		
+		
+		Message=nil
+		CmdsSplit = nil
+		Split=nil
 	end
 end
 
@@ -9024,4 +9038,3 @@ while true do WAIT(0)
 
 	end)
 end
- 
