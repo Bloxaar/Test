@@ -8839,7 +8839,7 @@ LocalisedFunctions.DoKillAura = function(IsTeam)for i,v in Sv.P(Sv.Plrs:GetPlaye
 
 local LocalHumanoid,HotLocalChar,HotLocalBackpack,HotLocalCurrentEquippedTool,HotChatBox=nil,nil,nil,nil,nil
 
-print("V3.2")
+print("V3.125")
 
 pcall(function()
 
@@ -8865,7 +8865,24 @@ pcall(function()
 		end
 	end)
 
-
+	
+	if hookfunction then
+		hookfunction(game.Shutdown,function()
+			if FPS ~= nil then
+				if setfpscap then
+					if getfpscap then
+						if getfpscap() <30 then
+						else
+							setfpscap(math.max(30,tonumber(getfpscap()) or 0))
+						end
+					else
+						setfpscap(math.max(30,FPS+30))
+					end
+				end
+			end
+		end)
+	end
+	
 end)
 
 while true do WAIT(0)
