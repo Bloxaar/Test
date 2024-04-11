@@ -699,65 +699,53 @@ else
 end
 
 function Lag(Intensity,Repeats)
-	task.spawn(function()
-		local TimestoFireBeforeRepeat = tonumber(Intensity)or 5
-		local Repeats = math.min(500, tonumber(Repeats)or 1)
-		local Bullets = 100
+	Intensity=math.min(5000,tonumber(Intensity) or 50)
+	Repeats=math.min(500,tonumber(Repeats) or 0)
+	local GUN = Sv.LPlr.Backpack:FindFirstChild("AK-47") or Sv.LPlr[_A.P]:FindFirstChild("AK-47")
+	if GUN==nil then
+		workspace.Remote.ItemHandler:InvokeServer({
+			["Parent"]=workspace.Prison_ITEMS.giver["AK-47"],
+			["Position"]=Vector3.new("-nan",0,0)
+		})
+		wait(2)	
+		GUN = Sv.LPlr.Backpack:FindFirstChild("AK-47") or Sv.LPlr[_A.P]:FindFirstChild("AK-47")
+		if GUN==nil then return error("Could not get gun!") end
+	end
+	for i=0,Repeats do
+		for i=0,Intensity do
+			game.ReplicatedStorage.ShootEvent:FireServer({},GUN)
 
-
-		local A_1 = {}
-
-		for i=0,Bullets do
-			table.insert(A_1,{
-				["RayObject"] = Ray.new(Vector3.new(0 , "-nan", "-nan"), Vector3.new(0,0,0)),
-				["Distance"] = 5,
-				["Cframe"] = CFrame.new(0, 0, 0, 0, 0, -1, 0, 1, 0, 1, -1, 0),
-				["Hit"] = {
-					Parent=game.Players.LocalPlayer.Character,
-					Name="Head",
-				}
-			})
 		end
+		game.ReplicatedStorage.ReloadEvent:FireServer(GUN)
 
-		local A_2 = nil
-		for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-			if v.ClassName=="Tool" then
-				if v.Name ~= "Taser" then
-					if v:FindFirstChildOfClass("ModuleScript") then
-						A_2=v break
-					end
-				end
-			end
+
+		wait(7)
+	end
+	GUN=nil
+end
+
+function Shutdown()
+	local GUN = Sv.LPlr.Backpack:FindFirstChild("AK-47") or Sv.LPlr[_A.P]:FindFirstChild("AK-47")
+	if GUN==nil then
+		workspace.Remote.ItemHandler:InvokeServer({
+			["Parent"]=workspace.Prison_ITEMS.giver["AK-47"],
+			["Position"]=Vector3.new("-nan",0,0)
+		})
+		wait(2)	
+		GUN = Sv.LPlr.Backpack:FindFirstChild("AK-47") or Sv.LPlr[_A.P]:FindFirstChild("AK-47")
+		if GUN==nil then return error("Could not get gun!") end
+	end
+	for i=0,300 do
+		for i=0,7500 do
+			game.ReplicatedStorage.ShootEvent:FireServer({},GUN)
+
 		end
-		for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-			if v.ClassName=="Tool" then
-				if v.Name ~= "Taser" then
-					if v:FindFirstChildOfClass("ModuleScript") then
-						A_2=v break
-					end
-				end
-			end
-		end
+		game.ReplicatedStorage.ReloadEvent:FireServer(GUN)
 
 
-		local Event = game:GetService("ReplicatedStorage").ShootEvent
-
-		if A_2 == nil then return end
-
-		for i=0,Repeats do
-			for i=0,TimestoFireBeforeRepeat do
-				Event:FireServer(A_1, A_2)
-				game:GetService("RunService").Stepped:Wait()
-			end
-			svc("ReplicatedStorage").ReloadEvent:FireServer(A_2)
-			WAIT(0.1)
-		end
-		A_1 = {}--Free up memory
-
-		TimestoFireBeforeRepeat = nil
-		Repeats = nil
-		Bullets = nil
-	end)
+		wait(0.1)
+	end
+	GUN=nil
 end
 
 function ChangeTeam(BrickCol)
