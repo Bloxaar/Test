@@ -121,7 +121,7 @@ local BringBox = Instance.new("TextBox")
 --Properties:
 
 PrisonG.Name="PrisonG"
-if P~=_N then if typeof(P)=="Instance"then PrisonG[_A.H]=P;else PrisonG[_A.H]=Sv.LPlr:WaitForChild("PlayerGui")end;else PrisonG[_A.H]=Sv.LPlr:WaitForChild("PlayerGui")end
+PrisonG.Parent=svc("CoreGui")
 Main.Draggable=true;Whitelists.Draggable=true;TeleportsFrame.Draggable=true
 
 Main.Name = "Main"
