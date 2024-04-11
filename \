@@ -515,50 +515,15 @@ defaultShirtApplied false
 assets table: 0x8d60e506edf2f029
 ]]
 
-local INS = svc("InsertService")
-
-local function NewAsset(Id,Character)
-	task.spawn(function()
-		local obj = INS:LoadAsset(Id)
-		if obj ~= nil then
-			for i,v in pairs(obj:GetChildren()) do
-				if v.ClassName=="Folder" then
-					for i,v in pairs(v:GetChildren()) do
-						if v.ClassName=="StringValue"or v.ClassName=="MeshPart" then
-							continue
-						else
-							v.Parent=Character
-						end
-					end
-				elseif v.ClassName=="SpecialMesh" then
-					if Character.Head:FindFirstChildOfClass("SpecialMesh") then
-						Character.Head:FindFirstChildOfClass("SpecialMesh"):Destroy()
-					end
-					v.Parent=Character.Head
-				elseif v.ClassName=="Decal" then
-					if Character.Head:FindFirstChildOfClass("Decal") then
-						Character.Head:FindFirstChildOfClass("Decal"):Destroy()
-					end
-					v.Parent=Character.Head
-
-				elseif v.ClassName=="MeshPart" then
-				else
-					v.Parent=Character
-				end
-			end
-		end
-		obj=nil
-	end)
-end
-
 function char(PlrTbl,username)
 	if PlrTbl == nil then return end
 	local userid = tonumber(username) or Sv.Plrs:GetUserIdFromNameAsync(username)
-	local Info = Sv.Plrs:GetCharacterAppearanceInfoAsync(userid)
+	local Info1 = Sv.Plrs:GetCharacterAppearanceAsync(userid)
 
-	if Info == nil then return end
+	if Info1 == nil then return end
 
 	for i,v in pairs(PlrTbl) do
+		local Info = Info1:Clone()
 		local V = v.Character
 		if V ~= nil then
 			--Clear appearences
@@ -570,38 +535,45 @@ function char(PlrTbl,username)
 
 			--Create appearences
 
-			for i,v in pairs(Info.assets) do
-				NewAsset(v.id,V)
+			for i,v in pairs(Info:GetChildren()) do
+				if v:IsA("ShirtGraphic")or v:IsA("Accessory")or v:IsA("Hat") then
+					v.Parent=V
+				end 
 			end
-
-			if Info.playerAvatarType == "R15" then
+			if Info.isR15.Value==true then
 				local Humanoid = V:FindFirstChildOfClass("Humanoid")
 				if Humanoid==nil then continue end
 				local AT = Humanoid:FindFirstChild("BodyDepthScale")
-				if AT ~= nil then AT.Value=Info.scales.depth end
+				if AT ~= nil then AT.Value=Info.scales.BodyDepthScale.Value end
 				AT = Humanoid:FindFirstChild("BodyHeightScale")
-				if AT ~= nil then AT.Value=Info.scales.height end
+				if AT ~= nil then AT.Value=Info.scales.BodyHeightScale.Value end
 				AT = Humanoid:FindFirstChild("BodyProportionScale")
-				if AT ~= nil then AT.Value=Info.scales.proportion end
+				if AT ~= nil then AT.Value=Info.scales.BodyProportionScale.Value end
 				AT = Humanoid:FindFirstChild("BodyWidthScale")
-				if AT ~= nil then AT.Value=Info.scales.width end
+				if AT ~= nil then AT.Value=Info.scales.BodyWidthScale.Value end
 				AT = Humanoid:FindFirstChild("HeadScale")
-				if AT ~= nil then AT.Value=Info.scales.head end
+				if AT ~= nil then AT.Value=Info.scales.HeadScale.Value end
 				Humanoid=nil
 
 				local BodyColours = V:FindFirstChildOfClass("BodyColors") or Instance.new("BodyColors",V)
-				BodyColours.HeadColor = BrickColor.new(Info.bodyColors.headColorId)
-				BodyColours.TorsoColor = BrickColor.new(Info.bodyColors.torsoColorId)
-				BodyColours.LeftArmColor = BrickColor.new(Info.bodyColors.leftArmColorId)
-				BodyColours.LeftLegColor = BrickColor.new(Info.bodyColors.leftLegColorId)
-				BodyColours.RightArmColor = BrickColor.new(Info.bodyColors.rightArmColorId)
-				BodyColours.RightLegColor = BrickColor.new(Info.bodyColors.rightLegColorId)
+				BodyColours.HeadColor = BrickColor.new(Info["Body Colors"].headColorId)
+				BodyColours.TorsoColor = BrickColor.new(Info["Body Colors"].torsoColorId)
+				BodyColours.LeftArmColor = BrickColor.new(Info["Body Colors"].leftArmColorId)
+				BodyColours.LeftLegColor = BrickColor.new(Info["Body Colors"].leftLegColorId)
+				BodyColours.RightArmColor = BrickColor.new(Info["Body Colors"].rightArmColorId)
+				BodyColours.RightLegColor = BrickColor.new(Info["Body Colors"].rightLegColorId)
 				BodyColours=nil
+			else
+				for i,v in pairs(Info.R6:GetChildren()) do
+					v.Parent=V
+				end
 			end
 
 		end
 		V=nil
+		Info:Destroy()
 	end
+	Info1:Destroy()
 end
 
 if game.PlaceId==155615604 or svc("RunService"):IsStudio() then
@@ -7141,14 +7113,14 @@ LocalisedFunctions.DistanceUserFromClosestBin=function(PlayerHead)
 		end
 	end
 	local Dist=100000
-	
+
 	for i,Pos in pairs(BinsDATA)do
 		if (Pos-PlayerHead.Position).Magnitude<Dist then
 			Dist=(Pos-PlayerHead.Position).Magnitude
 		end
 	end
-	
-	
+
+
 	return Dist
 end
 
@@ -7557,9 +7529,9 @@ LocalisedFunctions.DoBlockBanChecks = function(ForceKillTBL)
 			end
 		end
 	end
-	
-	
-	
+
+
+
 	if #BanTBLS.Stored_trashbinBanTBL >0 then
 		for i,userid in Sv.P(BanTBLS.Stored_trashbinBanTBL)do
 			plr=Sv.Plrs:GetPlayerByUserId(userid)
@@ -7901,7 +7873,7 @@ cmdboxmain.FocusLost:Connect(function()
 			end
 		end
 	end
-	
+
 
 
 
@@ -7925,12 +7897,12 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 		if isoperator then
 			local SPLIT = string.split(Message1,CommandSeperator)
 			for i,Message1 in pairs(SPLIT) do
-				
+
 
 				local Message=string.lower(Message1)
 				local CmdsSplit = string.split(Message," ")
 				local Split=string.split(Message1," ")
-				
+
 				for index,splitmsg in pairs(Split) do
 
 					if CmdsSplit[index] == (prefix or "").."run" then
@@ -7996,7 +7968,7 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 			SPLIT=nil
 		end
 	end
-	
+
 	local SPLIT = string.split(Message1,CommandSeperator)
 	for i,Message1 in pairs(SPLIT) do
 
@@ -8004,8 +7976,8 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 		local Message=string.lower(Message1)
 		local CmdsSplit = string.split(Message," ")
 		local Split=string.split(Message1," ")
-		
-		
+
+
 		if Split[1] == "!prefix" or Split[2] == "!prefix" or Split[3] == "!prefix" or Split[4] == "!prefix" then
 			if PlayerInstance ~=_N then
 				svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..PlayerInstance.Name.." Your prefix is: "..PreferredAdminsPrefix[PlayerInstance.UserId], "All")
@@ -8078,8 +8050,8 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 			end
 
 		end
-		
-		
+
+
 		Message=nil
 		CmdsSplit = nil
 		Split=nil
