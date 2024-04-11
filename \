@@ -7118,7 +7118,7 @@ if workspace:FindFirstChild("Prison_Cafeteria") ~= nil then
 	
 end
 LocalisedFunctions.DistanceUserFromClosestBin=function(PlayerHead)
-	if #BinsData==0 then
+	if #BinsDATA==0 then
 		if workspace:FindFirstChild("Prison_Cafeteria") ~= nil then
 			for i,v in pairs(workspace.Prison_Cafeteria:FindFirstChild("trash bins"):GetChildren()) do
 				if v:FindFirstChild("bag") then
