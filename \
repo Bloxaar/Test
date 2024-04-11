@@ -7119,7 +7119,7 @@ LocalisedFunctions.DistanceUserFromClosestBin=function(PlayerHead)
 	
 	for i,Pos in pairs(BinsDATA)do
 		if (Pos-PlayerHead.Position).Magnitude<Dist then
-			Dist=Pos-PlayerHead.Position.Magnitude
+			Dist=(Pos-PlayerHead.Position).Magnitude
 		end
 	end
 	
@@ -8989,4 +8989,3 @@ while true do WAIT(0)
 
 	end)
 end
- 
