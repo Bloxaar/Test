@@ -4961,7 +4961,7 @@ AdminCommands={
 	["trashbins"]=function(PlayerTbl,Speaker)
 		if PlayerTbl==_N then return end
 		for i,v in Sv.P(PlayerTbl)do
-			if table.find(BanTBLS.Stored_MetalBanTBL,v.UserId)~=_N then
+			if table.find(BanTBLS.Stored_trashbinBanTBL,v.UserId)~=_N then
 				if Speaker==_N then
 					notify(v.Name.." already cant go near the trashbins in cafeteria.",_A.R(1,1,0))
 				end
@@ -8924,7 +8924,7 @@ LocalisedFunctions.DoKillAura = function(IsTeam)for i,v in Sv.P(Sv.Plrs:GetPlaye
 
 local LocalHumanoid,HotLocalChar,HotLocalBackpack,HotLocalCurrentEquippedTool,HotChatBox=nil,nil,nil,nil,nil
 
-print("V3.3")
+print("V3.35")
 
 pcall(function()
 
