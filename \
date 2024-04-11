@@ -2825,12 +2825,13 @@ function RE(OldPos)
 					Guards+=1
 				end end
 			if Guards>=8 then
-				TeamEvent:FireServer("Bright orange")TeamEvent:FireServer("Bright blue")wait()
+				TeamEvent:FireServer("Bright orange")TeamEvent:FireServer("Bright blue")
 			else 
-				TeamEvent:FireServer("Bright orange")
+				TeamEvent:FireServer("Bright blue")
 			end Guards=nil
 		end
 		IsCriminal=true
+		wait()
 	end
 	repeat svc("RunService").Stepped:Wait()until not A:IsDescendantOf(workspace)repeat svc("RunService").Stepped:Wait()until Sv.LPlr[_A.P]~=_N
 	local AA=Sv.LPlr[_A.P]
@@ -3424,7 +3425,7 @@ _A.O(A_1,{
 					local AA=Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
 					if AA~=nil then
 						AA:ChangeState(15)
-					AA=nil;end
+						AA=nil;end
 				end
 			else
 				Char=plr[_A.P]
@@ -8865,7 +8866,7 @@ pcall(function()
 		end
 	end)
 
-	
+
 	if hookfunction then
 		hookfunction(game.Shutdown,function()
 			if FPS ~= nil then
@@ -8882,7 +8883,7 @@ pcall(function()
 			end
 		end)
 	end
-	
+
 end)
 
 while true do WAIT(0)
