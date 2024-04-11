@@ -2892,43 +2892,42 @@ function RE(OldPos)
 			CrimSpawn.Transparency=0;CrimSpawn=nil
 		end;Primary=nil
 
-		if Oldteam=="Guards" then
-			repeat svc("RunService").Stepped:Wait()until not A:IsDescendantOf(workspace)repeat svc("RunService").Stepped:Wait()until Sv.LPlr[_A.P]~=_N
-			local AA=Sv.LPlr[_A.P]
-			repeat svc("RunService").Stepped:Wait()until AA.PrimaryPart~=_N
-			AA.PrimaryPart.CFrame=LastPos
-			local hasbeenteleported=_F
-			for i=0,11 do
-				AA=Sv.LPlr[_A.P]
-				svc("RunService").Heartbeat:Wait()
-				if AA~=_N then
-					local PRIM=AA:FindFirstChild("HumanoidRootPart") or AA.PrimaryPart
-					if PRIM~=_N then
-						if (PRIM.Position-LastPos.Position).Magnitude >=10 then
-							hasbeenteleported=_T
-							PRIM.CFrame=LastPos
-						end
+		repeat svc("RunService").Stepped:Wait()until not A:IsDescendantOf(workspace)repeat svc("RunService").Stepped:Wait()until Sv.LPlr[_A.P]~=_N
+		local AA=Sv.LPlr[_A.P]
+		repeat svc("RunService").Stepped:Wait()until AA.PrimaryPart~=_N
+		AA.PrimaryPart.CFrame=LastPos
+		local hasbeenteleported=_F
+		for i=0,11 do
+			AA=Sv.LPlr[_A.P]
+			svc("RunService").Heartbeat:Wait()
+			if AA~=_N then
+				local PRIM=AA:FindFirstChild("HumanoidRootPart") or AA.PrimaryPart
+				if PRIM~=_N then
+					if (PRIM.Position-LastPos.Position).Magnitude >=10 then
+						hasbeenteleported=_T
+						PRIM.CFrame=LastPos
 					end
-					PRIM=_N
 				end
-			end
-			wait()
-			if not hasbeenteleported then
-				repeat
-					local Primary = Sv.LPlr[_A.P]:FindFirstChild("HumanoidRootPart")or Sv.LPlr[_A.P].PrimaryPart
-					if (Primary.Position-LastPos.Position).Magnitude >=15 then
-						Sv.LPlr[_A.P].PrimaryPart.CFrame=LastPos
-					end
-					Primary.Velocity=Vector3.new(0,0,0)
-					Primary.AssemblyAngularVelocity=Vector3.new(0,0,0)
-					WAIT(0.1)
-					if (Primary.Position-LastPos.Position).Magnitude <=15 then
-						break
-					end
-					Primary=nil
-				until 0 >1
+				PRIM=_N
 			end
 		end
+		wait()
+		if not hasbeenteleported then
+			repeat
+				local Primary = Sv.LPlr[_A.P]:FindFirstChild("HumanoidRootPart")or Sv.LPlr[_A.P].PrimaryPart
+				if (Primary.Position-LastPos.Position).Magnitude >=15 then
+					Sv.LPlr[_A.P].PrimaryPart.CFrame=LastPos
+				end
+				Primary.Velocity=Vector3.new(0,0,0)
+				Primary.AssemblyAngularVelocity=Vector3.new(0,0,0)
+				WAIT(0.1)
+				if (Primary.Position-LastPos.Position).Magnitude <=15 then
+					break
+				end
+				Primary=nil
+			until 0 >1
+		end
+
 
 	end;IsCriminal=_N;LastPos=nil
 
