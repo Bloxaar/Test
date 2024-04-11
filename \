@@ -2362,6 +2362,7 @@ TeamEvent:GetPropertyChangedSignal("Name"):Connect(function()
 end)
 
 local ScriptSettings = {}
+ScriptSettings.BinDistance=20
 ScriptSettings.ExplosionSize=10
 ScriptSettings.DeathExplosionSize=15
 ScriptSettings.InfectAuraSize=15
@@ -4174,6 +4175,7 @@ local BanTBLS = {
 	Stored_GrassBanTBL ={},
 	Stored_PlasticBanTBL ={},
 	Stored_MetalBanTBL ={},
+	Stored_trashbinBanTBL ={},
 	Stored_DarkyBanTBL ={},
 	Stored_LightyBanTBL ={},
 
@@ -4953,6 +4955,34 @@ AdminCommands={
 					notify(v.Name.." can now touch metal again.",_A.R(1,0,0))
 				end
 				table.remove(BanTBLS.Stored_MetalBanTBL,table.find(BanTBLS.Stored_MetalBanTBL,v.UserId))
+			end
+		end
+	end,
+	["trashbins"]=function(PlayerTbl,Speaker)
+		if PlayerTbl==_N then return end
+		for i,v in Sv.P(PlayerTbl)do
+			if table.find(BanTBLS.Stored_MetalBanTBL,v.UserId)~=_N then
+				if Speaker==_N then
+					notify(v.Name.." already cant go near the trashbins in cafeteria.",_A.R(1,1,0))
+				end
+			else
+				_A.O(BanTBLS.Stored_MetalBanTBL,v.UserId)
+				if Speaker==_N then
+					notify(v.Name.." cant go near the trashbins in cafeteria.",_A.R(1,1,0))
+				else
+					notify(Speaker.Name.." made them not be able to go near the trashbins in cafeteria: "..tostring(v.Name),_A.R(1,1,0))
+				end
+			end
+		end
+	end,
+	["untrashbins"]=function(PlayerTbl,Speaker)
+		if PlayerTbl==_N then return end
+		for i,v in Sv.P(PlayerTbl)do
+			if table.find(BanTBLS.Stored_trashbinBanTBL,v.UserId)~=_N then
+				if Speaker==_N then
+					notify(v.Name.." cant go near the trashbins in cafeteria.",_A.R(1,0,0))
+				end
+				table.remove(BanTBLS.Stored_trashbinBanTBL,table.find(BanTBLS.Stored_trashbinBanTBL,v.UserId))
 			end
 		end
 	end,
@@ -7074,6 +7104,28 @@ LocalisedFunctions.IsDaytime = function()
 	end
 	return false
 end
+local BinsDATA = {}
+
+if workspace:FindFirstChild("Prison_Cafeteria") ~= nil then
+	for i,v in pairs(workspace.Prison_Cafeteria:FindFirstChild("trash bins"):GetChildren()) do
+		if v:FindFirstChild("bag") then
+			table.insert(BinsDATA,v:FindFirstChild("bag").Position)
+		end
+	end
+	
+end
+LocalisedFunctions.DistanceUserFromClosestBin=function(PlayerHead)
+	local Dist=100000
+	
+	for i,Pos in pairs(BinsDATA)do
+		if (Pos-PlayerHead.Position).Magnitude<Dist then
+			Dist=Pos-PlayerHead.Position.Magnitude
+		end
+	end
+	
+	
+	return Dist
+end
 
 LocalisedFunctions.DoBlockBanChecks = function(ForceKillTBL)
 	local HotCharVar=nil
@@ -7480,6 +7532,41 @@ LocalisedFunctions.DoBlockBanChecks = function(ForceKillTBL)
 			end
 		end
 	end
+	
+	
+	
+	if #BanTBLS.Stored_trashbinBanTBL >0 then
+		for i,userid in Sv.P(BanTBLS.Stored_trashbinBanTBL)do
+			plr=Sv.Plrs:GetPlayerByUserId(userid)
+			if plr~=_N then
+				if plr:IsDescendantOf(Sv.Plrs)then
+					if table.find(ForceKillTBL,plr)~=_N then continue end
+					if plr.Team.Name~=Sv.LPlr.Team.Name then
+						HotCharVar=plr[_A.P]
+						if HotCharVar~=_N then
+							HotHeadVar=HotCharVar:FindFirstChild("Head")
+							if HotHeadVar~=_N then
+								if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
+									if LocalisedFunctions.DistanceUserFromClosestBin(HotHeadVar) <= ScriptSettings.BinDistance then
+										HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
+										if HotHumanoidVar~=_N then
+											if HotHumanoidVar.Health >0 then
+												if HotHumanoidVar:GetAttribute("LKD")==_N then
+
+													_A.O(ForceKillTBL,plr)
+													Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+												end	
+											end	
+										end
+									end	
+								end 
+							end 
+						end
+					end
+				end
+			end
+		end
+	end	
 
 	if #BanTBLS.Stored_ExposedSunlightBanTBL >0 then
 		for i,userid in Sv.P(BanTBLS.Stored_ExposedSunlightBanTBL)do
