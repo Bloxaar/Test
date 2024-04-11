@@ -610,6 +610,12 @@ end
 
 if game.PlaceId==155615604 or svc("RunService"):IsStudio() then
 else
+	Lag =nil
+	HideCars =nil
+	dokill =nil
+	dodamage =nil
+	dotaze =nil
+	dohurt =nil
 	svc("StarterGui"):SetCore("SendNotification",{
 		Title="Incorrect placeID this game is not Prison life.",
 		Text="Script cannot run in this place.",
@@ -2801,8 +2807,8 @@ function RE(OldPos)
 			if Oldteam=="Guards" then
 				local Guards=0
 				for i,v in pairs(Sv.Plrs:GetPlayers()) do if v.TeamColor.Name=="Bright blue" then
-				Guards+=1
-				end end
+						Guards+=1
+					end end
 				if Guards>=8 then
 					TeamEvent:FireServer("Bright orange")TeamEvent:FireServer("Bright blue")wait()
 				else 
@@ -2816,8 +2822,8 @@ function RE(OldPos)
 		if Oldteam=="Guards" then
 			local Guards=0
 			for i,v in pairs(Sv.Plrs:GetPlayers()) do if v.TeamColor.Name=="Bright blue" then
-			Guards+=1
-			end end
+					Guards+=1
+				end end
 			if Guards>=8 then
 				TeamEvent:FireServer("Bright orange")TeamEvent:FireServer("Bright blue")wait()
 			else 
@@ -2886,47 +2892,47 @@ function RE(OldPos)
 			CrimSpawn.CFrame=LastPos
 			CrimSpawn.Transparency=0;CrimSpawn=nil
 		end;Primary=nil
-	
-	if Oldteam=="Guards" then
-	repeat svc("RunService").Stepped:Wait()until not A:IsDescendantOf(workspace)repeat svc("RunService").Stepped:Wait()until Sv.LPlr[_A.P]~=_N
-	local AA=Sv.LPlr[_A.P]
-	repeat svc("RunService").Stepped:Wait()until AA.PrimaryPart~=_N
-	AA.PrimaryPart.CFrame=LastPos
-	local hasbeenteleported=_F
-	for i=0,11 do
-		AA=Sv.LPlr[_A.P]
-		svc("RunService").Heartbeat:Wait()
-		if AA~=_N then
-			local PRIM=AA:FindFirstChild("HumanoidRootPart") or AA.PrimaryPart
-			if PRIM~=_N then
-				if (PRIM.Position-LastPos.Position).Magnitude >=10 then
-					hasbeenteleported=_T
-					PRIM.CFrame=LastPos
+
+		if Oldteam=="Guards" then
+			repeat svc("RunService").Stepped:Wait()until not A:IsDescendantOf(workspace)repeat svc("RunService").Stepped:Wait()until Sv.LPlr[_A.P]~=_N
+			local AA=Sv.LPlr[_A.P]
+			repeat svc("RunService").Stepped:Wait()until AA.PrimaryPart~=_N
+			AA.PrimaryPart.CFrame=LastPos
+			local hasbeenteleported=_F
+			for i=0,11 do
+				AA=Sv.LPlr[_A.P]
+				svc("RunService").Heartbeat:Wait()
+				if AA~=_N then
+					local PRIM=AA:FindFirstChild("HumanoidRootPart") or AA.PrimaryPart
+					if PRIM~=_N then
+						if (PRIM.Position-LastPos.Position).Magnitude >=10 then
+							hasbeenteleported=_T
+							PRIM.CFrame=LastPos
+						end
+					end
+					PRIM=_N
 				end
 			end
-			PRIM=_N
+			wait()
+			if not hasbeenteleported then
+				repeat
+					local Primary = Sv.LPlr[_A.P]:FindFirstChild("HumanoidRootPart")or Sv.LPlr[_A.P].PrimaryPart
+					if (Primary.Position-LastPos.Position).Magnitude >=15 then
+						Sv.LPlr[_A.P].PrimaryPart.CFrame=LastPos
+					end
+					Primary.Velocity=Vector3.new(0,0,0)
+					Primary.AssemblyAngularVelocity=Vector3.new(0,0,0)
+					WAIT(0.1)
+					if (Primary.Position-LastPos.Position).Magnitude <=15 then
+						break
+					end
+					Primary=nil
+				until 0 >1
+			end
 		end
-	end
-	wait()
-	if not hasbeenteleported then
-		repeat
-			local Primary = Sv.LPlr[_A.P]:FindFirstChild("HumanoidRootPart")or Sv.LPlr[_A.P].PrimaryPart
-			if (Primary.Position-LastPos.Position).Magnitude >=15 then
-				Sv.LPlr[_A.P].PrimaryPart.CFrame=LastPos
-			end
-			Primary.Velocity=Vector3.new(0,0,0)
-			Primary.AssemblyAngularVelocity=Vector3.new(0,0,0)
-			WAIT(0.1)
-			if (Primary.Position-LastPos.Position).Magnitude <=15 then
-				break
-			end
-			Primary=nil
-		until 0 >1
-	end
-	end
-	
+
 	end;IsCriminal=_N;LastPos=nil
-	
+
 	Oldteam=_N
 end 
 
@@ -3383,13 +3389,21 @@ function dokill(dat,iskillreq)
 	local A_1={}
 	if iskillreq==_T then
 		for i,plr in Sv.P(dat)do
-			if plr.Team.Name~=Sv.LPlr.Team.Name then
-				for i=0,6 do
-					_A.O(A_1,{
-						["RayObject"]="",--Ray.new(Vector3.new(0,0,0),Vector3.new(0,0,0)),
-						["Hit"]=plr[_A.P].Head,
-						["Cframe"]="",
-					})
+			if plr==Sv.LPlr then
+				if Sv.LPlr.Character ~= nil then
+					local AA=Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
+					if AA~=nil then
+						AA:ChangeState(15)
+						AA=nil;end
+				end
+			else
+				if plr.Team.Name~=Sv.LPlr.Team.Name then
+					for i=0,6 do
+						_A.O(A_1,{
+							["RayObject"]="",--Ray.new(Vector3.new(0,0,0),Vector3.new(0,0,0)),
+							["Hit"]=plr[_A.P].Head,
+							["Cframe"]="",
+						})
 --[[
 _A.O(A_1,{
 ["RayObject"]=Ray.new(Vector3.new(845, 101, 2269), Vector3.new(-391, 8, -83)),
@@ -3397,25 +3411,34 @@ _A.O(A_1,{
 ["Cframe"]=_A.N(840, 101, 2267, 0, 0, -0.9, 0, 0.9, 0.1, 1, -0.0096, 0.062),
 ["Hit"]=plr[_A.P].Head
 })]]
-				end
+					end
+				end	
 			end
 		end
 	else
 		local Char=nil
 		local Humanoid=nil
 		for i,plr in Sv.P(dat)do
-			Char=plr[_A.P]
-			if Char~=_N then
-				Humanoid=Char:FindFirstChildOfClass("Humanoid")
-				if Humanoid~=_N then
-					if Humanoid.Health <=0 then
-					else
-						for i=0,6 do
-							_A.O(A_1,{
-								["RayObject"]="",--Ray.new(Vector3.new(0,0,0),Vector3.new(0,0,0)),
-								["Hit"]=plr[_A.P].Head,
-								["Cframe"]="",
-							})
+			if plr==Sv.LPlr then
+				if Sv.LPlr.Character ~= nil then
+					local AA=Sv.LPlr.Character:FindFirstChildOfClass("Humanoid")
+					if AA~=nil then
+						AA:ChangeState(15)
+					AA=nil;end
+				end
+			else
+				Char=plr[_A.P]
+				if Char~=_N then
+					Humanoid=Char:FindFirstChildOfClass("Humanoid")
+					if Humanoid~=_N then
+						if Humanoid.Health <=0 then
+						else
+							for i=0,6 do
+								_A.O(A_1,{
+									["RayObject"]="",--Ray.new(Vector3.new(0,0,0),Vector3.new(0,0,0)),
+									["Hit"]=plr[_A.P].Head,
+									["Cframe"]="",
+								})
 --[[
 _A.O(A_1,{
 ["RayObject"]=Ray.new(Vector3.new(845, 101, 2269), Vector3.new(-391, 8, -83)),
@@ -3423,6 +3446,7 @@ _A.O(A_1,{
 ["Cframe"]=_A.N(840, 101, 2267, 0, 0, -0.9, 0, 0.9, 0.1, 1, -0.0096, 0.062),
 ["Hit"]=plr[_A.P].Head
 })]]
+							end
 						end
 					end
 				end
@@ -6649,95 +6673,95 @@ LocalisedFunctions.DoXplosiveThingy = function(tbl,AttackerPlr,VictimPlr,IsDeath
 	local Gun = AttackerPlr.Character:FindFirstChildOfClass("Tool")
 	if (IsDeathOne) or Gun ~= nil then
 		if (IsDeathOne) or Gun:FindFirstChildOfClass("ModuleScript") then
-				local Params=RaycastParams.new()
-				Params.FilterDescendantsInstances={AttackerPlr.Character} 
-				Params.FilterType=Enum.RaycastFilterType.Exclude
-				local RayCasted = workspace:Raycast(tbl.RayObject.Origin,tbl.RayObject.Direction*Vector3.new(2,2,2),Params)
+			local Params=RaycastParams.new()
+			Params.FilterDescendantsInstances={AttackerPlr.Character} 
+			Params.FilterType=Enum.RaycastFilterType.Exclude
+			local RayCasted = workspace:Raycast(tbl.RayObject.Origin,tbl.RayObject.Direction*Vector3.new(2,2,2),Params)
 
-				if VictimPlr ~= nil then
-					if VictimPlr.ClassName=="Player"then
-						if VictimPlr.Character:FindFirstChildOfClass("ForceField")==_N then
-							if table.find(AntiShootList,VictimPlr.UserId)==_N then
-								if not LocalisedFunctions.UserHasSuperGunEnabled(VictimPlr) then
-									if VictimPlr.TeamColor.Name==AttackerPlr.TeamColor.Name then
-										if LocalisedFunctions.FriendlyFireEnabled() then
-											table.insert(AntiShootList,VictimPlr.UserId)
-										end
-									else
+			if VictimPlr ~= nil then
+				if VictimPlr.ClassName=="Player"then
+					if VictimPlr.Character:FindFirstChildOfClass("ForceField")==_N then
+						if table.find(AntiShootList,VictimPlr.UserId)==_N then
+							if not LocalisedFunctions.UserHasSuperGunEnabled(VictimPlr) then
+								if VictimPlr.TeamColor.Name==AttackerPlr.TeamColor.Name then
+									if LocalisedFunctions.FriendlyFireEnabled() then
 										table.insert(AntiShootList,VictimPlr.UserId)
 									end
+								else
+									table.insert(AntiShootList,VictimPlr.UserId)
 								end
 							end
 						end
 					end
 				end
-				if RayCasted ~= nil then
-					if RayCasted.Instance ~= nil then
-						local FireSound = Gun.Handle:FindFirstChild("FireSound")
-						local RANGE = 0
-						if IsDeathOne then 
-							RANGE=ScriptSettings.DeathExplosionSize
-						else 
-							RANGE=ScriptSettings.ExplosionSize
-						end
-						for i,v in pairs(workspace:GetPartBoundsInRadius(RayCasted.Position,RANGE)) do
-							local Humanoid = v.Parent:FindFirstChildOfClass("Humanoid")
-							if Humanoid ~= nil then
-								if not IsDeathOne then
-									if FireSound ~= nil then 
-										task.spawn(function()
-											local ClonedVar=FireSound
-											for i=0,5 do SoundEvent:FireServer(ClonedVar) WAIT(0.2) end
-											ClonedVar=_N
-										end)
-									end
-								end
-								if Humanoid.Health>0 then
-									if Humanoid.Parent:FindFirstChildOfClass("ForceField")==_N then
-										local HitPlayer = Sv.Plrs:GetPlayerFromCharacter(Humanoid.Parent)
-										if HitPlayer ~= nil then
-											if HitPlayer == AttackerPlr or HitPlayer == Sv.LPlr then else
-												if HitPlayer.TeamColor.Name ~= Sv.LPlr.TeamColor.Name then
-													local Detected=false
-													if table.find(AddedWhitelists,HitPlayer.UserId) ~= nil then 
-														if UserIsOperator(AttackerPlr) then 
-															Detected=true		
-														else 
-															Detected=true
-														end 
-													end
-													if not Detected then
-														if table.find(AntiShootList,HitPlayer.UserId)==nil then
-
-															if not (LocalisedFunctions.UserHasExplosiveGunEnabled(HitPlayer) or LocalisedFunctions.UserHasSuperGunEnabled(HitPlayer)) then
-																if AttackerPlr.TeamColor.Name==HitPlayer.TeamColor.Name then
-																	if LocalisedFunctions.FriendlyFireEnabled() then
-																		table.insert(AntiShootList,HitPlayer.UserId)
-																	end else
-																	table.insert(AntiShootList,HitPlayer.UserId)
-																end
-
-
-															end													
-														end 
-													end
-													Detected=nil
-												end
-											end	
-										end
-									end
-								end
-							end Humanoid=nil
-						end
-
-						RANGE=nil
-
-						FireSound=nil
+			end
+			if RayCasted ~= nil then
+				if RayCasted.Instance ~= nil then
+					local FireSound = Gun.Handle:FindFirstChild("FireSound")
+					local RANGE = 0
+					if IsDeathOne then 
+						RANGE=ScriptSettings.DeathExplosionSize
+					else 
+						RANGE=ScriptSettings.ExplosionSize
 					end
-				end
+					for i,v in pairs(workspace:GetPartBoundsInRadius(RayCasted.Position,RANGE)) do
+						local Humanoid = v.Parent:FindFirstChildOfClass("Humanoid")
+						if Humanoid ~= nil then
+							if not IsDeathOne then
+								if FireSound ~= nil then 
+									task.spawn(function()
+										local ClonedVar=FireSound
+										for i=0,5 do SoundEvent:FireServer(ClonedVar) WAIT(0.2) end
+										ClonedVar=_N
+									end)
+								end
+							end
+							if Humanoid.Health>0 then
+								if Humanoid.Parent:FindFirstChildOfClass("ForceField")==_N then
+									local HitPlayer = Sv.Plrs:GetPlayerFromCharacter(Humanoid.Parent)
+									if HitPlayer ~= nil then
+										if HitPlayer == AttackerPlr or HitPlayer == Sv.LPlr then else
+											if HitPlayer.TeamColor.Name ~= Sv.LPlr.TeamColor.Name then
+												local Detected=false
+												if table.find(AddedWhitelists,HitPlayer.UserId) ~= nil then 
+													if UserIsOperator(AttackerPlr) then 
+														Detected=true		
+													else 
+														Detected=true
+													end 
+												end
+												if not Detected then
+													if table.find(AntiShootList,HitPlayer.UserId)==nil then
 
-				RayCasted=nil														
-				Params=nil
+														if not (LocalisedFunctions.UserHasExplosiveGunEnabled(HitPlayer) or LocalisedFunctions.UserHasSuperGunEnabled(HitPlayer)) then
+															if AttackerPlr.TeamColor.Name==HitPlayer.TeamColor.Name then
+																if LocalisedFunctions.FriendlyFireEnabled() then
+																	table.insert(AntiShootList,HitPlayer.UserId)
+																end else
+																table.insert(AntiShootList,HitPlayer.UserId)
+															end
+
+
+														end													
+													end 
+												end
+												Detected=nil
+											end
+										end	
+									end
+								end
+							end
+						end Humanoid=nil
+					end
+
+					RANGE=nil
+
+					FireSound=nil
+				end
+			end
+
+			RayCasted=nil														
+			Params=nil
 		end
 	end
 end
@@ -8815,7 +8839,7 @@ LocalisedFunctions.DoKillAura = function(IsTeam)for i,v in Sv.P(Sv.Plrs:GetPlaye
 
 local LocalHumanoid,HotLocalChar,HotLocalBackpack,HotLocalCurrentEquippedTool,HotChatBox=nil,nil,nil,nil,nil
 
-print("V3.125")
+print("V3.2")
 
 pcall(function()
 
