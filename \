@@ -542,17 +542,18 @@ function char(PlrTbl,username)
 			end
 			if Info.isR15.Value==true then
 				local Humanoid = V:FindFirstChildOfClass("Humanoid")
-				if Humanoid==nil then continue end
-				local AT = Humanoid:FindFirstChild("BodyDepthScale")
-				if AT ~= nil then AT.Value=Info.scales.BodyDepthScale.Value end
-				AT = Humanoid:FindFirstChild("BodyHeightScale")
-				if AT ~= nil then AT.Value=Info.scales.BodyHeightScale.Value end
-				AT = Humanoid:FindFirstChild("BodyProportionScale")
-				if AT ~= nil then AT.Value=Info.scales.BodyProportionScale.Value end
-				AT = Humanoid:FindFirstChild("BodyWidthScale")
-				if AT ~= nil then AT.Value=Info.scales.BodyWidthScale.Value end
-				AT = Humanoid:FindFirstChild("HeadScale")
-				if AT ~= nil then AT.Value=Info.scales.HeadScale.Value end
+				if Humanoid~=nil then 
+					local AT = Humanoid:FindFirstChild("BodyDepthScale")
+					if AT ~= nil then AT.Value=Info.scales.BodyDepthScale.Value end
+					AT = Humanoid:FindFirstChild("BodyHeightScale")
+					if AT ~= nil then AT.Value=Info.scales.BodyHeightScale.Value end
+					AT = Humanoid:FindFirstChild("BodyProportionScale")
+					if AT ~= nil then AT.Value=Info.scales.BodyProportionScale.Value end
+					AT = Humanoid:FindFirstChild("BodyWidthScale")
+					if AT ~= nil then AT.Value=Info.scales.BodyWidthScale.Value end
+					AT = Humanoid:FindFirstChild("HeadScale")
+					if AT ~= nil then AT.Value=Info.scales.HeadScale.Value end
+				end
 				Humanoid=nil
 
 				local BodyColours = V:FindFirstChildOfClass("BodyColors") or Instance.new("BodyColors",V)
@@ -785,7 +786,7 @@ function HideCars(autokill)
 						if v.Occupant == nil then
 							if v:FindFirstChildOfClass("Weld") == nil then
 								local A=40
-								repeat  WAIT(0.05)A-=1
+								repeat  WAIT(0.05)A=A-1
 									if A<=0 then break end
 									if not v:IsDescendantOf(workspace) then break end
 									v:Sit(Sv.LPlr.Character.Humanoid)
@@ -2773,7 +2774,7 @@ function RE(OldPos)
 			if Oldteam=="Guards" then
 				local Guards=0
 				for i,v in pairs(Sv.Plrs:GetPlayers()) do if v.TeamColor.Name=="Bright blue" then
-						Guards+=1
+						Guards=Guards+1
 					end end
 				if Guards>=8 then
 					TeamEvent:FireServer("Bright orange")TeamEvent:FireServer("Bright blue")wait()
@@ -2787,7 +2788,7 @@ function RE(OldPos)
 	elseif Oldteam=="Criminals" then
 		local Guards=0
 		for i,v in pairs(Sv.Plrs:GetPlayers()) do if v.TeamColor.Name=="Bright blue" then
-				Guards+=1
+				Guards=Guards+1
 			end end
 		if Guards>=8 then
 			TeamEvent:FireServer("Bright orange")TeamEvent:FireServer("Bright blue")
@@ -2957,53 +2958,55 @@ LocalisedFunctions.returnhostileplayers = function(PlayerTBL)
 		if tonumber(v)~=_N then
 			v=Sv.Plrs:GetPlayerByUserId(tonumber(v))
 		end
-		if v==_N then continue end
-		ishostile=_F
-		local Status=v:FindFirstChild("Status")
-		if Status~=_N then
-			local Hostile=Status:FindFirstChild("isHostile")
-			if Hostile~=_N then
-				if Hostile.Value==_T then
-					_A.O(Hostiles,v)
-					ishostile=_T
-				end
-			end
-		end
-		if not ishostile then
-			HChar=v[_A.P]
-			HBackpack=v:FindFirstChild("Backpack")
-			if HBackpack~=_N then
-				for a,b in Sv.P(HBackpack:GetChildren())do
-					if b[_B.C]=="Tool"then
-						if b.Name=="Crude Knife" or b.Name=="Hammer"then
-							ishostile=_T
-							_A.O(Hostiles,v)
-							break
-						end
-						if b:FindFirstChildWhichIsA("ModuleScript")then
-							ishostile=_T
-							_A.O(Hostiles,v)
-							break
-						end
+		if v~=_N then 
+			ishostile=_F
+			local Status=v:FindFirstChild("Status")
+			if Status~=_N then
+				local Hostile=Status:FindFirstChild("isHostile")
+				if Hostile~=_N then
+					if Hostile.Value==_T then
+						_A.O(Hostiles,v)
+						ishostile=_T
 					end
 				end
 			end
 			if not ishostile then
-				if HChar~=_N then
-					local TOOL=HChar:FindFirstChildOfClass("Tool")
-					if TOOL~=_N then
-						if TOOL.Name=="Crude Knife" or TOOL.Name=="Hammer"then
-							ishostile=_T
-							_A.O(Hostiles,v)
+				HChar=v[_A.P]
+				HBackpack=v:FindFirstChild("Backpack")
+				if HBackpack~=_N then
+					for a,b in Sv.P(HBackpack:GetChildren())do
+						if b[_B.C]=="Tool"then
+							if b.Name=="Crude Knife" or b.Name=="Hammer"then
+								ishostile=_T
+								_A.O(Hostiles,v)
+								break
+							end
+							if b:FindFirstChildWhichIsA("ModuleScript")then
+								ishostile=_T
+								_A.O(Hostiles,v)
+								break
+							end
 						end
-						if TOOL:FindFirstChildWhichIsA("ModuleScript")then
-							ishostile=_T
-							_A.O(Hostiles,v)
+					end
+				end
+				if not ishostile then
+					if HChar~=_N then
+						local TOOL=HChar:FindFirstChildOfClass("Tool")
+						if TOOL~=_N then
+							if TOOL.Name=="Crude Knife" or TOOL.Name=="Hammer"then
+								ishostile=_T
+								_A.O(Hostiles,v)
+							end
+							if TOOL:FindFirstChildWhichIsA("ModuleScript")then
+								ishostile=_T
+								_A.O(Hostiles,v)
+							end
 						end
 					end
 				end
 			end
 		end
+		
 	end
 	return Hostiles
 end
@@ -3048,7 +3051,7 @@ LocalisedFunctions.SpawnCar = function()
 		HB=v:FindFirstChild("Body")
 		if HB==_N then
 			local Attempts = 20
-			repeat  WAIT(0.05)Attempts-=1
+			repeat  WAIT(0.05)Attempts=Attempts-1
 				HB=v:FindFirstChild("Body")
 				if HB~=_N then break end
 				if Attempts<=0 then break end
@@ -4317,7 +4320,7 @@ LocalisedFunctions.RespawnPlayerOnGuardTeam = function()
 	local Guards=0
 	for i,v in pairs(Sv.Plrs:GetPlayers()) do
 		if v.TeamColor.Name=="Bright blue" then
-			Guards+=1
+			Guards=Guards+1
 		end
 	end
 	local A = Sv.LPlr.Character
@@ -4331,7 +4334,7 @@ LocalisedFunctions.RespawnPlayerOnGuardTeam = function()
 	end
 	Guards=nil
 	local AA=90
-	repeat  WAIT(0)AA-=1 if AA<=0 then break end
+	repeat  WAIT(0)AA=AA-1 if AA<=0 then break end
 	until not A:IsDescendantOf(workspace) A=nil AA=nil
 end
 
@@ -5133,14 +5136,14 @@ AdminCommands={
 
 
 		end)
-
+		
+		
 		for i,Plr in Sv.P(PlayerTbl)do
 			if Plr.TeamColor.Name ~= "Bright blue" then
 				if Plr.Name ~= Sv.LPlr.Name then
 					if Plr.Character ~= nil then
 						if Plr.TeamColor.Name=="Really red"or Plr.TeamColor.Name=="Bright orange" then
 							LocalisedFunctions.ArrestDatNoob(Plr)
-							continue
 						end
 					end
 
@@ -5309,9 +5312,11 @@ AdminCommands={
 		local OldPos = Speaker.Character.Head.CFrame
 
 		for i,SelectedPlayer in pairs(PlayerTbl) do
-			if SelectedPlayer==Sv.LPlr then continue end
+			if SelectedPlayer~=Sv.LPlr then 
+				LocalisedFunctions.BringPlayerFunc({SelectedPlayer})
+				
+			end
 			if i>4 then break end
-			LocalisedFunctions.BringPlayerFunc({SelectedPlayer})
 
 			WAIT(0.05)
 		end
@@ -5864,7 +5869,7 @@ AdminCommands={
 			local OLDC = Sv.LPlr.Character
 			TeamEvent:FireServer("Bright blue")
 			local Attempts = 30
-			repeat  WAIT(0.1)Attempts-=1
+			repeat  WAIT(0.1)Attempts=Attempts-1
 				if Attempts<=0 then break end
 			until not OLDC:IsDescendantOf(workspace)
 			OLDC=nil
@@ -6573,7 +6578,7 @@ AdminCommands={
 			if #CommandsStr >= 150 then
 				CommandsTb[index]=CommandsStr
 				CommandsStr=""
-				index+=1
+				index=index+1
 			end
 		end
 		if CommandsTb[index] == nil then CommandsTb[index]=CommandsStr end
@@ -7122,50 +7127,51 @@ LocalisedFunctions.DoBlockBanChecks = function(ForceKillTBL)
 			plr=Sv.Plrs:GetPlayerByUserId(userid)
 			if plr~=_N then
 				if plr:IsDescendantOf(Sv.Plrs)then
-					if table.find(ForceKillTBL,plr)~=_N then continue end
-					if plr.Team.Name~=Sv.LPlr.Team.Name then
-						HotCharVar=plr[_A.P]
-						if HotCharVar~=_N then
-							if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
-								HotHeadVar=HotCharVar:FindFirstChild("Head")
-								if HotHeadVar~=_N then
-									HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
-									if HotHumanoidVar~=_N then
-										if HotHumanoidVar.Health >0 then
-											if HotHumanoidVar:GetAttribute("LKD")==_N then
-												local Params = RaycastParams.new()Params.FilterType=Enum.RaycastFilterType.Exclude Params.FilterDescendantsInstances={HotCharVar}
+					if table.find(ForceKillTBL,plr)==_N then 
+						if plr.Team.Name~=Sv.LPlr.Team.Name then
+							HotCharVar=plr[_A.P]
+							if HotCharVar~=_N then
+								if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
+									HotHeadVar=HotCharVar:FindFirstChild("Head")
+									if HotHeadVar~=_N then
+										HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
+										if HotHumanoidVar~=_N then
+											if HotHumanoidVar.Health >0 then
+												if HotHumanoidVar:GetAttribute("LKD")==_N then
+													local Params = RaycastParams.new()Params.FilterType=Enum.RaycastFilterType.Exclude Params.FilterDescendantsInstances={HotCharVar}
 
-												local LEFTLEG,RIGHTLEG=HotCharVar:FindFirstChild("Left Leg"),HotCharVar:FindFirstChild("Right Leg")
-												local VERIFY=false
-												local PreArgs={Enum.Material.Grass, "Grass", false}
+													local LEFTLEG,RIGHTLEG=HotCharVar:FindFirstChild("Left Leg"),HotCharVar:FindFirstChild("Right Leg")
+													local VERIFY=false
+													local PreArgs={Enum.Material.Grass, "Grass", false}
 
-												local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)
-												if FloorMaterial ~= nil then
-													VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
-													if VERIFY then
-														_A.O(ForceKillTBL,plr)
-														Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
-													end
-												end  
-												if not VERIFY then
-													if LEFTLEG~=nil then
-														FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)
-														if FloorMaterial ~= nil then VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])if VERIFY then _A.O(ForceKillTBL,plr)Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)end end 
-
-													end
+													local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)
+													if FloorMaterial ~= nil then
+														VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
+														if VERIFY then
+															_A.O(ForceKillTBL,plr)
+															Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+														end
+													end  
 													if not VERIFY then
-														if RIGHTLEG~=nil then
-															FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)
+														if LEFTLEG~=nil then
+															FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)
 															if FloorMaterial ~= nil then VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])if VERIFY then _A.O(ForceKillTBL,plr)Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)end end 
 
-														end 
+														end
+														if not VERIFY then
+															if RIGHTLEG~=nil then
+																FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)
+																if FloorMaterial ~= nil then VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])if VERIFY then _A.O(ForceKillTBL,plr)Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)end end 
+
+															end 
+														end
 													end
+													PreArgs=nil VERIFY=nil FloorMaterial=nil RIGHTLEG,LEFTLEG=nil,nil Params=nil
 												end
-												PreArgs=nil VERIFY=nil FloorMaterial=nil RIGHTLEG,LEFTLEG=nil,nil Params=nil
 											end
 										end
-									end
 
+									end
 								end
 							end
 						end
@@ -7179,46 +7185,47 @@ LocalisedFunctions.DoBlockBanChecks = function(ForceKillTBL)
 			plr=Sv.Plrs:GetPlayerByUserId(userid)
 			if plr~=_N then
 				if plr:IsDescendantOf(Sv.Plrs)then
-					if table.find(ForceKillTBL,plr)~=_N then continue end
-					if plr.Team.Name~=Sv.LPlr.Team.Name then
-						HotCharVar=plr[_A.P]
-						if HotCharVar~=_N then
-							if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
-								HotHeadVar=HotCharVar:FindFirstChild("Head")
-								if HotHeadVar~=_N then
-									HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
-									if HotHumanoidVar~=_N then
-										if HotHumanoidVar.Health >0 then
-											if HotHumanoidVar:GetAttribute("LKD")==_N then
-												local Params = RaycastParams.new()Params.FilterType=Enum.RaycastFilterType.Exclude Params.FilterDescendantsInstances={HotCharVar}
+					if table.find(ForceKillTBL,plr)==_N then 
+						if plr.Team.Name~=Sv.LPlr.Team.Name then
+							HotCharVar=plr[_A.P]
+							if HotCharVar~=_N then
+								if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
+									HotHeadVar=HotCharVar:FindFirstChild("Head")
+									if HotHeadVar~=_N then
+										HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
+										if HotHumanoidVar~=_N then
+											if HotHumanoidVar.Health >0 then
+												if HotHumanoidVar:GetAttribute("LKD")==_N then
+													local Params = RaycastParams.new()Params.FilterType=Enum.RaycastFilterType.Exclude Params.FilterDescendantsInstances={HotCharVar}
 
-												local LEFTLEG,RIGHTLEG=HotCharVar:FindFirstChild("Left Leg"),HotCharVar:FindFirstChild("Right Leg")
-												local VERIFY=false
-												local PreArgs={Enum.Material.Concrete, "Concrete", false}
+													local LEFTLEG,RIGHTLEG=HotCharVar:FindFirstChild("Left Leg"),HotCharVar:FindFirstChild("Right Leg")
+													local VERIFY=false
+													local PreArgs={Enum.Material.Concrete, "Concrete", false}
 
-												local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)
-												if FloorMaterial ~= nil then
-													VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
-													if VERIFY then
-														_A.O(ForceKillTBL,plr)
-														Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
-													end
-												end  
-												if not VERIFY then
-													if LEFTLEG~=nil then
-														FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)
-														if FloorMaterial ~= nil then VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])if VERIFY then _A.O(ForceKillTBL,plr)Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)end end 
-
-													end
+													local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)
+													if FloorMaterial ~= nil then
+														VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
+														if VERIFY then
+															_A.O(ForceKillTBL,plr)
+															Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+														end
+													end  
 													if not VERIFY then
-														if RIGHTLEG~=nil then
-															FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)
+														if LEFTLEG~=nil then
+															FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)
 															if FloorMaterial ~= nil then VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])if VERIFY then _A.O(ForceKillTBL,plr)Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)end end 
 
-														end 
+														end
+														if not VERIFY then
+															if RIGHTLEG~=nil then
+																FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)
+																if FloorMaterial ~= nil then VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])if VERIFY then _A.O(ForceKillTBL,plr)Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)end end 
+
+															end 
+														end
 													end
+													PreArgs=nil VERIFY=nil FloorMaterial=nil RIGHTLEG,LEFTLEG=nil,nil Params=nil	
 												end
-												PreArgs=nil VERIFY=nil FloorMaterial=nil RIGHTLEG,LEFTLEG=nil,nil Params=nil	
 											end
 										end
 									end
@@ -7235,49 +7242,50 @@ LocalisedFunctions.DoBlockBanChecks = function(ForceKillTBL)
 			plr=Sv.Plrs:GetPlayerByUserId(userid)
 			if plr~=_N then
 				if plr:IsDescendantOf(Sv.Plrs)then
-					if table.find(ForceKillTBL,plr)~=_N then continue end
-					if plr.Team.Name~=Sv.LPlr.Team.Name then
-						HotCharVar=plr[_A.P]
-						if HotCharVar~=_N then
-							if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
-								HotHeadVar=HotCharVar:FindFirstChild("Head")
-								if HotHeadVar~=_N then
-									local Params = RaycastParams.new()
-									Params.FilterType=Enum.RaycastFilterType.Exclude 
-									Params.FilterDescendantsInstances={HotCharVar}
-									HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
-									if HotHumanoidVar~=_N then
-										if HotHumanoidVar.Health >0 then
-											if HotHumanoidVar:GetAttribute("LKD")==_N then
-												local Params = RaycastParams.new()Params.FilterType=Enum.RaycastFilterType.Exclude Params.FilterDescendantsInstances={HotCharVar}
+					if table.find(ForceKillTBL,plr)==_N then
+						if plr.Team.Name~=Sv.LPlr.Team.Name then
+							HotCharVar=plr[_A.P]
+							if HotCharVar~=_N then
+								if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
+									HotHeadVar=HotCharVar:FindFirstChild("Head")
+									if HotHeadVar~=_N then
+										local Params = RaycastParams.new()
+										Params.FilterType=Enum.RaycastFilterType.Exclude 
+										Params.FilterDescendantsInstances={HotCharVar}
+										HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
+										if HotHumanoidVar~=_N then
+											if HotHumanoidVar.Health >0 then
+												if HotHumanoidVar:GetAttribute("LKD")==_N then
+													local Params = RaycastParams.new()Params.FilterType=Enum.RaycastFilterType.Exclude Params.FilterDescendantsInstances={HotCharVar}
 
-												local LEFTLEG,RIGHTLEG=HotCharVar:FindFirstChild("Left Leg"),HotCharVar:FindFirstChild("Right Leg")
-												local VERIFY=false
-												local PreArgs={Enum.Material.DiamondPlate, "Metal", false}
+													local LEFTLEG,RIGHTLEG=HotCharVar:FindFirstChild("Left Leg"),HotCharVar:FindFirstChild("Right Leg")
+													local VERIFY=false
+													local PreArgs={Enum.Material.DiamondPlate, "Metal", false}
 
-												local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)
-												if FloorMaterial ~= nil then
-													VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
-													if VERIFY then
-														_A.O(ForceKillTBL,plr)
-														Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
-													end
-												end  
-												if not VERIFY then
-													if LEFTLEG~=nil then
-														FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)
-														if FloorMaterial ~= nil then VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])if VERIFY then _A.O(ForceKillTBL,plr)Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)end end 
-
-													end
+													local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)
+													if FloorMaterial ~= nil then
+														VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
+														if VERIFY then
+															_A.O(ForceKillTBL,plr)
+															Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+														end
+													end  
 													if not VERIFY then
-														if RIGHTLEG~=nil then
-															FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)
+														if LEFTLEG~=nil then
+															FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)
 															if FloorMaterial ~= nil then VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])if VERIFY then _A.O(ForceKillTBL,plr)Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)end end 
 
-														end 
+														end
+														if not VERIFY then
+															if RIGHTLEG~=nil then
+																FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)
+																if FloorMaterial ~= nil then VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])if VERIFY then _A.O(ForceKillTBL,plr)Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)end end 
+
+															end 
+														end
 													end
+													PreArgs=nil VERIFY=nil FloorMaterial=nil RIGHTLEG,LEFTLEG=nil,nil Params=nil	
 												end
-												PreArgs=nil VERIFY=nil FloorMaterial=nil RIGHTLEG,LEFTLEG=nil,nil Params=nil	
 											end
 										end
 									end
@@ -7294,49 +7302,50 @@ LocalisedFunctions.DoBlockBanChecks = function(ForceKillTBL)
 			plr=Sv.Plrs:GetPlayerByUserId(userid)
 			if plr~=_N then
 				if plr:IsDescendantOf(Sv.Plrs)then
-					if table.find(ForceKillTBL,plr)~=_N then continue end
-					if plr.Team.Name~=Sv.LPlr.Team.Name then
-						HotCharVar=plr[_A.P]
-						if HotCharVar~=_N then
-							if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
-								HotHeadVar=HotCharVar:FindFirstChild("Head")
-								if HotHeadVar~=_N then
-									local Params = RaycastParams.new()
-									Params.FilterType=Enum.RaycastFilterType.Exclude 
-									Params.FilterDescendantsInstances={HotCharVar}
-									HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
-									if HotHumanoidVar~=_N then
-										if HotHumanoidVar.Health >0 then
-											if HotHumanoidVar:GetAttribute("LKD")==_N then
-												local Params = RaycastParams.new()Params.FilterType=Enum.RaycastFilterType.Exclude Params.FilterDescendantsInstances={HotCharVar}
+					if table.find(ForceKillTBL,plr)==_N then 
+						if plr.Team.Name~=Sv.LPlr.Team.Name then
+							HotCharVar=plr[_A.P]
+							if HotCharVar~=_N then
+								if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
+									HotHeadVar=HotCharVar:FindFirstChild("Head")
+									if HotHeadVar~=_N then
+										local Params = RaycastParams.new()
+										Params.FilterType=Enum.RaycastFilterType.Exclude 
+										Params.FilterDescendantsInstances={HotCharVar}
+										HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
+										if HotHumanoidVar~=_N then
+											if HotHumanoidVar.Health >0 then
+												if HotHumanoidVar:GetAttribute("LKD")==_N then
+													local Params = RaycastParams.new()Params.FilterType=Enum.RaycastFilterType.Exclude Params.FilterDescendantsInstances={HotCharVar}
 
-												local LEFTLEG,RIGHTLEG=HotCharVar:FindFirstChild("Left Leg"),HotCharVar:FindFirstChild("Right Leg")
-												local VERIFY=false
-												local PreArgs={nil, "Plastic", false}
+													local LEFTLEG,RIGHTLEG=HotCharVar:FindFirstChild("Left Leg"),HotCharVar:FindFirstChild("Right Leg")
+													local VERIFY=false
+													local PreArgs={nil, "Plastic", false}
 
-												local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)
-												if FloorMaterial ~= nil then
-													VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
-													if VERIFY then
-														_A.O(ForceKillTBL,plr)
-														Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
-													end
-												end  
-												if not VERIFY then
-													if LEFTLEG~=nil then
-														FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)
-														if FloorMaterial ~= nil then VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])if VERIFY then _A.O(ForceKillTBL,plr)Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)end end 
-
-													end
+													local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)
+													if FloorMaterial ~= nil then
+														VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
+														if VERIFY then
+															_A.O(ForceKillTBL,plr)
+															Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+														end
+													end  
 													if not VERIFY then
-														if RIGHTLEG~=nil then
-															FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)
+														if LEFTLEG~=nil then
+															FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)
 															if FloorMaterial ~= nil then VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])if VERIFY then _A.O(ForceKillTBL,plr)Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)end end 
 
-														end 
+														end
+														if not VERIFY then
+															if RIGHTLEG~=nil then
+																FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)
+																if FloorMaterial ~= nil then VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])if VERIFY then _A.O(ForceKillTBL,plr)Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)end end 
+
+															end 
+														end
 													end
+													PreArgs=nil VERIFY=nil FloorMaterial=nil RIGHTLEG,LEFTLEG=nil,nil Params=nil	
 												end
-												PreArgs=nil VERIFY=nil FloorMaterial=nil RIGHTLEG,LEFTLEG=nil,nil Params=nil	
 											end
 										end
 									end
@@ -7353,57 +7362,58 @@ LocalisedFunctions.DoBlockBanChecks = function(ForceKillTBL)
 			plr=Sv.Plrs:GetPlayerByUserId(userid)
 			if plr~=_N then
 				if plr:IsDescendantOf(Sv.Plrs)then
-					if table.find(ForceKillTBL,plr)~=_N then continue end
-					if plr.Team.Name~=Sv.LPlr.Team.Name then
-						HotCharVar=plr[_A.P]
-						if HotCharVar~=_N then
-							if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
-								HotHeadVar=HotCharVar:FindFirstChild("Head")
-								if HotHeadVar~=_N then
-									local Params = RaycastParams.new()Params.FilterType=Enum.RaycastFilterType.Exclude Params.FilterDescendantsInstances={HotCharVar}
-									local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)
-									if FloorMaterial ~= nil then 
-										if FloorMaterial.Transparency>=1 then else
-											if LocalisedFunctions.IsColour(FloorMaterial,"!Light",true) then
-												HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
-												if HotHumanoidVar~=_N then
-													if HotHumanoidVar.Health >0 then
-														if HotHumanoidVar:GetAttribute("LKD")==_N then
-															local Params = RaycastParams.new()
-															Params.FilterType=Enum.RaycastFilterType.Exclude 
-															Params.FilterDescendantsInstances={HotCharVar}
+					if table.find(ForceKillTBL,plr)==_N then 
+						if plr.Team.Name~=Sv.LPlr.Team.Name then
+							HotCharVar=plr[_A.P]
+							if HotCharVar~=_N then
+								if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
+									HotHeadVar=HotCharVar:FindFirstChild("Head")
+									if HotHeadVar~=_N then
+										local Params = RaycastParams.new()Params.FilterType=Enum.RaycastFilterType.Exclude Params.FilterDescendantsInstances={HotCharVar}
+										local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)
+										if FloorMaterial ~= nil then 
+											if FloorMaterial.Transparency>=1 then else
+												if LocalisedFunctions.IsColour(FloorMaterial,"!Light",true) then
+													HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
+													if HotHumanoidVar~=_N then
+														if HotHumanoidVar.Health >0 then
+															if HotHumanoidVar:GetAttribute("LKD")==_N then
+																local Params = RaycastParams.new()
+																Params.FilterType=Enum.RaycastFilterType.Exclude 
+																Params.FilterDescendantsInstances={HotCharVar}
 
-															local LEFTLEG,RIGHTLEG=HotCharVar:FindFirstChild("Left Leg"),HotCharVar:FindFirstChild("Right Leg")
-															local VERIFY=false
-															local PreArgs={nil, "!Light", true}
+																local LEFTLEG,RIGHTLEG=HotCharVar:FindFirstChild("Left Leg"),HotCharVar:FindFirstChild("Right Leg")
+																local VERIFY=false
+																local PreArgs={nil, "!Light", true}
 
-															if FloorMaterial ~= nil then
-																VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
-																if VERIFY then
-																	_A.O(ForceKillTBL,plr)
-																	Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
-																end
-															end  
-															if not VERIFY then
-																if LEFTLEG~=nil then
-																	FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)
-																	if FloorMaterial ~= nil then VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])if VERIFY then _A.O(ForceKillTBL,plr)Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)end end 
-
-																end
+																if FloorMaterial ~= nil then
+																	VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
+																	if VERIFY then
+																		_A.O(ForceKillTBL,plr)
+																		Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+																	end
+																end  
 																if not VERIFY then
-																	if RIGHTLEG~=nil then
-																		FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)
+																	if LEFTLEG~=nil then
+																		FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)
 																		if FloorMaterial ~= nil then VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])if VERIFY then _A.O(ForceKillTBL,plr)Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)end end 
-																	end 
+
+																	end
+																	if not VERIFY then
+																		if RIGHTLEG~=nil then
+																			FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)
+																			if FloorMaterial ~= nil then VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])if VERIFY then _A.O(ForceKillTBL,plr)Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)end end 
+																		end 
+																	end
 																end
+																PreArgs=nil VERIFY=nil FloorMaterial=nil RIGHTLEG,LEFTLEG=nil,nil Params=nil	
 															end
-															PreArgs=nil VERIFY=nil FloorMaterial=nil RIGHTLEG,LEFTLEG=nil,nil Params=nil	
 														end
 													end
 												end
-											end
-										end 
-									end FloorMaterial=nil
+											end 
+										end FloorMaterial=nil
+									end
 								end
 							end
 						end
@@ -7417,49 +7427,38 @@ LocalisedFunctions.DoBlockBanChecks = function(ForceKillTBL)
 			plr=Sv.Plrs:GetPlayerByUserId(userid)
 			if plr~=_N then
 				if plr:IsDescendantOf(Sv.Plrs)then
-					if table.find(ForceKillTBL,plr)~=_N then continue end
-					if plr.Team.Name~=Sv.LPlr.Team.Name then
-						HotCharVar=plr[_A.P]
-						if HotCharVar~=_N then
-							if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
-								HotHeadVar=HotCharVar:FindFirstChild("Head")
-								if HotHeadVar~=_N then
-									local Params = RaycastParams.new()Params.FilterType=Enum.RaycastFilterType.Exclude Params.FilterDescendantsInstances={HotCharVar}
-									local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)
-									if FloorMaterial ~= nil then 
-										if FloorMaterial.Transparency>=1 then else 
-											if LocalisedFunctions.IsColour(FloorMaterial,"!Dark",true) then
-												HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
-												if HotHumanoidVar~=_N then
-													if HotHumanoidVar.Health >0 then
-														if HotHumanoidVar:GetAttribute("LKD")==_N then
-															local Params = RaycastParams.new()Params.FilterType=Enum.RaycastFilterType.Exclude Params.FilterDescendantsInstances={HotCharVar}
+					if table.find(ForceKillTBL,plr)==_N then 
+						if plr.Team.Name~=Sv.LPlr.Team.Name then
+							HotCharVar=plr[_A.P]
+							if HotCharVar~=_N then
+								if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
+									HotHeadVar=HotCharVar:FindFirstChild("Head")
+									if HotHeadVar~=_N then
+										local Params = RaycastParams.new()Params.FilterType=Enum.RaycastFilterType.Exclude Params.FilterDescendantsInstances={HotCharVar}
+										local FloorMaterial = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,-7,0),Params)
+										if FloorMaterial ~= nil then 
+											if FloorMaterial.Transparency>=1 then else 
+												if LocalisedFunctions.IsColour(FloorMaterial,"!Dark",true) then
+													HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
+													if HotHumanoidVar~=_N then
+														if HotHumanoidVar.Health >0 then
+															if HotHumanoidVar:GetAttribute("LKD")==_N then
+																local Params = RaycastParams.new()Params.FilterType=Enum.RaycastFilterType.Exclude Params.FilterDescendantsInstances={HotCharVar}
 
-															local LEFTLEG,RIGHTLEG=HotCharVar:FindFirstChild("Left Leg"),HotCharVar:FindFirstChild("Right Leg")
-															local VERIFY=false
-															local PreArgs={nil, "!Dark", true}
+																local LEFTLEG,RIGHTLEG=HotCharVar:FindFirstChild("Left Leg"),HotCharVar:FindFirstChild("Right Leg")
+																local VERIFY=false
+																local PreArgs={nil, "!Dark", true}
 
-															if FloorMaterial ~= nil then
-																VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
-																if VERIFY then
-																	_A.O(ForceKillTBL,plr)
-																	Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
-																end
-															end  
-															if not VERIFY then
-																if LEFTLEG~=nil then
-																	FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)
-																	if FloorMaterial ~= nil then
-																		VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
-																		if VERIFY then
-																			_A.O(ForceKillTBL,plr)
-																			Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
-																		end
-																	end  
-																end
+																if FloorMaterial ~= nil then
+																	VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
+																	if VERIFY then
+																		_A.O(ForceKillTBL,plr)
+																		Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+																	end
+																end  
 																if not VERIFY then
-																	if RIGHTLEG~=nil then
-																		FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)
+																	if LEFTLEG~=nil then
+																		FloorMaterial = LocalisedFunctions.RayCast(LEFTLEG.Position,Vector3.new(0,-7,0),Params)
 																		if FloorMaterial ~= nil then
 																			VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
 																			if VERIFY then
@@ -7467,16 +7466,28 @@ LocalisedFunctions.DoBlockBanChecks = function(ForceKillTBL)
 																				Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
 																			end
 																		end  
-																	end 
+																	end
+																	if not VERIFY then
+																		if RIGHTLEG~=nil then
+																			FloorMaterial = LocalisedFunctions.RayCast(RIGHTLEG.Position,Vector3.new(0,-7,0),Params)
+																			if FloorMaterial ~= nil then
+																				VERIFY =LocalisedFunctions.DoFloorThingy(FloorMaterial,PreArgs[1],PreArgs[2],PreArgs[3])
+																				if VERIFY then
+																					_A.O(ForceKillTBL,plr)
+																					Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+																				end
+																			end  
+																		end 
+																	end
 																end
+																PreArgs=nil VERIFY=nil FloorMaterial=nil RIGHTLEG,LEFTLEG=nil,nil Params=nil	
 															end
-															PreArgs=nil VERIFY=nil FloorMaterial=nil RIGHTLEG,LEFTLEG=nil,nil Params=nil	
 														end
 													end
 												end
-											end
-										end 
-									end FloorMaterial=nil
+											end 
+										end FloorMaterial=nil
+									end
 								end
 							end
 						end
@@ -7492,49 +7503,15 @@ LocalisedFunctions.DoBlockBanChecks = function(ForceKillTBL)
 			plr=Sv.Plrs:GetPlayerByUserId(userid)
 			if plr~=_N then
 				if plr:IsDescendantOf(Sv.Plrs)then
-					if table.find(ForceKillTBL,plr)~=_N then continue end
-					if plr.Team.Name~=Sv.LPlr.Team.Name then
-						HotCharVar=plr[_A.P]
-						if HotCharVar~=_N then
-							if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
-
-								HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
-								if HotHumanoidVar~=_N then
-									if HotHumanoidVar.Jump==true or HotHumanoidVar:GetState()==Enum.HumanoidStateType.Jumping then
-										if HotHumanoidVar.Health >0 then
-											if HotHumanoidVar:GetAttribute("LKD")==_N then
-
-												_A.O(ForceKillTBL,plr)
-												Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
-											end	
-										end	
-									end
-								end	
-							end 
-						end 
-					end
-				end
-			end
-		end
-	end
-
-
-
-	if #BanTBLS.Stored_trashbinBanTBL >0 then
-		for i,userid in Sv.P(BanTBLS.Stored_trashbinBanTBL)do
-			plr=Sv.Plrs:GetPlayerByUserId(userid)
-			if plr~=_N then
-				if plr:IsDescendantOf(Sv.Plrs)then
-					if table.find(ForceKillTBL,plr)~=_N then continue end
-					if plr.Team.Name~=Sv.LPlr.Team.Name then
-						HotCharVar=plr[_A.P]
-						if HotCharVar~=_N then
-							HotHeadVar=HotCharVar:FindFirstChild("Head")
-							if HotHeadVar~=_N then
+					if table.find(ForceKillTBL,plr)==_N then
+						if plr.Team.Name~=Sv.LPlr.Team.Name then
+							HotCharVar=plr[_A.P]
+							if HotCharVar~=_N then
 								if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
-									if LocalisedFunctions.DistanceUserFromClosestBin(HotHeadVar) <= ScriptSettings.BinDistance then
-										HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
-										if HotHumanoidVar~=_N then
+
+									HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
+									if HotHumanoidVar~=_N then
+										if HotHumanoidVar.Jump==true or HotHumanoidVar:GetState()==Enum.HumanoidStateType.Jumping then
 											if HotHumanoidVar.Health >0 then
 												if HotHumanoidVar:GetAttribute("LKD")==_N then
 
@@ -7551,24 +7528,23 @@ LocalisedFunctions.DoBlockBanChecks = function(ForceKillTBL)
 				end
 			end
 		end
-	end	
+	end
 
-	if #BanTBLS.Stored_ExposedSunlightBanTBL >0 then
-		for i,userid in Sv.P(BanTBLS.Stored_ExposedSunlightBanTBL)do
+
+
+	if #BanTBLS.Stored_trashbinBanTBL >0 then
+		for i,userid in Sv.P(BanTBLS.Stored_trashbinBanTBL)do
 			plr=Sv.Plrs:GetPlayerByUserId(userid)
 			if plr~=_N then
 				if plr:IsDescendantOf(Sv.Plrs)then
-					if table.find(ForceKillTBL,plr)~=_N then continue end
-					if plr.Team.Name~=Sv.LPlr.Team.Name then
-						HotCharVar=plr[_A.P]
-						if HotCharVar~=_N then
-							if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
-								HotHeadVar = HotCharVar:FindFirstChild("Head")
+					if table.find(ForceKillTBL,plr)==_N then 
+						if plr.Team.Name~=Sv.LPlr.Team.Name then
+							HotCharVar=plr[_A.P]
+							if HotCharVar~=_N then
+								HotHeadVar=HotCharVar:FindFirstChild("Head")
 								if HotHeadVar~=_N then
-									local Params = RaycastParams.new()Params.FilterType=Enum.RaycastFilterType.Exclude Params.FilterDescendantsInstances={HotCharVar}
-									local IsPartAbove = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,1000,0),Params)
-									if IsPartAbove==_N then
-										if LocalisedFunctions.IsDaytime() then
+									if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
+										if LocalisedFunctions.DistanceUserFromClosestBin(HotHeadVar) <= ScriptSettings.BinDistance then
 											HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
 											if HotHumanoidVar~=_N then
 												if HotHumanoidVar.Health >0 then
@@ -7577,15 +7553,53 @@ LocalisedFunctions.DoBlockBanChecks = function(ForceKillTBL)
 														_A.O(ForceKillTBL,plr)
 														Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
 													end	
-												end
-											end	
-										end
-									end	
-									IsPartAbove,Params=_N,_N
-								end
+												end	
+											end
+										end	
+									end 
+								end 
+							end
+						end
+					end
+				end
+			end
+		end
+	end	
 
+	if #BanTBLS.Stored_ExposedSunlightBanTBL >0 then
+		for i,userid in Sv.P(BanTBLS.Stored_ExposedSunlightBanTBL)do
+			plr=Sv.Plrs:GetPlayerByUserId(userid)
+			if plr~=_N then
+				if plr:IsDescendantOf(Sv.Plrs)then
+					if table.find(ForceKillTBL,plr)==_N then
+						if plr.Team.Name~=Sv.LPlr.Team.Name then
+							HotCharVar=plr[_A.P]
+							if HotCharVar~=_N then
+								if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
+									HotHeadVar = HotCharVar:FindFirstChild("Head")
+									if HotHeadVar~=_N then
+										local Params = RaycastParams.new()Params.FilterType=Enum.RaycastFilterType.Exclude Params.FilterDescendantsInstances={HotCharVar}
+										local IsPartAbove = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,1000,0),Params)
+										if IsPartAbove==_N then
+											if LocalisedFunctions.IsDaytime() then
+												HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
+												if HotHumanoidVar~=_N then
+													if HotHumanoidVar.Health >0 then
+														if HotHumanoidVar:GetAttribute("LKD")==_N then
+
+															_A.O(ForceKillTBL,plr)
+															Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+														end	
+													end
+												end	
+											end
+										end	
+										IsPartAbove,Params=_N,_N
+									end
+
+								end 
 							end 
-						end 
+						end
 					end
 				end
 			end
@@ -7597,34 +7611,35 @@ LocalisedFunctions.DoBlockBanChecks = function(ForceKillTBL)
 			plr=Sv.Plrs:GetPlayerByUserId(userid)
 			if plr~=_N then
 				if plr:IsDescendantOf(Sv.Plrs)then
-					if table.find(ForceKillTBL,plr)~=_N then continue end
-					if plr.Team.Name~=Sv.LPlr.Team.Name then
-						HotCharVar=plr[_A.P]
-						if HotCharVar~=_N then
-							if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
-								HotHeadVar = HotCharVar:FindFirstChild("Head")
-								if HotHeadVar~=_N then
-									local Params = RaycastParams.new()Params.FilterType=Enum.RaycastFilterType.Exclude Params.FilterDescendantsInstances={HotCharVar}
-									local IsPartAbove = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,1000,0),Params)
-									if IsPartAbove==_N then
-										if not LocalisedFunctions.IsDaytime() then
-											HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
-											if HotHumanoidVar~=_N then
-												if HotHumanoidVar.Health >0 then
-													if HotHumanoidVar:GetAttribute("LKD")==_N then
+					if table.find(ForceKillTBL,plr)==_N then 
+						if plr.Team.Name~=Sv.LPlr.Team.Name then
+							HotCharVar=plr[_A.P]
+							if HotCharVar~=_N then
+								if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
+									HotHeadVar = HotCharVar:FindFirstChild("Head")
+									if HotHeadVar~=_N then
+										local Params = RaycastParams.new()Params.FilterType=Enum.RaycastFilterType.Exclude Params.FilterDescendantsInstances={HotCharVar}
+										local IsPartAbove = LocalisedFunctions.RayCast(HotHeadVar.Position,Vector3.new(0,1000,0),Params)
+										if IsPartAbove==_N then
+											if not LocalisedFunctions.IsDaytime() then
+												HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
+												if HotHumanoidVar~=_N then
+													if HotHumanoidVar.Health >0 then
+														if HotHumanoidVar:GetAttribute("LKD")==_N then
 
-														_A.O(ForceKillTBL,plr)
-														Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
-													end	
-												end
-											end	
-										end
-									end	
-									IsPartAbove,Params=_N,_N
-								end
+															_A.O(ForceKillTBL,plr)
+															Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+														end	
+													end
+												end	
+											end
+										end	
+										IsPartAbove,Params=_N,_N
+									end
 
+								end 
 							end 
-						end 
+						end
 					end
 				end
 			end
@@ -7655,19 +7670,20 @@ Sv.New(function()
 				plr=Sv.Plrs:GetPlayerByUserId(userid)
 				if plr~=_N then
 					if plr:IsDescendantOf(Sv.Plrs)then
-						if table.find(DamageTBL,plr)~=_N then continue end
-						if plr.Team.Name~=Sv.LPlr.Team.Name then
-							HotCharVar=plr[_A.P]
-							if HotCharVar~=_N then
-								if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
-									HotHeadVar=HotCharVar:FindFirstChild("Head")
-									if HotHeadVar~=_N then
-										HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
-										if HotHumanoidVar~=_N then
-											if HotHumanoidVar.Health >0 then
-												if HotHumanoidVar:GetAttribute("LKD")==_N then
-													_A.O(DamageTBL,plr)
-													Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+						if table.find(DamageTBL,plr)==_N then 
+							if plr.Team.Name~=Sv.LPlr.Team.Name then
+								HotCharVar=plr[_A.P]
+								if HotCharVar~=_N then
+									if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
+										HotHeadVar=HotCharVar:FindFirstChild("Head")
+										if HotHeadVar~=_N then
+											HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
+											if HotHumanoidVar~=_N then
+												if HotHumanoidVar.Health >0 then
+													if HotHumanoidVar:GetAttribute("LKD")==_N then
+														_A.O(DamageTBL,plr)
+														Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+													end
 												end
 											end
 										end
@@ -7685,19 +7701,20 @@ Sv.New(function()
 				plr=Sv.Plrs:GetPlayerByUserId(userid)
 				if plr~=_N then
 					if plr:IsDescendantOf(Sv.Plrs)then
-						if table.find(KillTBL,plr)~=_N then continue end
-						if plr.Team.Name~=Sv.LPlr.Team.Name then
-							HotCharVar=plr[_A.P]
-							if HotCharVar~=_N then
-								if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
-									HotHeadVar=HotCharVar:FindFirstChild("Head")
-									if HotHeadVar~=_N then
-										HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
-										if HotHumanoidVar~=_N then
-											if HotHumanoidVar.Health >0 then
-												if HotHumanoidVar:GetAttribute("LKD")==_N then
-													_A.O(KillTBL,plr)
-													Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+						if table.find(KillTBL,plr)==_N then 
+							if plr.Team.Name~=Sv.LPlr.Team.Name then
+								HotCharVar=plr[_A.P]
+								if HotCharVar~=_N then
+									if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
+										HotHeadVar=HotCharVar:FindFirstChild("Head")
+										if HotHeadVar~=_N then
+											HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
+											if HotHumanoidVar~=_N then
+												if HotHumanoidVar.Health >0 then
+													if HotHumanoidVar:GetAttribute("LKD")==_N then
+														_A.O(KillTBL,plr)
+														Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+													end
 												end
 											end
 										end
@@ -7725,19 +7742,20 @@ Sv.New(function()
 				plr=Sv.Plrs:GetPlayerByUserId(userid)
 				if plr~=_N then
 					if plr:IsDescendantOf(Sv.Plrs)then
-						if table.find(KillTBL,plr)~=_N then continue end
-						if plr.Team.Name~=Sv.LPlr.Team.Name then
-							HotCharVar=plr[_A.P]
-							if HotCharVar~=_N then
-								if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
-									HotHeadVar=HotCharVar:FindFirstChild("Head")
-									if HotHeadVar~=_N then
-										HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
-										if HotHumanoidVar~=_N then
-											if HotHumanoidVar.Health >0 then
-												if HotHumanoidVar:GetAttribute("LKD")==_N then
-													_A.O(KillTBL,plr)
-													Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+						if table.find(KillTBL,plr)==_N then
+							if plr.Team.Name~=Sv.LPlr.Team.Name then
+								HotCharVar=plr[_A.P]
+								if HotCharVar~=_N then
+									if HotCharVar:FindFirstChildOfClass("ForceField")==_N then
+										HotHeadVar=HotCharVar:FindFirstChild("Head")
+										if HotHeadVar~=_N then
+											HotHumanoidVar=HotCharVar:FindFirstChildOfClass("Humanoid")
+											if HotHumanoidVar~=_N then
+												if HotHumanoidVar.Health >0 then
+													if HotHumanoidVar:GetAttribute("LKD")==_N then
+														_A.O(KillTBL,plr)
+														Sv.New(function() local TempHumanoidVar =HotHumanoidVar TempHumanoidVar:SetAttribute("LKD",0)wait(3)TempHumanoidVar:SetAttribute("LKD",nil)TempHumanoidVar=_N end)
+													end
 												end
 											end
 										end
@@ -8821,8 +8839,8 @@ LocalisedFunctions.Punch = function(FastPunch)
 			if Anim1 then local Track=Sv.LPlr[_A.P].Humanoid:LoadAnimation(Animation1)Track:Play()Track=_N
 			else local Track=Sv.LPlr[_A.P].Humanoid:LoadAnimation(Animation1)Track:Play()Track=_N
 			end
-			TotalAnimationsRunning+=1
-			spawn(function()WAIT(1)if TotalAnimationsRunning>0 then TotalAnimationsRunning-=1;end;end)
+			TotalAnimationsRunning=TotalAnimationsRunning+1
+			spawn(function()WAIT(1)if TotalAnimationsRunning>0 then TotalAnimationsRunning=TotalAnimationsRunning-1;end;end)
 		end
 		WAIT(0.05)Part:Destroy()A:Disconnect()
 		return
@@ -8929,7 +8947,7 @@ if Sv.LPlr[_A.P]~=_N then if Sv.LPlr.Team.Name=="Guards" or Sv.LPlr.Team.Name=="
 notify("Whitelisting people will give them access to admin commands! The prefix is ;",_A.R(0,1,1))notify("Try typing ;cmds to see the list of commands!",_A.R(0.75,0.7,0))
 if not UserOwnsRiotGamepass then notify("Warning! You do not own the riotshield gamepass. Getting M4A1 will not work.",_A.R(1,1,0))end
 
-LocalisedFunctions.DoKillAura = function(IsTeam)for i,v in Sv.P(Sv.Plrs:GetPlayers())do if IsTeam ==_T then if v.TeamColor.Name==Sv.LPlr.TeamColor.Name then continue end end if table.find(AddedWhitelists,v.UserId)then else pcall(function()Humanoid=v[_A.P]:FindFirstChildOfClass("Humanoid")Distance=(v[_A.P]:FindFirstChildOfClass("Part").Position - Sv.LPlr[_A.P]:FindFirstChildOfClass("Part").Position).magnitude if v~=Sv.LPlr then if Distance <=13 then if Humanoid~=_N then if Humanoid.Health >0 then for i=1,13 do MeleeEvent:FireServer(v)end end end end end end)end end end
+LocalisedFunctions.DoKillAura = function(IsTeam)for i,v in Sv.P(Sv.Plrs:GetPlayers())do if IsTeam ==_T then if v.TeamColor.Name~=Sv.LPlr.TeamColor.Name then if table.find(AddedWhitelists,v.UserId)then else pcall(function()Humanoid=v[_A.P]:FindFirstChildOfClass("Humanoid")Distance=(v[_A.P]:FindFirstChildOfClass("Part").Position - Sv.LPlr[_A.P]:FindFirstChildOfClass("Part").Position).magnitude if v~=Sv.LPlr then if Distance <=13 then if Humanoid~=_N then if Humanoid.Health >0 then for i=1,13 do MeleeEvent:FireServer(v)end end end end end end)end end end end end 
 
 local LocalHumanoid,HotLocalChar,HotLocalBackpack,HotLocalCurrentEquippedTool,HotChatBox=nil,nil,nil,nil,nil
 
@@ -8991,7 +9009,7 @@ while true do WAIT(0)
 		if States.HitboxExpander then if not States.IsAntishield then local PLRTBL={}if Sv.LPlr.Team.Name=="Guards"then PLRTBL=LocalisedFunctions.returnhostileplayers(Sv.Plrs:GetPlayers())else PLRTBL=Sv.Plrs:GetPlayers()end local HotChar=nil;local HotHead=_N;local HotPlrHumanoid=_N for i,v in Sv.P(PLRTBL)do if v.TeamColor.Name~=Sv.LPlr.TeamColor.Name then if not table.find(AddedWhitelists,v.UserId)then HotChar=v[_A.P];if HotChar~=_N then HotPlrHumanoid=HotChar:FindFirstChildOfClass("Humanoid")HotHead=HotChar:FindFirstChild("Head") or HotChar:FindFirstChild("HumanoidRootPart")if HotHead~=_N then if HotPlrHumanoid~=_N then if HotPlrHumanoid:GetState()==_A.T.Dead then HotHead.CanCollide=false HotHead.Size=Vector3.new(2,1,1)else if HotHead.Size.X <5 then HotHead.Size=Vector3.new(5,5,5)HotHead:Resize(Enum.NormalId.Bottom,3)HotHead:Resize(Enum.NormalId.Top,-1)end;end else if HotHead.Size.X <5 then HotHead.Size=Vector3.new(5,5,5)HotHead:Resize(Enum.NormalId.Bottom,3)HotHead:Resize(Enum.NormalId.Top,-1)end;end;HotHead.Transparency=0.8;HotHead.Massless=_T;end;end;end;end;end;HotChar=_N;HotHead=_N;HotPlrHumanoid=_N;PLRTBL=_N;end;end
 		if States.UseGunsWhileDead then HotLocalBackpack=Sv.LPlr:FindFirstChildWhichIsA("Backpack")if HotLocalBackpack~=_N then for i,v in Sv.P(HotLocalBackpack:GetChildren())do if v[_B.C]=="Tool"then v.RequiresHandle=_F;end;end;end;HotLocalChar=Sv.LPlr[_A.P];if HotLocalChar~=_N then LocalHumanoid=HotLocalChar:FindFirstChildOfClass("Humanoid")if LocalHumanoid~=_N then if LocalHumanoid:GetState()==_A.T.Dead then if HotLocalChar~=_N then HotLocalCurrentEquippedTool=HotLocalChar:FindFirstChildOfClass("Tool")if HotLocalCurrentEquippedTool~=_N then HotLocalCurrentEquippedTool.RequiresHandle=_F;local A=HotLocalCurrentEquippedTool:FindFirstChild("Handle")if A~=_N then A.CFrame=(HotLocalChar:FindFirstChild("Head") or HotLocalChar:FindFirstChild("Torso") or HotLocalChar:FindFirstChild("Right Arm")).CFrame;A.Velocity=Vector3.new(0,0,0)end;A=_N;end;end;end;end;end;end
 		if States.CuffAura then for i,v in Sv.P(Sv.Plrs:GetPlayers())do if v.TeamColor.Name~="Bright blue"then if table.find(AddedWhitelists,v.UserId)then else pcall(function()Hrp=v[_A.P]:FindFirstChild("HumanoidRootPart")Distance=(v[_A.P]:FindFirstChildOfClass("Part").Position - Sv.LPlr[_A.P]:FindFirstChildOfClass("Part").Position).magnitude if v~=Sv.LPlr then if Distance <=13 then if Hrp~=_N then Sv.New(function()arrest:InvokeServer(Hrp)end)end;end;end;end)end;end;end;end
-		if States.AntiMelee then for i,v in Sv.P(workspace:GetPartBoundsInRadius((Sv.LPlr[_A.P].PrimaryPart or _A.N(0,-50000,0)).Position,7.5))do if not v:IsDescendantOf(Sv.LPlr[_A.P])then if not v.Anchored then if v.Name~="Handle"then local NearPlayer=Sv.Plrs:FindFirstChild(v.Parent.Name)if NearPlayer~=_N then if table.find(AddedWhitelists,NearPlayer.UserId)==_N then if NearPlayer[_A.P] ~= nil then if Sv.LPlr.TeamColor.Name=="Bright blue"and NearPlayer.TeamColor.Name=="Bright blue"then continue end;local Head=NearPlayer[_A.P]:FindFirstChild("Head") local PunchSound = Head:FindFirstChild("punchSound") local Humanoid=NearPlayer[_A.P]:FindFirstChildOfClass("Humanoid")if Humanoid~=_N then for i,v in Sv.P(Humanoid:GetPlayingAnimationTracks())do if v.Animation.AnimationId=="rbxassetid://484926359" or v.Animation.AnimationId=="rbxassetid://484200742" or v.Animation.AnimationId=="rbxassetid://275012308"then if PunchSound.Playing==true or v.Animation.AnimationId=="rbxassetid://275012308" then if Humanoid.Health>0 then local TEMP =Sv.LPlr[_A.P].PrimaryPart if TEMP:GetAttribute("ANTI")==_N then spawn(function()TEMP:SetAttribute("ANTI",0)TEMP.CFrame=TEMP.CFrame+Vector3.new(math.random(-1,1),0,math.random(-1,1))WAIT(0.02)TEMP:SetAttribute("ANTI",nil)end)end;WAIT(0.1)for i=0,13 do MeleeEvent:FireServer(NearPlayer)end;end;elseif v.Animation.AnimationId=="rbxassetid://218504594"then warn(NearPlayer.Name.." is exploiting..")v:Stop()if Humanoid.Health>0 then local TEMP =Sv.LPlr[_A.P].PrimaryPart;if TEMP~=_N then if TEMP:GetAttribute("ANTI")==_N then spawn(function()TEMP:SetAttribute("ANTI",0)TEMP.CFrame=TEMP.CFrame+Vector3.new(math.random(-1,1),0,math.random(-1,1))WAIT(0.02)TEMP:SetAttribute("ANTI",nil)end)end;end;WAIT(0.1)for i=0,13 do MeleeEvent:FireServer(NearPlayer)end;end;end;end;end;end;Head,PunchSound=_N,_N;end;end;Humanoid=_N;end;NearPlayer=_N;end;end;end;end;end
+		if States.AntiMelee then for i,v in Sv.P(workspace:GetPartBoundsInRadius((Sv.LPlr[_A.P].PrimaryPart or _A.N(0,-50000,0)).Position,7.5))do if not v:IsDescendantOf(Sv.LPlr[_A.P])then if not v.Anchored then if v.Name~="Handle"then local NearPlayer=Sv.Plrs:FindFirstChild(v.Parent.Name)if NearPlayer~=_N then if table.find(AddedWhitelists,NearPlayer.UserId)==_N then if NearPlayer[_A.P] ~= nil then if Sv.LPlr.TeamColor.Name=="Bright blue"and NearPlayer.TeamColor.Name=="Bright blue"then else local Head=NearPlayer[_A.P]:FindFirstChild("Head") local PunchSound = Head:FindFirstChild("punchSound") local Humanoid=NearPlayer[_A.P]:FindFirstChildOfClass("Humanoid")if Humanoid~=_N then for i,v in Sv.P(Humanoid:GetPlayingAnimationTracks())do if v.Animation.AnimationId=="rbxassetid://484926359" or v.Animation.AnimationId=="rbxassetid://484200742" or v.Animation.AnimationId=="rbxassetid://275012308"then if PunchSound.Playing==true or v.Animation.AnimationId=="rbxassetid://275012308" then if Humanoid.Health>0 then local TEMP =Sv.LPlr[_A.P].PrimaryPart if TEMP:GetAttribute("ANTI")==_N then spawn(function()TEMP:SetAttribute("ANTI",0)TEMP.CFrame=TEMP.CFrame+Vector3.new(math.random(-1,1),0,math.random(-1,1))WAIT(0.02)TEMP:SetAttribute("ANTI",nil)end)end;WAIT(0.1)for i=0,13 do MeleeEvent:FireServer(NearPlayer)end;end;elseif v.Animation.AnimationId=="rbxassetid://218504594"then warn(NearPlayer.Name.." is exploiting..")v:Stop()if Humanoid.Health>0 then local TEMP =Sv.LPlr[_A.P].PrimaryPart;if TEMP~=_N then if TEMP:GetAttribute("ANTI")==_N then spawn(function()TEMP:SetAttribute("ANTI",0)TEMP.CFrame=TEMP.CFrame+Vector3.new(math.random(-1,1),0,math.random(-1,1))WAIT(0.02)TEMP:SetAttribute("ANTI",nil)end)end;end;WAIT(0.1)for i=0,13 do MeleeEvent:FireServer(NearPlayer)end;end;end;end;end;end;Head,PunchSound=_N,_N;end;end;Humanoid=_N;end;NearPlayer=_N;end;end;end;end;end;end;
 		if States.KillAura then LocalisedFunctions.DoKillAura(false)
 		elseif States.TeamAura then LocalisedFunctions.DoKillAura(true)
 		end
