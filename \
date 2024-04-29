@@ -6957,8 +6957,8 @@ LocalisedFunctions.IsColour = function(Colour,Name,BrickColorCheck)
 				return true
 			end	CC=nil
 			local Lightness =Colour.Color.R*255
-			Lightness+=Colour.Color.G*255
-			Lightness+=Colour.Color.B*255
+			Lightness=Lightness+Colour.Color.G*255
+			Lightness=Lightness+Colour.Color.B*255
 			if Lightness <=295 then
 				Lightness=nil
 				return true
@@ -6983,8 +6983,8 @@ LocalisedFunctions.IsColour = function(Colour,Name,BrickColorCheck)
 				end
 			end	CC=nil
 			local Lightness =Colour.Color.R*255
-			Lightness+=Colour.Color.G*255
-			Lightness+=Colour.Color.B*255
+			Lightness=Lightness+Colour.Color.G*255
+			Lightness=Lightness+Colour.Color.B*255
 			if Lightness >=295 then
 				Lightness=nil
 				return true
