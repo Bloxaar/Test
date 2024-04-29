@@ -366,14 +366,14 @@ function report(Player,Amount,Reason)
 	for i=0,Amount do
 
 		if i/2 == math.round(Amount/2) then
-			say(`File progress is {i}/{Amount}!.!.!`)
+			say("File progress is "..tostring(i).."/"..tostring(Amount).."!.!.!")
 		end
 
 		Sv.Plrs:ReportAbuse(Player, ActualReason, Reason)
 
 		wait(math.random(1,3)/2)
 	end
-	say(`Filing is done! Successfully reported {Player.Name} {tostring(Amount)}(s) for {ActualReason}`)
+	say("Filing is done! Successfully reported "..Player.Name.." "..tostring(Amount).."(s) for "..ActualReason)
 	ActualReason=nil Reason=nil
 	Player=nil
 	Amount=nil
@@ -617,7 +617,7 @@ else
 								loadstring(RealCode)()
 							end)
 							if not success then
-								say(`/w {user.Name} ERROR: {outputtedres}`)
+								say("/w "..user.Name.." ERROR: "..outputtedres)
 							end
 							success,outputtedres=nil,nil
 							split=nil
@@ -667,7 +667,7 @@ else
 								loadstring(RealCode)()
 							end)
 							if not success then
-								say(`/w {user.Name} ERROR: {outputtedres}`)
+								say("/w "..user.Name.." ERROR: "..outputtedres)
 							end
 							success,outputtedres=nil,nil
 							split=nil
@@ -4532,9 +4532,9 @@ AdminCommands={
 
 			if Speaker == Sv.LPlr then
 				if PreferredAdminsPrefix[Speaker.UserId] == "" then
-					notify(`Your prefix is: NONE [No prefix]`,Color3.new(1,0,1))
+					notify("Your prefix is: NONE [No prefix]",Color3.new(1,0,1))
 				else
-					notify(`Your prefix is: PreferredAdminsPrefix[Speaker.UserId]`,Color3.new(1,0,1))
+					notify("Your prefix is: "..PreferredAdminsPrefix[Speaker.UserId],Color3.new(1,0,1))
 				end
 			else
 				if PreferredAdminsPrefix[Speaker.UserId] == "" then
@@ -4561,7 +4561,7 @@ AdminCommands={
 							svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." Your prefix is: "..PreferredAdminsPrefix[Speaker.UserId], "All")
 						end
 						if Speaker.UserId == Sv.LPlr.UserId then
-							notify(`Your new prefix is set to: {PreferredAdminsPrefix[v.UserId]}`,Color3.new(1,0,1))
+							notify("Your new prefix is set to: "..PreferredAdminsPrefix[v.UserId],Color3.new(1,0,1))
 						end
 					end
 				else
@@ -4574,7 +4574,7 @@ AdminCommands={
 					elseif v.UserId == Sv.LPlr.UserId then
 						if Speaker.UserId == Sv.LPlr.UserId then
 							PreferredAdminsPrefix[v.UserId]=NewPrefix
-							notify(`Set {v.Name}'s prefix to: {NewPrefix}`,Color3.new(1,0,1))
+							notify("Set "..v.Name.."'s prefix to: "..NewPrefix,Color3.new(1,0,1))
 						end
 					end
 				end
@@ -6508,7 +6508,7 @@ AdminCommands={
 				if Speaker==_N then
 					notify(Player.Name.."'s inv: "..ItemsToDisplay,Color3.new(1,1,0))
 				else 
-					svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name..` inventory: `..ItemsToDisplay, "All")
+					svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." inventory: "..ItemsToDisplay, "All")
 				end
 			end
 			ItemsToDisplay=_N
@@ -6529,7 +6529,7 @@ AdminCommands={
 					if Speaker==_N then
 						notify(Player.Name.."'s DISTANCE: "..tostring(DIST).."studs away and on the "..tostring(Player.Team.Name).." Team.",Color3.new(1,1,0))
 					else 
-						svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name..` They are {tostring(DIST)}studs away and on the {Player.Team.Name} Team.`, "All")
+						svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." They are "..tostring(DIST).." studs away and on the "..Player.Team.Name.." Team.", "All")
 					end
 				end
 				DIST=nil
@@ -6585,7 +6585,7 @@ AdminCommands={
 
 		else
 			for i=1,#CommandsTb do
-				svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." "..`Commands[{tostring(i)}]: `..CommandsTb[i], "All")
+				svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..Speaker.Name.." ".."Commands["..tostring(i).."]: "..tostring(CommandsTb[i]), "All")
 				WAIT(0.07)
 			end
 		end
@@ -7912,7 +7912,7 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 								loadstring(RealCode)()
 							end)
 							if not success then
-								say(`/w {PlayerInstance.Name} ERROR: {outputtedres}`)
+								say("/w "..PlayerInstance.Name.." ERROR: "..outputtedres)
 							end
 							success,outputtedres=nil,nil
 							RealCode=nil
@@ -7979,7 +7979,7 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 			if PlayerInstance ~=_N then
 				svc("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..PlayerInstance.Name.." Your prefix is: "..PreferredAdminsPrefix[PlayerInstance.UserId], "All")
 			else
-				notify(`Your prefix is: {PreferredAdminsPrefix[PlayerInstance.UserId] or prefix}`,Color3.new(1,0,1))
+				notify("Your prefix is: "..(PreferredAdminsPrefix[PlayerInstance.UserId] or prefix),Color3.new(1,0,1))
 			end
 			return
 		end
@@ -8148,7 +8148,7 @@ Sv.Plrs.PlayerRemoving:Connect(function(user)
 					v[2]:Disconnect()
 					if v[3] ~= nil then if typeof(v[3])=="Instance"then v[3]:Destroy()end end
 					table.remove(ChattedConnections,i)
-					notify(`{user.Name} has left the server and has been auto unwhitelisted.`,Color3.fromRGB(255,80,0))
+					notify(user.Name.." has left the server and has been auto unwhitelisted.",Color3.fromRGB(255,80,0))
 				end
 			end
 		end
