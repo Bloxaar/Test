@@ -497,16 +497,15 @@ if adminenabled==true then
 			CurrentYAxis=CurrentYAxis-65
 			for i,v in pairs(newframe:GetChildren()) do
 				v.Name=""
-				if v.ClassName == "Sound" then v.SoundId = "" else
-					v.BackgroundColor3=Color3.new(0,0,0)
-					v.Size=UDim2.new(0,0,0,0)
-					v.Position=UDim2.new(0,0,0,0)
-					v.BorderSizePixel=0
-					if v.ClassName == "TextLabel" then
-						v.Text = ""
-						v.TextSize=0
-						v.TextColor3=Color3.new(0,0,0)
-					end
+				if v.ClassName == "Sound" then v.SoundId = "" continue end
+				v.BackgroundColor3=Color3.new(0,0,0)
+				v.Size=UDim2.new(0,0,0,0)
+				v.Position=UDim2.new(0,0,0,0)
+				v.BorderSizePixel=0
+				if v.ClassName == "TextLabel" then
+					v.Text = ""
+					v.TextSize=0
+					v.TextColor3=Color3.new(0,0,0)
 				end
 			end
 		end)
@@ -525,7 +524,7 @@ if adminenabled==true then
 						object.Name = "r"
 						for i,v in pairs(object:GetDescendants()) do
 							v.Name = ""
-							if v.ClassName:match("Part") then if v.ClassName:match("Emit") then else v.Size=Vector3.new(0,0,0) v.Position=Vector3.new(0,0,0) v.CanCollide=false end end
+							if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end v.Size=Vector3.new(0,0,0) v.Position=Vector3.new(0,0,0) v.CanCollide=false end
 						end
 						wait()
 						object:Destroy()
@@ -537,17 +536,14 @@ if adminenabled==true then
 					if object:FindFirstChildOfClass("Humanoid") ~= nil then return end
 					if object:FindFirstChildOfClass("Folder") ~= nil then
 						for i,v in pairs(object:GetChildren()) do
-							if v.ClassName:match("Part") then 
-								if v.ClassName:match("Emit") then 
-									v.Name = ""
-									if v.ClassName == "MeshPart" then
-										v.MeshId = ""
-										v.TextureId = ""
-									end
-									v.Size=Vector3.new(0,0,0)v.CanCollide=false v.Position=Vector3.new(0,0,0)v.Material=Enum.Material.Plastic v.CanTouch=false v.Transparency=0
-									game:GetService("Debris"):AddItem(v,0.1)	
+							if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end
+								v.Name = ""
+								if v.ClassName == "MeshPart" then
+									v.MeshId = ""
+									v.TextureId = ""
 								end
-
+								v.Size=Vector3.new(0,0,0)v.CanCollide=false v.Position=Vector3.new(0,0,0)v.Material=Enum.Material.Plastic v.CanTouch=false v.Transparency=0
+								game:GetService("Debris"):AddItem(v,0.1)
 							elseif v.ClassName == "Model" then
 								v.Name = ""
 								game:GetService("Debris"):AddItem(v,0.1)
@@ -560,51 +556,25 @@ if adminenabled==true then
 				if object:FindFirstChildOfClass("Humanoid") ~= nil then else
 					if #object:GetDescendants() >= 1000 then
 						for i,v in pairs(object:GetDescendants()) do
-							if v.ClassName:match("Part") then 
-								if v.ClassName:match("Emit") then 
-
-									local Caughtinvis=false
-									if Isfarming == true and v.Transparency>0 then v.CanCollide=false v.CanQuery=false end
-									if v.Position == Vector3.new(-3430.308349609375, 23.605026245117188, 1431.4566650390625) or v.Position == Vector3.new(-3413.858154296875, 26.66107749938965, 1431.8565673828125) or v.Position == Vector3.new(-3396.082763671875, 23.605026245117188, 1419.9312744140625) or v.Position == Vector3.new(-3401.983154296875, 23.605026245117188, 1441.4566650390625) or v.Position == Vector3.new(-3347.357666015625, 6.404815196990967, 1438.1812744140625) then else
-										if v.Transparency >=0.95 or string.lower(v.Name):match("glitch") or string.lower(v.Name):match("invis") or string.lower(v.Parent.Name):match("invis") or string.lower(v.Name) == "blocking" then
-											if v.Material==Enum.Material.Concrete then else
-												if v.ClassName == "TrussPart" then else
-													v.CanCollide=false
-												end
+							if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end
+								local Caughtinvis=false
+								if Isfarming == true and v.Transparency>0 then v.CanCollide=false v.CanQuery=false end
+								if v.Position == Vector3.new(-3430.308349609375, 23.605026245117188, 1431.4566650390625) or v.Position == Vector3.new(-3413.858154296875, 26.66107749938965, 1431.8565673828125) or v.Position == Vector3.new(-3396.082763671875, 23.605026245117188, 1419.9312744140625) or v.Position == Vector3.new(-3401.983154296875, 23.605026245117188, 1441.4566650390625) or v.Position == Vector3.new(-3347.357666015625, 6.404815196990967, 1438.1812744140625) then else
+									if v.Transparency >=0.95 or string.lower(v.Name):match("glitch") or string.lower(v.Name):match("invis") or string.lower(v.Parent.Name):match("invis") or string.lower(v.Name) == "blocking" then
+										if v.Material==Enum.Material.Concrete then else
+											if v.ClassName == "TrussPart" then else
+												v.CanCollide=false
 											end
-										elseif v.ClassName:match("Mesh") then
-											if object.Name:match("Factory") then
-											else
-												local meshcheck = v:FindFirstChildOfClass("FileMesh") or v:FindFirstChildOfClass("BlockMesh") or v:FindFirstChildOfClass("SpecialMesh")
-
-												if meshcheck ~= nil then
-													if meshcheck.Scale.X == 0 and meshcheck.Scale.Y == 0 and meshcheck.Scale.Z == 0 then
-														if v.Material == Enum.Material.Concrete then else
-															v.CanCollide=false
-															Caughtinvis=true
-														end
-													end
-												end
-												if Caughtinvis==false then
-													if v.Material == Enum.Material.Grass or v.Material == Enum.Material.Slate or v.Material == Enum.Material.Sand or v.Material == Enum.Material.Ice then
-														if v.Material == Enum.Material.Concrete or v.Name:match("Coin") or v.Name:match("Gun") or v.Name:match("Scan") or v.Name:match("Power") or v.Name:match("Liquid") then
-														else
-															if v.Size.Magnitude >= 8.5 then
-																if v.CanCollide==false then
-																	v.CanCollide=true
-																end
-															end
-														end
-													end
-												end
-											end
-										elseif v.Transparency == 0 then 
+										end
+									elseif v.ClassName:match("Mesh") then
+										if object.Name:match("Factory") then
+										else
 											local meshcheck = v:FindFirstChildOfClass("FileMesh") or v:FindFirstChildOfClass("BlockMesh") or v:FindFirstChildOfClass("SpecialMesh")
+
 											if meshcheck ~= nil then
 												if meshcheck.Scale.X == 0 and meshcheck.Scale.Y == 0 and meshcheck.Scale.Z == 0 then
 													if v.Material == Enum.Material.Concrete then else
 														v.CanCollide=false
-														v.CanQuery=false
 														Caughtinvis=true
 													end
 												end
@@ -622,10 +592,31 @@ if adminenabled==true then
 												end
 											end
 										end
+									elseif v.Transparency == 0 then 
+										local meshcheck = v:FindFirstChildOfClass("FileMesh") or v:FindFirstChildOfClass("BlockMesh") or v:FindFirstChildOfClass("SpecialMesh")
+										if meshcheck ~= nil then
+											if meshcheck.Scale.X == 0 and meshcheck.Scale.Y == 0 and meshcheck.Scale.Z == 0 then
+												if v.Material == Enum.Material.Concrete then else
+													v.CanCollide=false
+													v.CanQuery=false
+													Caughtinvis=true
+												end
+											end
+										end
+										if Caughtinvis==false then
+											if v.Material == Enum.Material.Grass or v.Material == Enum.Material.Slate or v.Material == Enum.Material.Sand or v.Material == Enum.Material.Ice then
+												if v.Material == Enum.Material.Concrete or v.Name:match("Coin") or v.Name:match("Gun") or v.Name:match("Scan") or v.Name:match("Power") or v.Name:match("Liquid") then
+												else
+													if v.Size.Magnitude >= 8.5 then
+														if v.CanCollide==false then
+															v.CanCollide=true
+														end
+													end
+												end
+											end
+										end
 									end
-
 								end
-
 							end
 						end
 					end
@@ -860,8 +851,8 @@ if adminenabled==true then
 
 
 	local MainCMDS = {
-		["admin"] = function(split)if typeof(split) == "table" then if GetPlayer(split[2]) ~= nil then for i,v in pairs(GetPlayer(split[2])) do if v ~= nil then if v == plr then else if Admins[v.UserId] ~= nil then notify(v.Name.." is already an admin!",Color3.fromRGB(255,0,0))else Admins[v.UserId] = 1 notify(v.Name.." is now an admin!",Color3.fromRGB(0,255,0))end end end end return end for i,v in pairs(GetPlayer(split)) do if v ~= nil then if v == plr then else if Admins[v.UserId] ~= nil then notify(v.Name.." is already an admin!",Color3.fromRGB(255,0,0))else Admins[v.UserId] = 1 notify(v.Name.." is now an admin!",Color3.fromRGB(0,255,0)) end end end end end end,
-		["unadmin"] = function(split) if typeof(split) == "table" then if GetPlayer(split[2]) ~= nil then for i,v in pairs(GetPlayer(split[2])) do if v ~= nil then if v == plr then else if Admins[v.UserId] ~= nil then Admins[v.UserId] = nil notify(v.Name.." is no longer an admin!",Color3.fromRGB(0,255,0))else  notify(v.Name.." is not an admin.",Color3.fromRGB(255,0,0))end end end end return end for i,v in pairs(GetPlayer(split)) do if v ~= nil then if v == plr then else if Admins[v.UserId] ~= nil then Admins[v.UserId] = nil notify(v.Name.." is no longer an admin!",Color3.fromRGB(0,255,0))else notify(v.Name.." is not an admin.",Color3.fromRGB(255,0,0)) end end end end end end,
+		["admin"] = function(split)if typeof(split) == "table" then if GetPlayer(split[2]) ~= nil then for i,v in pairs(GetPlayer(split[2])) do if v ~= nil then if v == plr then continue end if Admins[v.UserId] ~= nil then notify(v.Name.." is already an admin!",Color3.fromRGB(255,0,0))else Admins[v.UserId] = 1 notify(v.Name.." is now an admin!",Color3.fromRGB(0,255,0))end end end end return end for i,v in pairs(GetPlayer(split)) do if v ~= nil then if v == plr then continue end if Admins[v.UserId] ~= nil then notify(v.Name.." is already an admin!",Color3.fromRGB(255,0,0))else Admins[v.UserId] = 1 notify(v.Name.." is now an admin!",Color3.fromRGB(0,255,0))end end end end,
+		["unadmin"] = function(split) if typeof(split) == "table" then if GetPlayer(split[2]) ~= nil then for i,v in pairs(GetPlayer(split[2])) do if v ~= nil then if v == plr then continue end if Admins[v.UserId] ~= nil then Admins[v.UserId] = nil notify(v.Name.." is no longer an admin!",Color3.fromRGB(0,255,0))else  notify(v.Name.." is not an admin.",Color3.fromRGB(255,0,0))end end end end return end for i,v in pairs(GetPlayer(split)) do if v ~= nil then if v == plr then continue end if Admins[v.UserId] ~= nil then Admins[v.UserId] = nil notify(v.Name.." is no longer an admin!",Color3.fromRGB(0,255,0))else notify(v.Name.." is not an admin.",Color3.fromRGB(255,0,0))end end end end,
 		["allowcmd"] = function(split) 
 			if typeof(split) == "table" then
 				if split[1] ~= nil then
@@ -939,7 +930,7 @@ if adminenabled==true then
 		end,
 		["allowedcmds"] = function(split)local txt = "List of blocked commands: " for i,v in pairs(AllowedAdminCommands) do txt=txt..v.." | " end if #txt >0 then notify(txt,Color3.fromRGB(0,255,0)) end end,
 		["admins"] = function(split) notify("List of admins:",Color3.fromRGB(0,255,0))for i,v in pairs(Admins) do local Plrr = Players:GetPlayerByUserId(v)if Plrr ~= nil then notify(Plrr.Name.." is an admin!",Color3.fromRGB(0,255,0))end end end,
-		["inventory"] = function(split) for i,v in pairs(GetPlayer(split[2])) do if v~= nil then local items = 0 local itemss = [[]]for a,b in pairs(v.Backpack:GetChildren()) do if b.ClassName:match("Tool") then items=items+1 itemss=itemss.."\n"..b.Name end end for a,b in pairs(v.Character:GetChildren()) do if b.ClassName:match("Tool") then items=items+1 itemss=itemss.."\n"..b.Name end end if items >0 then notify("Player "..v.Name.." has the following items:"..itemss,Color3.fromRGB(255,255,0))end end end end,
+		["inventory"] = function(split) for i,v in pairs(GetPlayer(split[2])) do if v~= nil then local items = 0 local itemss = [[]]for a,b in pairs(v.Backpack:GetChildren()) do if b.ClassName:match("Tool") then items=items+1 itemss=itemss.."\n"..b.Name else continue end end for a,b in pairs(v.Character:GetChildren()) do if b.ClassName:match("Tool") then items=items+1 itemss=itemss.."\n"..b.Name else continue end end if items >0 then notify("Player "..v.Name.." has the following items:"..itemss,Color3.fromRGB(255,255,0))end end end end,
 		["antivoid"] = function() if antivoidenabled == true then antivoidenabled=false notify("Antivoid is now disabled.") else antivoidenabled=true notify("Antivoid is now enabled.")end end,
 		["nocollisions"] = function() if NoCollisionsEnabled == false then NoCollisionsEnabled=true notify("Player-Collisions is now disabled. [Collidable]")else NoCollisionsEnabled=false notify("Player-Collisions is now enabled. [Non-Collidable]")end end,
 		["cmds"] = function() notify("List of commands: "..cmds,Color3.fromRGB(0,255,255)) end,
@@ -1135,16 +1126,13 @@ if adminenabled==true then
 								end)
 								warn(v.Part0.Parent,"did naughty things to you!") runservice.Heartbeat:Wait() tool.Handle:BreakJoints() plr.Character.Humanoid:UnequipTools()
 								for i,v in pairs(plr.Character:GetChildren()) do
-									if v.ClassName:match("Part") then
-										if v.ClassName:match("Emit") then else
-											task.spawn(function()
-												local inn = 20 local PositionToCapture = oldpos.Position
-												repeat 
-													WAIT(0.04) inn=inn-1  if inn<=0 then break end v.Velocity=Vector3.new(0,1,0) v.CFrame=oldpos
-												until (v.CFrame.Position-PositionToCapture).Magnitude <= 4
-											end)
-										end
-
+									if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end
+										task.spawn(function()
+											local inn = 20 local PositionToCapture = oldpos.Position
+											repeat 
+												WAIT(0.04) inn=inn-1  if inn<=0 then break end v.Velocity=Vector3.new(0,1,0) v.CFrame=oldpos
+											until (v.CFrame.Position-PositionToCapture).Magnitude <= 4
+										end)
 									end
 								end break
 							end
@@ -1278,10 +1266,9 @@ if adminenabled==true then
 								if SafeHRP.Position.Y <= workspace.FallenPartsDestroyHeight then isantivoidtrig=true
 									for i,v in pairs(char:GetDescendants()) do
 										if v.ClassName:match("Part") then
-											if v.ClassName:match("Emit") then else
-												v.AssemblyAngularVelocity=Vector3.new(0,0,0)
-												v.CFrame=CFrame.new(v.Position.X,workspace.FallenPartsDestroyHeight+STUDS,v.Position.Z)
-											end
+											if v.ClassName:match("Emit") then continue end
+											v.AssemblyAngularVelocity=Vector3.new(0,0,0)
+											v.CFrame=CFrame.new(v.Position.X,workspace.FallenPartsDestroyHeight+STUDS,v.Position.Z)
 										elseif v.ClassName == "Tool" then
 											if v:FindFirstChild("Handle") ~= nil then
 												if #v.Handle:GetJoints()>1 then if hackerisdoingFEbring==true then else antivoid_bring(v) end end
@@ -1295,12 +1282,10 @@ if adminenabled==true then
 												if #v.Handle:GetJoints()>1 then if hackerisdoingFEbring==true then else antivoid_bring(v)end end
 											end
 										elseif v.ClassName:match("Part") then
-											if v.ClassName:match("Emit") then else
-												if v.Velocity.Y <= -maxfallingspeed then
-													v.Velocity=Vector3.new(v.Velocity.X,-maxfallingspeed,v.Velocity.Z)
-												end
+											if v.ClassName:match("Emit") then continue end
+											if v.Velocity.Y <= -maxfallingspeed then
+												v.Velocity=Vector3.new(v.Velocity.X,-maxfallingspeed,v.Velocity.Z)
 											end
-
 											v.AssemblyAngularVelocity=Vector3.new(0,0,0)
 											if SafeHRP.Velocity.X > 300 then
 												v.Velocity=Vector3.new(300,Force,SafeHRP.Velocity.Z)
@@ -1329,19 +1314,17 @@ if adminenabled==true then
 							else
 								for i,v in pairs(plr.Character:GetChildren()) do
 									if v.ClassName:match("Part") then
-										if v.ClassName:match("Emit") then else
-											if string.lower(v.Name):match("torso") then table.insert(torsos,v) end
-										end
+										if v.ClassName:match("Emit") then continue end
+										if string.lower(v.Name):match("torso") then table.insert(torsos,v) end
 									end
 								end
 								for i,v in pairs(torsos) do
 									if v.Position.Y <= workspace.FallenPartsDestroyHeight then
 										for i,v in pairs(char:GetDescendants()) do
 											if v.ClassName:match("Part") then
-												if v.ClassName:match("Emit") then else
-													v.AssemblyAngularVelocity=Vector3.new(0,0,0)
-													v.CFrame=CFrame.new(v.Position.X,workspace.FallenPartsDestroyHeight+STUDS,v.Position.Z)
-												end
+												if v.ClassName:match("Emit") then continue end
+												v.AssemblyAngularVelocity=Vector3.new(0,0,0)
+												v.CFrame=CFrame.new(v.Position.X,workspace.FallenPartsDestroyHeight+STUDS,v.Position.Z)
 											elseif v.ClassName == "Tool" then
 												if v:FindFirstChild("Handle") ~= nil then
 													if #v.Handle:GetJoints()>1 then
@@ -1356,9 +1339,8 @@ if adminenabled==true then
 													if #v.Handle:GetJoints()>1 then if hackerisdoingFEbring==true then else antivoid_bring(v)end end
 												end
 											elseif v.ClassName:match("Part") then
-												if v.ClassName:match("Emit") then else
-													v.AssemblyAngularVelocity=Vector3.new(0,0,0)
-												end
+												if v.ClassName:match("Emit") then continue end
+												v.AssemblyAngularVelocity=Vector3.new(0,0,0)
 												if v.Velocity.X > 300 then
 													v.Velocity=Vector3.new(300,Force,v.Velocity.Z)
 												elseif v.Velocity.X < -300 then
@@ -1450,7 +1432,7 @@ if adminenabled==true then
 
 		if game.PlaceId==893973440 or gamename:match("Flee the facility") then
 			local crystalcovepart = nil
-			local function GotoPlayerr(player) for i,v in pairs(workspace:GetChildren()) do if v.ClassName == "Part" then if v.Name == "Part" then if v.Position == Vector3.new(251.04998779296875, -14, -366) then if v:FindFirstChildOfClass("TouchTransmitter") then crystalcovepart=v break end end end end end if Players.LocalPlayer:FindFirstChild("IsTeleporting") ~= nil then Players.LocalPlayer.IsTeleporting.Value = true end local i = 0 local cc = 25 if Players.LocalPlayer.Character:FindFirstChild("Torso") ~= nil then if Players.LocalPlayer:FindFirstChild("TempPlayerStatsModule") ~= nil then if Players.LocalPlayer.TempPlayerStatsModule:FindFirstChild("Ragdoll") ~= nil then  if Players.LocalPlayer.TempPlayerStatsModule.Ragdoll.Value == true then  if player ~= nil then if player.Character ~= nil then if player.Character:FindFirstChild("Torso") ~= nil then if player.Character.Torso.Position.Y <= -500 then else firetouchinterest(Players.LocalPlayer.Character.Torso,crystalcovepart,0) firetouchinterest(Players.LocalPlayer.Character.Torso,crystalcovepart,1) while true do if i >= 125 then break end if player ~= nil then else break end  if player.Character ~= nil then else break end  if player.Character:FindFirstChild("Torso") ~= nil then if (Players.LocalPlayer:DistanceFromCharacter(Vector3.new(196.5,3.2,-401.5)) <= 200) then if Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ~= nil then WAIT(0.25) for count = 6,0,-1 do local tppart = player.Character.Torso Players.LocalPlayer.Character.HumanoidRootPart.CFrame = tppart.CFrame for i,v in pairs(Players.LocalPlayer.Character:GetChildren()) do if v.ClassName:match("Part") then if v.ClassName:match("Emit") then else Players.LocalPlayer.Character.HumanoidRootPart.CFrame = tppart.CFrame v.CFrame = tppart.CFrame end end end WAIT(0.1)end break else  break end else if i >= cc then firetouchinterest(Players.LocalPlayer.Character.Torso,crystalcovepart,0) firetouchinterest(Players.LocalPlayer.Character.Torso,crystalcovepart,1) cc=cc+25 end i=i+1 end else  break  end WAIT(0.03)end end end end end else if player ~= nil then if player.Character ~= nil then if player.Character:FindFirstChild("Torso") ~= nil then if player.Character.Torso.Position.Y <= -500 then else firetouchinterest(Players.LocalPlayer.Character.Torso,crystalcovepart,0) firetouchinterest(Players.LocalPlayer.Character.Torso,crystalcovepart,1) while true do if i >= 125 then break end if player ~= nil then else break end if player.Character ~= nil then else break end if player.Character:FindFirstChild("Torso") ~= nil then if (Players.LocalPlayer:DistanceFromCharacter(Vector3.new(196.5,3.2,-401.5)) <= 20) then if Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ~= nil then WAIT(0.25) for count = 15,0,-1 do Players.LocalPlayer.Character.HumanoidRootPart.CFrame = player.Character.Torso.CFrame WAIT(0.02) end break else  break end else if i >= cc then firetouchinterest(Players.LocalPlayer.Character.Torso,crystalcovepart,0)firetouchinterest(Players.LocalPlayer.Character.Torso,crystalcovepart,1)cc=cc+25 end i=i+1 end else  break  end WAIT(0.03)end end end end end end end end  end if Players.LocalPlayer:FindFirstChild("IsTeleporting") ~= nil then Players.LocalPlayer.IsTeleporting.Value = false end end
+			local function GotoPlayerr(player) for i,v in pairs(workspace:GetChildren()) do if v.ClassName == "Part" then if v.Name == "Part" then if v.Position == Vector3.new(251.04998779296875, -14, -366) then if v:FindFirstChildOfClass("TouchTransmitter") then crystalcovepart=v break end end end end end if Players.LocalPlayer:FindFirstChild("IsTeleporting") ~= nil then Players.LocalPlayer.IsTeleporting.Value = true end local i = 0 local cc = 25 if Players.LocalPlayer.Character:FindFirstChild("Torso") ~= nil then if Players.LocalPlayer:FindFirstChild("TempPlayerStatsModule") ~= nil then if Players.LocalPlayer.TempPlayerStatsModule:FindFirstChild("Ragdoll") ~= nil then  if Players.LocalPlayer.TempPlayerStatsModule.Ragdoll.Value == true then  if player ~= nil then if player.Character ~= nil then if player.Character:FindFirstChild("Torso") ~= nil then if player.Character.Torso.Position.Y <= -500 then else firetouchinterest(Players.LocalPlayer.Character.Torso,crystalcovepart,0) firetouchinterest(Players.LocalPlayer.Character.Torso,crystalcovepart,1) while true do if i >= 125 then break end if player ~= nil then else break end  if player.Character ~= nil then else break end  if player.Character:FindFirstChild("Torso") ~= nil then if (Players.LocalPlayer:DistanceFromCharacter(Vector3.new(196.5,3.2,-401.5)) <= 200) then if Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ~= nil then WAIT(0.25) for count = 6,0,-1 do local tppart = player.Character.Torso Players.LocalPlayer.Character.HumanoidRootPart.CFrame = tppart.CFrame for i,v in pairs(Players.LocalPlayer.Character:GetChildren()) do if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end Players.LocalPlayer.Character.HumanoidRootPart.CFrame = tppart.CFrame v.CFrame = tppart.CFrame end end WAIT(0.1)end break else  break end else if i >= cc then firetouchinterest(Players.LocalPlayer.Character.Torso,crystalcovepart,0) firetouchinterest(Players.LocalPlayer.Character.Torso,crystalcovepart,1) cc=cc+25 end i=i+1 end else  break  end WAIT(0.03)end end end end end else if player ~= nil then if player.Character ~= nil then if player.Character:FindFirstChild("Torso") ~= nil then if player.Character.Torso.Position.Y <= -500 then else firetouchinterest(Players.LocalPlayer.Character.Torso,crystalcovepart,0) firetouchinterest(Players.LocalPlayer.Character.Torso,crystalcovepart,1) while true do if i >= 125 then break end if player ~= nil then else break end if player.Character ~= nil then else break end if player.Character:FindFirstChild("Torso") ~= nil then if (Players.LocalPlayer:DistanceFromCharacter(Vector3.new(196.5,3.2,-401.5)) <= 20) then if Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ~= nil then WAIT(0.25) for count = 15,0,-1 do Players.LocalPlayer.Character.HumanoidRootPart.CFrame = player.Character.Torso.CFrame WAIT(0.02) end break else  break end else if i >= cc then firetouchinterest(Players.LocalPlayer.Character.Torso,crystalcovepart,0)firetouchinterest(Players.LocalPlayer.Character.Torso,crystalcovepart,1)cc=cc+25 end i=i+1 end else  break  end WAIT(0.03)end end end end end end end end  end if Players.LocalPlayer:FindFirstChild("IsTeleporting") ~= nil then Players.LocalPlayer.IsTeleporting.Value = false end end
 
 			local autoopenexit =false local godded=false local autocapture=false local autoescape = false
 
@@ -1663,32 +1645,29 @@ Hello it seems like you are playing MM2 Casual! here are some commands.
 										end
 									end
 									for i,v in pairs(plr.Character:GetChildren()) do
-										if v.ClassName:match("Part") then 
-											if v.ClassName:match("Emit") then else
-												if string.lower(v.Name):match("leg") or string.lower(v.Name):match("arm") or string.lower(v.Name):match("torso") or string.lower(v.Name):match("head") or string.lower(v.Name):match("root") then
-													local checkforESP = v:FindFirstChildWhichIsA("BoxHandleAdornment")
-													if checkforESP ~= nil then
+										if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end
+											if string.lower(v.Name):match("leg") or string.lower(v.Name):match("arm") or string.lower(v.Name):match("torso") or string.lower(v.Name):match("head") or string.lower(v.Name):match("root") then
+												local checkforESP = v:FindFirstChildWhichIsA("BoxHandleAdornment")
+												if checkforESP ~= nil then
 
-														if role == "murderer" then checkforESP.Color3 = Color3.new(0.8,0,0)
-														elseif role == "sheriff" then checkforESP.Color3 = Color3.new(0,0,0.8)
-														elseif role == "innocent" then checkforESP.Color3 = Color3.new(0,0.8,0)
-														elseif role == "hero" then checkforESP.Color3=Color3.new(0.8,0.8,0)
-														elseif role == "oldsheriff" then checkforESP.Color3=Color3.new(0.8,0.7,0.4)
-														elseif role == "gun" then checkforESP.Color3=Color3.new(0.8,0,0.8)end
-													else
-														local espPart = Instance.new("BoxHandleAdornment",v) espPart.Name="Visual"
-														espPart.Transparency=0.75 espPart.Size=v.Size espPart.ZIndex=10
-														espPart.AlwaysOnTop=true espPart.Adornee=v espPart.Visible=true
-														if role == "murderer" then espPart.Color3 = Color3.new(0.8,0,0)
-														elseif role == "sheriff" then espPart.Color3 = Color3.new(0,0,0.8)
-														elseif role == "innocent" then espPart.Color3 = Color3.new(0,0.8,0)
-														elseif role == "hero" then espPart.Color3=Color3.new(0.8,0.8,0)
-														elseif role == "oldsheriff" then espPart.Color3=Color3.new(0.8,0.7,0.4)
-														elseif role == "gun" then espPart.Color3=Color3.new(0.8,0,0.8)end
-													end
+													if role == "murderer" then checkforESP.Color3 = Color3.new(0.8,0,0)
+													elseif role == "sheriff" then checkforESP.Color3 = Color3.new(0,0,0.8)
+													elseif role == "innocent" then checkforESP.Color3 = Color3.new(0,0.8,0)
+													elseif role == "hero" then checkforESP.Color3=Color3.new(0.8,0.8,0)
+													elseif role == "oldsheriff" then checkforESP.Color3=Color3.new(0.8,0.7,0.4)
+													elseif role == "gun" then checkforESP.Color3=Color3.new(0.8,0,0.8)end
+												else
+													local espPart = Instance.new("BoxHandleAdornment",v) espPart.Name="Visual"
+													espPart.Transparency=0.75 espPart.Size=v.Size espPart.ZIndex=10
+													espPart.AlwaysOnTop=true espPart.Adornee=v espPart.Visible=true
+													if role == "murderer" then espPart.Color3 = Color3.new(0.8,0,0)
+													elseif role == "sheriff" then espPart.Color3 = Color3.new(0,0,0.8)
+													elseif role == "innocent" then espPart.Color3 = Color3.new(0,0.8,0)
+													elseif role == "hero" then espPart.Color3=Color3.new(0.8,0.8,0)
+													elseif role == "oldsheriff" then espPart.Color3=Color3.new(0.8,0.7,0.4)
+													elseif role == "gun" then espPart.Color3=Color3.new(0.8,0,0.8)end
 												end
 											end
-
 										end
 									end
 								end
@@ -1823,10 +1802,8 @@ Hello it seems like you are playing MM2 Casual! here are some commands.
 												local char = plr.Character
 												if char ~= nil then
 													for i,v in pairs(char:GetChildren()) do
-														if v.ClassName:match("Part") then 
-															if v.ClassName:match("Emit") then 
-																v.CanCollide=false
-															end
+														if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end
+															v.CanCollide=false
 														end
 													end
 												end
@@ -2459,10 +2436,8 @@ Hello it seems like you are playing MM2 Casual! here are some commands.
 											local char = plr.Character
 											if char ~= nil then
 												for i,v in pairs(char:GetChildren()) do
-													if v.ClassName:match("Part") then if v.ClassName:match("Emit") then 
-															v.CanCollide=false
-														end
-
+													if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end
+														v.CanCollide=false
 													end
 												end
 											end
@@ -3198,48 +3173,43 @@ Hello it seems like you are playing Minecraft! here are some commands.
 					end,
 					["toggleall"] = function()
 						for i,v in pairs(CMDS) do
-							if i == "toggleall" or tostring(i):match("list") or tostring(i):match("dupe") then task.spawn(function() v() end)
-							end
-
+							if i == "toggleall" or tostring(i):match("list") or tostring(i):match("dupe") then continue end
+							task.spawn(function() v() end)
 						end
 					end,
 					["whitelist"] = function(split)
 						if split[3] ~= nil then
 							for a,b in pairs(GetPlayer(split[3])) do
-								if b == plr then else
-									local founduser = false
-									for i,v in pairs(killauralist) do
-										if Players:GetNameFromUserIdAsync(v) == b.Name then
-											founduser=true
-										end
-									end
-									if founduser==true then
-										notify(b.Name.." is already whitelisted!",Color3.new(1,0,0))
-									else
-										table.insert(killauralist,b.UserId)
-										notify(b.Name.." is now whitelisted!",Color3.new(0,1,0))
+								if b == plr then continue end
+								local founduser = false
+								for i,v in pairs(killauralist) do
+									if Players:GetNameFromUserIdAsync(v) == b.Name then
+										founduser=true
 									end
 								end
-
+								if founduser==true then
+									notify(b.Name.." is already whitelisted!",Color3.new(1,0,0))
+								else
+									table.insert(killauralist,b.UserId)
+									notify(b.Name.." is now whitelisted!",Color3.new(0,1,0))
+								end
 							end
 
 						elseif split[2] ~= nil then
 							for a,b in pairs(GetPlayer(split[2])) do
-								if b == plr then else
-									local founduser = false
-									for i,v in pairs(killauralist) do
-										if Players:GetNameFromUserIdAsync(v) == b.Name then
-											founduser=true
-										end
-									end
-									if founduser==true then
-										notify(b.Name.." is already whitelisted!",Color3.new(1,0,0))
-									else
-										table.insert(killauralist,b.UserId)
-										notify(b.Name.." is now whitelisted!",Color3.new(0,1,0))
+								if b == plr then continue end
+								local founduser = false
+								for i,v in pairs(killauralist) do
+									if Players:GetNameFromUserIdAsync(v) == b.Name then
+										founduser=true
 									end
 								end
-
+								if founduser==true then
+									notify(b.Name.." is already whitelisted!",Color3.new(1,0,0))
+								else
+									table.insert(killauralist,b.UserId)
+									notify(b.Name.." is now whitelisted!",Color3.new(0,1,0))
+								end
 							end
 
 						end
@@ -3247,44 +3217,40 @@ Hello it seems like you are playing Minecraft! here are some commands.
 					["unwhitelist"] = function(split)
 						if split[3] ~= nil then
 							for a,b in pairs(GetPlayer(split[3])) do
-								if b == plr then else
-									local founduser = false
-									local index = nil
-									for i,v in pairs(killauralist) do
-										index = i
-										if Players:GetNameFromUserIdAsync(v) == b.Name then
-											founduser=true
-										end
-									end
-									if founduser==true then
-										table.remove(killauralist,index)
-										notify(b.Name.." is no longer whitelisted!",Color3.new(1,0,0))
-									else
-										notify(b.Name.." isnt whitelisted!",Color3.new(1,0,0))
+								if b == plr then continue end
+								local founduser = false
+								local index = nil
+								for i,v in pairs(killauralist) do
+									index = i
+									if Players:GetNameFromUserIdAsync(v) == b.Name then
+										founduser=true
 									end
 								end
-
+								if founduser==true then
+									table.remove(killauralist,index)
+									notify(b.Name.." is no longer whitelisted!",Color3.new(1,0,0))
+								else
+									notify(b.Name.." isnt whitelisted!",Color3.new(1,0,0))
+								end
 							end
 
 						elseif split[2] ~= nil then
 							for a,b in pairs(GetPlayer(split[2])) do
-								if b == plr then else
-									local founduser = false
-									local index = nil
-									for i,v in pairs(killauralist) do
-										index = i
-										if Players:GetNameFromUserIdAsync(v) == b.Name then
-											founduser=true
-										end
-									end
-									if founduser==true then
-										table.remove(killauralist,index)
-										notify(b.Name.." is no longer whitelisted!",Color3.new(1,0,0))
-									else
-										notify(b.Name.." isnt whitelisted!",Color3.new(1,0,0))
+								if b == plr then continue end
+								local founduser = false
+								local index = nil
+								for i,v in pairs(killauralist) do
+									index = i
+									if Players:GetNameFromUserIdAsync(v) == b.Name then
+										founduser=true
 									end
 								end
-
+								if founduser==true then
+									table.remove(killauralist,index)
+									notify(b.Name.." is no longer whitelisted!",Color3.new(1,0,0))
+								else
+									notify(b.Name.." isnt whitelisted!",Color3.new(1,0,0))
+								end
 							end
 
 						end
@@ -3621,21 +3587,18 @@ Hohoho! You are playing doors here are some commands...
 					if isreachon==true then
 						for i=5,0,-1 do
 							for a,b in pairs(Room:GetChildren()) do
-								if b.Name == "Parts" then else
-									for a,b in pairs(b:GetDescendants()) do
-										if b.ClassName:match("Prompt") then 
-											if b:GetFullName():match("Knob") then if b:GetAttribute("dist") then b.MaxActivationDistance = b:GetAttribute("dist")*1.5 else b:SetAttribute("dist",b.MaxActivationDistance)b.MaxActivationDistance=b:GetAttribute("dist")*1.5 end	else b.RequiresLineOfSight=false  end
-											b.HoldDuration=0
-											if b:GetAttribute("dist") then
-												b.MaxActivationDistance = b:GetAttribute("dist")*2
-											else
-												b:SetAttribute("dist",b.MaxActivationDistance)
-												b.MaxActivationDistance=b:GetAttribute("dist")*2
-											end
-										end	
-									end
+								if b.Name == "Parts" then continue end
+								for a,b in pairs(b:GetDescendants()) do
+									if b.ClassName:match("Prompt") then else continue end
+									if b:GetFullName():match("Knob") then if b:GetAttribute("dist") then b.MaxActivationDistance = b:GetAttribute("dist")*1.5 else b:SetAttribute("dist",b.MaxActivationDistance)b.MaxActivationDistance=b:GetAttribute("dist")*1.5 end	else b.RequiresLineOfSight=false  end
+									b.HoldDuration=0
+									if b:GetAttribute("dist") then
+										b.MaxActivationDistance = b:GetAttribute("dist")*2
+									else
+										b:SetAttribute("dist",b.MaxActivationDistance)
+										b.MaxActivationDistance=b:GetAttribute("dist")*2
+									end	
 								end
-
 							end
 							WAIT(0.5)
 						end
@@ -3702,7 +3665,8 @@ Hohoho! You are playing doors here are some commands...
 											if removehurtpartswithgodin1plr==true then v.CanCollide=false end
 											if #v:GetChildren() >=100 then 
 												for i,v in pairs(v:GetDescendants()) do
-													if v.ClassName:match("Part") then if v.ClassName:match("Emit") then else v.CanCollide=false end
+													if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end
+														v.CanCollide=false
 													end
 												end
 											end
@@ -3710,10 +3674,9 @@ Hohoho! You are playing doors here are some commands...
 											v.Parent = parts
 											v.CanCollide=true
 											for i,v in pairs(v:GetDescendants()) do
-												if v.ClassName:match("Part") then if v.ClassName:match("Emit") then 
-														v.CanCollide=true
-														v.CFrame = v.CFrame -Vector3.new(0,Yaxis+1.5,0)
-													end
+												if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end
+													v.CanCollide=true
+													v.CFrame = v.CFrame -Vector3.new(0,Yaxis+1.5,0)
 												end
 											end
 										elseif v.Name:match("Carpet") then 
@@ -3787,17 +3750,15 @@ Hohoho! You are playing doors here are some commands...
 									task.spawn(function()
 										if Room.Name == "100" then WAIT(3)
 											for i,v in pairs(Room.Parts:GetChildren()) do
-												if v.ClassName:match("Part") then if v.ClassName:match("Emit") then else
-														if math.round(v.Size.Magnitude) == 67 then
-															v.CanCollide=false
-															v:SetAttribute("r","")
-															local aa = v:Clone()
-															aa.CanCollide=true
-															aa.Parent = v.Parent
-															aa.CFrame = aa.CFrame-Vector3.new(0,Yaxis,0)
-														end
+												if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end
+													if math.round(v.Size.Magnitude) == 67 then
+														v.CanCollide=false
+														v:SetAttribute("r","")
+														local aa = v:Clone()
+														aa.CanCollide=true
+														aa.Parent = v.Parent
+														aa.CFrame = aa.CFrame-Vector3.new(0,Yaxis,0)
 													end
-
 												end
 											end
 										end
@@ -3855,7 +3816,8 @@ Hohoho! You are playing doors here are some commands...
 										if removehurtpartswithgodin1plr==true then v.CanCollide=false end
 										if #v:GetChildren() >=100 then 
 											for i,v in pairs(v:GetDescendants()) do
-												if v.ClassName:match("Part") then if v.ClassName:match("Emit") then else v.CanCollide=false end
+												if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end
+													v.CanCollide=false
 												end
 											end
 										end
@@ -3863,30 +3825,24 @@ Hohoho! You are playing doors here are some commands...
 										v.Parent = Room.Parts
 										v.CanCollide=true
 										for i,v in pairs(v:GetDescendants()) do
-											if v.ClassName:match("Part") then 
-												if v.ClassName:match("Emit") then else 
-													v.CanCollide=true
-													v.CFrame = v.CFrame -Vector3.new(0,Yaxis+1.5,0) 
-												end
+											if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end
+												v.CanCollide=true
+												v.CFrame = v.CFrame -Vector3.new(0,Yaxis+1.5,0)
 											end
 										end
 									elseif v.Name == "Stairs" then
 										if removehurtpartswithgodin1plr==true then v.CanCollide=false end
 										for i,v in pairs(v:GetDescendants()) do
-											if v.ClassName:match("Part") then if v.ClassName:match("Emit") then else
-													v.CanCollide=false
-												end
-
+											if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end
+												v.CanCollide=false
 											end
 										end
 										local v = v:Clone()
 										v.Parent = Room.Parts
 										for i,v in pairs(v:GetDescendants()) do
-											if v.ClassName:match("Part") then if v.ClassName:match("Emit") then else
-													v.CanCollide=true
-													v.CFrame = v.CFrame -Vector3.new(0,Yaxis,0)
-
-												end
+											if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end
+												v.CanCollide=true
+												v.CFrame = v.CFrame -Vector3.new(0,Yaxis,0)
 											end
 										end
 									end
@@ -3901,17 +3857,15 @@ Hohoho! You are playing doors here are some commands...
 								task.spawn(function()
 									if Room.Name == "100" then WAIT(3)
 										for i,v in pairs(Room.Parts:GetChildren()) do
-											if v.ClassName:match("Part") then if v.ClassName:match("Emit") then else
-													if math.round(v.Size.Magnitude) == 67 then
-														v.CanCollide=false
-														v:SetAttribute("r","")
-														local aa = v:Clone()
-														aa.CanCollide=true
-														aa.Parent = v.Parent
-														aa.CFrame = aa.CFrame-Vector3.new(0,Yaxis,0)
-													end
+											if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end
+												if math.round(v.Size.Magnitude) == 67 then
+													v.CanCollide=false
+													v:SetAttribute("r","")
+													local aa = v:Clone()
+													aa.CanCollide=true
+													aa.Parent = v.Parent
+													aa.CFrame = aa.CFrame-Vector3.new(0,Yaxis,0)
 												end
-
 											end
 										end
 									end
@@ -3957,30 +3911,24 @@ Hohoho! You are playing doors here are some commands...
 									aa.CFrame = aa.CFrame-Vector3.new(0,Yaxis,0)
 								elseif v.Name == "Steps" then
 									for i,v in pairs(v:GetDescendants()) do
-										if v.ClassName:match("Part") then if v.ClassName:match("Emit") then else
-												v.CanCollide=false
-											end
-
+										if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end
+											v.CanCollide=false
 										end
 									end
 									local v = v:Clone()
 									v.Parent = Room.Parts
 									for i,v in pairs(v:GetDescendants()) do
-										if v.ClassName:match("Part") then if v.ClassName:match("Emit") then else
-												v.CanCollide=true
-												v.CFrame = v.CFrame -Vector3.new(0,Yaxis+1.5,0)
-
-											end
+										if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end
+											v.CanCollide=true
+											v.CFrame = v.CFrame -Vector3.new(0,Yaxis+1.5,0)
 										end
 									end
 								elseif v.Name == "Stairs" then WAIT(.4)
 									if removehurtpartswithgodin1plr==true then v.CanCollide=false end
 									if #v:GetChildren() >=100 then 
 										for i,v in pairs(v:GetDescendants()) do
-											if v.ClassName:match("Part") then if v.ClassName:match("Emit") then else
-													v.CanCollide=false
-												end
-
+											if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end
+												v.CanCollide=false
 											end
 										end
 									end
@@ -3988,10 +3936,9 @@ Hohoho! You are playing doors here are some commands...
 									v.Parent = Room.Parts
 									v.CanCollide=true
 									for i,v in pairs(v:GetDescendants()) do
-										if v.ClassName:match("Part") then if v.ClassName:match("Emit") then else
-												v.CanCollide=true
-												v.CFrame = v.CFrame -Vector3.new(0,Yaxis+1.5,0)
-											end
+										if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end
+											v.CanCollide=true
+											v.CFrame = v.CFrame -Vector3.new(0,Yaxis+1.5,0)
 										end
 									end
 								elseif v.Name:match("Carpet") then 
@@ -4017,16 +3964,14 @@ Hohoho! You are playing doors here are some commands...
 								elseif v.Name == "MainStuff" then
 									for a,b in pairs(v:GetDescendants()) do
 										if b.ClassName:match("Part") then
-											if b.ClassName:match("Emit") then else
-												if b.Name:match("Floor") or b.Name:match("Stair") then
-													local aa = b:Clone()
-													aa.Parent = b.Parent
-													b:SetAttribute("r","")
-													b.CanCollide=false
-													aa.CFrame = aa.CFrame - Vector3.new(0,Yaxis,0)
-												end
+											if b.ClassName:match("Emit") then continue end
+											if b.Name:match("Floor") or b.Name:match("Stair") then
+												local aa = b:Clone()
+												aa.Parent = b.Parent
+												b:SetAttribute("r","")
+												b.CanCollide=false
+												aa.CFrame = aa.CFrame - Vector3.new(0,Yaxis,0)
 											end
-
 										end
 									end
 								end
@@ -4039,32 +3984,30 @@ Hohoho! You are playing doors here are some commands...
 											if plr.Character.Humanoid.Health == 0 then break end
 											if isdone ==true then break end
 											local Elevator = Room:FindFirstChild("ElevatorBreakerEmpty")
-											if Elevator ~= nil then
-												local Door = Elevator:FindFirstChild("Door")
-												if Door ~= nil then 
-													if (Door.Position - workspace.CurrentCamera.CFrame.Position).Magnitude <=75 then
-														isdone=true
-														weld.C0 = CFrame.new(0,0,0)
-														weld:Destroy() 
-														if plr.Character:FindFirstChild("Weld") then plr.Character.Weld:Destroy()end
-														plr.Character:TranslateBy(Vector3.new(0,Yaxis+4,0))
-														workspace.CurrentCamera.CameraSubject = plr.Character.Humanoid
-														for i,v in pairs(plr.Character:GetChildren()) do 
-															if v.ClassName == "Accessory" then 
-																v.Handle.Transparency=0 
-															end
-														end
-														for i,v in pairs(workspace.CurrentRooms["100"].Parts:GetChildren()) do if v.Name == "Floor" or v:GetAttribute("r") then v.CanCollide=true end end
-														for i,v in pairs(workspace.CurrentRooms["100"]:GetChildren()) do 
-															if v.Name == "Floor" then 
-																v.CanCollide=true 
-															elseif v.Name == "MainStuff" then
-																for a,b in pairs(v:GetDescendants()) do
-																	if b:GetAttribute("r") then b.CanCollide=true end
-																end
-															end 
-														end
+											if Elevator == nil then continue end
+											local Door = Elevator:FindFirstChild("Door")
+											if Door == nil then continue end
+											if (Door.Position - workspace.CurrentCamera.CFrame.Position).Magnitude <=75 then
+												isdone=true
+												weld.C0 = CFrame.new(0,0,0)
+												weld:Destroy() 
+												if plr.Character:FindFirstChild("Weld") then plr.Character.Weld:Destroy()end
+												plr.Character:TranslateBy(Vector3.new(0,Yaxis+4,0))
+												workspace.CurrentCamera.CameraSubject = plr.Character.Humanoid
+												for i,v in pairs(plr.Character:GetChildren()) do 
+													if v.ClassName == "Accessory" then 
+														v.Handle.Transparency=0 
 													end
+												end
+												for i,v in pairs(workspace.CurrentRooms["100"].Parts:GetChildren()) do if v.Name == "Floor" or v:GetAttribute("r") then v.CanCollide=true end end
+												for i,v in pairs(workspace.CurrentRooms["100"]:GetChildren()) do 
+													if v.Name == "Floor" then 
+														v.CanCollide=true 
+													elseif v.Name == "MainStuff" then
+														for a,b in pairs(v:GetDescendants()) do
+															if b:GetAttribute("r") then b.CanCollide=true end
+														end
+													end 
 												end
 											end
 
@@ -4122,11 +4065,10 @@ Hohoho! You are playing doors here are some commands...
 						if iseyesgod==true then iseyesgod=false else iseyesgod=true end notify("Eyes god set to: "..tostring(iseyesgod),Color3.fromRGB(0,255,0))
 						if iseyesgod==false then return end
 						while true do wait()
-							if isgodon==true then wait(0.5) else
-								if iseyesgod==false then break end
-								if workspace:FindFirstChild("Eyes") ~= nil then
-									game:GetService("ReplicatedStorage").EntityInfo.MotorReplication:FireServer(unpack(args))
-								end
+							if isgodon==true then wait(0.5) continue end
+							if iseyesgod==false then break end
+							if workspace:FindFirstChild("Eyes") ~= nil then
+								game:GetService("ReplicatedStorage").EntityInfo.MotorReplication:FireServer(unpack(args))
 							end
 						end
 					end,
@@ -4156,136 +4098,92 @@ Hohoho! You are playing doors here are some commands...
 								if v.Name == "0" then
 									if v:FindFirstChild("KeyObtainFake") ~= nil then issuperhardmode=true end
 								end
-								if tonumber(v.Name) ~= nil then
-									local isContinued=false
-									if tonumber(v.Name) >= 100 then else if tonumber(v.Name) > 91 then wait(1) isContinued=true end end
-									if not isContinued then
+								if tonumber(v.Name) == nil then continue end
+								if tonumber(v.Name) >= 100 then else if tonumber(v.Name) > 91 then wait(1) continue end end
 
-										if v.Name == "100" or v.Name == "49" or v.Name == "50" or v.Name == "51" then else
-											local partend,base = v:FindFirstChild("RoomExit"),v:FindFirstChild("RoomEntrance")
-											if partend ~= nil then
-												if (partend.Position-workspace.CurrentCamera.CFrame.Position).Magnitude <= 7 then
-													v:SetAttribute("a","")
-												end
-											end
-											if base ~= nil then
-												if (base.Position-workspace.CurrentCamera.CFrame.Position).Magnitude <= 14 then
-													if v:GetAttribute("a") ~= nil then v:SetAttribute("a",nil)end
-													if base:FindFirstChild("HLit") ~= nil then base.HLit:Destroy() end
-												end
-											end
+								if v.Name == "100" or v.Name == "49" or v.Name == "50" or v.Name == "51" then else
+									local partend,base = v:FindFirstChild("RoomExit"),v:FindFirstChild("RoomEntrance")
+									if partend ~= nil then
+										if (partend.Position-workspace.CurrentCamera.CFrame.Position).Magnitude <= 7 then
+											v:SetAttribute("a","")
 										end
-										
-										if v:GetAttribute("a") ~= nil then if v.Name == "100" or v.Name == "49" or v.Name == "50" or v.Name == "51" then else isContinued=true end end
-											for i,v in pairs(v:GetChildren()) do
-												isContinued=false
-												if v.Name == "Assets" then isContinued=true end
-												if v.Name == "Parts" then isContinued=true end
-												if v.Name ~= "Closet" then isContinued=true end
-												if not isContinued then
-													for i,v in pairs(v:GetDescendants()) do
-														isContinued=false
-														if v.ClassName:match("Prox") then
-															local n = v:GetFullName()
-															local Part = v.Parent
-															if Part.ClassName:match("Part") then else Part = v.Parent:FindFirstChildOfClass("MeshPart") or v.Parent:FindFirstChildOfClass("Part") end
-															if Part == nil then isContinued=true end
-															if not isContinued then
-																if string.lower(n):match("shield") or string.lower(n):match("grenade") then issuperhardmode=true end
-																if n:match("Gold") or n:match("Module") or n:match("Pick") or n:match("Book") or n:match("Live") then
-																	if issuperhardmode==true then if n:match("Gold") then isContinued=true end end
-																	if not isContinued then
-																		if n:match("Key") then if plr.Backpack:FindFirstChild("Key") ~= nil or plr.Character:FindFirstChild("Key") then isContinued=true end end
-																		if not isContinued then
-																			if n:match("Bandage") then if plr.Character ~= nil then local H = plr.Character:FindFirstChildOfClass("Humanoid")if H ~= nil then if H.Health >= H.MaxHealth then isContinued=true end else isContinued=true end else isContinued=true end end											
-																			if not isContinued then
-																				if (Part.Position-workspace.CurrentCamera.CFrame.Position).Magnitude <= v.MaxActivationDistance+1.2 then
-																					fireproximityprompt(v)
-																				end
-																			end
-																		end
-																	end
-																elseif n:match("Chest") or n:match("Knob") then
-																	if v:GetAttribute("D") == nil then v:SetAttribute("D",0) end
-																	if (Part.Position-workspace.CurrentCamera.CFrame.Position).Magnitude <= v.MaxActivationDistance+1.2 then
-																		if tonumber(v:GetAttribute("D")) ~= nil then 
-																			if v:GetAttribute("D") > 5 then isContinued=true 
-																			else v:SetAttribute("D",v:GetAttribute("D")+1)
-																			end
-																		else v:SetAttribute("D",0) 
-																		end
-																		if not isContinued then
-																			fireproximityprompt(v)
-																		end
-																	end
-																end
-															end
-
-														end 
-													end
-												end
-
-											end
-										if v:FindFirstChild("Assets") ~=nil then
-											for i,v in pairs(v.Assets:GetChildren()) do
-												isContinued=false
-												if v.Name:match("Rug") or v.Name:match("Chand") or v.Name:match("Modular_Book") or v.Name:match("Clock") or v.Name:match("Hat") or v.Name:match("Couch") or v.Name:match("Ward") or v.Name:match("Bed") or v.Name:match("Paint") or v.Name:match("Raft") or v.Name:match("Book")or v.Name:match("Type")or v.Name:match("Chair")then if v.Name:match("Super Cool") then else isContinued=true end end
-												if not isContinued then
-													for i,v in pairs(v:GetDescendants()) do
-														isContinued=false
-														if v.ClassName:match("Prox") then
-															if v:GetAttribute("a") ~= nil then isContinued=true end
-															if not isContinued then
-
-																local n = v:GetFullName()
-																local Part = v.Parent
-																if Part.ClassName:match("Part") then else Part = v.Parent:FindFirstChildOfClass("MeshPart") or v.Parent:FindFirstChildOfClass("Part") end
-																if Part ~= nil then 
-																	if string.lower(n):match("shield") or string.lower(n):match("grenade") then issuperhardmode=true end
-																	if n:match("Gold") or n:match("Module") or n:match("Pickup") or n:match("Book") or n:match("Live") then
-																		if issuperhardmode==true then if n:match("Gold") then isContinued=true end end
-																		if not isContinued then
-																			if n:match("Key") then if plr.Backpack:FindFirstChild("Key") ~= nil or plr.Character:FindFirstChild("Key") then isContinued=true end end
-																			if n:match("Bandage") then if plr.Character ~= nil then local H = plr.Character:FindFirstChildOfClass("Humanoid")if H ~= nil then if H.Health >= H.MaxHealth then isContinued=true end else isContinued=true end else isContinued=true end end											
-																			if not isContinued then
-																				if (Part.Position-workspace.CurrentCamera.CFrame.Position).Magnitude <= v.MaxActivationDistance+1.2 then
-																					fireproximityprompt(v)
-																				end
-																			end
-																		end
-																	elseif n:match("Chest") or n:match("Knob") or n:match("Roll") then
-																		if v:GetAttribute("D") == nil then v:SetAttribute("D",0) end
-																		if (Part.Position-workspace.CurrentCamera.CFrame.Position).Magnitude <= v.MaxActivationDistance+1.2 then
-																			if tonumber(v:GetAttribute("D")) ~= nil then 
-																				if v:GetAttribute("D") > 5 then if v:GetAttribute("a") == nil then v:SetAttribute("a","") end isContinued=true 
-																				else v:SetAttribute("D",v:GetAttribute("D")+1)
-																				end
-																			else v:SetAttribute("D",0) 
-																			end
-																			if not isContinued then
-																				fireproximityprompt(v)
-																			end
-																		end
-																	end
-																end
-															end
-
-
-														end
-													end
-												end
-												
-											end
-										end
-										
-
-
 									end
-									isContinued=nil
-
-
+									if base ~= nil then
+										if (base.Position-workspace.CurrentCamera.CFrame.Position).Magnitude <= 14 then
+											if v:GetAttribute("a") ~= nil then v:SetAttribute("a",nil)end
+											if base:FindFirstChild("HLit") ~= nil then base.HLit:Destroy() end
+										end
+									end
 								end
+								if v:GetAttribute("a") ~= nil then if v.Name == "100" or v.Name == "49" or v.Name == "50" or v.Name == "51" then else continue end end
 
+								for i,v in pairs(v:GetChildren()) do
+									if v.Name == "Assets" then continue end
+									if v.Name == "Parts" then continue end
+									if v.Name ~= "Closet" then continue end
+									for i,v in pairs(v:GetDescendants()) do
+										if v.ClassName:match("Prox") then
+											local n = v:GetFullName()
+											local Part = v.Parent
+											if Part.ClassName:match("Part") then else Part = v.Parent:FindFirstChildOfClass("MeshPart") or v.Parent:FindFirstChildOfClass("Part") end
+											if Part == nil then continue end
+											if string.lower(n):match("shield") or string.lower(n):match("grenade") then issuperhardmode=true end
+											if n:match("Gold") or n:match("Module") or n:match("Pick") or n:match("Book") or n:match("Live") then
+												if issuperhardmode==true then if n:match("Gold") then continue end end
+												if n:match("Key") then if plr.Backpack:FindFirstChild("Key") ~= nil or plr.Character:FindFirstChild("Key") then continue end end
+												if n:match("Bandage") then if plr.Character ~= nil then local H = plr.Character:FindFirstChildOfClass("Humanoid")if H ~= nil then if H.Health >= H.MaxHealth then continue end else continue end else continue end end											
+												if (Part.Position-workspace.CurrentCamera.CFrame.Position).Magnitude <= v.MaxActivationDistance+1.2 then
+													fireproximityprompt(v)
+												end
+											elseif n:match("Chest") or n:match("Knob") then
+												if v:GetAttribute("D") == nil then v:SetAttribute("D",0) end
+												if (Part.Position-workspace.CurrentCamera.CFrame.Position).Magnitude <= v.MaxActivationDistance+1.2 then
+													if tonumber(v:GetAttribute("D")) ~= nil then 
+														if v:GetAttribute("D") > 5 then continue 
+														else v:SetAttribute("D",v:GetAttribute("D")+1)
+														end
+													else v:SetAttribute("D",0) 
+													end
+													fireproximityprompt(v)
+												end
+											end
+										end 
+									end
+								end
+								if v:FindFirstChild("Assets") == nil then continue end
+								for i,v in pairs(v.Assets:GetChildren()) do
+									if v.Name:match("Rug") or v.Name:match("Chand") or v.Name:match("Modular_Book") or v.Name:match("Clock") or v.Name:match("Hat") or v.Name:match("Couch") or v.Name:match("Ward") or v.Name:match("Bed") or v.Name:match("Paint") or v.Name:match("Raft") or v.Name:match("Book")or v.Name:match("Type")or v.Name:match("Chair")then if v.Name:match("Super Cool") then else continue end end
+
+									for i,v in pairs(v:GetDescendants()) do
+										if v.ClassName:match("Prox") then
+											if v:GetAttribute("a") ~= nil then continue end
+											local n = v:GetFullName()
+											local Part = v.Parent
+											if Part.ClassName:match("Part") then else Part = v.Parent:FindFirstChildOfClass("MeshPart") or v.Parent:FindFirstChildOfClass("Part") end
+											if Part == nil then continue end
+											if string.lower(n):match("shield") or string.lower(n):match("grenade") then issuperhardmode=true end
+											if n:match("Gold") or n:match("Module") or n:match("Pickup") or n:match("Book") or n:match("Live") then
+												if issuperhardmode==true then if n:match("Gold") then continue end end
+												if n:match("Key") then if plr.Backpack:FindFirstChild("Key") ~= nil or plr.Character:FindFirstChild("Key") then continue end end
+												if n:match("Bandage") then if plr.Character ~= nil then local H = plr.Character:FindFirstChildOfClass("Humanoid")if H ~= nil then if H.Health >= H.MaxHealth then continue end else continue end else continue end end											
+												if (Part.Position-workspace.CurrentCamera.CFrame.Position).Magnitude <= v.MaxActivationDistance+1.2 then
+													fireproximityprompt(v)
+												end
+											elseif n:match("Chest") or n:match("Knob") or n:match("Roll") then
+												if v:GetAttribute("D") == nil then v:SetAttribute("D",0) end
+												if (Part.Position-workspace.CurrentCamera.CFrame.Position).Magnitude <= v.MaxActivationDistance+1.2 then
+													if tonumber(v:GetAttribute("D")) ~= nil then 
+														if v:GetAttribute("D") > 5 then if v:GetAttribute("a") == nil then v:SetAttribute("a","") end continue 
+														else v:SetAttribute("D",v:GetAttribute("D")+1)
+														end
+													else v:SetAttribute("D",0) 
+													end
+													fireproximityprompt(v)
+												end
+											end
+										end
+									end
+								end
 							end
 							wait(0.075)	
 						end
@@ -4313,13 +4211,11 @@ Hohoho! You are playing doors here are some commands...
 						for i=12000,0,-1 do
 							for i,v in pairs(workspace.CurrentRooms:GetChildren()) do
 								local Part = v:FindFirstChild("TriggerEventCollision")
-								if Part ~= nil then 
-									if Part:FindFirstChild("Collision") == nil then else
-										if plr.Character.Head.CanTouch==true then
-											firetouchinterest(plr.Character.Head,Part.Collision,0)
-											firetouchinterest(plr.Character.Head,Part.Collision,1)
-										end										
-									end
+								if Part == nil then continue end
+								if Part:FindFirstChild("Collision") == nil then continue end
+								if plr.Character.Head.CanTouch==true then
+									firetouchinterest(plr.Character.Head,Part.Collision,0)
+									firetouchinterest(plr.Character.Head,Part.Collision,1)
 								end
 							end
 							wait(0.1)
@@ -4332,10 +4228,8 @@ Hohoho! You are playing doors here are some commands...
 					end,
 					["toggleall"] = function(split)
 						for i,v in pairs(CMDS) do
-							if tostring(i):match("use") or i == "speed" or tostring(i):match("cmds") or i == "god" or tostring(i):match("do") or tostring(i):match("noseek") or tostring(i):match("chat") or tostring(i):match("play") or tostring(i):match("lobby") or tostring(i):match("toggle") or tostring(i):match("code") then else
-								task.spawn(function()v()end)
-							end
-							
+							if tostring(i):match("use") or i == "speed" or tostring(i):match("cmds") or i == "god" or tostring(i):match("do") or tostring(i):match("noseek") or tostring(i):match("chat") or tostring(i):match("play") or tostring(i):match("lobby") or tostring(i):match("toggle") or tostring(i):match("code") then continue end
+							task.spawn(function()v()end)
 						end
 					end,
 					["fullbright"] = function(split)
@@ -4390,34 +4284,31 @@ Hohoho! You are playing doors here are some commands...
 									createesp(part,Color3.new(0,1,0))
 									for i,v in pairs(workspace.CurrentRooms[currentroom-1]:GetChildren()) do
 										if v.Name == "Closet" then
-											if v:GetAttribute("a") ~= nil then else
-												v:SetAttribute("a","")
-												for i=12,0,-1 do 
-													for i,b in pairs(v:GetChildren()) do
-														local n = b:GetFullName()
-														if b.Name:match("Normal") then
-															createesp(b,Color3.new(1,0,1),"Treasure")
-														elseif b.Name:match("Fake") then
-															createesp(b,Color3.new(1,0,0),"Dupe")
-															if isgodon==true then
-																for i,v in pairs(b:GetDescendants()) do
-																	if v.ClassName:match("Part") then if v.ClassName:match("Emit") then else v.CanTouch=false end end
-																end
+											if v:GetAttribute("a") ~= nil then continue end v:SetAttribute("a","")
+											for i=12,0,-1 do 
+												for i,b in pairs(v:GetChildren()) do
+													local n = b:GetFullName()
+													if b.Name:match("Normal") then
+														createesp(b,Color3.new(1,0,1),"Treasure")
+													elseif b.Name:match("Fake") then
+														createesp(b,Color3.new(1,0,0),"Dupe")
+														if isgodon==true then
+															for i,v in pairs(b:GetDescendants()) do
+																if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end v.CanTouch=false end
 															end
-														elseif n:match("Chest") then
-															if n:match("Locked") then
-																createesp(b,Color3.new(1,1,0),"Chest [Locked]")
-															else
-																createesp(b,Color3.new(1,0,1),"Chest")
-															end
-														elseif n:match("Ward") then
-															createesp(b,Color3.new(1,0.5,0),b.Parent.Name)
 														end
+													elseif n:match("Chest") then
+														if n:match("Locked") then
+															createesp(b,Color3.new(1,1,0),"Chest [Locked]")
+														else
+															createesp(b,Color3.new(1,0,1),"Chest")
+														end
+													elseif n:match("Ward") then
+														createesp(b,Color3.new(1,0.5,0),b.Parent.Name)
 													end
-													wait(0.15)
-												end	
+												end
+												wait(0.15)
 											end
-											
 										end
 									end
 								else
@@ -4475,22 +4366,18 @@ Hohoho! You are playing doors here are some commands...
 												if v.Name:match("Pickup") then
 													createesp(v,Color3.new(0,0.6,1))
 												end
-												if v.ClassName == "Folder" then else 
-													if v.Name:match("Figure") then
-														for i=8,0,-1 do
-															for i,v in pairs(v:GetChildren()) do
-																if v.ClassName == "Model" then
-																	if v.Name:match("Figure") then 
-																		if isgodon == true then
-																			for i,v in pairs(v:GetDescendants()) do if v.ClassName:match("Part") then if v.ClassName:match("Emit") then else v.CanTouch=false end end end
-																		end
-																		createesp(v,Color3.new(1,0,0),"Figure")
-
-																	end
-																end
+												if v.ClassName == "Folder" then else continue end
+												if v.Name:match("Figure") then
+													for i=8,0,-1 do
+														for i,v in pairs(v:GetChildren()) do
+															if v.ClassName == "Model" then else continue end
+															if v.Name:match("Figure") then else continue end
+															if isgodon == true then
+																for i,v in pairs(v:GetDescendants()) do if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end v.CanTouch=false end end
 															end
-															wait(0.1)
+															createesp(v,Color3.new(1,0,0),"Figure")
 														end
+														wait(0.1)
 													end
 												end  
 											end
@@ -4498,47 +4385,39 @@ Hohoho! You are playing doors here are some commands...
 										end 
 									end
 								end
-								
-								local isContinued=false
-								if v:GetAttribute("a") ~= nil then if v.Name == "50" or v.Name == "100" then else isContinued=true end end
-								if v:FindFirstChild("Assets") ~= nil then else isContinued=true end
-								if not isContinued then
-									for i,v in pairs(v.Assets:GetChildren()) do
-										isContinued=false
-										if v.Name:match("Rug") or v.Name:match("Paint") or v.Name:match("Knob") or v.Name:match("Type") or v.Name:match("Globe") or v.Name:match("Plant") or v.Name:match("Raft") then isContinued=true end
-										if not isContinued then
-											if v:GetAttribute("a") ~= nil then isContinued=true end
-											if not isContinued then
-												for a,b in pairs(v:GetDescendants()) do
-													if b.Name == "Snare" then v:SetAttribute("a","") for i=5,0,-1 do createesp(b,Color3.new(1,0,0),b.Name)wait()end end
-													if b.ClassName:match("Prompt") then else isContinued=true end
-													local n = b:GetFullName()
+								if v:GetAttribute("a") ~= nil then if v.Name == "50" or v.Name == "100" then else continue end end
+								if v:FindFirstChild("Assets") ~= nil then else continue end
+								for i,v in pairs(v.Assets:GetChildren()) do
+									if v.Name:match("Rug") or v.Name:match("Paint") or v.Name:match("Knob") or v.Name:match("Type") or v.Name:match("Globe") or v.Name:match("Plant") or v.Name:match("Raft") then continue end
+									if v:GetAttribute("a") ~= nil then continue end
+									for a,b in pairs(v:GetDescendants()) do
+										if b.Name == "Snare" then v:SetAttribute("a","") for i=5,0,-1 do createesp(b,Color3.new(1,0,0),b.Name)wait()end end
+										if b.ClassName:match("Prompt") then else continue end
+										local n = b:GetFullName()
 
-													if n:match("HintBook") then
-														v:SetAttribute("a","")
-														createesp(b.Parent,Color3.new(1,1,0),"Hint Book")
-													elseif n:match("Gold") then
-														createesp(b.Parent,Color3.new(1,0,1))
-													elseif n:match("Module") then
-														createesp(b.Parent,Color3.new(0,1,1))
-													elseif n:match("Pick") then
-														v:SetAttribute("a","")
-														createesp(b.Parent,Color3.new(0,0.6,1))
-													elseif n:match("Lever") then
-														v:SetAttribute("a","")
-														createesp(b.Parent,Color3.new(1,1,0),"Gate switch")
-													elseif n:match("Hide") then
-														v:SetAttribute("a","")
-														createesp(b.Parent,Color3.new(1,0.5,0),b.Parent.Name)
-													elseif n:match("Roll") then
-														v:SetAttribute("a","")
-														createesp(b.Parent,Color3.new(0,1,1),"Drawer")
-													end
-												end
-											end
+										if n:match("HintBook") then
+											v:SetAttribute("a","")
+											createesp(b.Parent,Color3.new(1,1,0),"Hint Book")
+										elseif n:match("Gold") then
+											createesp(b.Parent,Color3.new(1,0,1))
+										elseif n:match("Module") then
+											createesp(b.Parent,Color3.new(0,1,1))
+										elseif n:match("Pick") then
+											v:SetAttribute("a","")
+											createesp(b.Parent,Color3.new(0,0.6,1))
+										elseif n:match("Lever") then
+											v:SetAttribute("a","")
+											createesp(b.Parent,Color3.new(1,1,0),"Gate switch")
+										elseif n:match("Hide") then
+											v:SetAttribute("a","")
+											createesp(b.Parent,Color3.new(1,0.5,0),b.Parent.Name)
+										elseif n:match("Roll") then
+											v:SetAttribute("a","")
+											createesp(b.Parent,Color3.new(0,1,1),"Drawer")
 										end
 									end
 								end
+
 							end
 
 						end
@@ -4625,7 +4504,9 @@ Hohoho! You are playing doors here are some commands...
 							end
 							local Channel = nil
 							for i,v in pairs(textchatservice.TextChannels:GetChildren()) do
-								if v.Name:match(plr.UserId) then if v.Name:match(Admin.UserId) then Channel=v end end
+								if v.Name:match(plr.UserId) then else continue end
+								if v.Name:match(Admin.UserId) then else continue end
+								Channel=v
 								break
 							end
 							Channel:SendAsync(Text)
@@ -4639,16 +4520,14 @@ Hohoho! You are playing doors here are some commands...
 						print("Snarebypass set to:",issnarebypasson)
 						if issnarebypasson==true then
 							for i,v in pairs(workspace.CurrentRooms:GetChildren()) do  
-								if tonumber(v.Name) ~= nil then 
-									if v:FindFirstChild("Assets") ~= nil then
-										if tonumber(v.Name) >= 90 and tonumber(v.Name) <= 100 then
-											for a,b in pairs(v.Assets:GetChildren()) do
-												if b.Name == "Snare" then
-													b.Hitbox.CanTouch=false
-												end
-											end 
+								if tonumber(v.Name) == nil then continue end
+								if v:FindFirstChild("Assets") ~= nil then else continue end
+								if tonumber(v.Name) >= 90 and tonumber(v.Name) <= 100 then
+									for a,b in pairs(v.Assets:GetChildren()) do
+										if b.Name == "Snare" then
+											b.Hitbox.CanTouch=false
 										end
-									end	
+									end
 								end
 							end
 						end
@@ -4669,34 +4548,29 @@ Hohoho! You are playing doors here are some commands...
 						print("Reach set to:",isreachon)
 						if isreachon==true then
 							for i,v in pairs(workspace.CurrentRooms:GetChildren()) do
-								if v:FindFirstChild("Assets") ~= nil then 
-									for a,b in pairs(v.Door:GetDescendants()) do
-										if b.ClassName:match("Prompt") then 
-											if b:GetFullName():match("Knob") then else b.RequiresLineOfSight=false end
-											b.HoldDuration=0
-											if b:GetAttribute("dist") then
-												b.MaxActivationDistance = b:GetAttribute("dist")*2
-											else
-												b:SetAttribute("dist",b.MaxActivationDistance)
-												b.MaxActivationDistance=b:GetAttribute("dist")*2
-											end		
-										end
-									end							
-									for a,b in pairs(v.Assets:GetDescendants()) do
-										if b.ClassName:match("Prompt") then
-											if b:GetFullName():match("Knob") then else b.RequiresLineOfSight=false end 
-											b.HoldDuration=0
-											if b:GetAttribute("dist") then
-												b.MaxActivationDistance = b:GetAttribute("dist")*2
-											else
-												b:SetAttribute("dist",b.MaxActivationDistance)
-												b.MaxActivationDistance=b:GetAttribute("dist")*2
-											end	
-										end
-										
-									end
+								if v:FindFirstChild("Assets") ~= nil then else continue end
+								for a,b in pairs(v.Door:GetDescendants()) do
+									if b.ClassName:match("Prompt") then else continue end
+									if b:GetFullName():match("Knob") then else b.RequiresLineOfSight=false end
+									b.HoldDuration=0
+									if b:GetAttribute("dist") then
+										b.MaxActivationDistance = b:GetAttribute("dist")*2
+									else
+										b:SetAttribute("dist",b.MaxActivationDistance)
+										b.MaxActivationDistance=b:GetAttribute("dist")*2
+									end	
+								end							
+								for a,b in pairs(v.Assets:GetDescendants()) do
+									if b.ClassName:match("Prompt") then else continue end
+									if b:GetFullName():match("Knob") then else b.RequiresLineOfSight=false end 
+									b.HoldDuration=0
+									if b:GetAttribute("dist") then
+										b.MaxActivationDistance = b:GetAttribute("dist")*2
+									else
+										b:SetAttribute("dist",b.MaxActivationDistance)
+										b.MaxActivationDistance=b:GetAttribute("dist")*2
+									end	
 								end
-								
 							end
 						end
 					end,
@@ -4838,17 +4712,13 @@ Hohoho! You are playing doors here are some commands...
 							local HRPFound=false
 							for i,v in pairs(char:GetChildren()) do
 								if v.Name == "HumanoidRootPart" then
-									if v.ClassName:match("Part") then 
-										if v.ClassName:match("Emit") then else
-											HRPFound=true v.Velocity = (v.Velocity) + mouse.Hit.LookVector * mouseforce
-										end 
-									end
+									if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end HRPFound=true v.Velocity = (v.Velocity) + mouse.Hit.LookVector * mouseforce end
 								end
 							end
 							if HRPFound==false then
 								for i,v in pairs(char:GetChildren()) do
 									if v.Name == "Torso" or v.Name == "UpperTorso" then
-										if v.ClassName:match("Part") then if v.ClassName:match("Emit") then else v.Velocity = (v.Velocity) + mouse.Hit.LookVector * mouseforce end end
+										if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end v.Velocity = (v.Velocity) + mouse.Hit.LookVector * mouseforce end
 									end
 								end
 							end
@@ -4904,93 +4774,88 @@ Hohoho! You are playing doors here are some commands...
 					if NoCollisionsEnabled==false then
 						for i,v in pairs(workspace:GetPartBoundsInRadius(ROOT.Position,5)) do
 							if v.ClassName:match("Part") then
-								if v.ClassName:match("Emit") then else
-									if v.CanCollide==true then
-										if v:GetAttribute("Isinradius") then else
-											task.spawn(function()
-												v:SetAttribute("Isinradius","")
-												WAIT(4)
-												v:SetAttribute("Isinradius",nil)
-											end)
-											if not v:IsDescendantOf(char) then
-												if v:IsGrounded() then
-													if v.Velocity.Magnitude >= Flingspeedlimit+150 then
-														v.Velocity=v.Velocity/2
-													end
-												else
-													if v.Velocity.Magnitude >= Flingspeedlimit then
-														v.Velocity=v.Velocity/2
-													end
+								if v.ClassName:match("Emit") then continue end
+								if v.CanCollide==true then
+									if v:GetAttribute("Isinradius") then else
+										task.spawn(function()
+											v:SetAttribute("Isinradius","")
+											WAIT(4)
+											v:SetAttribute("Isinradius",nil)
+										end)
+										if not v:IsDescendantOf(char) then
+											if v:IsGrounded() then
+												if v.Velocity.Magnitude >= Flingspeedlimit+150 then
+													v.Velocity=v.Velocity/2
 												end
-												if v:IsDescendantOf(workspace) then
-													local Parent = v.Parent
-													if Parent ~= nil then
-														if Parent.ClassName == "Tool" then
-															if v.Velocity.Magnitude >=Flingspeedlimit then
-																v.Velocity=Vector3.new(0,0,0)
-															end
-														elseif Parent.ClassName == "Accessory" then
-															v.CanCollide=false
-														end
-													end
+											else
+												if v.Velocity.Magnitude >= Flingspeedlimit then
+													v.Velocity=v.Velocity/2
 												end
-												human = v:FindFirstChildOfClass("Humanoid")
-												if human ~= nil then else
-													if v.Parent ~= nil then
-														if v.Parent.Parent ~= nil then
-															if v.Parent.Parent.Parent ~= nil then
-																if v.Parent.Parent.Parent:FindFirstChildOfClass("Humanoid") then
-																	human = v.Parent.Parent.Parent:FindFirstChildOfClass("Humanoid")
-																end
-															end
-															if v.Parent.Parent:FindFirstChildOfClass("Humanoid") then
-																human = v.Parent.Parent:FindFirstChildOfClass("Humanoid")
-															end
-														end
-														if v.Parent:FindFirstChildOfClass("Humanoid") then
-															human = v.Parent:FindFirstChildOfClass("Humanoid")
-														end
-													end
-												end
-												if human ~= nil then
-													v.Velocity=Vector3.new(0,0,0)
-													local name = string.lower(v.Name)
-													if name:match("root") or name:match("torso") or name:match("leg") or name:match("arm") or name:match("hand") or name:match("foot") then
-														v.CanCollide=false
-														runservice.Stepped:Wait()runservice.Stepped:Wait()
-														if v.CanCollide==true then
-															for a,b in pairs(char:GetChildren()) do
-																if b.ClassName:match("Part") then
-																	if b.ClassName:match("Emit") then else
-																		if b.CanCollide==true then
-																			name = string.lower(b.Name)
-																			if name:match("root") or name:match("torso") or name:match("leg") or name:match("arm") or name:match("hand") or name:match("foot") then
-																				CreateNCgroup(b,v,NoCollisionsEnabled)
-																			else
-																				b.CanCollide=false
-																			end
-																		end	
-																	end
-																	
-																end
-															end
-														end
-													else
-														v.CanCollide=false
-													end
-												else
-													if not v.Parent then else
-														if v.Parent.ClassName == "Accessory" or v.Parent.ClassName == "Hat" or v.Parent.ClassName == "Tool" then
-															v.Velocity=Vector3.new(0,0,0)
-															v.CanCollide=false
-														end	
-													end
-													
-												end
-
 											end
+											if v:IsDescendantOf(workspace) then
+												local Parent = v.Parent
+												if Parent ~= nil then
+													if Parent.ClassName == "Tool" then
+														if v.Velocity.Magnitude >=Flingspeedlimit then
+															v.Velocity=Vector3.new(0,0,0)
+														end
+													elseif Parent.ClassName == "Accessory" then
+														v.CanCollide=false
+													end
+												end
+											end
+											human = v:FindFirstChildOfClass("Humanoid")
+											if human ~= nil then else
+												if v.Parent ~= nil then
+													if v.Parent.Parent ~= nil then
+														if v.Parent.Parent.Parent ~= nil then
+															if v.Parent.Parent.Parent:FindFirstChildOfClass("Humanoid") then
+																human = v.Parent.Parent.Parent:FindFirstChildOfClass("Humanoid")
+															end
+														end
+														if v.Parent.Parent:FindFirstChildOfClass("Humanoid") then
+															human = v.Parent.Parent:FindFirstChildOfClass("Humanoid")
+														end
+													end
+													if v.Parent:FindFirstChildOfClass("Humanoid") then
+														human = v.Parent:FindFirstChildOfClass("Humanoid")
+													end
+												end
+											end
+											if human ~= nil then
+												v.Velocity=Vector3.new(0,0,0)
+												local name = string.lower(v.Name)
+												if name:match("root") or name:match("torso") or name:match("leg") or name:match("arm") or name:match("hand") or name:match("foot") then
+													v.CanCollide=false
+													runservice.Stepped:Wait()runservice.Stepped:Wait()
+													if v.CanCollide==true then
+														for a,b in pairs(char:GetChildren()) do
+															if b.ClassName:match("Part") then
+																if b.ClassName:match("Emit") then continue end
+																if b.CanCollide==true then
+																	name = string.lower(b.Name)
+																	if name:match("root") or name:match("torso") or name:match("leg") or name:match("arm") or name:match("hand") or name:match("foot") then
+																		CreateNCgroup(b,v,NoCollisionsEnabled)
+																	else
+																		b.CanCollide=false
+																	end
+																end
+															end
+														end
+													end
+												else
+													v.CanCollide=false
+												end
+											else
+												if not v.Parent then continue end
+												if v.Parent.ClassName == "Accessory" or v.Parent.ClassName == "Hat" or v.Parent.ClassName == "Tool" then
+													v.Velocity=Vector3.new(0,0,0)
+													v.CanCollide=false
+												end
+											end
+
 										end
-									end	
+									end
 								end
 							end
 						end 
@@ -5833,14 +5698,11 @@ Hohoho! You are playing doors here are some commands...
 							namecheck = string.lower(Part.Name)
 							if namecheck:match("torso") or namecheck:match("root") or namecheck:match("leg") or namecheck:match("arm") or namecheck:match("hand") or namecheck:match("foot") then
 								for i,v in pairs(plr.Character:GetChildren()) do
-									if v.ClassName:match("Part") then 
-										if v.ClassName:match("Emit") then else
-
-											namecheck = string.lower(v.Name)
-											if namecheck:match("torso") or namecheck:match("leg") or namecheck:match("arm") or namecheck:match("hand") or namecheck:match("foot") or namecheck:match("root") then
-												CreateNCgroup(v,Part,NoCollisionsEnabled)
-											else v.CanCollide=false
-											end	
+									if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end
+										namecheck = string.lower(v.Name)
+										if namecheck:match("torso") or namecheck:match("leg") or namecheck:match("arm") or namecheck:match("hand") or namecheck:match("foot") or namecheck:match("root") then
+											CreateNCgroup(v,Part,NoCollisionsEnabled)
+										else v.CanCollide=false
 										end
 									end
 								end
@@ -5864,15 +5726,12 @@ Hohoho! You are playing doors here are some commands...
 									end)
 									Part.CanCollide=false
 									for i,v in pairs(plr.Character:GetChildren()) do
-										if v.ClassName:match("Part") then 
-											if v.ClassName:match("Emit") then else
-												namecheck = string.lower(v.Name)
-												if namecheck:match("torso") or namecheck:match("leg") or namecheck:match("arm") or namecheck:match("hand") or namecheck:match("foot") or namecheck:match("root") then
-													CreateNCgroup(v,Part,NoCollisionsEnabled)
-												else v.CanCollide=false
-												end	
+										if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end
+											namecheck = string.lower(v.Name)
+											if namecheck:match("torso") or namecheck:match("leg") or namecheck:match("arm") or namecheck:match("hand") or namecheck:match("foot") or namecheck:match("root") then
+												CreateNCgroup(v,Part,NoCollisionsEnabled)
+											else v.CanCollide=false
 											end
-											
 										end
 									end
 								end
@@ -5889,14 +5748,11 @@ Hohoho! You are playing doors here are some commands...
 
 	if plr.Character ~= nil then
 		for i,v in pairs(plr.Character:GetDescendants()) do
-			if v.ClassName:match("Part") then 
-				if v.ClassName:match("Emit") then else
-					partname = string.lower(v.Name)
-					if partname:match("torso") or partname:match("arm") or partname:match("leg") or partname:match("foot") or partname:match("hand") then
-					else v.CanCollide=false
-					end	
+			if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end
+				partname = string.lower(v.Name)
+				if partname:match("torso") or partname:match("arm") or partname:match("leg") or partname:match("foot") or partname:match("hand") then
+				else v.CanCollide=false
 				end
-				
 			elseif v.ClassName == "Humanoid" then v.Touched:Connect(Humanoidtouchedevent)
 			end
 		end
@@ -5931,7 +5787,7 @@ Hohoho! You are playing doors here are some commands...
 			end)
 		end)
 		if GDAT.GameSettings ~= nil then
-			for i,v in pairs(GDAT.GameSettings["UserIds"]) do if player.UserId == v then YouhaveanAltInSameServer=true end end
+		for i,v in pairs(GDAT.GameSettings["UserIds"]) do if player.UserId == v then YouhaveanAltInSameServer=true end end
 		end 
 		player.CharacterAdded:Connect(function(char)
 			local childadded,descadded,descremovin,changed = nil,nil,nil,nil
@@ -6000,14 +5856,11 @@ Hohoho! You are playing doors here are some commands...
 
 				for i,v in pairs(char:GetDescendants()) do
 					runservice.Stepped:Wait()
-					if v.ClassName:match("Part") then 
-						if v.ClassName:match("Emit") then else
-							partname = string.lower(v.Name)
-							if partname:match("torso") or partname:match("arm") or partname:match("leg") or partname:match("foot") or partname:match("hand") then
-							else v.CanCollide=false
-							end	
+					if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end
+						partname = string.lower(v.Name)
+						if partname:match("torso") or partname:match("arm") or partname:match("leg") or partname:match("foot") or partname:match("hand") then
+						else v.CanCollide=false
 						end
-						
 					end
 				end
 
@@ -6065,14 +5918,11 @@ Hohoho! You are playing doors here are some commands...
 				end)
 				descremovin= char.DescendantRemoving:Connect(function(obj)if obj.ClassName:match("Part") then if obj.ClassName:match("Emit") then return end obj.CanCollide=false end end)
 				for i,v in pairs(char:GetDescendants()) do
-					if v.ClassName:match("Part") then 
-						if v.ClassName:match("Emit") then else
-							partname = string.lower(v.Name)
-							if partname:match("torso") or partname:match("arm") or partname:match("leg") or partname:match("foot") or partname:match("hand") then
-							else v.CanCollide=false
-							end	
+					if v.ClassName:match("Part") then if v.ClassName:match("Emit") then continue end
+						partname = string.lower(v.Name)
+						if partname:match("torso") or partname:match("arm") or partname:match("leg") or partname:match("foot") or partname:match("hand") then
+						else v.CanCollide=false
 						end
-						
 					end
 				end
 
