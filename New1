@@ -73,7 +73,7 @@ if game.PlaceId == 893973440 then
 		end
 		Target.CFrame=BasePart.CFrame
 		Services.RunService.Heartbeat:Wait()
-		Target.CFrame=Lastpos or CFrame.new(0,0,0)
+		Target.CFrame=(Lastpos or CFrame.new(0,0,0))
 	end
 	
 	
