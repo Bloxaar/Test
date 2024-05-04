@@ -2244,28 +2244,6 @@ local SoundEvent=ReplicatedStorage:FindFirstChild("SoundEvent1") or ReplicatedSt
 SoundEvent:Clone().Parent=ReplicatedStorage
 SoundEvent.Name="SoundEvent1"
 
-for i,v in pairs(Sv.Plrs:GetPlayers()) do
-	local Spawned=time()
-	v.CharacterAdded:Connect(function(a) --Anti teamevent crash
-		if time()-Spawned <=0.2 then
-			if a:IsDescendantOf(game)then a:Destroy()return end
-		end
-		Spawned=time()
-
-	end)
-end
-
-Sv.Plrs.PlayerAdded:Connect(function(v)
-	local Spawned=time()
-	v.CharacterAdded:Connect(function(a) --Anti teamevent crash
-		if time()-Spawned <=0.2 then
-			if a:IsDescendantOf(game)then a:Destroy()return end
-		end
-		Spawned=time()
-
-	end)
-end)
-
 if SoundEventConnection_4039850934 ~= nil then
 	if typeof(SoundEventConnection_4039850934)=="RBXScriptConnection"then
 		SoundEventConnection_4039850934:Disconnect()
