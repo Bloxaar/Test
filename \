@@ -7867,14 +7867,17 @@ cmdboxmain.FocusLost:Connect(function()
 end)
 
 LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
-	local prefix = PreferredAdminsPrefix[PlayerInstance.UserId] or PreferredAdminsPrefix[Sv.LPlr.UserId]
+	local prefix = nil
 	if PlayerInstance~=_N then
+		prefix = PreferredAdminsPrefix[PlayerInstance.UserId]
 		if table.find(AddedWhitelists,PlayerInstance.UserId)==_N then
 			if UserIsOperator(PlayerInstance) then 
 			else 
 				return
 			end
 		end
+	else
+		prefix = PreferredAdminsPrefix[Sv.LPlr.UserId]
 	end
 
 	if PlayerInstance~=_N then
