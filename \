@@ -580,7 +580,7 @@ function char(PlrTbl,username)
 	Info1:Destroy()
 end
 
-if game.PlaceId==155615604 or game.PlaceId == 454002598 or svc("RunService"):IsStudio() then
+if game.PlaceId==155615604 or game.PlaceId == 454002598 or svc("RunService"):IsStudio() or _G.DEBUG==true then
 else
 	Lag =nil
 	HideCars =nil
