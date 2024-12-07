@@ -2537,11 +2537,11 @@ local function notify(msg,Colorr)
 		if textchatservice.ChatVersion==Enum.ChatVersion.TextChatService then textchatservice.TextChannels.RBXSystem:DisplaySystemMessage([[<font color="]].."rgb("..tostring(Colorr.R*255)..","..tostring(Colorr.G*255)..","..tostring(Colorr.B*255)..[[)">]]..msg.."</font>")return end
 	end
 	svc("StarterGui"):SetCore("ChatMakeSystemMessage", 
-	{ Text=tostring(msg), 
-		Color=Colorr, 
-		Font=_A.W.Arial, 
-		FontSize=_A.V.Size96 
-	} 
+		{ Text=tostring(msg), 
+			Color=Colorr, 
+			Font=_A.W.Arial, 
+			FontSize=_A.V.Size96 
+		} 
 	)
 end
 
@@ -2741,8 +2741,8 @@ local function GetPlayer(String, OverrideLocalPlayer)-- Credit to Timeless/xFunn
 	return Found  
 end
 
-function RE(OldPos)
-	local A=Sv.LPlr[_A.P]
+function RE(OldPos,Character)
+	local A=Character or Sv.LPlr[_A.P]
 	local IsCriminal=false
 	local Primary = Sv.LPlr[_A.P]:FindFirstChild("HumanoidRootPart")or Sv.LPlr[_A.P].PrimaryPart
 	if A==_N then repeat  WAIT(0)A=Sv.LPlr[_A.P] if A~=_N then break end until A~=_N end
@@ -2986,7 +2986,7 @@ LocalisedFunctions.returnhostileplayers = function(PlayerTBL)
 				end
 			end
 		end
-		
+
 	end
 	return Hostiles
 end
@@ -5128,8 +5128,8 @@ AdminCommands={
 
 
 		end)
-		
-		
+
+
 		for i,Plr in Sv.P(PlayerTbl)do
 			if Plr.TeamColor.Name ~= "Bright blue" then
 				if Plr.Name ~= Sv.LPlr.Name then
@@ -5306,7 +5306,7 @@ AdminCommands={
 		for i,SelectedPlayer in pairs(PlayerTbl) do
 			if SelectedPlayer~=Sv.LPlr then 
 				LocalisedFunctions.BringPlayerFunc({SelectedPlayer})
-				
+
 			end
 			if i>4 then break end
 
@@ -7889,7 +7889,7 @@ LocalisedFunctions.ConnectAdminCommands = function(Message1,PlayerInstance)
 			end
 		end
 	end
-	
+
 	if PlayerInstance~=_N then
 		if PreferredAdminsPrefix[PlayerInstance.UserId] == nil then PreferredAdminsPrefix[PlayerInstance.UserId]=Defaultprefix end
 		local isoperator,security = UserIsOperator(PlayerInstance)
@@ -8715,6 +8715,7 @@ Sv.LPlr.CharacterAdded:Connect(function(A)
 			if wasTriggered then return end
 			wasTriggered=true
 			if States.AutoRE==_T then
+				Humanoid:SetAttribute("X","")
 				RE()
 			elseif States.FastSpawn==_T then
 				if Sv.LPlr.Team.Name=="Guards" or Sv.LPlr.Team.Name=="Inmates"or Sv.LPlr.Team.Name=="Neutral"then
@@ -8782,6 +8783,19 @@ Sv.LPlr.CharacterAdded:Connect(function(A)
 		LocalisedFunctions.getshield(true)
 	end
 end)
+
+Sv.LPlr.CharacterRemoving:Connect(function(Char)
+	if States.AutoRE then
+	local H=Char:FindFirstChildOfClass("Humanoid")
+	if H ~= nil then
+		if H:GetAttribute("X")==nil then
+			RE(nil,Char)
+		end
+		
+	end
+	end
+end)
+
 if workspace:FindFirstChild("Prison_ITEMS")~=_N then print("Found Prison_ITEMS.")
 	workspace.Prison_ITEMS.single.ChildAdded:Connect(function(Child)
 		if Child.Name=="Key card"then 
