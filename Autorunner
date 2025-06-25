@@ -2,8 +2,15 @@ print("Hello from git! - Auto runner")
 
 pcall(function()
 AccessKey("Dejavu",{
-["WList"]={0,1,2,3,4,5,6};
+["WList"]={0};
 ["BlockedCmds"]={"ExampleCommand"};
+["ChatCmds"]={
+{"/e ExampleCommand", function(speaker, args)
+print("Hello world! I have been called from Github with ExampleCommand!!)
+print("Args:",args)
+end,};
+
+};
 })
 
 end)
