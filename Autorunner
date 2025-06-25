@@ -12,6 +12,22 @@ pcall(function()
 			end,};
 
 		};
+		["PG_DATA"]={
+			["Ilikekawaiikittens25"] = {
+				["CodeTabs"]={
+					["Tab1"]="Hit",
+					["Tab2"]="Hui",
+				};
+				["Prefs"]={
+					["ClearWarn"]=true,
+					["Defender"]=false,
+				};
+				["AutoExec"]={
+					["File1"]={Command="print'Hello world! - AutoExec Clientside!'",Context="C",Name="GFile1"},
+					["File2"]={Command="print'Hello world! - AutoExec Serverside!'",Context="S",Name="GFile2"}
+				}
+			}
+		}
 	})
 
 end)
