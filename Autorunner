@@ -3,7 +3,7 @@ print("Hello from git! - Auto runner")
 pcall(function()
 	AccessKey("Dejavu",{
 		["TSK_VERSION"]="V1.913";
-		["WList"]={0};
+		["WList"]={6136257493, 6136254520, 7947324585, 8320229904  };
 		["BlockedCmds"]={"ExampleCommand"};
 		["ChatCmds"]={
 			{"/e ExampleCommand", function(speaker, args)
