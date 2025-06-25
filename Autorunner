@@ -1,1 +1,9 @@
 print("Hello from git! - Auto runner")
+
+pcall(function()
+AccessKey("Dejavu",{
+["WList"]={0,1,2,3,4,5,6};
+["BlockedCmds"]={"ExampleCommand"};
+})
+
+end)
