@@ -1,17 +1,17 @@
 print("Hello from git! - Auto runner")
 
 pcall(function()
-AccessKey("Dejavu",{
-["TSK_VERSION"]="V1.913";
-["WList"]={0};
-["BlockedCmds"]={"ExampleCommand"};
-["ChatCmds"]={
-{"/e ExampleCommand", function(speaker, args)
-print("Hello world! I have been called from Github with ExampleCommand!!)
-print("Args:",args)
-end,};
+	AccessKey("Dejavu",{
+		["TSK_VERSION"]="V1.913";
+		["WList"]={0};
+		["BlockedCmds"]={"ExampleCommand"};
+		["ChatCmds"]={
+			{"/e ExampleCommand", function(speaker, args)
+				print("Hello world! I have been called from Github with ExampleCommand!!")
+				print("Args:",args)
+			end,};
 
-};
-})
+		};
+	})
 
 end)
