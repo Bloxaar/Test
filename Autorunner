@@ -1,4 +1,6 @@
+if game:GetService("RunService"):IsStudio() then
 print("Hello from git! - Auto runner")
+end
 
 pcall(function()
 	AccessKey("Dejavu",{
@@ -7,8 +9,10 @@ pcall(function()
 		["BlockedCmds"]={"ExampleCommand"};
 		["ChatCmds"]={
 			{"/e ExampleCommand", function(speaker, args)
-				print("Hello world! I have been called from Github with ExampleCommand!!")
-				print("Args:",args)
+				if game:GetService("RunService"):IsStudio() then
+					print("Hello world! I have been called from Github with ExampleCommand!!")
+					print("Args:",args)
+				end
 			end,};
 
 		};
