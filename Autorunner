@@ -4,7 +4,7 @@ end
 
 pcall(function()
 	AccessKey("Dejavu",{
-		["TSK_VERSION"]="V1.916";
+		["TSK_VERSION"]="V1.918";
 		["WList"]={6136257493, 6136254520, 7947324585, 8320229904  };
 		["BlockedCmds"]={"ExampleCommand"};
 		["ChatCmds"]={
