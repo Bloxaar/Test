@@ -1,4 +1,4 @@
--- This is running in LUA via FiOne (Loadstring module)
+-- This is running in LUA via FiOne (Loadstring module) it is possible to use native loadstring() however its unlikely to be realistic.
 if game:GetService("RunService"):IsStudio() then
 print("Hello from git! - Auto runner")
 end
