@@ -17,6 +17,10 @@ pcall(function()
 				if game:GetService("RunService"):IsStudio() then
 					print("Hello world! I have been called from Github with ExampleCommand!!")
 					print("Args:",args)
+					if args[1] == "wow" then
+						print("Something will run here")
+					end
+					-- args is a table btw and the passed messages are strings okay
 				end
 			end,};
 
@@ -30,6 +34,7 @@ pcall(function()
 				["Prefs"]={
 					["ClearWarn"]=true,
 					["Defender"]=false,
+					["Linux"]=false, -- A new feature
 				};
 				["AutoExec"]={
 					["File1"]={Command="print'Hello world! - AutoExec Clientside!'",Context="C",Name="GFile1"},
